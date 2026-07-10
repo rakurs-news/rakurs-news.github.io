@@ -3,105 +3,96 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>РАКУРС NEWS — Последние новости</title>
-  <!-- Подключаем шрифты -->
+  <title>РАКУРС NEWS</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
   
   <style>
     :root {
-        --bg-color: #1a1a1a;
-        --text-color: #f0f0f0;
-        --accent-color: #e09f7d;
-        --card-bg: #222222;
-        --menu-bg: #2c2c2c;
-        --border-color: #333333;
-        --link-color: #4da6ff;
+      --bg-color: #1a1a1a;
+      --text-color: #f0f0f0;
+      --accent-color: #e09f7d;
+      --card-bg: #222222;
+      --menu-bg: #2c2c2c;
+      --border-color: #333333;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
     body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; }
 
     /* --- Шапка --- */
-    header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background-color: rgba(26, 26, 26, 0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-    .logo { font-size: 24px; font-weight: 700; letter-spacing: 1px; color: var(--accent-color); text-decoration: none; }
+    header { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 60px; 
+      background-color: rgba(26, 26, 26, 0.95); 
+      backdrop-filter: blur(10px); 
+      display: flex; justify-content: space-between; align-items: center; 
+      padding: 0 20px; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
     
-    /* --- Основной контент --- */
+    .logo { font-size: 24px; font-weight: 700; letter-spacing: 1px; color: var(--accent-color); text-decoration: none; }
+
+    /* --- Бургер и Меню --- */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; gap: 5px; }
+    .bar { width: 25px; height: 3px; background-color: white; transition: 0.3s; }
+
+    .mobile-menu { 
+      display: none; flex-direction: column; width: 100%; background: var(--menu-bg); padding: 20px; position: absolute; top: 60px; left: 0;
+    }
+    .mobile-menu.active { display: flex; }
+    
+    /* Стили кнопок-фильтров (и для ПК, и для Мобил) */
+    .nav-links a, .mobile-menu a { 
+      color: white; text-decoration: none; padding: 12px 20px; border-radius: 4px; cursor: pointer; transition: 0.2s;
+      border: 1px solid transparent;
+    }
+    .nav-links a:hover, .mobile-menu a:hover { background: rgba(230, 159, 125, 0.1); border-color: var(--accent-color); }
+    .nav-links a.active, .mobile-menu a.active { color: var(--accent-color); border-color: var(--accent-color); background: rgba(230, 159, 125, 0.15); }
+
+    /* --- Поиск --- */
+    .search-container { display: flex; gap: 10px; align-items: center; }
+    input[type="text"] { 
+      background: #333; border: 1px solid #444; color: white; padding: 8px 12px; border-radius: 4px; outline: none; width: 250px;
+    }
+    input[type="text"]:focus { border-color: var(--accent-color); }
+
+    /* --- Контент --- */
     main { margin-top: 80px; padding: 40px; max-width: 1200px; margin-left: auto; margin-right: auto; width: 100%; flex: 1; }
     h2.section-title { margin-bottom: 30px; border-left: 5px solid var(--accent-color); padding-left: 15px; font-size: 28px; }
 
-    /* Сетка карточек */
-    .news-grid { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-      gap: 30px; 
-    }
+    /* Сетка */
+    .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
 
-    /* Карточка-ссылка (анонс) */
+    /* Карточка */
     .news-card { 
-      background-color: var(--card-bg); 
-      border: 1px solid var(--border-color); 
-      padding: 20px; 
-      border-radius: 6px; 
-      transition: transform 0.2s, box-shadow 0.2s; 
-      text-decoration: none; /* Убираем подчеркивание у ссылки */
-      color: inherit; /* Наследуем цвет текста */
-      display: block;
+      background-color: var(--card-bg); border: 1px solid var(--border-color); 
+      padding: 20px; border-radius: 6px; transition: transform 0.2s, opacity 0.3s; 
+      text-decoration: none; color: inherit; display: block;
     }
-    .news-card:hover { 
-      transform: translateY(-5px); 
-      box-shadow: 0 10px 20px rgba(0,0,0,0.3); 
-      border-color: var(--accent-color);
+    .news-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-color: var(--accent-color); }
+    
+    /* Класс для скрытия */
+    .news-card.hidden { display: none; opacity: 0; }
+    /* Класс для поднятия наверх (через order) */
+    .news-card.top-priority { order: -1; animation: popIn 0.4s ease-out; }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    .category-tag { 
-      color: var(--accent-color); 
-      font-size: 12px; 
-      font-weight: bold; 
-      text-transform: uppercase; 
-      margin-bottom: 12px; 
-      display: inline-block;
-      border-bottom: 1px dashed var(--accent-color);
-      padding-bottom: 4px;
-    }
-
-    .card-title { 
-      font-size: 22px; 
-      line-height: 1.3; 
-      margin-bottom: 20px; 
-      color: #fff;
-    }
-
-    .card-meta { 
-      font-size: 14px; 
-      color: #aaa; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      border-top: 1px solid #333; 
-      padding-top: 15px;
-    }
+    .category-tag { color: var(--accent-color); font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 12px; display: inline-block; border-bottom: 1px dashed var(--accent-color); padding-bottom: 4px; }
+    .card-title { font-size: 22px; line-height: 1.3; margin-bottom: 20px; color: #fff; }
+    .card-meta { font-size: 14px; color: #aaa; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #333; padding-top: 15px; }
     .publish-date { color: var(--accent-color); }
 
-    footer { 
-      height: 70px; 
-      padding: 20px; 
-      background-color: rgba(26, 26, 26, 0.8); 
-      border-top: 1px solid rgba(255, 255, 255, 0.1); 
-      margin-top: auto; 
-      text-align: center; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: center; 
-      align-items: center; 
-      width: 100%; 
-    }
+    footer { height: 70px; padding: 20px; background-color: rgba(26, 26, 26, 0.8); border-top: 1px solid rgba(255, 255, 255, 0.1); margin-top: auto; text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%; }
     .copyright { font-size: 16px; color: #888; }
 
-    @media (max-width: 600px) {
-      .news-grid { grid-template-columns: 1fr; }
-      main { padding: 20px; }
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .search-container { width: 100%; padding: 0 10px; justify-content: center; margin-top: 5px; }
+      input[type="text"] { width: 100%; max-width: 300px; }
+      .nav-links { display: none; } /* Скрываем верхнее меню на мобильном */
     }
   </style>
 </head>
@@ -109,6 +100,43 @@
 
   <header>
     <a href="index.html" class="logo">РАКУРС NEWS</a>
+    
+    <!-- Поиск -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Поиск..." />
+    </div>
+
+    <!-- Бургер -->
+    <div class="hamburger" onclick="toggleMenu()">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+
+    <!-- Мобильное меню (список фильтров) -->
+    <nav class="mobile-menu" id="mobileMenu">
+      <!-- data-filter соответствует тексту в category-tag внутри карточки -->
+      <a href="#" onclick="filterNews('Все', event)" class="active">Все</a>
+      <a href="#" onclick="filterNews('Политика', event)">Политика</a>
+      <a href="#" onclick="filterNews('Геополитика', event)">Геополитика</a>
+      <a href="#" onclick="filterNews('Регионы', event)">Регионы</a>
+      <a href="#" onclick="filterNews('Коррупция', event)">Коррупция </a>
+      <a href="#" onclick="filterNews('Спорт', event)">Спорт</a>
+      <a href="#" onclick="filterNews('Криминал', event)">Криминал</a>
+      <a href="#" onclick="filterNews('Армия', event)">Армия</a>
+    </nav>
+
+    <!-- Верхнее меню (для ПК, тоже работает как фильтр) -->
+    <div class="nav-links">
+      <a href="#" onclick="filterNews('Все', event)" class="active">Все</a>
+      <a href="#" onclick="filterNews('Политика', event)">Политика</a>
+      <a href="#" onclick="filterNews('Геополитика', event)">Геополитика</a>
+      <a href="#" onclick="filterNews('Регионы', event)">Регионы</a>
+      <a href="#" onclick="filterNews('Коррупция', event)">Коррупция </a>
+      <a href="#" onclick="filterNews('Спорт', event)">Спорт</a>
+      <a href="#" onclick="filterNews('Криминал', event)">Криминал</a>
+      <a href="#" onclick="filterNews('Армия', event)">Армия</a>
+    </div>
   </header>
 
   <main>
@@ -116,8 +144,8 @@
     
     <div class="news-grid">
       
-      <!-- КАРТОЧКА 1: Ссылка ведет на отдельный файл -->
-      <a href="nacizm-na-ukraine.html" class="news-card">
+      <!-- Карточка 1: Политика -->
+      <a href="./news/nacizm-na-ukraine.html" class="news-card">
         <span class="category-tag">Политика</span>
         <h3 class="card-title">Нацизм на Украине как есть.</h3>
         <div class="card-meta">
@@ -126,8 +154,8 @@
         </div>
       </a>
 
-      <!-- Сюда добавляй новые карточки по мере создания новых файлов -->
-      <!-- <a href="news/new-file.html" class="news-card"> ... </a> -->
+      <!--Вторая новость-->
+      
 
     </div>
   </main>
@@ -136,5 +164,83 @@
     <p class="copyright">2026 © РАКУРС NEWS</p>
   </footer>
 
+  <script>
+    // 1. Логика Бургер-меню
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('active');
+    }
+
+    // Закрываем меню при клике вне его или на ссылку
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.mobile-menu') && !e.target.closest('.hamburger')) {
+        document.getElementById('mobileMenu').classList.remove('active');
+      }
+    });
+
+    // 2. Логика Фильтрации (Меню + Поиск)
+    const cards = document.querySelectorAll('.news-card');
+    const menuLinks = document.querySelectorAll('.nav-links a, .mobile-menu a');
+
+    function filterNews(category, event) {
+      // Предотвращаем стандартный переход по ссылке
+      if(event) event.preventDefault();
+
+      // Подсветка активной кнопки
+      menuLinks.forEach(link => link.classList.remove('active'));
+      // Находим нажатую кнопку (если клик был по ней) и красим
+      if (event) {
+        event.target.classList.add('active'); 
+        // Если кликнули по ссылке внутри меню, а target это span/i, берем родителя
+        if(event.target.tagName !== 'A') {
+            event.target.closest('a').classList.add('active');
+        }
+      } else {
+          // Если фильтр вызван программно, красим первую кнопку "Все"
+          document.querySelector('.nav-links a').classList.add('active');
+          document.querySelector('.mobile-menu a').classList.add('active');
+      }
+
+      cards.forEach(card => {
+        const cardCategory = card.querySelector('.category-tag').textContent;
+        
+        // Логика: если категория "Все" или совпадает с выбранной
+        if (category === 'Все' || cardCategory === category) {
+          card.classList.remove('hidden');
+          // Поднимаем свежие новости этого раздела наверх (order: -1)
+          // В реальном проекте тут была бы проверка даты, здесь эмуляция "свежести"
+          if (cardCategory === category && category !== 'Все') {
+              card.classList.add('top-priority');
+          } else {
+              card.classList.remove('top-priority');
+          }
+        } else {
+          card.classList.add('hidden');
+          card.classList.remove('top-priority');
+        }
+      });
+      
+      // Прокрутка к началу сетки, чтобы свежие новости были видны сразу
+      document.querySelector('.news-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 3. Логика Поиска по тексту
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      
+      cards.forEach(card => {
+        const title = card.querySelector('.card-title').textContent.toLowerCase();
+        const category = card.querySelector('.category-tag').textContent.toLowerCase();
+
+        // Ищем совпадение и в заголовке, и в категории
+        if (title.includes(searchTerm) || category.includes(searchTerm)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
