@@ -270,79 +270,80 @@
     </footer>
 
     <script>
-        function setupVideoPlayer(container) {
-            const videoContainer = container.querySelector('.video-container');
-            if (!videoContainer) return;
+    function setupVideoPlayer(container) {
+        const videoContainer = container.querySelector('.video-container');
+        if (!videoContainer) return;
 
-            const videoElement = videoContainer.querySelector('.video-element');
-            const playButton = videoContainer.querySelector('.play-button');
-            const volumeButton = videoContainer.querySelector('.volume-button');
+        const videoElement = videoContainer.querySelector('.video-element');
+        const playButton = videoContainer.querySelector('.play-button');
+        const volumeButton = videoContainer.querySelector('.volume-button');
 
-            videoContainer.addEventListener('click', () => {
-                if (videoElement.paused) {
-                    videoElement.play();
-                    playButton.style.display = 'none';
-                } else {
-                    videoElement.pause();
-                    playButton.style.display = 'flex';
-                }
-            });
+        // ПРИНУДИТЕЛЬНОЕ ОТОБРАЖЕНИЕ
+        videoElement.style.display = 'block';
+        playButton.style.display = 'flex';
+        volumeButton.style.display = 'flex';
 
-            playButton.addEventListener('click', (e) => {
-                e.stopPropagation();
+        // Клик по контейнеру (Play/Pause)
+        videoContainer.addEventListener('click', () => {
+            if (videoElement.paused) {
                 videoElement.play();
                 playButton.style.display = 'none';
-            });
-
-            volumeButton.addEventListener('click', (e) => {                e.stopPropagation();
-                videoElement.muted = !videoElement.muted;
-            });
-
-            videoElement.addEventListener('ended', () => {
+            } else {
+                videoElement.pause();
                 playButton.style.display = 'flex';
-            });
-        }
-
-        async function loadSingleArticle() {
-            const params = new URLSearchParams(window.location.search);
-            const newsId = params.get('id');
-            const container = document.getElementById('article-container');
-
-            if (!newsId) {
-                container.innerHTML = `<h2 style="color:#ff4757; text-align:center;">Ошибка</h2><p style="text-align:center; color:#888;">Не указан ID новости.</p>`;
-                return;
             }
+        });
 
-            try {
-                const response = await fetch('news.json');
-                if (!response.ok) throw new Error('JSON не найден');
-                const data = await response.json();
-                const news = data.find(n => n.id == newsId);if (news) {
-                    let mediaHtml = news.videoUrl 
-                        ? `<div class="video-container">
-                                <video class="video-element"><source src="${news.videoUrl}" type="video/mp4"></video>
-                                <div class="play-button"><div class="play-icon"></div></div> <div class="volume-button"><div class="volume-icon"></div></div>
-                           </div>`
-                        : `<img src="${news.image}" alt="${news.title}">`;
+        // Клик по кнопке Play (отдельно)
+        playButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            videoElement.play();
+            playButton.style.display = 'none';
+        });
 
-                    container.innerHTML = `
-                        ${mediaHtml}
-                        <h1>${news.title}</h1>
-                        <div class="meta-info">
-                            <span style="color: var(--accent-color); font-weight:bold; margin-left: 10px;">Рубрика: ${news.category}</span>
-                        </div>
-                        <div class="content-text">${news.content}</div>                        <p class="author-info" style="color: #aaa; font-size: 0.9rem; margin-top: 20px;">Автор: Дмитрий Мусиенко</p>
-                        <a href="index.html" class="back-btn">← На Главную</a>
-                    `;
-                    setupVideoPlayer(container);
-                } else {
-                    container.innerHTML = `<h2 style="color:#ff4757; text-align:center;">Новость не найдена</h2>`;
-                }
-            } catch (err) {
-                container.innerHTML = `<h2 style="color:#ff4757; text-align:center;">Ошибка загрузки</h2>`;
+        // Клик по кнопке Volume
+        volumeButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            videoElement.muted = !videoElement.muted;
+        });
+
+        videoElement.addEventListener('ended', () => {
+            playButton.style.display = 'flex';
+        });
+    }
+
+    async function loadSingleArticle() {
+        const params = new URLSearchParams(window.location.search);
+        const newsId = params.get('id');
+        const container = document.getElementById('article-container');if (!newsId) return;
+
+        try {
+            const response = await fetch('news.json');            const data = await response.json();
+            const news = data.find(n => n.id == newsId);
+
+            if (news) {
+                // Если видео есть, вставляем HTML
+                let mediaHtml = news.videoUrl 
+                    ? `<div class="video-container" style="display: flex;">
+                            <video class="video-element" src="${news.videoUrl}" style="width: 100%; height: auto;"></video>
+                            <div class="play-button"><div class="play-icon"></div></div><div class="volume-button"><div class="volume-icon"></div></div>
+                       </div>`
+                    : `<img src="${news.image}" alt="${news.title}">`;
+
+                container.innerHTML = `
+                    ${mediaHtml}
+                    <h1>${news.title}</h1>
+                    <div class="meta-info"><span>Рубрика: ${news.category}</span></div>                    <div class="content-text">${news.content}</div>
+                    <a href="index.html" class="back-btn">← На Главную</a>
+                `;
+                
+                // Инициализируем плеер
+                setupVideoPlayer(container);
             }
-        }
-        loadSingleArticle();
-    </script>
+        } catch (err) {
+            console.error("Ошибка:", err);
+        }    }
+    loadSingleArticle();
+</script>
 </body>
 </html>
