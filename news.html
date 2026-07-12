@@ -31,7 +31,15 @@ footer { margin-top: auto; padding: 20px; text-align: center; color: #888; font-
 .back-btn:hover { background: var(--accent-color); color: var(--bg-color); transform: scale(1.05); }
 #article-container { max-width: 800px; margin:40px auto; padding: 30px; background: var(--card-bg); border-radius: 8px; border:1px solid var(--border-color); }
 #article-container img { width: 100%; height: auto; max-height: 500px; object-fit: cover; border-radius:4px; margin-bottom: 25px; }
-#article-container h1 { font-size: 2.2rem; margin-bottom: 20px; }
+/* --- ИЗМЕНЕНИЕ ДЛЯ ЗАГОЛОВКА НОВОСТИ --- */
+#article-container h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    line-height: 1.2; /* Добавляем для лучшего контроля высоты */
+    word-wrap: break-word; /* Разрешаем перенос длинных слов */
+    overflow-wrap: break-word; /* Альтернативное свойство */
+}
+/* --- КОНЕЦ ИЗМЕНЕНИЯ --- */
 .meta-info { color: #aaa; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
 .category-meta { color: var(--accent-color); font-weight: 700; }
 .content-text { font-family: 'Merriweather', serif; font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap; }
@@ -52,7 +60,8 @@ footer { margin-top: auto; padding: 20px; text-align: center; color: #888; font-
     <div id="article-container">
         <p style="text-align: center; color: #666;">Загрузка статьи...</p>
     </div>
-</main>    <footer><p>©2026 РАКУРС</p></footer>
+</main>
+<footer><p>©2026 РАКУРС</p></footer>
 
 <script>
 async function loadSingleArticle() {
