@@ -8,8 +8,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
-
-<!-- Ваши стили без изменений -->
 <style>
 :root {
     --bg-color: #1a1a1a;
@@ -17,7 +15,7 @@
     --accent-color: #e09f7d;
     --card-bg: #222222;
     --border-color: #333333;
-}
+    }
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
 body { background-color: var(--bg-color); color: var(--text-color); min-height: 100vh; display: flex; flex-direction: column; padding-top: 60px; }
 header { position: fixed; top: 0; left: 0; width: 100%; height: 60px; background-color: rgba(26, 26, 26, 0.8); backdrop-filter: blur(10px); display: flex; align-items: center; padding: 0 15px; z-index: 1000; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
@@ -33,15 +31,15 @@ footer { margin-top: auto; padding: 20px; text-align: center; color: #888; font-
 .meta-info { color: #aaa; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
 .category-meta { color: var(--accent-color); font-weight: 700; }
 .content-text { font-family: 'Merriweather', serif; font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap; }
-.video-container { position: relative; width:100%; margin-bottom: 20px; border-radius: 8px; overflow: hidden; background: #000; cursor: pointer; }
+.video-container { position: relative; width:100%; margin-bottom: 20px; border-radius: 8px; overflow: hidden; background: #000; }
 .video-container video { width: 100%; display: block; }
-.play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center; border:2px solid var(--accent-color); }
+.play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center; border:2px solid var(--accent-color); cursor: pointer; }
 .play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid var(--accent-color); margin-left: 5px; }
 </style>
 </head>
 <body>
 <header>
-    <div class="logo-container">
+<div class="logo-container">
         <img src="https://raw.github.com/rakurs-news/rakurs-news.github.io/main/images/IMG_20260706_221334.png" alt="Логотип">
         <h1>РАКУРС</h1>
     </div>
@@ -50,7 +48,8 @@ footer { margin-top: auto; padding: 20px; text-align: center; color: #888; font-
     <div id="article-container">
         <p style="text-align: center; color: #666;">Загрузка статьи...</p>
     </div>
-</main>    <footer><p>©2026 РАКУРС</p></footer>
+</main>    
+<footer><p>©2026 РАКУРС</p></footer>
 
 <script>
 async function loadSingleArticle() {
@@ -59,14 +58,14 @@ async function loadSingleArticle() {
     const container = document.getElementById('article-container');
 
     try {
-        const response = await fetch('news.json');
+    const response = await fetch('news.json');
         const data = await response.json();
         const news = data.find(n => n.id == newsId);
 
         if (news) {
             document.title = `${news.title} | РАКУРС`;
 
-            let mediaHtml = news.videoUrl
+            let mediaHtml = news.videoUrl  
                 ? `<div class="video-container" id="vid-wrapper">
                      <video src="${news.videoUrl}" playsinline></video>
                      <div class="play-button" id="play-btn"><div class="play-icon"></div></div>
@@ -78,13 +77,12 @@ async function loadSingleArticle() {
                 <div class="meta-info"><span class="category-meta">Рубрика: ${news.category}</span></div>
                 <div class="content-text">${news.content}</div>
                 <a href="index.html" class="back-btn">← На Главную</a>`;
-
-            const wrapper = document.getElementById('vid-wrapper');
+                const wrapper = document.getElementById('vid-wrapper');
             const video = wrapper ? wrapper.querySelector('video') : null;
             const btn = wrapper ? document.getElementById('play-btn') : null;
 
             if (wrapper && video && btn) {
-                // При клике по видео или кнопке — переключение воспроизведения
+                // При клике по видео или кнопке — переключение воспроизведения  
                 const toggleVideo = () => {
                     if (video.paused) {
                         video.play();
@@ -99,7 +97,7 @@ async function loadSingleArticle() {
         } else {
             container.innerHTML = `<h2>Новость не найдена</h2>`;
         }
-    } catch (err) {
+        } catch (err) {
         console.error(err);
         container.innerHTML = `<h2>Ошибка загрузки</h2>`;
     }
