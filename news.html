@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+<!-- Ваши стили без изменений -->
 <style>
 :root {
     --bg-color: #1a1a1a;
@@ -31,14 +33,10 @@ footer { margin-top: auto; padding: 20px; text-align: center; color: #888; font-
 .meta-info { color: #aaa; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; }
 .category-meta { color: var(--accent-color); font-weight: 700; }
 .content-text { font-family: 'Merriweather', serif; font-size: 1.1rem; line-height: 1.7; white-space: pre-wrap; }
-.video-container { position: relative; width:100%; margin-bottom: 20px; border-radius: 8px; overflow: hidden; background: #000; }
+.video-container { position: relative; width:100%; margin-bottom: 20px; border-radius: 8px; overflow: hidden; background: #000; cursor: pointer; }
 .video-container video { width: 100%; display: block; }
-.play-button, .volume-button, .fullscreen-button { position: absolute; bottom: 10px; background: var(--card-bg); border-radius: 5px; border: 1px solid var(--accent-color); cursor: pointer; width: 30px; height: 30px; display: flex; justify-content: center; align-items: center; }
-.play-button { left: 10px; }
-.volume-button { left: 50px; }
-.fullscreen-button { right: 10px; }
-.play-icon, .volume-icon, .fullscreen-icon { width: 20px; height: 20px; }
-.volume-slider { position: absolute; bottom: 50px; left: 50px; width: 100px; display: none; }
+.play-button { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; background: var(--card-bg); border-radius: 50%; display: flex; justify-content: center; align-items: center; border:2px solid var(--accent-color); }
+.play-icon { width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid var(--accent-color); margin-left: 5px; }
 </style>
 </head>
 <body>
@@ -52,8 +50,7 @@ footer { margin-top: auto; padding: 20px; text-align: center; color: #888; font-
     <div id="article-container">
         <p style="text-align: center; color: #666;">Загрузка статьи...</p>
     </div>
-</main>    
-<footer><p>©2026 РАКУРС</p></footer>
+</main>    <footer><p>©2026 РАКУРС</p></footer>
 
 <script>
 async function loadSingleArticle() {
@@ -69,13 +66,10 @@ async function loadSingleArticle() {
         if (news) {
             document.title = `${news.title} | РАКУРС`;
 
-            let mediaHtml = news.videoUrl  
+            let mediaHtml = news.videoUrl
                 ? `<div class="video-container" id="vid-wrapper">
                      <video src="${news.videoUrl}" playsinline></video>
                      <div class="play-button" id="play-btn"><div class="play-icon"></div></div>
-                     <div class="volume-button" id="volume-btn"><img class="volume-icon" src="https://github.com/rakurs-news/rakurs-news.github.io/raw/main/images/IMG_20260712_040343.webp" alt="Громкость"></div>
-                     <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.1" value="1">
-                     <div class="fullscreen-button" id="fullscreen-btn"><img class="fullscreen-icon" src="https://github.com/rakurs-news/rakurs-news.github.io/raw/main/images/IMG_20260712_041022.webp" alt="Во весь экран"></div>
                    </div>`
                 : `<img src="${news.image}" alt="${news.title}">`;
 
@@ -87,40 +81,19 @@ async function loadSingleArticle() {
 
             const wrapper = document.getElementById('vid-wrapper');
             const video = wrapper ? wrapper.querySelector('video') : null;
-            const playBtn = wrapper ? document.getElementById('play-btn') : null;
-            const volumeBtn = wrapper ? document.getElementById('volume-btn') : null;
-            const volumeSlider = wrapper ? document.getElementById('volume-slider') : null;
-            const fullscreenBtn = wrapper ? document.getElementById('fullscreen-btn') : null;
+            const btn = wrapper ? document.getElementById('play-btn') : null;
 
-            if (wrapper && video && playBtn && volumeBtn && volumeSlider && fullscreenBtn) {
+            if (wrapper && video && btn) {
+                // При клике по видео или кнопке — переключение воспроизведения
                 const toggleVideo = () => {
                     if (video.paused) {
                         video.play();
-                        playBtn.style.display = 'none';
+                        btn.style.display = 'none';
                     } else {
                         video.pause();
-                        playBtn.style.display = 'flex';
+                        btn.style.display = 'flex';
                     }
                 };
-
-                playBtn.addEventListener('click', toggleVideo);
-                
-                volumeBtn.addEventListener('click', () => {
-                    volumeSlider.style.display = volumeSlider.style.display === 'block' ? 'none' : 'block';
-                });
-
-                volumeSlider.addEventListener('input', () => {
-                    video.volume = volumeSlider.value;
-                });
-
-                fullscreenBtn.addEventListener('click', () => {
-                    if (document.fullscreenElement) {
-                        document.exitFullscreen();
-                    } else {
-                        wrapper.requestFullscreen();
-                    }
-                });
-
                 wrapper.addEventListener('click', toggleVideo);
             }
         } else {
