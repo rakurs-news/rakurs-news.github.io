@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  
-  <!-- Главная страница -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><!-- Главная страница -->
   <url>
     <loc>https://rakurs-news.github.io/</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-13</lastmod>
     <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>
+    <priority>1.0</priority></url>
 
   <!-- Страница новостей -->
   <url>
     <loc>https://rakurs-news.github.io/news.html</loc>
-    <lastmod>2026-07-12</lastmod>
+    <lastmod>2026-07-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
 
-</urlset>
+  <!-- Страница контактов -->
+  <url>
+    <loc>https://rakurs-news.github.io/contacts.html</loc>
+    <lastmod>2026-07-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url></urlset>
