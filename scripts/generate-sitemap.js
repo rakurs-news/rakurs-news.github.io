@@ -1,73 +1,73 @@
 const fs = require('fs');
-const path = require('path'); // <-- Сначала подключаем, потом используем!
+const path = require('path');
 
 console.log('--- START GENERATING SITEMAP ---');
 console.log('Current working directory:', process.cwd());
+console.log('Script directory (__dirname):', __dirname);
 
-// Формируем абсолютный путь к файлу news.json
-// Мы берем текущую папку скрипта (__dirname) и поднимаемся на уровень вверх
-const newsFilePath = path.join(__dirname, '../news.json');
-console.log('Trying to read file at:', newsFilePath);
+// Пытаемся найти news.json в корне проекта
+const rootDir = path.resolve(__dirname, '..');
+const newsPath = path.join(rootDir, 'news.json');
+
+console.log('Looking for news.json at:', newsPath);
+
+// Проверка: существует ли файл?
+if (!fs.existsSync(newsPath)) {
+    console.error('❌ ОШИБКА: Файл news.json НЕ найден по пути:', newsPath);
+    console.log('📂 Список файлов в корне проекта:', fs.readdirSync(rootDir));
+    process.exit(1);
+}
 
 let news;
-
 try {
-  // Пытаемся прочитать файл
-  const rawData = fs.readFileSync(newsFilePath, 'utf8');
-  
-  // Пытаемся распарсить JSON
-  news = JSON.parse(rawData);
-  
-  console.log(`Success! Loaded ${news.length} news items.`);
+    const rawData = fs.readFileSync(newsPath, 'utf8');
+    news = JSON.parse(rawData);
+    console.log('✅ Успешно загружено новостей:', news.length);
 } catch (err) {
-  // Если что-то пошло не так (файла нет или JSON битый) — пишем громко и выходим с ошибкой
-  console.error('CRITICAL ERROR reading news.json:', err.message);
-  process.exit(1); // Это сделает сборку КРАСНОЙ, чтобы ты точно увидел проблему
+    console.error('❌ ОШИБКА при чтении/парсинге news.json:', err.message);
+    console.log('📄 Содержимое файла (первые 500 символов):', rawData.substring(0, 500));
+    process.exit(1);
 }
 
 const baseUrl = 'https://rakurs-news.github.io';
-
 let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>${baseUrl}/</loc>
-    <changefreq>daily</changefreq>
-    <priority>1.0</priority>
-  </url>`;
+<url>
+<loc>${baseUrl}/</loc>
+<changefreq>daily</changefreq>
+<priority>1.0</priority>
+</url>`;
 
-news.forEach(article => {
-  if (!article.id) {
-    console.warn('Warning: Skipping article without ID:', article);
-    return;
-  }
-
-  const id = article.id;
-
-  // Замена длинного тире и спецсимволов на дефис
-  let slug = id
-    .replace(/–/g, '-')
-    .replace(/[^a-z0-9-]/gi, '-')
-    .toLowerCase(); // Добавил lowercase для чистоты URL
-
-  const loc = `${baseUrl}/news.html?id=${slug}`;
-
-  xml += `
-  <url>
-    <loc>${loc}</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>`;
-});
+if (Array.isArray(news)) {
+    news.forEach(article => {
+        if (!article.id) {
+            console.warn('⚠️ Пропуск новости без ID:', article);
+            return;
+        }
+        const id = article.id;
+        let slug = id
+            .replace(/–/g, '-')
+            .replace(/[^a-z0-9-]/gi, '-')
+            .toLowerCase();
+        
+        const loc = `${baseUrl}/news.html?id=${slug}`;
+        
+        xml += `
+<url>
+<loc>${loc}</loc>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>`;
+    });
+} else {
+    console.error('❌ ОШИБКА: news.json должен содержать массив объектов!');
+    process.exit(1);
+}
 
 xml += `\n</urlset>`;
 
-// Путь для сохранения sitemap.xml (в корень репозитория)
-const sitemapPath = path.join(__dirname, '../sitemap.xml');
-
+const sitemapPath = path.join(rootDir, 'sitemap.xml');
 try {
-  fs.writeFileSync(sitemapPath, xml);
-  console.log(`Sitemap generated successfully at: ${sitemapPath}`);
-} catch (err) {
-  console.error('CRITICAL ERROR writing sitemap.xml:', err.message);
-  process.exit(1);
-}
+    fs.writeFileSync(sitemapPath, xml);
+    console.log('✅ Sitemap успешно создан:', sitemapPath);
+} catch
