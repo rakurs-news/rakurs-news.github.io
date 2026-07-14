@@ -331,16 +331,33 @@
 </head>
 <body>
   <header>
-    <div class="header-left"><div class="logo-container">
-        <img src="/images/favicon.png" class="site-logo-img" alt="Логотип РАКУРС NEWS" />
-        <div class="logo">РАКУРС NEWS</div>
-      </div>
+  <div class="header-left">
+    <div class="logo-container">
+      <img src="/images/favicon.png" class="site-logo-img" alt="Логотип РАКУРС NEWS" />
+      <div class="logo">РАКУРС NEWS</div>
     </div>
-    <div class="header-right">
-      <input type="text" id="siteSearch" placeholder="Поиск на сайте..." aria-label="Поиск новостей" />
-      <div class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span>
-      </div></div>
-  </header>
+  </div>
+
+  <div class="header-right">
+    <!-- Поиск -->
+    <input type="text" id="siteSearch" placeholder="Поиск на сайте..." aria-label="Поиск новостей" />
+    
+    <!-- Бургер -->
+    <div class="burger" id="burger" aria-label="Меню" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <!-- МЕНЮ (вставляем сюда, ВНУТРИ header-right, ПЕРЕД закрывающим </div>) -->
+    <nav style="display: flex; align-items: center; gap: 25px;">
+      <a href="/" style="color: #f0f0f0; text-decoration: none; font-weight: 600; transition: color 0.3s;">Главная</a>
+      <a href="/news.html" style="color: var(--accent-color); text-decoration: none; font-weight: 600; border-bottom: 1px solid var(--accent-color); transition: color 0.3s;">Новости</a>
+      <a href="/contacts.html" style="color: #f0f0f0; text-decoration: none; font-weight: 600; transition: color 0.3s;">Контакты</a>
+    </nav>
+    <!-- Конец меню -->
+  </div> <!-- <--- Вот здесь мы ЗАКРЫВАЕМ header-right (после меню!) -->
+</header>
   
   <nav class="mobile-menu" id="mobileMenu" aria-label="Мобильное меню">
     <a href="#" class="nav-link" onclick="filterNews('Все'); closeMobileMenu();" aria-current="page">Все новости</a>
