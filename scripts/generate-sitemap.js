@@ -1,4 +1,7 @@
-const fs = require('fs');
+fs = require('fs');
+console.log('--- START GENERATING SITEMAP ---');
+console.log('Current working directory:', process.cwd());
+console.log('Trying to read file at:', path.join(process.cwd(), '../news.json'));
 const path = require('path');
 
 const news = require('../news.json'); // путь к твоему файлу с новостями
