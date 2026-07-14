@@ -16,6 +16,8 @@ jobs:
         uses: actions/checkout@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Важно: fetch-depth: 0 нужен, чтобы git log и git pull работали корректно
+          fetch-depth: 0 
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -29,10 +31,15 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Сначала обновляем локальную ветку последними коммитами
+          git pull origin main
+          
           git add sitemap.xml
+          
           if ! git diff --quiet --cached; then
             git commit -m "Автоматическое обновление sitemap.xml"
-            git push
+            git push origin main
           else
             echo "Нет изменений для коммита — sitemap.xml уже актуален."
           fi
