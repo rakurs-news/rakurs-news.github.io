@@ -21,8 +21,8 @@ console.log(`📄 Ищем файл: ${path.join(process.cwd(), 'news.json')}`);
 
 try {
   if (!fs.existsSync('news.json')) {
-    console.error('❌ КРИТИЧЕСКАЯ ОШИБКА: Файл news.json не найден в текущей папке!');
-    process.exit(1);
+    console.error('❌ КРИТИЧЕСКАЯ ОШИБКА: Файл news.json не найден в текущей папке! Создаем новый массив новостей...');
+    fs.writeFileSync('news.json', JSON.stringify([], null, 2), 'utf8');
   }
 
   const fileContent = fs.readFileSync('news.json', 'utf8');
@@ -37,7 +37,8 @@ try {
   }
 
   if (!Array.isArray(newsData)) {
-    console.error('❌ КРИТИЧЕСКАЯ ОШИБКА: news.json должен содержать массив новостей []');process.exit(1);
+    console.error('❌ КРИТИЧЕСКАЯ ОШИБКА: news.json должен содержать массив новостей []');
+    process.exit(1);
   }
 
   console.log(`✅ Загружено новостей: ${newsData.length}`);
@@ -51,6 +52,22 @@ try {
 </url>
 `;
 
+  // Здесь можем добавить новую новость (пример)
+  const newNewsItem = {
+    id: String(newsData.length + 1), // Присваиваем уникальный ID (по количеству новостей)
+    date: '15.08.2026', // Пример даты новостей
+    // Добавьте другие поля, как заголовок и содержание
+  };
+
+  if (!newsData.some(news => news.id === newNewsItem.id)) { // Проверяем, есть ли такая новость
+    // Добавляем новую новость
+    newsData.push(newNewsItem);
+    console.log(`✅ Новая новость добавлена с ID ${newNewsItem.id}`);
+  } else {
+    console.log(`ℹ️ Новость с ID ${newNewsItem.id} уже существует!`);
+  }
+
+  // Генерируем XML для карты сайта
   newsData.forEach((news, index) => {
     const safeId = escapeXml(news.id);
     const [day, month, year] = news.date.split('.');
@@ -66,14 +83,21 @@ try {
     if ((index + 1) % 10 === 0) {
       console.log(` → Обработано ${index + 1} новостей...`);
     }
-  });  sitemap += '\n</urlset>';
+  });
 
+  sitemap += '\n</urlset>';
+
+  // Записываем обновленный массив новостей обратно в news.json
+  fs.writeFileSync('news.json', JSON.stringify(newsData, null, 2), 'utf8');
+  console.log(`✅ Файл news.json успешно обновлен с новой новостью!`);
+
+  // Записываем sitemap.xml
   fs.writeFileSync('sitemap.xml', sitemap.trim(), 'utf8');
+  console.log(`✅ Файл sitemap.xml успешно создан!`);
 
   const stats = fs.statSync('sitemap.xml');
-  console.log(`✅ Файл sitemap.xml успешно создан!`);
   console.log(`📊 Размер файла: ${stats.size} байт.`);
-  console.log(`🎉 ГОТОВО! Всего URL в карте: ${newsData.length + 1}`);
+  console.log(`🎉 ГОТОВО! Всего URL в карте: ${newsData.length}`);
 
 } catch (error) {
   console.error('💥 Неожиданная ошибка:', error.message);
