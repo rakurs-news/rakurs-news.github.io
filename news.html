@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Сюда JS подставит заголовок новости -->
     <title id="page-title">Новость</title>
 
-    <!-- МИКРОРАЗМЕТКА ДЛЯ ЯНДЕКСА (обязательно!) -->
-    <!-- Робот прочитает это и покажет дату/заголовок в поиске -->
     <script type="application/ld+json" id="schema-data">
         {
             "@context": "https://schema.org",
@@ -20,15 +17,80 @@
     </script>
 
     <style>
-        :root { --bg: #121212; --text: #e0e0e0; --accent: #ff9800; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; line-height: 1.7; padding: 20px; max-width: 800px; margin: auto; }
-        h1 { color: var(--accent); margin-top: 0; font-size: 24px; }
-        .meta { color: var(--accent); font-size: 13px; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        article p { margin-bottom: 1rem; text-align: justify; }
-        a.back { color: #888; text-decoration: underline; margin-bottom: 20px; display: inline-block; font-size: 14px; }
+        * { box-sizing: border-box; }
+        body { 
+            background: #121212; 
+            color: #e0e0e0; 
+            font-family: sans-serif; 
+            line-height: 1.6; 
+            padding: 20px; 
+            margin: 0;
+        }
+
+        .back-link { 
+            display: inline-block; 
+            color: #888; 
+            text-decoration: underline; 
+            margin-bottom: 30px; 
+            font-size: 14px;
+        }
+        .back-link:hover { color: #ff9800; }
+
+        h1 { 
+            color: #ff9800; 
+            margin: 0 0 20px 0; 
+            font-size: 24px; 
+            line-height: 1.2;
+        }
+
+        .meta-row {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            color: #ff9800;
+            font-size: 13px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
         
-        /* Стили для ошибок и отладки */
-        #loading { text-align: center; margin-top: 50px; color: var(--accent); font-size: 18px; }
+        #article-body { margin: 0; }
+        #article-body p {
+            margin: 0 0 15px 0;
+            text-align: left;
+        }
+
+        /* СТИЛЬ КНОПКИ "НА ГЛАВНУЮ" */
+        .main-btn {
+            display: block;
+            width: 100%;
+            max-width: 300px;
+            background-color: transparent;
+            border: 2px solid #ff9800;
+            color: #ff9800;
+            padding: 15px 20px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 40px;
+            border-radius: 4px;
+        }
+        .main-btn:hover {
+            background-color: #ff9800;
+            color: #121212;
+        }
+
+        #loading { 
+            text-align: center; 
+            margin-top: 50px; 
+            color: #ff9800; 
+            font-size: 18px;
+        }
+
         .error-box { 
             color: red; 
             padding: 20px; 
@@ -38,43 +100,44 @@
             margin-top: 30px;
             border: 1px solid red;
         }
+
         #debug-info {
             background: #1a1a1a;
             padding: 15px;
             color: #aaa;
             font-family: monospace;
             margin-top: 20px;
-            border-left: 4px solid var(--accent);
-            display: none; /* Скрыто по умолчанию */
+            border-left: 4px solid #ff9800;
+            display: none;
         }
     </style>
 </head>
 <body>
-    <!-- Кнопка назад -->
-    <a href="index.html" class="back">← Вернуться к ленте новостей</a>
+
+    <a href="index.html" class="back-link">← Вернуться к ленте новостей</a>
     
-    <!-- Экран загрузки -->
     <div id="loading">Загрузка новости...</div>
     
-    <!-- Контейнер для готовой новости (скрыт пока не загрузится) -->
     <article id="content-area" style="display: none;">
         <h1 id="article-title"></h1>
-        <div class="meta">
-            <span id="article-date"></span> • <span id="article-category"></span>
+        
+        <div class="meta-row">
+            <span id="article-date"></span>
+            <span id="article-category"></span>
         </div>
+        
         <div id="article-body"></div>
+
+        <!-- КНОПКА "НА ГЛАВНУЮ" -->
+        <a href="index.html" class="main-btn">НА ГЛАВНУЮ</a>
     </article>
 
-    <!-- Блок ошибки -->
     <div id="error" class="error-box" style="display:none;"></div>
-    
-    <!-- БЛОК ОТЛАДКИ (покажет, какой ID он искал и какие есть в файле) -->
     <div id="debug-info"></div>
 
     <script>
-        // 1. Получаем ID из адресной строки
         const urlParams = new URLSearchParams(window.location.search);
-        const newsId = urlParams.get('id'); // Например: "iran-obnulit-starlink-vmesto-peregovorov"
+        const newsId = urlParams.get('id'); 
 
         if (!newsId) {
             document.getElementById('loading').innerText = "Ошибка: ID новости не передан в ссылке.";
@@ -87,27 +150,20 @@
 
         async function loadAndShowNews(id) {
             try {
-                // ВАЖНО: fetch без слэша ищет файл рядом с этим HTML (работает на GitHub Pages)
                 const response = await fetch('news.json');
                 
                 if (!response.ok) {
-                    throw new Error('Файл news.json не найден (статус ' + response.status + '). Проверь название файла и регистр букв!');
+                    throw new Error('Файл news.json не найден (статус ' + response.status + ')');
                 }
                 
                 const allNews = await response.json();
-                console.log('В файле найдено новостей:', allNews.length);
-
-                // ГЛАВНОЕ: Точное сравнение строк. 
-                // Если в JSON id: "iran...", а в ссылке "iran...", они совпадут.
                 const news = allNews.find(n => n.id === id);
 
                 if (news) {
                     renderNews(news);
                 } else {
-                    // Если не нашел — покажем список всех ID, которые ЕСТЬ в файле.
                     const availableIds = allNews.map(n => n.id).join('\n- ');
-                    const msg = `Новость с ID "${id}" не найдена в файле.\n\nДоступные ID в news.json:\n- ${availableIds}`;
-                    
+                    const msg = `Новость с ID "${id}" не найдена.\n\nДоступные ID в файле:\n- ${availableIds}`;
                     throw new Error(msg);
                 }
             } catch (e) {
@@ -116,7 +172,6 @@
                 errDiv.style.display = 'block';
                 errDiv.innerText = e.message;
                 
-                // Включаем блок отладки, чтобы ты видел текст ошибки
                 const debugDiv = document.getElementById('debug-info');
                 debugDiv.style.display = 'block';
                 debugDiv.innerText = 'Техническая информация:\nЗапрошен ID: ' + (newsId || 'нет') + '\nОшибка JS: ' + e.toString();
@@ -129,23 +184,19 @@
             document.getElementById('loading').style.display = 'none';
             document.getElementById('content-area').style.display = 'block';
 
-            // Заполняем заголовок страницы
             document.getElementById('article-title').innerText = item.title;
             document.getElementById('page-title').innerText = item.title + " — Ракурс NEWS";
 
-            // Заполняем метаданные
             document.getElementById('article-date').innerText = item.date;
             document.getElementById('article-category').innerText = item.category;
 
-            // Разбиваем текст на абзацы (по двойному переносу строки)
             const paragraphs = item.content.split('\n\n').map(p => `<p>${p}</p>`).join('');
             document.getElementById('article-body').innerHTML = paragraphs;
 
-            // Обновляем микроразметку для Яндекса
             const script = document.getElementById('schema-data');
             const json = JSON.parse(script.innerText);
             json.headline = item.title;
-            json.datePublished = item.date; // Формат YYYY-MM-DD обязателен!
+            json.datePublished = item.date; 
             script.innerText = JSON.stringify(json);
         }
     </script>
