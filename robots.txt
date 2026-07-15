@@ -1,4 +1,5 @@
-User-agent: Yandex
-Allow: /news.html
-Allow: /news.json
-Sitemap: https://site.ru/sitemap.xml
+```text User-agent: *
+Allow: /
+
+Sitemap: https://rakurs-news.github.io/sitemap.xml
+```
