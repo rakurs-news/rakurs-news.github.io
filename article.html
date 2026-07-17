@@ -97,6 +97,7 @@
         h1 { 
             color: var(--accent); 
             margin-bottom: 15px; 
+            line-height: 1.2; /* Уменьшенное межстрочное расстояние */
         }
         .meta { 
             color: var(--meta); 
@@ -119,6 +120,13 @@
             display: flex; 
             justify-content: space-between; 
             margin-top: 40px; 
+        }
+
+        /* Медиа-запрос для мобильной версии */
+        @media (max-width: 768px) {
+            h1 {
+                line-height: 1.1; /* Еще более уменьшенное межстрочное расстояние для мобильных */
+            }
         }
     </style>
 </head>
