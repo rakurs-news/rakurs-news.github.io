@@ -175,6 +175,64 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     border-radius: 2px; /* Чуть меньше скругление для аккуратности */
     pointer-events: none;
 }
+
+/* Стили для пагинации */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 5px;
+}
+
+.pagination .page-btn {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s, color 0.3s;
+}
+
+.pagination .page-btn:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+.pagination .page-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
+
+.pagination .page-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination .page-number {
+    background: var(--card);
+    color: var(--text);
+    border: 1px solid var(--accent);
+    padding: 8px 12px;
+    border-radius: 3px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+}
+
+.pagination .page-number:hover {
+    background: var(--accent);
+    color: #000;
+}
+
+.pagination .page-number.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
 </style>
 </head>
 <body>
@@ -267,6 +325,13 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 
 <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
 
+<!-- Пагинация -->
+<div class="pagination" id="pagination">
+    <button class="page-btn" id="prevPageBtn" disabled>&lt;</button>
+    <div id="pageNumbers"></div>
+    <button class="page-btn" id="nextPageBtn">&gt;</button>
+</div>
+
 <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
     <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
         <line x1="12" y1="19" x2="12" y2="5"></line>
@@ -299,6 +364,14 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 
     let allNews = [];
     let featuredNewsId = null;
+    const NEWS_PER_PAGE = 20;
+    let currentPage = 1;
+    let totalPages = 0;
+
+    const paginationContainer = document.getElementById('pagination');
+    const pageNumbersContainer = document.getElementById('pageNumbers');
+    const prevPageBtn = document.getElementById('prevPageBtn');
+    const nextPageBtn = document.getElementById('nextPageBtn');
 
     async function loadNews() {
         try {
@@ -308,6 +381,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
             featuredNewsId = allNews.featuredNewsId;
             document.getElementById('loader').style.display = 'none';
             renderNews(allNews);
+            updatePagination();
         } catch(e) {
             console.error('Ошибка загрузки:', e);
             document.getElementById('loader').innerHTML = `<p style="color: red;">Ошибка: ${e.message}</p>`;
@@ -318,6 +392,10 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         const container = document.getElementById('news-container');
         container.innerHTML = '';
         
+        const startIndex = (currentPage - 1) * NEWS_PER_PAGE;
+        const endIndex = startIndex + NEWS_PER_PAGE;
+        const paginatedNews = data.slice(startIndex, endIndex);
+
         if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
             const featuredNews = data.find(item => item.id === featuredNewsId);
             if (featuredNews) {
@@ -336,7 +414,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
             document.getElementById('main-news').style.display = 'none';
         }
 
-        const filteredNews = data.filter(item => item.id !== featuredNewsId);
+        const filteredNews = paginatedNews.filter(item => item.id !== featuredNewsId);
         container.innerHTML += filteredNews.map(item => {
             let title = query ? item.title.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : item.title;
             return `<a href="/${item.id}.html" rel="bookmark" style="text-decoration: none; color: inherit;">
@@ -400,7 +478,9 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         const cat = e.target.dataset.category;
         pageTitleElement.textContent = cat === 'all' ? 'Все новости' : cat;
 
+        currentPage = 1; // Сброс на первую страницу при смене категории
         renderNews(cat === 'all' ? allNews : allNews.filter(n => n.category === cat));
+        updatePagination();
 
         if (mobileMenuElement.classList.contains('open')) {
             mobileMenuElement.classList.remove('open');
@@ -417,6 +497,73 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     document.addEventListener('click', (e) => {
         if (mobileMenuElement.classList.contains('open') && !mobileMenuElement.contains(e.target) && !mobileMenuButton.contains(e.target)) {
             mobileMenuElement.classList.remove('open');
+        }
+    });
+
+    function updatePagination() {
+        const currentNewsList = document.querySelectorAll('#news-container .card').length > 0 ? allNews : allNews.filter(n => n.category === document.querySelector('.category-btn.active').dataset.category);
+        totalPages = Math.ceil(currentNewsList.length / NEWS_PER_PAGE);
+        pageNumbersContainer.innerHTML = '';
+
+        // Отображаем кнопки страниц
+        const maxPagesToShow = 5; // Максимальное количество отображаемых цифр страниц
+        const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+        const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+        for (let i = startPage; i <= endPage; i++) {
+            const pageNumBtn = document.createElement('button');
+            pageNumBtn.classList.add('page-number');
+            pageNumBtn.textContent = i;
+            if (i === currentPage) {
+                pageNumBtn.classList.add('active');
+            }
+            pageNumBtn.addEventListener('click', () => {
+                currentPage = i;
+                renderNews(allNews); // Перерендериваем новости для текущей страницы
+                updatePagination();
+            });
+            pageNumbersContainer.appendChild(pageNumBtn);
+        }
+
+        // Кнопка "..." если страниц больше, чем отображается
+        if (startPage > 1) {
+            const ellipsisStart = document.createElement('span');
+            ellipsisStart.textContent = '...';
+            ellipsisStart.classList.add('page-number'); // Стиль как у кнопки
+            pageNumbersContainer.prepend(ellipsisStart);
+        }
+        if (endPage < totalPages) {
+            const ellipsisEnd = document.createElement('span');
+            ellipsisEnd.textContent = '...';
+            ellipsisEnd.classList.add('page-number'); // Стиль как у кнопки
+            pageNumbersContainer.appendChild(ellipsisEnd);
+        }
+
+        // Обновляем состояние кнопок "назад" и "вперед"
+        prevPageBtn.disabled = currentPage === 1;
+        nextPageBtn.disabled = currentPage === totalPages;
+        
+        // Скрываем пагинацию, если новостей меньше или равно одной странице
+        if (totalPages <= 1) {
+            paginationContainer.style.display = 'none';
+        } else {
+            paginationContainer.style.display = 'flex';
+        }
+    }
+
+    prevPageBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            currentPage--;
+            renderNews(allNews);
+            updatePagination();
+        }
+    });
+
+    nextPageBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            currentPage++;
+            renderNews(allNews);
+            updatePagination();
         }
     });
 
