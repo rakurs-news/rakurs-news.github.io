@@ -249,6 +249,17 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 <button class="category-btn" data-category="Культура">Культура</button>
 </div>
 
+<!-- Горизонтальный индикатор скролла вверху -->
+<div id="top-scroll-indicator" style="
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    background: var(--accent);
+    z-index: 2001;
+"></div>
+
 <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
 
 <!-- Главная новость -->
@@ -338,7 +349,6 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         }).join('');
     }
 
-    // --- ЛОГИКА ПОИСКА (ИСПРАВЛЕННАЯ) ---
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('search-results');
     let searchTimeout;
@@ -375,7 +385,6 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         searchResults.style.display = 'none';
         window.location.href = `/${newsId}.html`;
     }
-    // -------------------------------------
 
     const menuElement = document.getElementById('menu');
     const mobileMenuElement = document.getElementById('mobileMenu');
@@ -413,20 +422,12 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 
     loadNews();
 
-    // Логика индикатора скролла (тонкий, сверху)
-    const scrollIndicatorTrack = document.createElement('div');
-    scrollIndicatorTrack.className = 'scroll-indicator-track';
-    document.body.appendChild(scrollIndicatorTrack);
-
-    const scrollIndicatorThumb = document.createElement('div');
-    scrollIndicatorThumb.className = 'scroll-indicator-thumb';
-    scrollIndicatorTrack.appendChild(scrollIndicatorThumb);
-
+    // Логика горизонтального индикатора скролла вверху
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         const scrollPercent = (scrollTop / docHeight) * 100;
-        scrollIndicatorThumb.style.height = scrollPercent + '%';
+        document.getElementById('top-scroll-indicator').style.width = scrollPercent + '%';
     });
 
     function scrollToTop() {
