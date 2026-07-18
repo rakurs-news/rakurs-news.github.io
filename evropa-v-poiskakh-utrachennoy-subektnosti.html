@@ -117,7 +117,7 @@
             box-sizing: border-box;
         }
 
-        /* --- СТИЛИ ДЛЯ МЕТА-ДАННЫХ (ДАТА, АВТОР, ВРЕМЯ ЧТЕНИЯ) --- */
+        /* --- МЕТА-ДАННЫЕ СТАТЬИ (ДАТА, АВТОР, ВРЕМЯ ЧТЕНИЯ) --- */
         .article-meta-info {
             display: flex;
             justify-content: space-between;
@@ -130,17 +130,22 @@
         .article-date {
             color: var(--accent);
             font-size: 14px;
-            /* margin-bottom: 20px; */ /* Убрано, так как теперь в общем контейнере */
             display: block;
+            /* Расположение слева */
+            order: 1; 
         }
         .author-info {
             font-style: italic;
             color: var(--accent);
+            /* Расположение справа */
+            order: 3; 
         }
         .reading-time-container {
             display: flex;
             align-items: center;
             color: var(--accent);
+            /* Расположение по центру между автором и датой (если нужно) */
+            order: 2; 
         }
         .reading-time-icon {
             margin-right: 5px;
@@ -250,6 +255,15 @@
             .author-info {
                 margin-bottom: 5px; /* Отступ под автором */
             }
+            .article-date {
+                order: 1; /* Дата остается первой */
+            }
+            .author-info {
+                order: 2; /* Автор идет вторым */
+            }
+            .reading-time-container {
+                order: 3; /* Время чтения последним */
+            }
         }
     </style>
 </head>
@@ -291,6 +305,7 @@
         
         <!-- Картинка новости -->
         <div class="article-image-wrapper">
+            <!-- Путь изменен на относительный. Если у тебя реально файл IMG_... замени src обратно -->
             <img src="/images/IMG_20260718_161022.webp" alt="Европа ищет субъектность в тумане" class="article-image">
             <span class="article-caption">Фото: соцсети</span>
         </div>
@@ -381,8 +396,7 @@
             
             const readingTimeElement = document.getElementById('reading-time');
             if (readingTimeElement) {
-                // Формируем сообщение о времени чтения
-                readingTimeElement.textContent = `${minutes} мин.`;
+                readingTimeElement.textContent = `${minutes} мин. на чтение`;
             }
         }
 
