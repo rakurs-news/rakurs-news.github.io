@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Ракурс NEWS</title>
-<meta name="description" content="Ракурс NEWS — ироничный взгляд на новости и скрытую правду!">
-<meta property="og:title" content="Ракурс NEWS">
-<meta property="og:description" content="Ракурс NEWS: ироничный взгляд на главные события дня. Политика, СВО, криминал и культура — разбираем новости с сарказмом и без лишней воды. Читайте свежий взгляд на привычные темы.>
-<meta property="og:image" content="https://rakurs-news.github.io/rakurs-news/images/og-image.jpg">
-<meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/">
-<meta property="og:type" content="website">
-<link rel="icon" type="image/png" href="https://rakurs-news.github.io/rakurs-news/images/favicon.png">
+<meta name="description" content="Ракурс NEWS — ироничный взгляд на новости и скрытую правду!" />
+<meta property="og:title" content="Ракурс NEWS" />
+<meta property="og:description" content="Ракурс NEWS: ироничный взгляд на главные события дня. Политика, СВО, криминал и культура — разбираем новости с сарказмом и без лишней воды." />
+<meta property="og:image" content="https://rakurs-news.github.io/rakurs-news/images/og-image.jpg" />
+<meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/" />
+<meta property="og:type" content="website" />
+<link rel="icon" type="image/png" href="https://rakurs-news.github.io/rakurs-news/images/favicon.png" />
 <!-- Рекомендация Яндекса: связь десктопной и мобильной версий -->
-<link rel="alternate" href="https://rakurs-news.github.io/rakurs-news/" media="only screen and (max-width: 600px)">
+<link rel="alternate" href="https://rakurs-news.github.io/rakurs-news/" media="only screen and (max-width: 600px)" />
 <style>
 :root { --bg: #ffffff; --card: #f9f9f9; --text: #1a1a1a; --accent: #ff9800; --meta: #666; --mobile-menu-bg: var(--card); --mobile-menu-text: var(--text); --mobile-menu-border: var(--accent); }
 [data-theme="dark"] { --bg: #121212; --card: #1e1e1e; --text: #e0e0e0; --accent: #ff9800; --meta: #aaa; --mobile-menu-bg: #000000; --mobile-menu-text: var(--text); --mobile-menu-border: var(--accent); }
@@ -272,6 +272,12 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     <div class="page-title-indicator"></div>
     <h3 class="page-title">Все новости</h3>
 </div>
+
+<!-- Вставляем сюда ссылку на страницу -->
+<ul>
+  <li><a href="kognitivnaya-voyna-i-ataki-dronov-na-moskvu.html">Когнитивная война и атаки дронов на Москву</a></li>
+</ul>
+
 <div class="categories-wrapper" id="menu">
     <button class="category-btn active" data-category="all">Все новости</button>
     <button class="category-btn" data-category="СВО">СВО</button>
@@ -333,21 +339,21 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 </div>
 
 <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
-    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="12" y1="19" x2="12" y2="5"></line>
         <polyline points="5 12 12 5 19 12"></polyline>
     </svg>
 </button>
 
 <div class="floating-buttons" id="floatingButtons">
-    <a href="https://vk.ru/rakurs_news" target="_blank"><img src="/images/VK.png" alt="VK"></a>
-    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="/images/Telegram.png" alt="Telegram"></a>
+    <a href="https://vk.ru/rakurs_news" target="_blank"><img src="/images/VK.png" alt="VK" /></a>
+    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="/images/Telegram.png" alt="Telegram" /></a>
 </div>
 
 <div class="footer">
     <div class="social-icons">
-        <a href="https://vk.ru/rakurs_news" target="_blank"><img src="/images/VK.png" alt="VK"></a>
-        <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="/images/Telegram.png" alt="Telegram"></a>
+        <a href="https://vk.ru/rakurs_news" target="_blank"><img src="/images/VK.png" alt="VK" /></a>
+        <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="/images/Telegram.png" alt="Telegram" /></a>
     </div>
 </div>
 
@@ -401,7 +407,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
             if (featuredNews) {
                 const featuredHTML = `
                     <div class="card" style="width: 100%;">
-                        <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy">
+                        <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy" />
                         <span class="meta">${featuredNews.category} • ${featuredNews.date}</span>
                         <h3>${featuredNews.title}</h3>
                         <div class="desc">${featuredNews.description || ''}</div>
@@ -419,7 +425,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
             let title = query ? item.title.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : item.title;
             return `<a href="/rakurs-news/${item.id}.html" rel="bookmark" style="text-decoration: none; color: inherit;">
                         <div class="card">
-                            <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy">
+                            <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy" />
                             <span class="meta">${item.category} • ${item.date}</span>
                             <h3>${title}</h3>
                             <div class="desc">${item.description || ''}</div>
@@ -505,8 +511,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         totalPages = Math.ceil(currentNewsList.length / NEWS_PER_PAGE);
         pageNumbersContainer.innerHTML = '';
 
-        // Отображаем кнопки страниц
-        const maxPagesToShow = 5; // Максимальное количество отображаемых цифр страниц
+        const maxPagesToShow = 5;
         const startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
         const endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
@@ -519,31 +524,28 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
             }
             pageNumBtn.addEventListener('click', () => {
                 currentPage = i;
-                renderNews(allNews); // Перерендериваем новости для текущей страницы
+                renderNews(allNews);
                 updatePagination();
             });
             pageNumbersContainer.appendChild(pageNumBtn);
         }
 
-        // Кнопка "..." если страниц больше, чем отображается
         if (startPage > 1) {
             const ellipsisStart = document.createElement('span');
             ellipsisStart.textContent = '...';
-            ellipsisStart.classList.add('page-number'); // Стиль как у кнопки
+            ellipsisStart.classList.add('page-number');
             pageNumbersContainer.prepend(ellipsisStart);
         }
         if (endPage < totalPages) {
             const ellipsisEnd = document.createElement('span');
             ellipsisEnd.textContent = '...';
-            ellipsisEnd.classList.add('page-number'); // Стиль как у кнопки
+            ellipsisEnd.classList.add('page-number');
             pageNumbersContainer.appendChild(ellipsisEnd);
         }
 
-        // Обновляем состояние кнопок "назад" и "вперед"
         prevPageBtn.disabled = currentPage === 1;
         nextPageBtn.disabled = currentPage === totalPages;
-        
-        // Скрываем пагинацию, если новостей меньше или равно одной странице
+
         if (totalPages <= 1) {
             paginationContainer.style.display = 'none';
         } else {
@@ -569,7 +571,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 
     loadNews();
 
-    // Логика горизонтального индикатора скролла вверху
+    // Логика скролла
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
         const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -578,10 +580,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     });
 
     function scrollToTop() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     window.addEventListener('scroll', () => {
