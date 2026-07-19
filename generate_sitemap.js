@@ -3,12 +3,13 @@ const path = require('path');
 
 // НАСТРОЙКИ
 // ВАЖНО: Твой точный URL на GitHub Pages!
-// Если сайт доступен по https://rakurs-news.github.io/rakurs-news/
-const DOMAIN = 'https://rakurs-news.github.io/rakurs-news';
-// Если сайт доступен по https://rakurs-news.github.io/ (например, если это главный репозиторий пользователя)
-// const DOMAIN = 'https://rakurs-news.github.io/';
+// Изменено на корень пользователя, если сайт должен быть по https://rakurs-news.github.io/
+const DOMAIN = 'https://rakurs-news.github.io/';
+// Если сайт должен быть по https://rakurs-news.github.io/rakurs-news/, используй:
+// const DOMAIN = 'https://rakurs-news.github.io/rakurs-news';
 
-// УДАЛЕНО: const OUTPUT_DIR = './public'; // Эта папка больше не нужна, файлы генерируются в корень
+// Файлы будут генерироваться прямо в корень проекта, где находится скрипт.
+// Папка 'public' больше не используется.
 
 function escapeXml(unsafe) {
     if (!unsafe) return '';
@@ -106,12 +107,11 @@ try {
 
     console.log(`✅ Загружено новостей: ${newsData.length}`);
 
-    // УДАЛЕНО: Проверка и создание папки OUTPUT_DIR
-
+    // Главная страница в sitemap.xml будет теперь по DOMAIN/
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>${DOMAIN}/</loc>
+    <loc>${DOMAIN}</loc>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
 </url>
@@ -120,11 +120,12 @@ try {
     newsData.forEach((news) => {
         // ВАЖНО: Используем ID из JSON как имя файла.
         const fileName = `${news.id}.html`;
-        // УДАЛЕНО: const filePath = path.join(OUTPUT_DIR, fileName);
-        const filePath = fileName; // Сохраняем прямо в корень
+        // Файл сохраняется прямо в корень проекта.
+        const filePath = fileName;
 
-        // Ссылка для карты сайта. Должна совпадать с тем, куда ведет ссылка в index.html
-        const pageUrl = `${DOMAIN}/${fileName}`;
+        // Ссылка для карты сайта. Теперь она будет начинаться с нового DOMAIN.
+        // Например: https://rakurs-news.github.io/marketpleysy-pod-podozreniem-kto-vinovat.html
+        const pageUrl = `${DOMAIN}${fileName}`;
 
         let isoDate = new Date().toISOString().split('T')[0];
         if (news.date && typeof news.date === 'string' && news.date.includes('.')) {
@@ -147,16 +148,16 @@ try {
             .replace(/%IMAGE_BLOCK%/g, imageBlock)
             .replace(/%CONTENT%/g, articleContent);
 
-        // --- ДОБАВЬ ЭТИ СТРОКИ ДЛЯ ОТЛАДКИ ---
+        // --- ДОБАВЛЕННЫЕ СТРОКИ ДЛЯ ОТЛАДКИ ---
         console.log(`--- DEBUG INFO FOR NEWS ---`);
         console.log(`ID: ${news.id}`);
         console.log(`Title: ${news.title}`);
         console.log(`Generated fileName: ${fileName}`);
         console.log(`HTML Content length: ${htmlContent.length}`);
+        console.log(`Generated pageUrl for sitemap: ${pageUrl}`); // Добавлено для проверки URL в sitemap
         console.log(`---------------------------`);
         // --- КОНЕЦ ДОБАВЛЕННЫХ СТРОК ---
 
-        // УДАЛЕНО: fs.writeFileSync(filePath, htmlContent, 'utf8'); // Теперь filePath это просто fileName
         fs.writeFileSync(fileName, htmlContent, 'utf8'); // Сохраняем в корень
         console.log(`💾 Создан файл: ${fileName} (в корне проекта)`);
 
@@ -170,7 +171,6 @@ try {
     });
 
     sitemap += '</urlset>';
-    // УДАЛЕНО: fs.writeFileSync('public/sitemap.xml', sitemap.trim(), 'utf8'); // Кладем sitemap тоже в public
     fs.writeFileSync('sitemap.xml', sitemap.trim(), 'utf8'); // Сохраняем sitemap.xml в корень
     console.log(`✅ Файл sitemap.xml успешно создан в корне проекта!`);
     console.log(`🎉 ГОТОВО! Сгенерировано страниц: ${newsData.length}.`);
@@ -179,4 +179,4 @@ try {
 } catch (error) {
     console.error('💥 Ошибка:', error.message);
     process.exit(1);
-                  }
+}
