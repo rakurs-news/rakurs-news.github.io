@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>РАКУРС NEWS</title>
-<link rel="icon" href="/images/IMG_20260715_111250.png" type="image/png" sizes="32x32">
+<link rel="icon" href="путь/к/вашему/логотипу.png" type="image/png" sizes="32x32">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
@@ -105,6 +105,17 @@
   body.dark-mode #newsContent button.close-btn { color: #aaa; }
   body.dark-mode #newsContent button.close-btn:hover { color: #fff; }
 
+  footer {
+    background: var(--header-bg);
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+  }
+  footer a:hover img {
+    transform: scale(1.1);
+  }
+
   @media(max-width: 768px){ .search-container{ max-width: 180px; } }
 </style>
 </head>
@@ -150,16 +161,14 @@
   </section>
 </main>
 
-<footer style="margin-top: 20px; padding: 20px; background: #222; color: #fff; text-align: center;">
-  <div style="margin-bottom: 10px;">
-    <!-- Telegram -->
-    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" rel="noopener noreferrer" style="margin: 0 5px;">
-      <img src="/images/Telegram.png" alt="Telegram" style="width: 40px; height: 40px; border-radius: 50%; transition: transform 0.2s;">
+<footer>
+  <div style="margin-bottom:10px;">
+    <!-- ЗАМЕНИТЕ ССЫЛКИ НИЖЕ НА СВОИ -->
+    <a href="https://t.me/ВАШ_КАНАЛ" target="_blank" rel="noopener noreferrer" style="margin:0 5px;">
+      <img src="https://via.placeholder.com/40x40?text=TG" alt="Telegram" style="width:40px; height:40px; border-radius:50%;">
     </a>
-    
-    <!-- ВКонтакте -->
-    <a href="https://vk.ru/rakurs_news" target="_blank" rel="noopener noreferrer" style="margin: 0 5px;">
-      <img src="/images/VK.png" alt="Vkontakte" style="width: 40px; height: 40px; border-radius: 50%; transition: transform 0.2s;">
+    <a href="https://vk.com/ВАША_ГРУППА" target="_blank" rel="noopener noreferrer" style="margin:0 5px;">
+      <img src="https://via.placeholder.com/40x40?text=VK" alt="Vkontakte" style="width:40px; height:40px; border-radius:50%;">
     </a>
   </div>
   <div>2026 © РАКУРС NEWS</div>
@@ -186,6 +195,25 @@ let allNews = [];
 let currentCategory = 'all';
 let displayedNews = []; 
 let allFilteredNews = []; 
+
+// --- СОХРАНЕНИЕ ТЕМЫ ЧЕРЕЗ localStorage ---
+function saveTheme(isDark) {
+  localStorage.setItem('rakurs-theme', isDark ? 'dark' : 'light');
+}
+
+function loadTheme() {
+  const saved = localStorage.getItem('rakurs-theme');
+  if (saved === 'dark') {
+    body.classList.add('dark-mode');
+    updateThemeIcon();
+  } else if (saved === 'light') {
+    body.classList.remove('dark-mode');
+    updateThemeIcon();
+  }
+}
+
+loadTheme(); // Загружаем тему при старте
+// -----------------------------------------
 
 function getCategoryColorClass(cat) {
   const c = (cat || '').toLowerCase();
@@ -218,6 +246,7 @@ function updateThemeIcon() {
 themeToggleBtn.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
   updateThemeIcon();
+  saveTheme(body.classList.contains('dark-mode'));
 });
 
 async function fetchNews() {
@@ -385,7 +414,7 @@ modal.onclick = (e) => {
 };
 
 fetchNews();
-updateThemeIcon();
 </script>
 </body>
 </html>
+
