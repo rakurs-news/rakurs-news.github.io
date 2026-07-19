@@ -2,8 +2,13 @@ const fs = require('fs');
 const path = require('path');
 
 // НАСТРОЙКИ
-const DOMAIN = 'https://rakurs-news.github.io/rakurs-news'; // ВАЖНО: Твой точный URL на GitHub Pages!
-const OUTPUT_DIR = './public'; // Сюда будут падать готовые HTML. GitHub Pages берет файлы отсюда.
+// ВАЖНО: Твой точный URL на GitHub Pages!
+// Если сайт доступен по https://rakurs-news.github.io/rakurs-news/
+const DOMAIN = 'https://rakurs-news.github.io/rakurs-news'; 
+// Если сайт доступен по https://rakurs-news.github.io/ (например, если это главный репозиторий пользователя)
+// const DOMAIN = 'https://rakurs-news.github.io/'; 
+
+// УДАЛЕНО: const OUTPUT_DIR = './public'; // Эта папка больше не нужна
 
 function escapeXml(unsafe) {
     if (!unsafe) return '';
@@ -29,7 +34,7 @@ const HTML_TEMPLATE = `
     <meta property="og:title" content="%TITLE%">
     <meta property="og:description" content="%DESCRIPTION%">
     <meta property="og:type" content="article">
-    <!-- Путь к стилям. Если у тебя стили в отдельном файле style.css в корне public, раскомментируй строку ниже -->
+    <!-- Путь к стилям. Если у тебя стили в отдельном файле style.css в корне проекта, раскомментируй строку ниже -->
     <!-- <link rel="stylesheet" href="/style.css"> -->
     
     <style>
@@ -101,10 +106,11 @@ try {
 
     console.log(`✅ Загружено новостей: ${newsData.length}`);
 
-    if (!fs.existsSync(OUTPUT_DIR)) {
-        fs.mkdirSync(OUTPUT_DIR);
-        console.log(`📂 Папка "${OUTPUT_DIR}" создана.`);
-    }
+    // УДАЛЕНО: Проверка и создание папки OUTPUT_DIR
+    // if (!fs.existsSync(OUTPUT_DIR)) {
+    //     fs.mkdirSync(OUTPUT_DIR);
+    //     console.log(`📂 Папка "${OUTPUT_DIR}" создана.`);
+    // }
 
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -119,8 +125,9 @@ try {
         // ВАЖНО: Используем ID из JSON как имя файла. 
         // Это гарантирует, что ссылка /id.html совпадет с файлом id.html
         const fileName = `${news.id}.html`; 
-        const filePath = path.join(OUTPUT_DIR, fileName);
-        
+        // УДАЛЕНО: const filePath = path.join(OUTPUT_DIR, fileName);
+        const filePath = fileName; // Сохраняем прямо в корень
+
         // Ссылка для карты сайта. Должна совпадать с тем, куда ведет ссылка в index.html
         // Если твой index.html ведет на /news/id.html, то тут должно быть `${DOMAIN}/news/${fileName}`
         // Судя по твоему коду index.html: href="/${item.id}.html", значит ссылка должна быть в корне.
@@ -147,8 +154,9 @@ try {
             .replace(/%IMAGE_BLOCK%/g, imageBlock)
             .replace(/%CONTENT%/g, articleContent);
 
-        fs.writeFileSync(filePath, htmlContent, 'utf8');
-        console.log(`💾 Создан файл: ${fileName} (в папке ${OUTPUT_DIR})`);
+        // УДАЛЕНО: fs.writeFileSync(filePath, htmlContent, 'utf8'); // Теперь filePath это просто fileName
+        fs.writeFileSync(fileName, htmlContent, 'utf8'); // Сохраняем в корень
+        console.log(`💾 Создан файл: ${fileName} (в корне проекта)`);
 
         sitemap += `<url>
     <loc>${pageUrl}</loc>
@@ -160,12 +168,13 @@ try {
     });
 
     sitemap += '</urlset>';
-    fs.writeFileSync('public/sitemap.xml', sitemap.trim(), 'utf8'); // Кладем sitemap тоже в public
-    console.log(`✅ Файл sitemap.xml успешно создан в папке public!`);
+    // УДАЛЕНО: fs.writeFileSync('public/sitemap.xml', sitemap.trim(), 'utf8'); // Кладем sitemap тоже в public
+    fs.writeFileSync('sitemap.xml', sitemap.trim(), 'utf8'); // Сохраняем sitemap.xml в корень
+    console.log(`✅ Файл sitemap.xml успешно создан в корне проекта!`);
     console.log(`🎉 ГОТОВО! Сгенерировано страниц: ${newsData.length}.`);
-    console.log(`💡 Теперь загрузи содержимое папки 'public' на GitHub Pages.`);
+    console.log(`💡 Теперь загрузи все сгенерированные файлы (HTML и sitemap.xml) в корень твоего репозитория на GitHub Pages.`);
 
 } catch (error) {
     console.error('💥 Ошибка:', error.message);
     process.exit(1);
-                     }
+}
