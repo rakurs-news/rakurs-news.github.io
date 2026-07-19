@@ -4,11 +4,11 @@ const path = require('path');
 // НАСТРОЙКИ
 // ВАЖНО: Твой точный URL на GitHub Pages!
 // Если сайт доступен по https://rakurs-news.github.io/rakurs-news/
-const DOMAIN = 'https://rakurs-news.github.io/rakurs-news'; 
+const DOMAIN = 'https://rakurs-news.github.io/rakurs-news';
 // Если сайт доступен по https://rakurs-news.github.io/ (например, если это главный репозиторий пользователя)
-// const DOMAIN = 'https://rakurs-news.github.io/'; 
+// const DOMAIN = 'https://rakurs-news.github.io/';
 
-// УДАЛЕНО: const OUTPUT_DIR = './public'; // Эта папка больше не нужна
+// УДАЛЕНО: const OUTPUT_DIR = './public'; // Эта папка больше не нужна, файлы генерируются в корень
 
 function escapeXml(unsafe) {
     if (!unsafe) return '';
@@ -107,10 +107,6 @@ try {
     console.log(`✅ Загружено новостей: ${newsData.length}`);
 
     // УДАЛЕНО: Проверка и создание папки OUTPUT_DIR
-    // if (!fs.existsSync(OUTPUT_DIR)) {
-    //     fs.mkdirSync(OUTPUT_DIR);
-    //     console.log(`📂 Папка "${OUTPUT_DIR}" создана.`);
-    // }
 
     let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -122,16 +118,13 @@ try {
 `;
 
     newsData.forEach((news) => {
-        // ВАЖНО: Используем ID из JSON как имя файла. 
-        // Это гарантирует, что ссылка /id.html совпадет с файлом id.html
-        const fileName = `${news.id}.html`; 
+        // ВАЖНО: Используем ID из JSON как имя файла.
+        const fileName = `${news.id}.html`;
         // УДАЛЕНО: const filePath = path.join(OUTPUT_DIR, fileName);
         const filePath = fileName; // Сохраняем прямо в корень
 
         // Ссылка для карты сайта. Должна совпадать с тем, куда ведет ссылка в index.html
-        // Если твой index.html ведет на /news/id.html, то тут должно быть `${DOMAIN}/news/${fileName}`
-        // Судя по твоему коду index.html: href="/${item.id}.html", значит ссылка должна быть в корне.
-        const pageUrl = `${DOMAIN}/${fileName}`; 
+        const pageUrl = `${DOMAIN}/${fileName}`;
 
         let isoDate = new Date().toISOString().split('T')[0];
         if (news.date && typeof news.date === 'string' && news.date.includes('.')) {
@@ -140,8 +133,8 @@ try {
         }
 
         const shortDesc = (news.description || '').substring(0, 160);
-        const imageBlock = news.image 
-            ? `<img src="${escapeXml(news.image)}" alt="${escapeXml(news.title)}" class="article-img" loading="lazy">` 
+        const imageBlock = news.image
+            ? `<img src="${escapeXml(news.image)}" alt="${escapeXml(news.title)}" class="article-img" loading="lazy">`
             : '';
 
         const articleContent = news.content || '<p>Текст новости отсутствует.</p>';
@@ -153,6 +146,15 @@ try {
             .replace(/%DATE%/g, escapeXml(news.date || ''))
             .replace(/%IMAGE_BLOCK%/g, imageBlock)
             .replace(/%CONTENT%/g, articleContent);
+
+        // --- ДОБАВЬ ЭТИ СТРОКИ ДЛЯ ОТЛАДКИ ---
+        console.log(`--- DEBUG INFO FOR NEWS ---`);
+        console.log(`ID: ${news.id}`);
+        console.log(`Title: ${news.title}`);
+        console.log(`Generated fileName: ${fileName}`);
+        console.log(`HTML Content length: ${htmlContent.length}`);
+        console.log(`---------------------------`);
+        // --- КОНЕЦ ДОБАВЛЕННЫХ СТРОК ---
 
         // УДАЛЕНО: fs.writeFileSync(filePath, htmlContent, 'utf8'); // Теперь filePath это просто fileName
         fs.writeFileSync(fileName, htmlContent, 'utf8'); // Сохраняем в корень
@@ -177,4 +179,4 @@ try {
 } catch (error) {
     console.error('💥 Ошибка:', error.message);
     process.exit(1);
-}
+                  }
