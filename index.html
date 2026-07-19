@@ -1,349 +1,115 @@
- 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>РАКУРС NEWS</title>
-<meta name="description" content="Ракурс NEWS: Ироничные, язвительные и экспертные анализы настоящих новостей. Смотрим на события под острым углом, без цензуры и политкорректности. Ваш источник правды с долей сарказма." />
-<link rel="icon" href="путь/к/вашему/логотипу.png" type="image/png" sizes="32x32">
-<!-- Шрифт для современного стиля -->
+<link rel="icon" href="/images/IMG_20260715_111250.png" type="image/png" sizes="32x32">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet" />
-<!-- Иконки (Font Awesome) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-  /* Общие стили */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f9f9f9;
-    color: #222;
-    line-height: 1.6;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  a {
-    text-decoration: none;
-    color: inherit;
-  }
-  button {
-    cursor: pointer;
-  }
-  img {
-    max-width: 100%;
-    display: block;
+  :root {
+    --bg-color: #f9f9f9;
+    --text-color: #222;
+    --header-bg: #222;
+    --card-bg: #fff;
+    --meta-color: #555;
+    --btn-primary-bg: #007bff;
+    --btn-primary-hover: #0056b3;
+    --search-bg: #fff;
+    --search-border: #ccc;
+    --suggestion-bg: #fff;
+    --suggestion-text: #333;
+    --modal-overlay: rgba(0,0,0,0.8);
+    --section-text: #fff;
   }
 
-  /* Светлая и тёмная тема */
   body.dark-mode {
-    background-color: #222;
-    color: #f9f9f9;
-  }
-  body.dark-mode header {
-    background-color: #111;
-  }
-  body.dark-mode .news-card {
-    background: #333;
-  }
-  body.dark-mode .news-title,
-  body.dark-mode .news-meta {
-    color: #f9f9f9;
-  }
-  body.dark-mode #searchInput,
-  body.dark-mode .autocomplete-suggestions div {
-    background-color: #444;
-    color: #f9f9f9;
-    border-color: #666;
-  }
-  body.dark-mode #newsModal {
-    background: rgba(0,0,0,0.8);
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --header-bg: #111;
+    --card-bg: #2d2d2d;
+    --meta-color: #aaa;
+    --btn-primary-bg: #4da6ff;
+    --btn-primary-hover: #3385ff;
+    --search-bg: #333;
+    --search-border: #555;
+    --suggestion-bg: #333;
+    --suggestion-text: #e0e0e0;
+    --modal-overlay: rgba(0,0,0,0.95);
+    --section-text: #000;
   }
 
-  /* Шапка */
-  header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 60px;
-    background-color: #222;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    z-index: 1000;
-    transition: background-color 0.3s;
-  }
-  .header-left {
-    display: flex;
-    align-items: center;
-  }
-  .site-title {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-    font-size: 1.5em;
-    color: #fff;
-    margin-right: 20px;
-  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: background-color 0.3s, color 0.3s; }
+  a { text-decoration: none; color: inherit; }
+  button { cursor: pointer; border: none; outline: none; }
+  img { max-width: 100%; display: block; }
 
-  /* Поиск и кнопка темы */
-  .header-right {
-    display: flex;
-    align-items: center;
-  }
-  .search-container {
-    position: relative;
-    max-width: 250px;
-    width: 100%;
-    margin-right: 15px; /* Отступ справа от строки поиска */
-  }
-  #searchInput {
-    padding: 8px 12px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1em;
-    width: 100%;
-  }
+  header { position: fixed; top: 0; width: 100%; height: 60px; background-color: var(--header-bg); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; z-index: 1000; }
+  .header-left { display: flex; align-items: center; }
+  .site-title { font-weight: 700; font-size: 1.5em; color: #fff; margin-right: 20px; }
+  
+  .header-right { display: flex; align-items: center; }
+  .search-container { position: relative; max-width: 250px; width: 100%; margin-right: 15px; }
+  #searchInput { padding: 8px 12px; border-radius: 20px; border: 1px solid var(--search-border); background-color: var(--search-bg); color: var(--text-color); width: 100%; }
 
-  /* Кнопка смены темы */
-  #themeToggleBtn {
-    background: none;
-    border: 2px solid #fff; /* Контур */
-    padding: 6px 10px; /* Размер кнопки */
-    border-radius: 50%; /* Круглая кнопка */
-    color: #fff; /* Цвет иконки */
-    font-size: 1.2em; /* Размер иконки */
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px; /* Фиксированная ширина */
-    height: 40px; /* Фиксированная высота */
-  }
-  body.dark-mode #themeToggleBtn {
-    border-color: #f9f9f9;
-    color: #f9f9f9;
-  }
+  #themeToggleBtn { background: none; border: 2px solid #fff; padding: 6px 10px; border-radius: 50%; color: #fff; font-size: 1.2em; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; transition: border-color 0.3s, color 0.3s; }
+  body.dark-mode #themeToggleBtn { border-color: #e0e0e0; color: #e0e0e0; }
+  
+  .autocomplete-suggestions { position: absolute; top: 100%; left: 0; right: 0; background-color: var(--suggestion-bg); border: 1px solid var(--search-border); border-top: none; border-radius: 0 0 8px 8px; max-height: 200px; overflow-y: auto; z-index: 1001; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .autocomplete-suggestions div { padding: 10px 15px; color: var(--suggestion-text); cursor: pointer; transition: background 0.3s; }
+  .autocomplete-suggestions div:hover { background-color: rgba(255,255,255,0.1); }
 
-  /* Подсказки поиска */
-  .autocomplete-suggestions {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-top: none;
-    border-radius: 0 0 8px 8px;
-    max-height: 200px;
-    overflow-y: auto;
-    z-index: 1001;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-  .autocomplete-suggestions div {
-    padding: 10px 15px;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  .autocomplete-suggestions div:hover {
-    background-color: #f0f0f0;
-  }
-  body.dark-mode .autocomplete-suggestions div:hover {
-    background-color: #555;
-  }
+  .content { padding-top: 80px; padding-bottom: 70px; max-width: 1200px; margin: 0 auto; }
 
-  /* Основной контент */
-  .content {
-    padding-top: 80px; /* отступ для шапки */
-    padding-bottom: 70px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+  #category-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; justify-content: center; }
+  .category-btn { padding: 10px 20px; background-color: var(--btn-primary-bg); color: #fff; border-radius: 8px; font-weight: 600; transition: background 0.3s, transform 0.2s; }
+  .category-btn:hover, .category-btn.active { background-color: var(--btn-primary-hover); transform: translateY(-1px); }
 
-  /* Разделы с кнопками категорий */
-  #category-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 20px;
-    justify-content: center;
-  }
-  .category-btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 8px;
-    border: none;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
-  }
-  .category-btn:hover,
-  .category-btn.active {
-    background-color: #0056b3;
-  }
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .news-card { background: var(--card-bg); border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; cursor: pointer; display: flex; flex-direction: column; transition: transform 0.3s, box-shadow 0.3s; }
+  .news-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+  .news-image { height: 180px; object-fit: cover; width: 100%; }
+  .news-info { padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+  .news-title { font-size: 1.2em; font-weight: 700; color: var(--text-color); }
+  .news-meta { display: flex; justify-content: space-between; font-size: 0.85em; color: var(--meta-color); }
+  .news-section { padding: 4px 10px; border-radius: 4px; font-size: 0.75em; font-weight: 600; color: var(--section-text); }
 
-  /* Новости - сетка карточек */
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
-  }
+  .section-color-all { background-color: #6c757d; }
+  .section-color-svo { background-color: #dc3545; }
+  .section-color-society { background-color: #28a745; }
+  .section-color-regions { background-color: #ffc107; color: #000; }
+  .section-color-state { background-color: #17a2b8; }
+  .section-color-crime { background-color: #6f42c1; }
+  .section-color-politics { background-color: #007bff; }
+  .section-color-geopolitics { background-color: #fd7e14; }
+  .section-color-corruption { background-color: #e83e8c; }
+  .section-color-showbiz { background-color: #6610f2; }
+  .section-color-culture { background-color: #20c997; }
+  .section-color-sport { background-color: #ffc107; color: #000; }
+  .section-color-style { background-color: #343a40; }
 
-  .news-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    overflow: hidden;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .news-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-  }
-  .news-image {
-    height: 180px;
-    object-fit: cover;
-  }
-  .news-info {
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  .news-title {
-    font-size: 1.2em;
-    font-weight: 700;
-    color: #222;
-  }
-  .news-meta {
-    display: flex;
-    justify-content: space-between;
-    font-size: 0.85em;
-    color: #555;
-  }
-  .news-section {
-    padding: 4px 10px; /* Увеличим padding для плашки */
-    border-radius: 4px;
-    font-size: 0.75em;
-    font-weight: 600;
-    color: #fff; /* Текст внутри плашки белый */
-  }
+  #loadMore { display: block; width: 200px; margin: 30px auto; padding: 12px; background-color: var(--btn-primary-bg); color: #fff; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; transition: background 0.3s; }
+  #loadMore:hover { background-color: var(--btn-primary-hover); }
 
-  /* Цвета для разделов */
-  .section-color-all { background-color: #6c757d; } /* Серый */
-  .section-color-svo { background-color: #dc3545; } /* Красный */
-  .section-color-society { background-color: #28a745; } /* Зеленый */
-  .section-color-regions { background-color: #ffc107; } /* Желтый */
-  .section-color-state { background-color: #17a2b8; } /* Синий */
-  .section-color-crime { background-color: #6f42c1; } /* Фиолетовый */
-  .section-color-politics { background-color: #007bff; } /* Голубой */
-  .section-color-geopolitics { background-color: #fd7e14; } /* Оранжевый */
-  .section-color-corruption { background-color: #e83e8c; } /* Розовый */
-  .section-color-showbiz { background-color: #6610f2; } /* Индиго */
-  .section-color-culture { background-color: #20c997; } /* Бирюзовый */
-  .section-color-sport { background-color: #ffc107; } /* Желтый (можно выбрать другой, если нужно) */
-  .section-color-style { background-color: #343a40; } /* Темно-серый */
+  #newsModal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: var(--modal-overlay); justify-content: center; align-items: center; padding: 30px; z-index: 2000; }
+  #newsModal.active { display: flex; }
+  #newsContent { background: #fff; border-radius: 8px; max-width: 900px; width: 100%; max-height: 90%; overflow-y: auto; padding: 30px; position: relative; }
+  body.dark-mode #newsContent { background: #2d2d2d; color: #e0e0e0; }
+  body.dark-mode #newsContent h2 { color: #e0e0e0; }
+  body.dark-mode #newsContent p { color: #ccc; }
+  #newsContent h2 { margin-bottom: 20px; font-size: 1.8em; color: #222; }
+  #newsContent p { margin-bottom: 15px; }
+  #newsContent button.close-btn { position: absolute; top: 15px; right: 20px; background: none; border: none; font-size: 1.8em; cursor: pointer; color: #555; transition: color 0.3s; }
+  body.dark-mode #newsContent button.close-btn { color: #aaa; }
+  body.dark-mode #newsContent button.close-btn:hover { color: #fff; }
 
-
-  /* Кнопка "Еще новости" */
-  #loadMore {
-    display: block;
-    width: 200px;
-    margin: 30px auto;
-    padding: 12px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 8px;
-    border: none;
-    font-size: 1em;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s;
-  }
-  #loadMore:hover {
-    background-color: #0056b3;
-  }
-
-  /* Модальное окно для новости */
-  #newsModal {
-    display: none;
-    position: fixed;
-    top:0; left:0;
-    width:100%; height:100%;
-    background: rgba(0,0,0,0.8);
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
-    z-index: 2000;
-  }
-  #newsModal.active {
-    display: flex;
-  }
-  #newsContent {
-    background: #fff;
-    border-radius: 8px;
-    max-width: 900px;
-    width: 100%;
-    max-height: 90%;
-    overflow-y: auto;
-    padding: 30px;
-    position: relative;
-  }
-  #newsContent h2 {
-    margin-bottom: 20px;
-    font-size: 1.8em;
-    color: #222;
-  }
-  #newsContent p {
-    margin-bottom: 15px;
-  }
-  #newsContent button.close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 1.8em;
-    cursor: pointer;
-    color: #555;
-    transition: color 0.3s;
-  }
-  #newsContent button.close-btn:hover {
-    color: #000;
-  }
-
-  /* Адаптивность */
-  @media(max-width: 768px){
-    header {
-      justify-content: space-between;
-    }
-    .site-title {
-      font-size: 1.2em;
-    }
-    .search-container {
-      max-width: 180px;
-    }
-    .header-right {
-      flex-grow: 1;
-      justify-content: flex-end;
-    }
-    #themeToggleBtn {
-      margin-left: 10px;
-    }
-  }
+  @media(max-width: 768px){ .search-container{ max-width: 180px; } }
 </style>
 </head>
 <body>
 
-<!-- Верхняя шапка -->
 <header>
   <div class="header-left">
     <span class="site-title">Ракурс NEWS</span>
@@ -354,57 +120,54 @@
       <div class="autocomplete-suggestions" id="searchSuggestions"></div>
     </div>
     <button id="themeToggleBtn" aria-label="Сменить тему">
-      <i class="fas fa-sun"></i> <!-- Иконка солнца по умолчанию -->
+      <i class="fas fa-sun"></i>
     </button>
   </div>
 </header>
 
-<!-- Основной контент -->
 <main class="content" id="all-news">
-  <!-- Раздел с кнопками категорий -->
   <section id="category-section">
     <div id="category-buttons">
-      <button class="category-btn active" data-category="all" onclick="setCategory('all')">Все новости</button>
-      <button class="category-btn" data-category="svo" onclick="setCategory('svo')">СВО</button>
-      <button class="category-btn" data-category="society" onclick="setCategory('society')">Общество</button>
-      <button class="category-btn" data-category="regions" onclick="setCategory('regions')">Регионы</button>
-      <button class="category-btn" data-category="state" onclick="setCategory('state')">Государство</button>
-      <button class="category-btn" data-category="crime" onclick="setCategory('crime')">Криминал</button>
-      <button class="category-btn" data-category="politics" onclick="setCategory('politics')">Политика</button>
-      <button class="category-btn" data-category="geopolitics" onclick="setCategory('geopolitics')">Геополитика</button>
-      <button class="category-btn" data-category="corruption" onclick="setCategory('corruption')">Коррупция</button>
-      <button class="category-btn" data-category="showbiz" onclick="setCategory('showbiz')">Шоу-бизнес</button>
-      <button class="category-btn" data-category="culture" onclick="setCategory('culture')">Культура</button>
-      <button class="category-btn" data-category="sport" onclick="setCategory('sport')">Спорт</button>
-      <button class="category-btn" data-category="style" onclick="setCategory('style')">Стиль</button>
+      <button class="category-btn active" onclick="setCategory('all')">Все новости</button>
+      <button class="category-btn" onclick="setCategory('сво')">СВО</button>
+      <button class="category-btn" onclick="setCategory('общество')">Общество</button>
+      <button class="category-btn" onclick="setCategory('регионы')">Регионы</button>
+      <button class="category-btn" onclick="setCategory('государство')">Государство</button>
+      <button class="category-btn" onclick="setCategory('криминал')">Криминал</button>
+      <button class="category-btn" onclick="setCategory('политика')">Политика</button>
+      <button class="category-btn" onclick="setCategory('геополитика')">Геополитика</button>
+      <button class="category-btn" onclick="setCategory('коррупция')">Коррупция</button>
+      <button class="category-btn" onclick="setCategory('шоу-бизнес')">Шоу-бизнес</button>
+      <button class="category-btn" onclick="setCategory('культура')">Культура</button>
+      <button class="category-btn" onclick="setCategory('спорт')">Спорт</button>
+      <button class="category-btn" onclick="setCategory('стиль')">Стиль</button>
     </div>
   </section>
 
-  <!-- Новости и кнопка "Еще" -->
   <section id="news-section">
     <div class="news-grid" id="newsGrid"></div>
     <button id="loadMore">Еще новости</button>
   </section>
 </main>
 
-<!-- Футер -->
-<footer style="margin-top:20px; padding:20px; background:#222; color:#fff; text-align:center;">
-  <div style="margin-bottom:10px;">
-    <a href="#" target="_blank" style="margin:0 10px;">
-      <img src="https://via.placeholder.com/40x40?text=TG" alt="Telegram" style="width:40px; height:40px; border-radius:50%;">
+<footer style="margin-top: 20px; padding: 20px; background: #222; color: #fff; text-align: center;">
+  <div style="margin-bottom: 10px;">
+    <!-- Telegram -->
+    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" rel="noopener noreferrer" style="margin: 0 5px;">
+      <img src="/images/Telegram.png" alt="Telegram" style="width: 40px; height: 40px; border-radius: 50%; transition: transform 0.2s;">
     </a>
-    <a href="#" target="_blank" style="margin:0 10px;">
-      <img src="https://via.placeholder.com/40x40?text=VK" alt="Vkontakte" style="width:40px; height:40px; border-radius:50%;">
+    
+    <!-- ВКонтакте -->
+    <a href="https://vk.ru/rakurs_news" target="_blank" rel="noopener noreferrer" style="margin: 0 5px;">
+      <img src="/images/VK.png" alt="Vkontakte" style="width: 40px; height: 40px; border-radius: 50%; transition: transform 0.2s;">
     </a>
   </div>
   <div>2026 © РАКУРС NEWS</div>
 </footer>
 
-<!-- Модальное окно для новости -->
 <div id="newsModal">
   <div id="newsContent">
     <button class="close-btn">&times;</button>
-    <!-- содержимое новости вставляется через скрипт -->
   </div>
 </div>
 
@@ -417,36 +180,30 @@ const loadMoreBtn = document.getElementById('loadMore');
 const modal = document.getElementById('newsModal');
 const modalContent = document.getElementById('newsContent');
 const body = document.body;
+const searchContainer = document.querySelector('.search-container');
 
 let allNews = [];
 let currentCategory = 'all';
-let displayedNews = []; // Новости, которые сейчас отображаются на странице
-let allFilteredNews = []; // Все отфильтрованные новости (для кнопки "Еще")
-let searchTimeout;
+let displayedNews = []; 
+let allFilteredNews = []; 
 
-// --- Функции ---
-
-// Получение класса для цвета плашки раздела
 function getCategoryColorClass(cat) {
-  switch (cat.toLowerCase()) {
-    case 'все новости': return 'section-color-all';
-    case 'сво': return 'section-color-svo';
-    case 'общество': return 'section-color-society';
-    case 'регионы': return 'section-color-regions';
-    case 'государство': return 'section-color-state';
-    case 'криминал': return 'section-color-crime';
-    case 'политика': return 'section-color-politics';
-    case 'геополитика': return 'section-color-geopolitics';
-    case 'коррупция': return 'section-color-corruption';
-    case 'шоу-бизнес': return 'section-color-showbiz';
-    case 'культура': return 'section-color-culture';
-    case 'спорт': return 'section-color-sport';
-    case 'стиль': return 'section-color-style';
-    default: return 'section-color-all'; // Цвет по умолчанию
-  }
+  const c = (cat || '').toLowerCase();
+  if (c.includes('сво')) return 'section-color-svo';
+  if (c.includes('общество')) return 'section-color-society';
+  if (c.includes('регионы')) return 'section-color-regions';
+  if (c.includes('государство')) return 'section-color-state';
+  if (c.includes('криминал')) return 'section-color-crime';
+  if (c.includes('политика')) return 'section-color-politics';
+  if (c.includes('геополитика')) return 'section-color-geopolitics';
+  if (c.includes('коррупция')) return 'section-color-corruption';
+  if (c.includes('шоу-бизнес') || c.includes('showbiz')) return 'section-color-showbiz';
+  if (c.includes('культура')) return 'section-color-culture';
+  if (c.includes('спорт')) return 'section-color-sport';
+  if (c.includes('стиль')) return 'section-color-style';
+  return 'section-color-all';
 }
 
-// Обновление иконки темы
 function updateThemeIcon() {
   const themeIcon = themeToggleBtn.querySelector('i');
   if (body.classList.contains('dark-mode')) {
@@ -458,76 +215,72 @@ function updateThemeIcon() {
   }
 }
 
-// Переключение темы
 themeToggleBtn.addEventListener('click', () => {
   body.classList.toggle('dark-mode');
   updateThemeIcon();
 });
 
-// Загрузка новостей из JSON
 async function fetchNews() {
   try {
     const response = await fetch('news.json');
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    if (!response.ok) throw new Error('Файл news.json не найден');
     allNews = await response.json();
-    // Сортируем новости по дате (предполагаем, что дата в формате YYYY-MM-DD)
     allNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-    filterNews(); // Первичная фильтрация и рендеринг
+    filterNews();
   } catch (error) {
-    console.error('Ошибка при загрузке новостей:', error);
-    newsGrid.innerHTML = '<p>Не удалось загрузить новости. Пожалуйста, проверьте файл news.json.</p>';
+    console.error('Ошибка:', error);
+    newsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Ошибка загрузки новостей. Проверьте консоль (F12).</p>';
   }
 }
 
-// Фильтрация новостей по категории и поиск
-function filterNews(applySearch = false) {
+function filterNews() {
   let tempFilteredNews = [...allNews];
 
   if (currentCategory !== 'all') {
-    // Используем category из JSON, а не текст кнопки
-    tempFilteredNews = tempFilteredNews.filter(n => n.category.toLowerCase() === currentCategory);
+    tempFilteredNews = tempFilteredNews.filter(n => {
+      const itemCat = (n.category || '').toLowerCase().trim();
+      return itemCat.includes(currentCategory);
+    });
   }
 
   const searchTerm = searchInput.value.toLowerCase();
-  if (applySearch && searchTerm.length >= 3) {
-    tempFilteredNews = tempFilteredNews.filter(n =>
+  if (searchTerm.length >= 3) {
+    tempFilteredNews = tempFilteredNews.filter(n => 
       n.title.toLowerCase().includes(searchTerm)
     );
-  } else if (!applySearch) {
-      if (searchTerm.length >= 3) {
-        tempFilteredNews = tempFilteredNews.filter(n =>
-          n.title.toLowerCase().includes(searchTerm)
-        );
-      } else {
-          // Если поиск не применяется или слишком короткий, фильтруем только по категории
-          tempFilteredNews = (currentCategory === 'all') ? [...allNews] : allNews.filter(n => n.category.toLowerCase() === currentCategory);
-      }
   }
 
   allFilteredNews = tempFilteredNews;
-  displayedNews = []; // Сбрасываем отображенные новости
-  newsGrid.innerHTML = ''; // Очищаем сетку
+  displayedNews = [];
+  newsGrid.innerHTML = '';
   loadMoreBtn.style.display = 'block';
-  renderNews(); // Отображаем отфильтрованные новости
+  renderNews();
 }
 
-// Отображение новостей
 function renderNews() {
-  const newsToShow = allFilteredNews.slice(displayedNews.length, displayedNews.length + 10);
+  const startIndex = displayedNews.length;
+  const endIndex = startIndex + 10;
+  const newsToShow = allFilteredNews.slice(startIndex, endIndex);
+
+  if (newsToShow.length === 0) {
+    loadMoreBtn.style.display = 'none';
+    return;
+  }
+
   newsToShow.forEach(n => {
     const card = document.createElement('div');
     card.className = 'news-card';
+    const catClass = getCategoryColorClass(n.category);
+    
     card.innerHTML = `
       <img src="${n.image}" alt="${n.title}" class="news-image" />
       <div class="news-info">
         <div class="news-title">${n.title}</div>
         <div class="news-meta">
-          <div class="news-section ${getCategoryColorClass(n.category)}">${n.category}</div>
+          <div class="news-section ${catClass}">${n.category}</div>
           <div>${n.date} ${n.time}</div>
         </div>
-        <p>${n.description}</p> <!-- Отображаем краткое описание -->
+        <p>${n.description || ''}</p>
       </div>
     `;
     card.addEventListener('click', () => showNewsDetail(n));
@@ -537,94 +290,102 @@ function renderNews() {
 
   if (displayedNews.length >= allFilteredNews.length) {
     loadMoreBtn.style.display = 'none';
+  } else {
+    loadMoreBtn.style.display = 'block';
   }
 }
 
-// Установка категории
 function setCategory(cat) {
-  currentCategory = cat; // Устанавливаем текущую категорию (например, 'svo', 'society')
-  // Обновляем активную кнопку
+  currentCategory = cat;
   document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.category === cat);
+    const btnText = btn.innerText.toLowerCase();
+    if (cat === 'all') {
+      btn.classList.toggle('active', btnText.includes('все'));
+    } else {
+      btn.classList.toggle('active', btnText.includes(cat));
+    }
   });
-  filterNews(); // Перефильтровываем и отображаем новости
+  filterNews();
 }
 
-// Поиск и отображение подсказок
 searchInput.addEventListener('input', () => {
-  const searchTerm = searchInput.value.toLowerCase();
   searchSuggestions.innerHTML = '';
   searchSuggestions.style.display = 'none';
 
-  if (searchTerm.length >= 3) {
-    // Ищем только по заголовкам
-    const matchingNews = allNews.filter(n => n.title.toLowerCase().includes(searchTerm));
+  const searchTerm = searchInput.value.toLowerCase();
+  if (searchTerm.length >= 3 && allNews.length > 0) {
+    const matchingNews = allNews.filter(n => n.title.toLowerCase().includes(searchTerm)).slice(0, 5);
     if (matchingNews.length > 0) {
-      matchingNews.slice(0, 5).forEach(n => {
+      matchingNews.forEach(n => {
         const suggestion = document.createElement('div');
         suggestion.textContent = n.title;
-        suggestion.dataset.id = n.id;
+        suggestion.style.padding = '10px';
+        suggestion.style.cursor = 'pointer';
+        suggestion.style.borderBottom = '1px solid rgba(255,255,255,0.1)';
+        
         suggestion.addEventListener('click', () => {
-          showNewsDetail(n); // Открываем новость в модальном окне
-          currentCategory = n.category.toLowerCase(); // Устанавливаем категорию найденной новости
-          // Обновляем список всех отфильтрованных новостей, ставя найденную первой
-          allFilteredNews = [n, ...allNews.filter(item => item.category.toLowerCase() === currentCategory && item.id !== n.id)];
-          displayedNews = []; // Сбрасываем отображенные новости
-          newsGrid.innerHTML = ''; // Очищаем сетку
-          renderNews(); // Отображаем найденную новость и следующие
-          searchInput.value = ''; // Очищаем поле поиска
-          searchSuggestions.style.display = 'none'; // Скрываем подсказки
-          // Обновляем активную кнопку категории
-          document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.category === currentCategory);
+          currentCategory = (n.category || '').toLowerCase();
+          document.querySelectorAll('.category-btn').forEach(b => {
+            const bText = b.innerText.toLowerCase();
+            if (currentCategory === 'all' || currentCategory === '') {
+              b.classList.toggle('active', bText.includes('все'));
+            } else {
+              b.classList.toggle('active', bText.includes(currentCategory));
+            }
           });
+          
+          allFilteredNews = [n, ...allNews.filter(item => {
+            return (item.category || '').toLowerCase().includes(currentCategory) && item.id !== n.id;
+          })];
+          
+          displayedNews = [];
+          newsGrid.innerHTML = '';
+          renderNews();
+          
+          searchInput.value = '';
+          searchSuggestions.style.display = 'none';
         });
+        
         searchSuggestions.appendChild(suggestion);
       });
       searchSuggestions.style.display = 'block';
     }
-  } else {
-      // Если ввод меньше 3 букв, просто фильтруем по текущей категории
-      filterNews();
+  } else if (searchTerm.length < 3) {
+    filterNews();
   }
 });
 
-// Закрытие подсказок при клике вне поля поиска
 document.addEventListener('click', (e) => {
-  if (!searchContainer.contains(e.target)) {
+  if (searchContainer && !searchContainer.contains(e.target)) {
     searchSuggestions.style.display = 'none';
   }
 });
-const searchContainer = document.querySelector('.search-container');
 
-// Загрузка следующих новостей
 loadMoreBtn.addEventListener('click', renderNews);
 
-// Отображение полной новости в модальном окне
 function showNewsDetail(news) {
   modalContent.innerHTML = `
     <button class="close-btn">&times;</button>
     <h2>${news.title}</h2>
-    <img src="${news.image}" alt="${news.title}">
-    <p>${news.content}</p>
-    <p style="margin-top:16px; font-size:0.9em; color:#555;">${news.date} ${news.time} | <span class="news-section ${getCategoryColorClass(news.category)}">${news.category}</span></p>
+    <img src="${news.image}" alt="${news.title}" style="width:100%; border-radius:8px; margin-bottom:15px;">
+    <p>${news.content || news.description}</p>
+    <p style="margin-top:16px; font-size:0.9em; color:var(--meta-color);">
+      ${news.date} ${news.time} | 
+      <span class="news-section ${getCategoryColorClass(news.category)}">${news.category}</span>
+    </p>
   `;
   modal.classList.add('active');
   modalContent.querySelector('.close-btn').onclick = () => modal.classList.remove('active');
 }
 
-// Закрытие модального окна при клике вне его
 modal.onclick = (e) => {
   if (e.target === modal) {
     modal.classList.remove('active');
   }
 };
 
-// --- Инициализация ---
-fetchNews(); // Загружаем новости при старте
-updateThemeIcon(); // Устанавливаем правильную иконку темы при загрузке
-
+fetchNews();
+updateThemeIcon();
 </script>
 </body>
 </html>
- 
