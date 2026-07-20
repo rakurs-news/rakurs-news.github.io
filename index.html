@@ -379,7 +379,7 @@
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 ${newsItem.image ? `<div class="modal-img-wrapper"><img src="${newsItem.image}" alt="${newsItem.title}" class="modal-image"></div>` : ''}
-                <p>${newsItem.content || newsItem.description || ''}</p>
+                ${(newsItem.content || newsItem.description || '').replace(/\n/g, '</p><p>')}
                 <button class="share-button" onclick="shareNews()">Поделиться ссылкой</button>
             `;
             modal.classList.add('active');
