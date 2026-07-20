@@ -365,14 +365,19 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         });
     }
     window.addEventListener('scroll', () => {
-        const btn = document.getElementById('scrollToTop');
-        if (window.scrollY > 300) {
-            btn.style.display = 'flex';
-            btn.style.opacity = '0.7';
-        } else {
-            btn.style.display = 'none';
-        }
-    });
+    const btn = document.getElementById('scrollToTop');
+    if (!btn) return;
+
+    if (window.scrollY > 300) {
+        btn.style.display = 'flex';
+        btn.style.opacity = '0.7';
+        // Гарантируем позицию, если CSS вдруг не применился
+        btn.style.bottom = '150px'; 
+        btn.style.right = '20px';
+    } else {
+        btn.style.display = 'none';
+    }
+});
     (function() {
         const text = "Ракурс NEWS |";
         const container = document.querySelector('.logo-wrapper span');
