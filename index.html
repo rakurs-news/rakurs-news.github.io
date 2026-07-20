@@ -87,6 +87,15 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         transform: translateY(0);
     }
 }
+.card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+/* Возвращаем эффект наведения, который был раньше */
+.card-link:hover .card {
+    transform: translateY(-5px);
+}
 </style>
 </head>
 <body>
@@ -226,12 +235,16 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         }
     }
     function renderNews(data, query = '') {
-        const container = document.getElementById('news-container');
-        container.innerHTML = '';
-        if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
-            const featuredNews = data.find(item => item.id === featuredNewsId);
-            if (featuredNews) {
-                const featuredHTML = `
+    const container = document.getElementById('news-container');
+    container.innerHTML = '';
+
+    // 1. Рендер главной новости (Featured)
+    if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
+        const featuredNews = data.find(item => item.id === featuredNewsId);
+        if (featuredNews) {
+            // ВАЖНО: Добавляем <a href> вокруг всей карточки главной новости
+            const featuredHTML = `
+                <a href="/${featuredNews.id}.html" class="card-link" style="text-decoration: none; color: inherit; display: block;">
                     <div class="card" style="width: 100%;">
                         <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy">
                         <div class="meta-container">
@@ -241,27 +254,36 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
                         <h3>${featuredNews.title}</h3>
                         <div class="desc">${featuredNews.description || ''}</div>
                     </div>
-                `;
-                document.getElementById('main-news').innerHTML = featuredHTML;
-                document.getElementById('main-news').style.display = 'block';
-            }
-        } else {
-            document.getElementById('main-news').style.display = 'none';
+                </a>
+            `;
+            document.getElementById('main-news').innerHTML = featuredHTML;
+            document.getElementById('main-news').style.display = 'block';
         }
-        const filteredNews = data.filter(item => item.id !== featuredNewsId);
-        container.innerHTML += filteredNews.map(item => {
-            let title = query ? item.title.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : item.title;
-            return `<div class="card" onclick="openModal('${item.id}')">
-                        <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy">
-                        <div class="meta-container">
-                            <span class="meta-date">${item.category} • ${item.date}</span>
-                            <span class="meta-author">${item.author || ''}</span>
-                        </div>
-                        <h3>${title}</h3>
-                        <div class="desc">${item.description || ''}</div>
-                    </div>`;
-        }).join('');
+    } else {
+        document.getElementById('main-news').style.display = 'none';
     }
+
+    // 2. Рендер остальных новостей
+    const filteredNews = data.filter(item => item.id !== featuredNewsId);
+    
+    container.innerHTML += filteredNews.map(item => {
+        let title = query ? item.title.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : item.title;
+        
+        // ВАЖНО: Здесь мы оборачиваем .card в тег <a> с href
+        return `
+            <a href="/${item.id}.html" class="card-link" style="text-decoration: none; color: inherit; display: block;">
+                <div class="card">
+                    <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy">
+                    <div class="meta-container">
+                        <span class="meta-date">${item.category} • ${item.date}</span>
+                        <span class="meta-author">${item.author || ''}</span>
+                    </div>
+                    <h3>${title}</h3>
+                    <div class="desc">${item.description || ''}</div>
+                </div>
+            </a>`;
+    }).join('');
+}
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('search-results');
     let searchTimeout;
