@@ -73,6 +73,29 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         transform: translateY(0);
     }
 }
+/* Контейнер для картинки должен быть "родителем" для абсолютного бейджа */
+.card-image-wrapper {
+    position: relative;
+    display: block;
+}
+
+/* Сам бейдж */
+.hot-badge {
+    background-color: var(--accent);       /* Ярко-красный */
+    color: white;                   /* Белый текст */
+    padding: 6px 12px;              /* Чуть больше отступы */
+    font-size: 11px;
+    font-weight: bold;
+    border-radius: 0 4px 4px 0;     /* Скос слева, чтобы красиво прилегал к углу */
+    position: absolute;             /* ВАЖНО: вырываем из потока */
+    top: 10px;                      /* Отступ сверху */
+    left: 0;                         /* Прижимаем к левому краю */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3); /* Лёгкая тень для объёма */
+    z-index: 10;                     /* Чтобы был поверх картинки */
+    text-transform: uppercase;       /* ВСЕ ЗАГЛАВНЫЕ */
+    letter-spacing: 0.5px;
+}
+
 </style>
 </head>
 <body>
@@ -217,39 +240,64 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     function renderNews(data, query = '') {
         const container = document.getElementById('news-container');
         container.innerHTML = '';
-        if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
-            const featuredNews = data.find(item => item.id === featuredNewsId);
-            if (featuredNews) {
-                const featuredHTML = `
-                    <div class="card" style="width: 100%;">
-                        <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy">
-                        <div class="meta-container">
-                            <span class="meta-date">${featuredNews.category} • ${featuredNews.date}</span>
-                            <span class="meta-author">${featuredNews.author || ''}</span>
-                        </div>
-                        <h3>${featuredNews.title}</h3>
-                        <div class="desc">${featuredNews.description || ''}</div>
-                    </div>
-                `;
-                document.getElementById('main-news').innerHTML = featuredHTML;
-                document.getElementById('main-news').style.display = 'block';
-            }
-        } else {
-            document.getElementById('main-news').style.display = 'none';
-        }
+        // --- ГЛАВНАЯ НОВОСТЬ ---
+if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
+    const featuredNews = data.find(item => item.id === featuredNewsId);
+    if (featuredNews) {
+        // Генерируем HTML для бейджа
+        const hotBadge = featuredNews.isHot 
+            ? '<span class="hot-badge">🔥 ГОРЯЧЕЕ</span>' 
+            : '';
+
+        const featuredHTML = `
+            <div class="card" style="width: 100%;">
+                <!-- ОБЁРТКА ДЛЯ КАРТИНКИ + БЕЙДЖ -->
+                <div class="card-image-wrapper">
+                    <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy">
+                    ${hotBadge}
+                </div>
+                <!-- КОНЕЦ ОБЁРТКИ -->
+                
+                <div class="meta-container">
+                    <span class="meta-date">${featuredNews.category} • ${featuredNews.date}</span>
+                    <span class="meta-author">${featuredNews.author || ''}</span>
+                </div>
+                <h3>${featuredNews.title}</h3>
+                <div class="desc">${featuredNews.description || ''}</div>
+            </div>
+        `;
+        document.getElementById('main-news').innerHTML = featuredHTML;
+        document.getElementById('main-news').style.display = 'block';
+    }
+} else {
+    document.getElementById('main-news').style.display = 'none';
+}
         const filteredNews = data.filter(item => item.id !== featuredNewsId);
         container.innerHTML += filteredNews.map(item => {
-            let title = query ? item.title.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : item.title;
-            return `<div class="card" onclick="window.location.href='/${item.id}.html'">
-                        <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy">
-                        <div class="meta-container">
-                            <span class="meta-date">${item.category} • ${item.date}</span>
-                            <span class="meta-author">${item.author || ''}</span>
-                        </div>
-                        <h3>${title}</h3>
-                        <div class="desc">${item.description || ''}</div>
-                    </div>`;
-        }).join('');
+    // Генерируем HTML для бейджа
+    const hotBadge = item.isHot 
+        ? '<span class="hot-badge">ТОП</span>' 
+        : '';
+    
+    let title = query ? item.title.replace(new RegExp(`(${query})`, 'gi'), '<span class="highlight">$1</span>') : item.title;
+    
+    return `<div class="card" onclick="window.location.href='/${item.id}.html'">
+                <!-- ОБЁРТКА ДЛЯ КАРТИНКИ + БЕЙДЖ -->
+                <div class="card-image-wrapper">
+                    <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy">
+                    ${hotBadge}
+                </div>
+                <!-- КОНЕЦ ОБЁРТКИ -->
+                
+                <div class="meta-container">
+                    <span class="meta-date">${item.category} • ${item.date}</span>
+                    <span class="meta-author">${item.author || ''}</span>
+                </div>
+                <h3>${title}</h3>
+                <div class="desc">${item.description || ''}</div>
+            </div>`;
+}).join('');
+
     }
     const searchInput = document.getElementById('searchInput');
     const searchResults = document.getElementById('search-results');
