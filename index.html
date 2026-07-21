@@ -96,6 +96,35 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     /* Убираем var(--accent) отсюда */
 }
 
+/* Цвета для категорий */
+.category-badge {
+    position: absolute;
+    bottom: 15px;       /* Отступ снизу */
+    left: 15px;         /* Отступ слева */
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    z-index: 20;        /* Поверх картинки, но ниже, чем hot-badge если они пересекутся */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Индивидуальные цвета */
+.cat-svo { background-color: #d32f2f; }       /* Красный для СВО */
+.cat-politics { background-color: #1976d2; }   /* Синий для Политика/Государство */
+.cat-society { background-color: #f57c00; }    /* Оранжевый для Общество */
+.cat-crime { background-color: #7b1fa2; }     /* Фиолетовый для Криминал */
+.cat-culture { background-color: #388e3c; }   /* Зеленый для Культура/Наука */
+.cat-sports { background-color: #e91e63; }   /* Розовый для Спорт */
+.cat-showbiz { background-color: #ffab40; }   /* Желтый для Шоу-бизнес */
+
+/* Универсальный класс, если категории нет в списке выше */
+.cat-default { background-color: #555; }
+
+
 </style>
 </head>
 <body>
@@ -234,23 +263,45 @@ if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
             ? '<span class="hot-badge">ТОП</span>' 
             : '';
 
-        const featuredHTML = `
-            <div class="card" style="width: 100%;">
-                <!-- ОБЁРТКА ДЛЯ КАРТИНКИ + БЕЙДЖ -->
-                <div class="card-image-wrapper">
-                    <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy">
-                    ${hotBadge}
-                </div>
-                <!-- КОНЕЦ ОБЁРТКИ -->
-                
-                <div class="meta-container">
-                    <span class="meta-date">${featuredNews.category} • ${featuredNews.date}</span>
-                    <span class="meta-author">${featuredNews.author || ''}</span>
-                </div>
-                <h3>${featuredNews.title}</h3>
-                <div class="desc">${featuredNews.description || ''}</div>
-            </div>
-        `;
+        // --- ДЛЯ ГЛАВНОЙ НОВОСТИ (внутри блока if (featuredNewsId ...)) ---
+const featuredCatClass = getCategoryClass(featuredNews.category);
+const featuredHTML = `
+    <div class="card" style="width: 100%;">
+        <div class="card-image-wrapper">
+            <img src="${featuredNews.image || '/images/placeholder.jpg'}" alt="${featuredNews.title}" class="card-image" loading="lazy">
+            ${hotBadge} <!-- Твоя плашка "ТОП" -->
+            <!-- НОВАЯ ПЛАШКА КАТЕГОРИИ -->
+            <span class="category-badge ${featuredCatClass}">${featuredNews.category}</span>
+        </div>
+        
+        <div class="meta-container">
+            <span class="meta-date">${featuredNews.date}</span>
+            <span class="meta-author">${featuredNews.author || ''}</span>
+        </div>
+        <h3>${featuredNews.title}</h3>
+        <div class="desc">${featuredNews.description || ''}</div>
+    </div>`;
+// ... остальной код главной новости ...
+
+
+// --- ДЛЯ ОБЫЧНЫХ НОВОСТЕЙ (внутри map) ---
+const catClass = getCategoryClass(item.category); // Получаем класс цвета
+
+return `<div class="card" onclick="window.location.href='/${item.id}.html'">
+    <div class="card-image-wrapper">
+        <img src="${item.image || '/images/placeholder.jpg'}" alt="${item.title}" class="card-image" loading="lazy">
+        ${hotBadge}
+        <!-- НОВАЯ ПЛАШКА КАТЕГОРИИ -->
+        <span class="category-badge ${catClass}">${item.category}</span>
+    </div>
+    
+    <div class="meta-container">
+        <span class="meta-date">${item.date}</span>
+        <span class="meta-author">${item.author || ''}</span>
+    </div>
+    <h3>${title}</h3>
+    <div class="desc">${item.description || ''}</div>
+</div>`;
         document.getElementById('main-news').innerHTML = featuredHTML;
         document.getElementById('main-news').style.display = 'block';
     }
@@ -339,6 +390,21 @@ if (featuredNewsId && data.some(item => item.id === featuredNewsId)) {
             mobileMenuElement.classList.remove('open');
         }
     });
+    // Функция для получения класса цвета по названию категории
+function getCategoryClass(category) {
+    const cat = category.toLowerCase();
+    
+    if (cat.includes('сво')) return 'cat-svo';
+    if (cat.includes('политика') || cat.includes('государство')) return 'cat-politics';
+    if (cat.includes('общество')) return 'cat-society';
+    if (cat.includes('криминал')) return 'cat-crime';
+    if (cat.includes('культура') || cat.includes('наука')) return 'cat-culture';
+    if (cat.includes('спорт')) return 'cat-sports';
+    if (cat.includes('шоу-бизнес')) return 'cat-showbiz';
+    
+    return 'cat-default'; // Если категория не подошла ни под одно правило
+}
+
     loadNews();
     window.addEventListener('scroll', () => {
         const scrollTop = window.scrollY;
