@@ -35,7 +35,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
 .breadcrumbs { padding: 10px 20px; font-size: 12px; color: var(--meta); }
 .featured-news { background: var(--card); padding: 15px; border-bottom: 2px solid var(--accent); }
 .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
-.card { background: var(--card); padding: 15px; border-left: 4px solid var(--accent); transition: transform 0.2s; cursor: pointer; /* Убраны начальные стили анимации */ }
+.card { background: var(--card); padding: 15px; border-left: 4px solid var(--accent); transition: transform 0.2s; cursor: pointer; opacity: 0; transform: translateY(30px); animation: fadeInUp 0.6s ease forwards; }
 .card:hover { transform: translateY(-5px); }
 .meta-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 .meta-date { color: var(--accent); font-size: 13px; }
@@ -322,7 +322,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
         const newsItem = allNews.find(n => n.id === id);
         if (!newsItem) return;
         document.getElementById('modalTitle').textContent = newsItem.title;
-        document.getElementById('modalMeta').textContent = `${newsItem.category} • ${item.date}`;
+        document.getElementById('modalMeta').textContent = `${newsItem.category} • ${newsItem.date}`;
         const body = document.getElementById('modalBody');
         body.innerHTML = `
             ${newsItem.image ? `<div class="modal-img-wrapper"><img src="${newsItem.image}" alt="${newsItem.title}" class="modal-image"></div>` : ''}
@@ -371,6 +371,7 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     if (window.scrollY > 300) {
         btn.style.display = 'flex';
         btn.style.opacity = '0.7';
+        // Гарантируем позицию, если CSS вдруг не применился
         btn.style.bottom = '150px'; 
         btn.style.right = '20px';
     } else {
@@ -402,25 +403,19 @@ header { background: var(--card); padding: 15px 5px; display: flex; justify-cont
     
     // Анимация появления карточек при скролле
     const observerOptions = {
-        root: null, // относительно viewport
-        threshold: 0.1 // когда 10% элемента видно
+        threshold: 0.1
     };
-
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const card = entry.target;
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-                // Применяем transition только один раз для корректной анимации
-                card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out'; 
-                observer.unobserve(card); // Прекращаем наблюдение за элементом после анимации
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Наблюдаем за всеми карточками в контейнере новостей
-    document.querySelectorAll('.news-grid .card').forEach(card => {
+    document.querySelectorAll('.card').forEach(card => {
         observer.observe(card);
     });
 </script>
