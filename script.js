@@ -148,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // Если нужно переходить на отдельную страницу статьи (например, news-16.html)
             // Раскомментируйте следующую строку и убедитесь, что имена файлов соответствуют ID новостей
-            // window.location.href = `news-${newsId}.html`; 
+             window.location.href = `news-${newsId}.html`; 
         }
     }
 
