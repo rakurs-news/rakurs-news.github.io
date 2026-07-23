@@ -883,6 +883,24 @@ body.dark-theme .categories-panel {
 .cat-showbiz { background-color: #fbc02d; }       /* горчичный */
 
 /* Для новых карточек (news-item) — отдельные классы с другими оттенками */
+/* --- ЦВЕТА КАТЕГОРИЙ (все разные) --- */
+.cat-svo { background-color: #d32f2f; }
+.cat-politics { background-color: #1976d2; }
+.cat-state { background-color: #2e7d32; }
+.cat-geopolitics { background-color: #4a148c; }
+.cat-society { background-color: #f57c00; }
+.cat-regions { background-color: #ffab40; }
+.cat-crime { background-color: #7b1fa2; }
+.cat-corruption { background-color: #c62828; }
+.cat-culture { background-color: #388e3c; }
+.cat-science { background-color: #00897b; }
+.cat-style { background-color: #ec407a; }
+.cat-incidents { background-color: #b71c1c; }
+.cat-sports { background-color: #e91e63; }
+.cat-showbiz { background-color: #fbc02d; }
+.cat-default { background-color: #555; }
+
+/* Для новых карточек .news-item */
 .category-sport { background-color: #ff4757; }
 .category-politics { background-color: #2f3542; }
 .category-economy { background-color: #1e90ff; }
@@ -890,16 +908,36 @@ body.dark-theme .categories-panel {
 .category-culture { background-color: #a29bfe; }
 .category-science { background-color: #00d2d3; }
 .category-world { background-color: #57606f; }
+.category-other { background-color: #95a5a6; }
+/* ------------------------------------- */
 
-/* Базовые стили для контейнера категорий */
-.categories-wrapper {
-    padding: 0 10px;
+/* Панель категорий (обёртка) */
+.categories-panel {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    position: sticky;
+    top: calc(var(--header-height, 60px));
+    z-index: 1001;
     display: flex;
-    gap: 20px;
-    flex-shrink: 0;
+    align-items: center;
+    padding: 5px 0;
 }
 
-/* Стили самих кнопок категорий */
+body.dark-theme .categories-panel {
+    background-color: rgba(30, 30, 30, 0.3);
+}
+
+/* Контейнер с кнопками */
+.categories-wrapper#menu {
+    padding: 0 10px;
+    display: flex;
+    flex-wrap: wrap; /* ГЛАВНОЕ: разрешает перенос на новую строку на ПК */
+    gap: 8px;        /* Отступ между кнопками */
+    justify-content: flex-start;
+}
+
 .category-btn {
     background: none;
     border: none;
@@ -909,9 +947,10 @@ body.dark-theme .categories-panel {
     font-size: 13px;
     font-weight: bold;
     position: relative;
-    padding-bottom: 8px;
-    transition: color 0.2s;
+    padding: 8px 14px; /* Чуть больше отступы, чтобы кнопки не слипались */
     white-space: nowrap;
+    border-radius: 20px;
+    transition: all 0.2s ease;
 }
 
 .category-btn::after {
@@ -937,20 +976,32 @@ body.dark-theme .categories-panel {
     color: var(--accent);
 }
 
-/* Адаптивность для категорий */
-@media (max-width: 768px) {
-    .categories-wrapper {
-        flex-direction: row;
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-right: 20px;
+/* АДАПТИВНОСТЬ: на экранах меньше 900px переключаем на горизонтальный скролл */
+@media (max-width: 900px) {
+    .categories-panel {
+        height: 42px !important;
+        overflow-x: auto !important; /* Включаем скролл */
+        padding: 0 10px !important;
     }
 
-    .categories-panel {
-        height: 40px;
-        overflow-x: auto;
-        padding: 0 10px;
+    .categories-wrapper#menu {
+        flex-direction: row !important;
+        flex-wrap: nowrap !important; /* Запрещаем перенос, чтобы был скролл */
+        overflow-x: auto !important;
+        padding-right: 20px !important;
+        justify-content: flex-start;
     }
+
+    /* Скрываем полосу прокрутки для красоты */
+    .categories-panel::-webkit-scrollbar {
+        height: 6px;
+    }
+    .categories-panel::-webkit-scrollbar-thumb {
+        background: rgba(128, 128, 128, 0.4);
+        border-radius: 3px;
+    }
+}
+
 
     .categories-panel::-webkit-scrollbar {
         height: 4px;
