@@ -1,25 +1,25 @@
 :root {
-    --bg: #ffffff;
-    --card: #f9f9f9;
-    --text: #1a1a1a;
-    --accent: #ff9800;
-    --meta: #666;
+    --bg: #ffffff; /* Фон страницы */
+    --card: #f9f9f9; /* Фон карточек, шапки, блока категорий */
+    --text: #1a1a1a; /* Основной текст */
+    --accent: #ff9800; /* Акцентный цвет */
+    --meta: #666; /* Метаданные (дата, автор) */
     --mobile-menu-bg: var(--card);
     --mobile-menu-text: var(--text);
     --mobile-menu-border: var(--accent);
-    --footer-bg: rgba(255, 255, 255, 0.3); /* Значение для светлой темы */
+    --footer-bg: rgba(255, 255, 255, 0.3); /* Фон футера для светлой темы */
 }
 
 body.dark-theme { /* Селектор для темной темы */
-    --bg: #121212;
-    --card: #1e1e1e;
-    --text: #e0e0e0;
-    --accent: #ff9800;
-    --meta: #aaa;
+    --bg: #121212; /* Фон страницы */
+    --card: #1e1e1e; /* Фон карточек, шапки, блока категорий */
+    --text: #e0e0e0; /* Основной текст */
+    --accent: #ff9800; /* Акцентный цвет */
+    --meta: #aaa; /* Метаданные */
     --mobile-menu-bg: #000000;
     --mobile-menu-text: var(--text);
     --mobile-menu-border: var(--accent);
-    --footer-bg: rgba(18, 18, 18, 0.3); /* Значение для темной темы */
+    --footer-bg: rgba(18, 18, 18, 0.3); /* Фон футера для темной темы */
 }
 
 body {
@@ -41,7 +41,7 @@ body {
 }
 
 header {
-    background: var(--card);
+    background: var(--card); /* Шапка будет использовать фон из --card */
     padding: 15px 5px;
     display: flex;
     justify-content: space-between;
@@ -97,6 +97,10 @@ header {
     display: flex;
     gap: 20px;
     scrollbar-width: none;
+    
+    background: var(--card); /* Блок категорий будет использовать фон из --card */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .categories-wrapper::-webkit-scrollbar {
@@ -322,7 +326,7 @@ header {
     right: 0;
     height: auto;
     min-height: 60px;
-    background: var(--footer-bg); /* Теперь эта переменная будет меняться */
+    background: var(--footer-bg); /* Использует переменную --footer-bg */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--accent);
