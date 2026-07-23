@@ -864,6 +864,109 @@ body.dark-theme .categories-panel {
         padding: 6px 12px;
         font-size: 12px;
     }
+.category-other { background-color: #95a5a6; }
+
+/* Разные цвета для каждой категории — теперь все уникальны */
+.cat-svo { background-color: #d32f2f; }           /* насыщенный красный */
+.cat-politics { background-color: #1976d2; }      /* синий */
+.cat-state { background-color: #2e7d32; }          /* зелёный */
+.cat-geopolitics { background-color: #4a148c; }    /* тёмно-фиолетовый */
+.cat-society { background-color: #f57c00; }        /* оранжевый */
+.cat-regions { background-color: #ffab40; }       /* светло‑оранжевый */
+.cat-crime { background-color: #7b1fa2; }          /* фиолетовый */
+.cat-corruption { background-color: #c62828; }    /* тёмно‑красный */
+.cat-culture { background-color: #388e3c; }        /* лесной зелёный */
+.cat-science { background-color: #00897b; }       /* бирюзовый */
+.cat-style { background-color: #ec407a; }          /* малиновый */
+.cat-incidents { background-color: #b71c1c; }      /* алый */
+.cat-sports { background-color: #e91e63; }         /* ярко‑розовый */
+.cat-showbiz { background-color: #fbc02d; }       /* горчичный */
+
+/* Для новых карточек (news-item) — отдельные классы с другими оттенками */
+.category-sport { background-color: #ff4757; }
+.category-politics { background-color: #2f3542; }
+.category-economy { background-color: #1e90ff; }
+.category-tech { background-color: #ffa502; }
+.category-culture { background-color: #a29bfe; }
+.category-science { background-color: #00d2d3; }
+.category-world { background-color: #57606f; }
+
+/* Базовые стили для контейнера категорий */
+.categories-wrapper {
+    padding: 0 10px;
+    display: flex;
+    gap: 20px;
+    flex-shrink: 0;
 }
+
+/* Стили самих кнопок категорий */
+.category-btn {
+    background: none;
+    border: none;
+    color: var(--text);
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 13px;
+    font-weight: bold;
+    position: relative;
+    padding-bottom: 8px;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.category-btn::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: var(--accent);
+    transition: width 0.2s ease-in-out;
+}
+
+.category-btn.active {
+    color: var(--accent);
+}
+
+.category-btn.active::after {
+    width: 100%;
+}
+
+.category-btn:hover:not(.active) {
+    color: var(--accent);
+}
+
+/* Адаптивность для категорий */
+@media (max-width: 768px) {
+    .categories-wrapper {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-right: 20px;
+    }
+
+    .categories-panel {
+        height: 40px;
+        overflow-x: auto;
+        padding: 0 10px;
+    }
+
+    .categories-panel::-webkit-scrollbar {
+        height: 4px;
+    }
+    .categories-panel::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.3);
+        border-radius: 2px;
+    }
+}
+
+@media (max-width: 500px) {
+    .category-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
 
 
