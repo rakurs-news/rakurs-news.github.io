@@ -1,3 +1,5 @@
+console.log('Скрипт запустился');console.log('Скрипт запустился');
+
 fetch('news.json')
  
 

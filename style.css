@@ -677,7 +677,6 @@ header {
 }
 
 /* Стили для .card, если вы хотите использовать их вместо .news-item */
-/*
 .card {
     background: var(--card);
     padding: 15px;
