@@ -91,31 +91,37 @@ header {
     }
 }
 
-/* Блок категорий с горизонтальным скроллом и адаптивным фоном */
-.categories-wrapper {
-    padding: 15px 20px;
-    overflow-x: auto; /* Включаем горизонтальный скролл */
-    white-space: nowrap; /* Отображаем элементы в одну строку */
-    border-bottom: 1px solid var(--accent);
-    display: flex;
-    gap: 20px;
-    scrollbar-width: none; /* Скрываем стандартный скроллбар */
-    
-    /* Адаптивный фон с блюром */
-    background: var(--categories-bg-light); /* Фон для светлой темы */
+/* Панель под шапкой */
+.categories-panel {
+    height: 30px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    position: sticky; /* Оставляем позиционирование */
-    top: 60px; /* Оставляем позиционирование */
-    z-index: 1001; /* Оставляем позиционирование */
+    position: sticky;
+    top: calc(var(--header-height, 60px)); /* Замените 60px на реальную высоту header при необходимости */
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
 }
 
-body.dark-theme .categories-wrapper {
-    background: var(--categories-bg-dark); /* Фон для темной темы */
+body.dark-theme .categories-panel {
+    background-color: rgba(30, 30, 30, 0.3);
 }
 
-.categories-wrapper::-webkit-scrollbar {
+.categories-panel::-webkit-scrollbar {
     display: none;
+}
+
+/* Блок категорий с горизонтальным скроллом и адаптивным фоном */
+.categories-wrapper {
+    padding: 0 10px;
+    display: flex;
+    gap: 20px;
+    flex-shrink: 0;
 }
 
 .category-btn {
@@ -126,10 +132,10 @@ body.dark-theme .categories-wrapper {
     text-transform: uppercase;
     font-size: 13px;
     font-weight: bold;
-    flex-shrink: 0;
     position: relative;
     padding-bottom: 8px;
     transition: color 0.2s;
+    white-space: nowrap;
 }
 
 .category-btn::after {
@@ -388,9 +394,6 @@ body.dark-theme .categories-wrapper {
 }
 
 @media (max-width: 768px) {
-    .categories-wrapper {
-        display: flex;
-    }
     .page-title-wrapper {
         padding: 10px 15px;
         gap: 8px;
@@ -704,7 +707,7 @@ body.dark-theme .categories-wrapper {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-.card-image { // Используйте этот класс для изображений в карточках .card
+.card-image { /* Используйте этот класс для изображений в карточках .card */
     width: 100%;
     height: 180px;
     object-fit: cover;
@@ -731,3 +734,4 @@ body.dark-theme .categories-wrapper {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+
