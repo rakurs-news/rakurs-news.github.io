@@ -1,25 +1,27 @@
 :root {
-    --bg: #ffffff; /* Фон страницы */
-    --card: #f9f9f9; /* Фон карточек, шапки, блока категорий */
-    --text: #1a1a1a; /* Основной текст */
-    --accent: #ff9800; /* Акцентный цвет */
-    --meta: #666; /* Метаданные (дата, автор) */
+    --bg: #ffffff;
+    --card: #f9f9f9;
+    --text: #1a1a1a;
+    --accent: #ff9800;
+    --meta: #666;
     --mobile-menu-bg: var(--card);
     --mobile-menu-text: var(--text);
     --mobile-menu-border: var(--accent);
-    --footer-bg: rgba(255, 255, 255, 0.3); /* Фон футера для светлой темы */
+    --footer-bg: rgba(255, 255, 255, 0.3);
+    --categories-bg-light: rgba(255, 255, 255, 0.3); /* Фон категорий для светлой темы */
+    --categories-bg-dark: rgba(30, 30, 30, 0.8); /* Фон категорий для темной темы */
 }
 
-body.dark-theme { /* Селектор для темной темы */
-    --bg: #121212; /* Фон страницы */
-    --card: #1e1e1e; /* Фон карточек, шапки, блока категорий */
-    --text: #e0e0e0; /* Основной текст */
-    --accent: #ff9800; /* Акцентный цвет */
-    --meta: #aaa; /* Метаданные */
+body.dark-theme {
+    --bg: #121212;
+    --card: #1e1e1e;
+    --text: #e0e0e0;
+    --accent: #ff9800;
+    --meta: #aaa;
     --mobile-menu-bg: #000000;
     --mobile-menu-text: var(--text);
     --mobile-menu-border: var(--accent);
-    --footer-bg: rgba(18, 18, 18, 0.3); /* Фон футера для темной темы */
+    --footer-bg: rgba(18, 18, 18, 0.3);
 }
 
 body {
@@ -41,7 +43,7 @@ body {
 }
 
 header {
-    background: var(--card); /* Шапка будет использовать фон из --card */
+    background: var(--card);
     padding: 15px 5px;
     display: flex;
     justify-content: space-between;
@@ -89,18 +91,27 @@ header {
     }
 }
 
+/* Блок категорий с горизонтальным скроллом и адаптивным фоном */
 .categories-wrapper {
     padding: 15px 20px;
-    overflow-x: auto;
-    white-space: nowrap;
+    overflow-x: auto; /* Включаем горизонтальный скролл */
+    white-space: nowrap; /* Отображаем элементы в одну строку */
     border-bottom: 1px solid var(--accent);
     display: flex;
     gap: 20px;
-    scrollbar-width: none;
+    scrollbar-width: none; /* Скрываем стандартный скроллбар */
     
-    background: var(--card); /* Блок категорий будет использовать фон из --card */
+    /* Адаптивный фон с блюром */
+    background: var(--categories-bg-light); /* Фон для светлой темы */
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    position: sticky; /* Оставляем позиционирование */
+    top: 60px; /* Оставляем позиционирование */
+    z-index: 1001; /* Оставляем позиционирование */
+}
+
+body.dark-theme .categories-wrapper {
+    background: var(--categories-bg-dark); /* Фон для темной темы */
 }
 
 .categories-wrapper::-webkit-scrollbar {
@@ -326,7 +337,7 @@ header {
     right: 0;
     height: auto;
     min-height: 60px;
-    background: var(--footer-bg); /* Использует переменную --footer-bg */
+    background: var(--footer-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-top: 1px solid var(--accent);
