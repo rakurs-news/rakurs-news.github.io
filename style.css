@@ -826,3 +826,54 @@ function scrollToTop() {
 
 /* Если категория не найдена или пустая - нейтральный цвет */
 .category-other { background-color: #95a5a6; }
+/* Базовые стили для контейнера категорий */
+.categories-wrapper {
+    display: flex;
+    flex-wrap: wrap; /* Разрешает перенос кнопок на новую строку */
+    gap: 8px;        /* Расстояние между кнопками (компактно) */
+    padding: 4px 0;  /* Небольшой отступ сверху/снизу внутри панели */
+}
+
+/* Стили самих кнопок */
+.category-btn {
+    padding: 6px 12px;       /* Компактный размер */
+    font-size: 14px;         /* Чуть меньше шрифт */
+    border-radius: 20px;     /* Закругление */
+    white-space: nowrap;     /* Текст кнопки не будет ломаться */
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Убираем горизонтальный скролл у родительской панели для десктопа */
+.categories-panel {
+    overflow-x: visible;     /* Важно: отключаем скролл, чтобы кнопки переносились */
+    height: auto;            /* Высота станет автоматической */
+    padding: 5px 0;          /* Отступы панели */
+}
+
+/* --- АДАПТИВНОСТЬ --- */
+
+/* МОБИЛЬНЫЕ (до 768px): Возвращаем горизонтальный скролл, как было раньше */
+@media (max-width: 768px) {
+    .categories-wrapper {
+        flex-direction: row;
+        flex-wrap: nowrap;   /* В одну строку */
+        overflow-x: auto;    /* Включаем скролл */
+        padding-right: 20px; /* Место для скролла */
+    }
+
+    .categories-panel {
+        height: 40px;        /* Фиксированная высота на мобильном */
+        overflow-x: auto;    /* Скролл по горизонтали */
+        padding: 0 10px;
+    }
+
+    /* Скрываем скроллбар для красоты (работает в Chrome/Safari) */
+    .categories-panel::-webkit-scrollbar {
+        height: 4px;
+    }
+    .categories-panel::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.3);
+        border-radius: 2px;
+    }
+}
