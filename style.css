@@ -734,4 +734,9 @@ body.dark-theme .categories-panel {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Плавная прокрутка
+    });
+}
