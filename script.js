@@ -114,8 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // --- ЧТЕНИЕ НОВОСТЕЙ ---
-    function handleReadMoreClick(newsId) {
+// function handleReadMoreClick(newsId) {
+//     // Пока ничего не делаем, чтобы исключить влияние кода
+// }
         const item = allNewsData.find(i => i.id === newsId);
         if (item) alert(`Вы кликнули: ${item.title}`);
     }
