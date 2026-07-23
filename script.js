@@ -90,11 +90,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     formattedDate = newsItem.date; 
                 }
             }
+
+            // --- ЛОГИКА КАТЕГОРИИ (Новое) ---
+            // Получаем категорию. Если её нет, ставим 'other'
+            const category = newsItem.category ? newsItem.category.toLowerCase() : 'other';
+            
+            // Формируем класс для цвета (category-sport, category-tech и т.д.)
+            const categoryClass = `category-${category}`;
+            
+            // Текст для отображения (можно оставить как есть, или сделать маппинг: sport -> "Спорт")
+            const categoryText = newsItem.category || 'Разное';
+            // ---------------------------------
             
             const newsElement = document.createElement('div');
             newsElement.classList.add('news-item');
+            
             newsElement.innerHTML = `
                 <div class="news-card">
+                    <!-- Плашка категории -->
+                    <span class="news-category-badge ${categoryClass}">${categoryText}</span>
+                    
                     <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image">
                     <div class="news-content">
                         <h3 class="news-title">${newsItem.title}</h3>

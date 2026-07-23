@@ -531,6 +531,7 @@ body.dark-theme .categories-panel {
 
 .news-card {
     /* Конкретная карточка новости */
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%; /* Чтобы карточки в сетке были одинаковой высоты */
@@ -762,3 +763,30 @@ function scrollToTop() {
         behavior: 'smooth' // Плавная прокрутка
     });
 }
+/* --- СТИЛИ ДЛЯ МЕТКИ КАТЕГОРИИ --- */
+.news-category-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+}
+
+/* Цвета для разных категорий (меняй значения hex на свои) */
+.category-sport { background-color: #ff4757; }       /* Красный */
+.category-politics { background-color: #2f3542; }   /* Темно-серый */
+.category-economy { background-color: #1e90ff; }    /* Голубой */
+.category-tech { background-color: #ffa502; }      /* Оранжевый */
+.category-culture { background-color: #a29bfe; }    /* Фиолетовый */
+.category-science { background-color: #00d2d3; }   /* Бирюзовый */
+.category-world { background-color: #57606f; }     /* Серый */
+
+/* Если категория неизвестна, будет нейтральная */
+.category-other { background-color: #95a5a6; }
