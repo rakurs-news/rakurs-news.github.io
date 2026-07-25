@@ -3,505 +3,245 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ракурс NEWS</title>
-    <style>
-        /* Акцентный цвет (унаследовано из предыдущего примера) */
-        :root {
-            --accent-color: #4CAF50; /* Зеленовато-голубой */
-            --text-color: #333;
-            --background-color: #f4f4f4;
-            --header-footer-bg: #fff;
-            --border-color: #ddd;
-            --card-bg: #fff; /* фон карточки новости */
-            --card-shadow: 0 2px 5px rgba(0,0,0,0.1); /* тень карточки */
-
-            /* Цвета для темной темы */
-            --dark-text-color: #e0e0e0;
-            --dark-background-color: #1e1e1e;
-            --dark-header-footer-bg: #2a2a2a;
-            --dark-border-color: #444;
-            --dark-card-bg: #282828;
-            --dark-card-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        /* Применяем темную тему, если установлен класс 'dark-theme' на <body> */
-        body.dark-theme {
-            --text-color: var(--dark-text-color);
-            --background-color: var(--dark-background-color);
-            --header-footer-bg: var(--dark-header-footer-bg);
-            --border-color: var(--dark-border-color);
-            --card-bg: var(--dark-card-bg);
-            --card-shadow: var(--dark-card-shadow);
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        header {
-            background-color: var(--header-footer-bg);
-            padding: 15px 0;
-            border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo-title {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            background-color: var(--accent-color);
-            border-radius: 5px;
-            margin-right: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2em;
-        }
-
-        .site-title {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: var(--text-color);
-            transition: color 0.3s ease;
-        }
-
-        .controls {
-            display: flex;
-            align-items: center;
-        }
-
-        .search-bar {
-            display: flex;
-            align-items: center;
-            margin-right: 20px; /* Отступ от кнопки темы */
-        }
-
-        .search-input {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 5px 0 0 5px;
-            font-size: 1em;
-            outline: none;
-            background-color: var(--header-footer-bg);
-            color: var(--text-color);
-            transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .search-button {
-            padding: 10px 15px;
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            border-radius: 0 5px 5px 0;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
-
-        .search-button:hover {
-            background-color: #3f8e40;
-        }
-
-        /* Стиль для кнопки смены темы */
-        .theme-toggle-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-        }
-
-        .theme-toggle-button:hover {
-            transform: scale(1.1);
-        }
-
-        .theme-icon {
-            width: 24px;
-            height: 24px;
-            fill: var(--text-color); /* Цвет иконки */
-            transition: fill 0.3s ease;
-        }
-
-        nav {
-            background-color: var(--header-footer-bg);
-            padding: 10px 0;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-        }
-
-        nav ul li {
-            margin: 0 15px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 500;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: var(--accent-color);
-        }
-
-        main {
-            padding: 20px 0;
-        }
-
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-        }
-
-        .news-item {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 5px;
-            overflow: hidden;
-            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            box-shadow: var(--card-shadow);
-        }
-
-        .news-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Можно переопределить для темной темы */
-        }
-
-        .news-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .news-content {
-            padding: 15px;
-            flex-grow: 1;
-        }
-
-        .news-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--text-color);
-            transition: color 0.3s ease;
-        }
-
-        .news-description {
-            font-size: 0.95em;
-            color: #666;
-            margin-bottom: 15px;
-        }
-
-        .news-date {
-            font-size: 0.85em;
-            color: #888;
-            text-align: right;
-            margin-top: auto;
-        }
-
-        footer {
-            background-color: var(--header-footer-bg);
-            padding: 20px 0;
-            text-align: center;
-            border-top: 1px solid var(--border-color);
-            margin-top: 30px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .categories {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .categories a {
-            display: inline-block;
-            margin: 0 10px;
-            text-decoration: none;
-            color: var(--accent-color);
-            font-weight: 500;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
-
-        .categories a:hover {
-            color: #3f8e40;
-        }
-
-        /* Медиа-запросы для адаптивности */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .logo-title {
-                margin-bottom: 15px;
-            }
-
-            .search-bar {
-                width: 100%;
-                max-width: 300px;
-                margin-right: 0;
-            }
-
-            .controls {
-                width: 100%;
-                justify-content: center;
-                margin-top: 15px;
-            }
-
-            .search-input, .search-button {
-                font-size: 0.95em;
-            }
-
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            nav ul li {
-                margin: 5px 10px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .site-title {
-                font-size: 1.5em;
-            }
-
-            .logo {
-                width: 35px;
-                height: 35px;
-                font-size: 1em;
-            }
-
-            .search-input, .search-button {
-                width: calc(100% - 10px);
-            }
-            .search-input {
-                border-radius: 5px;
-                margin-bottom: 5px;
-            }
-            .search-button {
-                border-radius: 5px;
-            }
-
-            .news-item img {
-                height: 180px;
-            }
-
-            .container {
-                padding: 0 10px;
-            }
-        }
-    </style>
+    <title>Новости</title>
+    <!-- Подключение CSS файла. Если у вас нет отдельного файла, стили можно будет добавить сюда же -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Подключение библиотеки Font Awesome для иконок (рекомендуется) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <header>
-        <div class="container header-content">
-            <div class="logo-title">
-                <div class="logo">РН</div>
-                <h1 class="site-title">Ракурс NEWS</h1>
-            </div>
-            <div class="controls">
-                <div class="search-bar">
-                    <input type="text" class="search-input" placeholder="Поиск по новостям...">
-                    <button class="search-button">Найти</button>
-                </div>
-                <button id="theme-toggle" class="theme-toggle-button" aria-label="Сменить тему">
-                    <!-- SVG иконка солнца (день) -->
-                    <svg class="theme-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 18c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1-7.187l1-1.813L13 1h-2l-1 1.813-1 1.814 1.792 1.792L11 8.813zM5.234 4.234l-1-1.814L1 5.5l1 1.814 1.814 1.814L6.208 7.05zM18.766 4.234l-1-1.814L15.5 5.5l1 1.814 1.814 1.814L19.792 7.05zM22.5 13h-2.215l-1.285-1v-1.5L20 11.5h2.5v1zM13 23v-2.215l-1.5-1.285-1 1.285-1.285-1L5.785 21.785 5 23h8z" fill="#FFC107"/>
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </header>
 
-    <nav>
-        <div class="container">
-            <ul>
-                <li><a href="index.html">Главная</a></li>
-                <li><a href="#">Политика</a></li>
-                <li><a href="#">Общество</a></li>
-                <li><a href="#">Экономика</a></li>
-                <li><a href="#">Технологии</a></li>
-                <li><a href="#">Спорт</a></li>
-                <li><a href="#">Культура</a></li>
-            </ul>
-        </div>
-    </nav>
+<header>
+    <h1>Лента новостей</h1>
+    <!-- Кнопка для переключения темы -->
+    <button class="theme-toggle-button" aria-label="Переключить тему">
+        <i class="fas fa-sun"></i> <!-- Иконка по умолчанию (солнце) -->
+    </button>
+</header>
 
-    <div class="categories">
-        <div class="container">
-            <a href="#">Все категории</a>
-            <a href="#">Мир</a>
-            <a href="#">Видео</a>
-            <a href="#">Фото</a>
-        </div>
-    </div>
+<main id="news-container">
+    <!-- Этот блок будет динамически заполняться новостями из JSON -->
+    <p>Загрузка новостей...</p>
+</main>
 
-    <main class="container">
-        <div id="news-container" class="news-grid">
-            <!-- Новости будут загружены сюда из news.json -->
-            <article class="news-item">
-                <img src="placeholder.jpg" alt="Загрузка...">
-                <div class="news-content">
-                    <h2 class="news-title">Загрузка новостей...</h2>
-                    <p class="news-description">Пожалуйста, подождите.</p>
-                    <div class="news-date"></div>
-                </div>
-            </article>
-        </div>
-    </main>
+<footer>
+    <p>© 2026 Все права защищены</p>
+</footer>
 
-    <footer>
-        <div class="container">
-            <p>© 2026 Ракурс NEWS. Все права защищены.</p>
-        </div>
-    </footer>
+<script>
+    // --- Часть 1: Скрипт для переключения темы ---
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const themeToggleButton = document.getElementById('theme-toggle');
-            const body = document.body;
-            const sunIcon = '<svg class="theme-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-3.314 0-6-2.686-6-6s2.686-6 6-6 6 2.686 6 6-2.686 6-6 6zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-1-7.187l1-1.813L13 1h-2l-1 1.813-1 1.814 1.792 1.792L11 8.813zM5.234 4.234l-1-1.814L1 5.5l1 1.814 1.814 1.814L6.208 7.05zM18.766 4.234l-1-1.814L15.5 5.5l1 1.814 1.814 1.814L19.792 7.05zM22.5 13h-2.215l-1.285-1v-1.5L20 11.5h2.5v1zM13 23v-2.215l-1.5-1.285-1 1.285-1.285-1L5.785 21.785 5 23h8z" fill="#FFC107"/></svg>'; /* Иконка солнца (день) */
-            const moonIcon = '<svg class="theme-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 15.31C20 18.93 16.48 21.75 12 21.75c-4.481 0-8-2.819-8-7.187 0-3.369 2.371-6.178 5.264-6.81C6.483 6.776 5 4.254 5 1.555v.19C5 4.071 8.519 6.75 13 6.75c2.813 0 5.312-1.313 6.877-3.307.39.318.745.666 1.093 1.046C20.364 7.442 20 11.469 20 15.31zm-2.026-7.685c-.127-.213-.272-.412-.432-.594a7.345 7.345 0 0 0-.737-1.01C8.207 7.594 5.313 9.157 5.313 11.813c0 4.05 3.314 6.688 7.687 6.688 2.438 0 4.496-1.2 5.844-3.016-.39.317-.745.666-1.094 1.046-.214.215-.432.413-.656.593a5.415 5.415 0 0 1-1.463.746c1.813-.746 3.078-2.219 3.078-4.203 0-.214-.012-.427-.036-.64zM12 19.312c-3.604 0-6.188-2.218-6.188-5.688 0-1.792.746-3.094 2.012-4.05.333.172.697.297 1.037.397.195.078.39.141.594.187 1.125.39 2.438.594 3.551.594.658 0 1.22-.078 1.719-.188.078-.037.156-.078.234-.11.214-.078.433-.141.657-.219-.917.782-2.141 1.313-3.552 1.313z"/></svg>'; /* Иконка луны (ночь) */
+    // Находим кнопку переключения темы по её классу
+    const themeToggleButton = document.querySelector('.theme-toggle-button');
 
-            // Функция для установки темы
-            function setTheme(theme) {
-                if (theme === 'dark') {
-                    body.classList.add('dark-theme');
-                    themeToggleButton.innerHTML = sunIcon;
-                    themeToggleButton.setAttribute('aria-label', 'Сменить на дневную тему');
-                } else {
-                    body.classList.remove('dark-theme');
-                    themeToggleButton.innerHTML = moonIcon;
-                    themeToggleButton.setAttribute('aria-label', 'Сменить на ночную тему');
-                }
-            }
+    // Функция для применения выбранной темы (темной или светлой)
+    function applyTheme(theme) {
+        // Удаляем предыдущие классы тем, чтобы избежать конфликтов
+        document.body.classList.remove('light-theme', 'dark-theme');
+        // Добавляем класс для новой темы
+        document.body.classList.add(theme === 'dark' ? 'dark-theme' : 'light-theme');
 
-            // Проверяем сохраненную тему в localStorage
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                setTheme(savedTheme);
+        // Сохраняем выбор пользователя в локальное хранилище браузера
+        localStorage.setItem('theme', theme);
+    }
+
+    // Получаем сохраненную тему из localStorage или устанавливаем 'light' (светлую) по умолчанию
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme); // Применяем загруженную или тему по умолчанию
+
+    // Добавляем слушатель события клика на кнопку переключения темы
+    themeToggleButton.addEventListener('click', () => {
+        // Определяем текущую тему
+        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
+        // Определяем новую тему (обратную текущей)
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        applyTheme(newTheme); // Применяем новую тему
+
+        // Обновляем иконку на кнопке для наглядности
+        const themeIcon = themeToggleButton.querySelector('i');
+        if (themeIcon) {
+            if (newTheme === 'dark') {
+                themeIcon.classList.remove('fa-sun'); // Убираем иконку солнца
+                themeIcon.classList.add('fa-moon');  // Ставим иконку луны
             } else {
-                // Если тема не сохранена, определяем по системным настройкам (если есть preferencias)
-                const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                setTheme(prefersDark ? 'dark' : 'light');
+                themeIcon.classList.remove('fa-moon'); // Убираем иконку луны
+                themeIcon.classList.add('fa-sun');  // Ставим иконку солнца
             }
-
-            // Обработчик клика по кнопке смены темы
-            themeToggleButton.addEventListener('click', () => {
-                const currentTheme = body.classList.contains('dark-theme') ? 'dark' : 'light';
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                setTheme(newTheme);
-                localStorage.setItem('theme', newTheme); // Сохраняем тему в localStorage
-            });
-
-            // Функция для загрузки и отображения новостей
-            function loadNews() {
-                // Вместо:
-// fetch('news.json')
-//    .then(response => response.json())
-//    .then(data => { ... });
-
-// Нужно:
-fetch('news.json')
-    .then(response => response.json())
-    .then(data => {
-        // Обращаемся к свойству 'items'
-        const newsArray = data.items; 
-        const newsContainer = document.getElementById('news-container');
-        newsContainer.innerHTML = ''; // Очищаем контейнер перед загрузкой
-
-        newsArray.forEach(article => { // Теперь итерируемся по newsArray
-            const newsItem = document.createElement('article');
-            newsItem.classList.add('news-item');
-
-            const link = document.createElement('a');
-            link.href = article.link || '#'; // Предполагаем, что в JSON есть поле 'link'
-            link.classList.add('news-link'); 
-
-            const img = document.createElement('img');
-            img.src = article.image; // Используем поле 'image' из вашего JSON
-            img.alt = article.title;
-            link.appendChild(img); 
-            newsItem.appendChild(link);
-
-            const contentDiv = document.createElement('div');
-            contentDiv.classList.add('news-content');
-
-            const title = document.createElement('h2');
-            title.classList.add('news-title');
-            const titleLink = document.createElement('a'); 
-            titleLink.href = article.link || '#'; 
-            titleLink.textContent = article.title;
-            title.appendChild(titleLink);
-            contentDiv.appendChild(title);
-
-            const description = document.createElement('p');
-            description.classList.add('news-description');
-            description.textContent = article.description;
-            contentDiv.appendChild(description);
-
-            const date = document.createElement('div');
-            date.classList.add('news-date');
-            date.textContent = article.date;
-            contentDiv.appendChild(date);
-
-            newsItem.appendChild(contentDiv);
-            newsContainer.appendChild(newsItem);
-        });
-    })
-    .catch(error => {
-        console.error('Ошибка загрузки новостей:', error);
-        const newsContainer = document.getElementById('news-container');
-        newsContainer.innerHTML = '<p style="color: var(--text-color)">Не удалось загрузить новости. Попробуйте позже.</p>';
+        }
     });
 
-    </script>
+    // --- Часть 2: Скрипт для загрузки и отображения новостей из JSON ---
+
+    // Указываем путь к файлу JSON с новостями. Убедитесь, что файл news.json находится в корне вашего веб-сервера.
+    const newsApiUrl = 'news.json';
+
+    // Асинхронная функция для получения и отображения новостей
+    async function fetchAndDisplayNews() {
+        // Находим контейнер, куда будут добавлены статьи новостей
+        const newsContainer = document.getElementById('news-container');
+
+        // Проверка: если контейнер не найден, выводим ошибку в консоль и прекращаем выполнение
+        if (!newsContainer) {
+            console.error('Элемент с id "news-container" не найден. Проверьте ваш HTML.');
+            return;
+        }
+
+        try {
+            // Отправляем запрос к JSON файлу
+            const response = await fetch(newsApiUrl);
+            // Если ответ сервера не успешен (например, 404 Not Found), выбрасываем ошибку
+            if (!response.ok) {
+                throw new Error(`Ошибка HTTP: ${response.status} - ${response.statusText}`);
+            }
+            // Преобразуем ответ в объект JavaScript (JSON парсинг)
+            const newsData = await response.json();
+
+            // Очищаем контейнер от предыдущего содержимого (например, "Загрузка новостей...")
+            newsContainer.innerHTML = '';
+
+            // Перебираем каждую новость в полученном массиве
+            newsData.forEach(article => {
+                // Создаем новый элемент div для каждой статьи
+                const articleElement = document.createElement('div');
+                articleElement.classList.add('news-article'); // Добавляем CSS класс для стилизации
+
+                // Заполняем созданный элемент HTML-структурой новости
+                articleElement.innerHTML = `
+                    <h3>${article.title}</h3>
+                    <p class="news-date">${article.date}</p>
+                    <p>${article.summary}</p>
+                    <a href="${article.link}" target="_blank" class="news-link">Читать полностью</a>
+                `;
+                // Добавляем созданную статью в контейнер на странице
+                newsContainer.appendChild(articleElement);
+            });
+        } catch (error) {
+            // В случае ошибки (сетевой, парсинга JSON и т.д.) выводим сообщение пользователю
+            console.error('Не удалось загрузить новости:', error);
+            newsContainer.innerHTML = '<p>Извините, произошла ошибка при загрузке новостей. Попробуйте обновить страницу позже.</p>';
+        }
+    }
+
+    // Вызываем функцию fetchAndDisplayNews сразу после того, как весь HTML документ будет загружен и разобран
+    document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
+</script>
+<!--
+    Вы можете добавить примеры CSS стилей для корректного отображения:
+    Создайте файл styles.css рядом с вашим HTML файлом и добавьте в него:
+
+    :root {
+      --background-color: #ffffff;
+      --text-color: #333333;
+      --header-footer-bg: #f8f8f8;
+      --icon-color: #333333;
+      --link-color: #007bff;
+      --article-bg: #ffffff;
+      --border-color: #eeeeee;
+    }
+
+    .dark-theme {
+      --background-color: #222222;
+      --text-color: #eeeeee;
+      --header-footer-bg: #333333;
+      --icon-color: #eeeeee;
+      --link-color: #8bb9ff;
+      --article-bg: #2b2b2b;
+      --border-color: #444444;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    header, footer {
+      background-color: var(--header-footer-bg);
+      padding: 1rem;
+      text-align: center;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .theme-toggle-button {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--icon-color);
+      padding: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .theme-toggle-button:hover {
+      color: var(--link-color);
+    }
+
+    #news-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .news-article {
+      background-color: var(--article-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+    }
+
+    .news-article h3 {
+      margin-top: 0;
+      color: var(--link-color);
+    }
+
+    .news-date {
+      font-size: 0.9rem;
+      color: #888888;
+      margin-bottom: 0.8rem;
+    }
+
+    .news-link {
+      color: var(--link-color);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .news-link:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    Также создайте файл news.json в той же директории, что и HTML, со следующим содержимым:
+
+    [
+      {
+        "title": "Встречайте новую версию нашего приложения!",
+        "date": "25 июля 2026",
+        "summary": "Мы рады представить вам последние улучшения и новые функции.",
+        "link": "#"
+      },
+      {
+        "title": "Технические работы на сервере",
+        "date": "24 июля 2026",
+        "summary": "Плановые технические работы могут вызвать временную недоступность сервиса.",
+        "link": "#"
+      },
+      {
+        "title": "Экспертный анализ рынка",
+        "date": "23 июля 2026",
+        "summary": "Свежий взгляд на текущие тенденции и прогнозы.",
+        "link": "#"
+      }
+    ]
+-->
 </body>
 </html>
