@@ -72,56 +72,47 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function displayNews(newsArray) {
-        if (!newsContainer) return;
+   function displayNews(newsArray) {
+    if (!newsContainer) return;
+    newsContainer.innerHTML = '';
 
-        newsContainer.innerHTML = ''; 
-        if (!newsArray || newsArray.length === 0) {
-            newsContainer.innerHTML = '<p>Новостей не найдено.</p>';
-            return;
-        }
-
-        newsArray.forEach(newsItem => {
-            let formattedDate = '';
-            if (newsItem.date) {
-                try {
-                    formattedDate = new Date(newsItem.date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
-                } catch (e) {
-                    formattedDate = newsItem.date; 
-                }
-            }
-
-            // --- ЛОГИКА КАТЕГОРИИ (Новое) ---
-            // Получаем категорию. Если её нет, ставим 'other'
-            const category = newsItem.category ? newsItem.category.toLowerCase() : 'other';
-            
-            // Формируем класс для цвета (category-sport, category-tech и т.д.)
-            const categoryClass = `category-${category}`;
-            
-            // Текст для отображения (можно оставить как есть, или сделать маппинг: sport -> "Спорт")
-            const categoryText = newsItem.category || 'Разное';
-            // ---------------------------------
-            
-            const newsElement = document.createElement('div');
-            newsElement.classList.add('news-item');
-            
-            newsElement.innerHTML = `
-                <div class="news-card">
-                    <!-- Плашка категории -->
-                    <span class="news-category-badge ${categoryClass}">${categoryText}</span>
-                    
-                    <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image">
-                    <div class="news-content">
-                        <h3 class="news-title">${newsItem.title}</h3>
-                        <p class="news-date">${formattedDate}</p>
-                        <p class="news-description">${newsItem.description}</p>
-                        <a href="#" class="read-more" data-id="${newsItem.id}">Читать далее</a>
-                    </div>
-                </div>
-            `;
-            newsContainer.appendChild(newsElement);
-        });
+    if (!newsArray || newsArray.length === 0) {
+        newsContainer.innerHTML = '<p style="padding: 20px;">Новостей не найдено</p>';
+        return;
     }
+
+    newsArray.forEach((newsItem, index) => {
+        const key = normalizeCategory(newsItem.category);
+        const displayText = newsItem.category || 'Разное';
+        const finalClass = `category-${key}`;
+        const categoryBadge = `<span class="news-category-badge ${finalClass}">${displayText}</span>`;
+        const imgSrc = newsItem.image || 'https://via.placeholder.com/300x220';
+
+        // --- ВОТ ЭТО НОВОЕ: Случайный выбор размера ---
+        let sizeClass = '';
+        const random = Math.random();
+        
+        if (random > 0.7) {
+            sizeClass = 'wide'; // 30% шанс стать широкой
+        } else if (random > 0.4) {
+            sizeClass = 'tall'; // 30% шанс стать высокой
+        } 
+        // остальные 40% останутся обычными
+        // ---------------------------------------------
+
+        newsContainer.innerHTML += `
+            <div class="news-item ${sizeClass}">
+                <img src="${imgSrc}" alt="${newsItem.title}" class="news-image">
+                <div class="news-content">
+                    ${categoryBadge}
+                    <h3 class="news-title">${newsItem.title}</h3>
+                    <p class="news-description">${newsItem.description || ''}</p>
+                    <a href="${newsItem.link}" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        `;
+    });
+}
 
     // --- ФИЛЬТРАЦИЯ И ПОИСК ---
     categoryButtons.forEach(button => {
