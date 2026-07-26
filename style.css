@@ -1,143 +1,52 @@
-/* Общие стили */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
+/* Общие стили для тела страницы */
 body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4;
-    color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  margin: 0;
+  padding: 40px 20px;
+  line-height: 1.6;
 }
 
-/* Контейнер для центровки */
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+/* Заголовок сайта */
+h1 {
+  text-align: center;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #222;
 }
 
-/* Хедер */
-header {
-    background-color: #007bff;
-    padding: 10px 0;
-    color: #fff;
+/* Контейнер для новостей */
+#news-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.header-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.search-container {
-    display: flex;
-    margin-top: 10px;
-}
-
-#search-input {
-    padding: 8px;
-    border: none;
-    border-radius: 4px 0 0 4px;
-    outline: none;
-    width: 200px;
-}
-
-#search-button {
-    padding: 8px 12px;
-    border: none;
-    background-color: #0056b3;
-    color: #fff;
-    border-radius: 0 4px 4px 0;
-    cursor: pointer;
-}
-
-#search-button:hover {
-    background-color: #004494;
-}
-
-/* Категории */
-.categories {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.category-btn {
-    padding: 8px 12px;
-    margin: 4px;
-    border: none;
-    background-color: #fff;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.category-btn:hover,
-.category-btn.active {
-    background-color: #0056b3;
-    color: #fff;
-}
-
-/* Новости */
-.news-container {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 20px 0;
-}
-
+/* Стиль отдельной новости */
 .news-item {
-    background-color: #fff;
-    padding: 16px;
-    border-radius: 4px;
-    box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.news-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Заголовки внутри новости */
 .news-item h2 {
-    font-size: 20px;
-    margin-bottom: 10px;
+  margin-top: 0;
+  font-size: 1.5em;
+  color: #007BFF;
 }
 
+/* Описание новости */
 .news-item p {
-    font-size: 14px;
-}
-
-/* Подвал */
-footer {
-    background-color: #222;
-    color: #ccc;
-    padding: 10px 0;
-    margin-top: 20px;
-    font-size: 14px;
-}
-
-/* Адаптивность */
-@media (min-width: 768px) {
-    .header-container {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    #search-input {
-        width: 250px;
-    }
-
-    .news-container {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-
-    .categories {
-        justify-content: start;
-    }
+  margin-top: 10px;
+  font-size: 1em;
+  color: #555;
 }
