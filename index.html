@@ -4,48 +4,85 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Новости</title>
-<link rel="stylesheet" href="styles.css" />
+<style>
+  body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 40px 20px;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    color: #222;
+  }
+
+  #news-container {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    max-width: 600px;
+  }
+
+  #news-container li {
+    margin-bottom: 10px;
+  }
+
+  #news-container a {
+    display: block;
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #007BFF;
+    font-size: 1.2em;
+    transition: background-color 0.2s, transform 0.2s;
+  }
+
+  #news-container a:hover {
+    background-color: #e6f0ff;
+    transform: translateY(-2px);
+  }
+</style>
 </head>
 <body>
 
 <h1>Новости</h1>
-<div id="news-container"></div>
+<ul id="news-container"></ul>
 
-<script src="scripts.js"></script>
 <script>
-  loadNews();
+  // Загрузка новостей из JSON
+  fetch('news.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Ошибка загрузки JSON');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const container = document.getElementById('news-container');
+      container.innerHTML = '';
 
-  function loadNews() {
-    fetch('news.json')
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Ошибка загрузки JSON');
-        }
-        return response.json();
-      })
-      .then(data => {
-        const container = document.getElementById('news-container');
-        container.innerHTML = '';
-
-        if (data.items && data.items.length > 0) {
-          data.items.forEach(item => {
-            const newsItem = document.createElement('div');
-            newsItem.className = 'news-item';
-            newsItem.innerHTML = `
-              <h2>${item.title}</h2>
-              <p>${item.description}</p>
-            `;
-            container.appendChild(newsItem);
-          });
-        } else {
-          container.innerHTML = '<p>Нет новостей</p>';
-        }
-      })
-      .catch(error => {
-        console.error('Ошибка:', error);
-        document.getElementById('news-container').innerHTML = '<p>Ошибка загрузки новостей</p>';
-      });
-  }
+      if (data.items && data.items.length > 0) {
+        data.items.forEach(item => {
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = item.link; // ссылка на страницу новости
+          a.textContent = item.title;
+          li.appendChild(a);
+          container.appendChild(li);
+        });
+      } else {
+        container.innerHTML = '<li>Нет новостей</li>';
+      }
+    })
+    .catch(error => {
+      console.error('Ошибка:', error);
+      document.getElementById('news-container').innerHTML = '<li>Ошибка загрузки новостей</li>';
+    });
 </script>
 
 </body>
