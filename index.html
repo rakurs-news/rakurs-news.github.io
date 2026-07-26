@@ -1,247 +1,48 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Новости</title>
-    <!-- Подключение CSS файла. Если у вас нет отдельного файла, стили можно будет добавить сюда же -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- Подключение библиотеки Font Awesome для иконок (рекомендуется) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ракурс NEWS</title>
+    <meta name="description" content="Современный новостной сайт Ракурс NEWS с разделами и поиском." />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<header>
-    <h1>Лента новостей</h1>
-    <!-- Кнопка для переключения темы -->
-    <button class="theme-toggle-button" aria-label="Переключить тему">
-        <i class="fas fa-sun"></i> <!-- Иконка по умолчанию (солнце) -->
-    </button>
-</header>
-
-<main id="news-container">
-    <!-- Этот блок будет динамически заполняться новостями из JSON -->
-    <p>Загрузка новостей...</p>
-</main>
-
-<footer>
-    <p>© 2026 Все права защищены</p>
-</footer>
-
-<script>
-    // --- Часть 1: Скрипт для переключения темы ---
-
-    // Находим кнопку переключения темы по её классу
-    const themeToggleButton = document.querySelector('.theme-toggle-button');
-
-    // Функция для применения выбранной темы (темной или светлой)
-    function applyTheme(theme) {
-        // Удаляем предыдущие классы тем, чтобы избежать конфликтов
-        document.body.classList.remove('light-theme', 'dark-theme');
-        // Добавляем класс для новой темы
-        document.body.classList.add(theme === 'dark' ? 'dark-theme' : 'light-theme');
-
-        // Сохраняем выбор пользователя в локальное хранилище браузера
-        localStorage.setItem('theme', theme);
-    }
-
-    // Получаем сохраненную тему из localStorage или устанавливаем 'light' (светлую) по умолчанию
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    applyTheme(savedTheme); // Применяем загруженную или тему по умолчанию
-
-    // Добавляем слушатель события клика на кнопку переключения темы
-    themeToggleButton.addEventListener('click', () => {
-        // Определяем текущую тему
-        const currentTheme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-        // Определяем новую тему (обратную текущей)
-        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-        applyTheme(newTheme); // Применяем новую тему
-
-        // Обновляем иконку на кнопке для наглядности
-        const themeIcon = themeToggleButton.querySelector('i');
-        if (themeIcon) {
-            if (newTheme === 'dark') {
-                themeIcon.classList.remove('fa-sun'); // Убираем иконку солнца
-                themeIcon.classList.add('fa-moon');  // Ставим иконку луны
-            } else {
-                themeIcon.classList.remove('fa-moon'); // Убираем иконку луны
-                themeIcon.classList.add('fa-sun');  // Ставим иконку солнца
-            }
-        }
-    });
-
-    // --- Часть 2: Скрипт для загрузки и отображения новостей из JSON ---
-
-    // Указываем путь к файлу JSON с новостями. Убедитесь, что файл news.json находится в корне вашего веб-сервера.
-    const newsApiUrl = 'news.json';
-
-    // Асинхронная функция для получения и отображения новостей
-    async function fetchAndDisplayNews() {
-        // Находим контейнер, куда будут добавлены статьи новостей
-        const newsContainer = document.getElementById('news-container');
-
-        // Проверка: если контейнер не найден, выводим ошибку в консоль и прекращаем выполнение
-        if (!newsContainer) {
-            console.error('Элемент с id "news-container" не найден. Проверьте ваш HTML.');
-            return;
-        }
-
-        try {
-            // Отправляем запрос к JSON файлу
-            const response = await fetch(newsApiUrl);
-            // Если ответ сервера не успешен (например, 404 Not Found), выбрасываем ошибку
-            if (!response.ok) {
-                throw new Error(`Ошибка HTTP: ${response.status} - ${response.statusText}`);
-            }
-            // Преобразуем ответ в объект JavaScript (JSON парсинг)
-            const newsData = await response.json();
-
-            // Очищаем контейнер от предыдущего содержимого (например, "Загрузка новостей...")
-            newsContainer.innerHTML = '';
-
-            // Перебираем каждую новость в полученном массиве
-            newsData.forEach(article => {
-                // Создаем новый элемент div для каждой статьи
-                const articleElement = document.createElement('div');
-                articleElement.classList.add('news-article'); // Добавляем CSS класс для стилизации
-
-                // Заполняем созданный элемент HTML-структурой новости
-                articleElement.innerHTML = `
-                    <h3>${article.title}</h3>
-                    <p class="news-date">${article.date}</p>
-                    <p>${article.summary}</p>
-                    <a href="${article.link}" target="_blank" class="news-link">Читать полностью</a>
-                `;
-                // Добавляем созданную статью в контейнер на странице
-                newsContainer.appendChild(articleElement);
-            });
-        } catch (error) {
-            // В случае ошибки (сетевой, парсинга JSON и т.д.) выводим сообщение пользователю
-            console.error('Не удалось загрузить новости:', error);
-            newsContainer.innerHTML = '<p>Извините, произошла ошибка при загрузке новостей. Попробуйте обновить страницу позже.</p>';
-        }
-    }
-
-    // Вызываем функцию fetchAndDisplayNews сразу после того, как весь HTML документ будет загружен и разобран
-    document.addEventListener('DOMContentLoaded', fetchAndDisplayNews);
-</script>
-<!--
-    Вы можете добавить примеры CSS стилей для корректного отображения:
-    Создайте файл styles.css рядом с вашим HTML файлом и добавьте в него:
-
-    :root {
-      --background-color: #ffffff;
-      --text-color: #333333;
-      --header-footer-bg: #f8f8f8;
-      --icon-color: #333333;
-      --link-color: #007bff;
-      --article-bg: #ffffff;
-      --border-color: #eeeeee;
-    }
-
-    .dark-theme {
-      --background-color: #222222;
-      --text-color: #eeeeee;
-      --header-footer-bg: #333333;
-      --icon-color: #eeeeee;
-      --link-color: #8bb9ff;
-      --article-bg: #2b2b2b;
-      --border-color: #444444;
-    }
-
-    body {
-      font-family: sans-serif;
-      background-color: var(--background-color);
-      color: var(--text-color);
-      margin: 0;
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    header, footer {
-      background-color: var(--header-footer-bg);
-      padding: 1rem;
-      text-align: center;
-      border-bottom: 1px solid var(--border-color);
-    }
-
-    .theme-toggle-button {
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: var(--icon-color);
-      padding: 0.5rem;
-      transition: color 0.3s ease;
-    }
-
-    .theme-toggle-button:hover {
-      color: var(--link-color);
-    }
-
-    #news-container {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 0 1rem;
-    }
-
-    .news-article {
-      background-color: var(--article-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      transition: background-color 0.3s ease, border-color 0.3s ease;
-    }
-
-    .news-article h3 {
-      margin-top: 0;
-      color: var(--link-color);
-    }
-
-    .news-date {
-      font-size: 0.9rem;
-      color: #888888;
-      margin-bottom: 0.8rem;
-    }
-
-    .news-link {
-      color: var(--link-color);
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .news-link:hover {
-      text-decoration: underline;
-    }
-
-    footer {
-      margin-top: 2rem;
-      border-top: 1px solid var(--border-color);
-    }
-
-    Также создайте файл news.json в той же директории, что и HTML, со следующим содержимым:
-
-    [
-      {
-        "title": "Встречайте новую версию нашего приложения!",
-        "date": "25 июля 2026",
-        "summary": "Мы рады представить вам последние улучшения и новые функции.",
-        "link": "#"
-      },
-      {
-        "title": "Технические работы на сервере",
-        "date": "24 июля 2026",
-        "summary": "Плановые технические работы могут вызвать временную недоступность сервиса.",
-        "link": "#"
-      },
-      {
-        "title": "Экспертный анализ рынка",
-        "date": "23 июля 2026",
-        "summary": "Свежий взгляд на текущие тенденции и прогнозы.",
-        "link": "#"
-      }
-    ]
--->
+    <header>
+        <div class="container header-container">
+            <h1 class="logo">Ракурс NEWS</h1>
+            <div class="search-container">
+                <input type="text" id="search-input" placeholder="Поиск новостей..." />
+                <button id="search-button">Найти</button>
+            </div>
+        </div>
+        <nav class="categories">
+            <button class="category-btn" data-category="Все">Все</button>
+            <button class="category-btn" data-category="Политика">Политика</button>
+            <button class="category-btn" data-category="Экономика">Экономика</button>
+            <button class="category-btn" data-category="Общество">Общество</button>
+            <button class="category-btn" data-category="Технологии">Технологии</button>
+            <button class="category-btn" data-category="Наука">Наука</button>
+            <button class="category-btn" data-category="Культура">Культура</button>
+            <button class="category-btn" data-category="Спорт">Спорт</button>
+            <button class="category-btn" data-category="Здоровье">Здоровье</button>
+            <button class="category-btn" data-category="Авто">Авто</button>
+            <button class="category-btn" data-category="Мода">Мода</button>
+            <button class="category-btn" data-category="Недвижимость">Недвижимость</button>
+            <button class="category-btn" data-category="Бизнес">Бизнес</button>
+            <button class="category-btn" data-category="Медиа">Медиа</button>
+        </nav>
+    </header>
+    <main>
+        <div class="container news-container" id="news-container">
+            <!-- Новости будут подгружаться сюда -->
+        </div>
+    </main>
+    <footer>
+        <div class="container footer-container">
+            <p>&copy; 2024 Ракурс NEWS. Все права защищены.</p>
+        </div>
+    </footer>
+    <script src="scripts.js"></script>
 </body>
 </html>
