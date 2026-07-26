@@ -1,48 +1,52 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ракурс NEWS</title>
-    <meta name="description" content="Современный новостной сайт Ракурс NEWS с разделами и поиском." />
-    <link rel="stylesheet" href="styles.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Новости</title>
+<link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <header>
-        <div class="container header-container">
-            <h1 class="logo">Ракурс NEWS</h1>
-            <div class="search-container">
-                <input type="text" id="search-input" placeholder="Поиск новостей..." />
-                <button id="search-button">Найти</button>
-            </div>
-        </div>
-        <nav class="categories">
-            <button class="category-btn" data-category="Все">Все</button>
-            <button class="category-btn" data-category="Политика">Политика</button>
-            <button class="category-btn" data-category="Экономика">Экономика</button>
-            <button class="category-btn" data-category="Общество">Общество</button>
-            <button class="category-btn" data-category="Технологии">Технологии</button>
-            <button class="category-btn" data-category="Наука">Наука</button>
-            <button class="category-btn" data-category="Культура">Культура</button>
-            <button class="category-btn" data-category="Спорт">Спорт</button>
-            <button class="category-btn" data-category="Здоровье">Здоровье</button>
-            <button class="category-btn" data-category="Авто">Авто</button>
-            <button class="category-btn" data-category="Мода">Мода</button>
-            <button class="category-btn" data-category="Недвижимость">Недвижимость</button>
-            <button class="category-btn" data-category="Бизнес">Бизнес</button>
-            <button class="category-btn" data-category="Медиа">Медиа</button>
-        </nav>
-    </header>
-    <main>
-        <div class="container news-container" id="news-container">
-            <!-- Новости будут подгружаться сюда -->
-        </div>
-    </main>
-    <footer>
-        <div class="container footer-container">
-            <p>&copy; 2024 Ракурс NEWS. Все права защищены.</p>
-        </div>
-    </footer>
-    <script src="scripts.js"></script>
+
+<h1>Новости</h1>
+<div id="news-container"></div>
+
+<script src="scripts.js"></script>
+<script>
+  loadNews();
+
+  function loadNews() {
+    fetch('news.json')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Ошибка загрузки JSON');
+        }
+        return response.json();
+      })
+      .then(data => {
+        const container = document.getElementById('news-container');
+        container.innerHTML = '';
+
+        if (data.items && data.items.length > 0) {
+          data.items.forEach(item => {
+            const newsItem = document.createElement('div');
+            newsItem.className = 'news-item';
+            newsItem.innerHTML = `
+              <h2>${item.title}</h2>
+              <p>${item.description}</p>
+            `;
+            container.appendChild(newsItem);
+          });
+        } else {
+          container.innerHTML = '<p>Нет новостей</p>';
+        }
+      })
+      .catch(error => {
+        console.error('Ошибка:', error);
+        document.getElementById('news-container').innerHTML = '<p>Ошибка загрузки новостей</p>';
+      });
+  }
+</script>
+
 </body>
 </html>
