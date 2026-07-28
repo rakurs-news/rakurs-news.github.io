@@ -29,6 +29,66 @@
         :root {
             --header-height: 60px; /* Высота вашей шапки + отступы */
         }
+        /* --- БАЗОВЫЙ СТИЛЬ ДЛЯ ВСЕХ КАТЕГОРИЙ --- */
+.category-tag {
+    color: #ffffff;                 /* Белый текст */
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 6px 12px;              /* Внутренние отступы */
+    border-radius: 20px;           /* Сильное скругление */
+    display: inline-block;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3); /* Легкая тень для объема */
+    margin: 12px 12px 0 12px;       /* Отступы от краев карточки */
+    align-self: flex-start;         /* Прижать к левому верхнему углу */
+    z-index: 10;
+}
+
+/* --- ЦВЕТА ДЛЯ КОНКРЕТНЫХ КАТЕГОРИЙ --- */
+
+/* Категория: СВО (Красный/Алый) */
+.category-tag[data-category="СВО"] {
+    background-color: #ff4757;
+    border: 1px solid #ff6b81;
+}
+
+/* Категория: ОБЩЕСТВО (Синий) */
+.category-tag[data-category="ОБЩЕСТВО"] {
+    background-color: #2f80ed;
+    border: 1px solid #4facf0;
+}
+
+/* Категория: РЕГИОНЫ (Зеленый) */
+.category-tag[data-category="РЕГИОНЫ"] {
+    background-color: #2ed573;
+    border: 1px solid #48e08b;
+}
+
+/* Категория: ПРОИСШЕСТВИЯ (Оранжевый) */
+.category-tag[data-category="ПРОИСШЕСТВИЯ"] {
+    background-color: #ffa502;
+    border: 1px solid #ffc04d;
+}
+
+/* Категория: ЭКОНОМИКА (Фиолетовый) */
+.category-tag[data-category="ЭКОНОМИКА"] {
+    background-color: #a45efb;
+    border: 1px solid #bb86fc;
+}
+
+/* Категория: КУЛЬТУРА (Бирюзовый) */
+.category-tag[data-category="КУЛЬТУРА"] {
+    background-color: #1dd1a1;
+    border: 1px solid #37fca3;
+}
+
+/* Категория: СПОРТ (Желтый) */
+.category-tag[data-category="СПОРТ"] {
+    background-color: #feca57;
+    border: 1px solid #ffeaa7;
+}
+
     </style>
 </head>
 <body>
