@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
     // --- ФУНКЦИИ ОТРИСОВКИ ---
+
     function displayFeaturedNews(newsItem) {
         if (featuredNewsContainer) {
             featuredNewsContainer.style.display = 'block';
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${newsItem.image}" alt="${newsItem.title}" class="featured-news-image">
                     <div class="featured-news-content">
                         <h2 class="featured-news-title">${newsItem.title}</h2>
+                        <!-- Оставил дату как было, чтобы не ломать верстку главной статьи -->
                         <p class="featured-news-date">${newsItem.date}</p>
                         <p class="featured-news-description">${newsItem.description}</p>
                         <a href="#" class="read-more-featured" data-id="${newsItem.id}">Читать полностью</a>
@@ -76,50 +78,43 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!newsContainer) return;
 
         newsContainer.innerHTML = ''; 
+        
         if (!newsArray || newsArray.length === 0) {
             newsContainer.innerHTML = '<p>Новостей не найдено.</p>';
             return;
         }
 
         newsArray.forEach(newsItem => {
-            let formattedDate = '';
-            if (newsItem.date) {
-                try {
-                    formattedDate = new Date(newsItem.date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
-                } catch (e) {
-                    formattedDate = newsItem.date; 
-                }
-            }
+            const timeVal = newsItem.time || ''; 
+            const displayDate = timeVal ? `${newsItem.date}, ${timeVal}` : newsItem.date;
+            
+            const baseDate = newsItem.dateSchema || '1970-01-01'; 
+            const schemaDate = timeVal ? `${baseDate}T${timeVal}:00` : baseDate;
 
-            // --- ЛОГИКА КАТЕГОРИИ (Новое) ---
-            // Получаем категорию. Если её нет, ставим 'other'
-            const category = newsItem.category ? newsItem.category.toLowerCase() : 'other';
-            
-            // Формируем класс для цвета (category-sport, category-tech и т.д.)
-            const categoryClass = `category-${category}`;
-            
-            // Текст для отображения (можно оставить как есть, или сделать маппинг: sport -> "Спорт")
-            const categoryText = newsItem.category || 'Разное';
-            // ---------------------------------
-            
-            const newsElement = document.createElement('div');
-            newsElement.classList.add('news-item');
-            
-            newsElement.innerHTML = `
-                <div class="news-card">
-                    <!-- Плашка категории -->
-                    <span class="news-category-badge ${categoryClass}">${categoryText}</span>
-                    
-                    <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image">
-                    <div class="news-content">
-                        <h3 class="news-title">${newsItem.title}</h3>
-                        <p class="news-date">${formattedDate}</p>
-                        <p class="news-description">${newsItem.description}</p>
-                        <a href="#" class="read-more" data-id="${newsItem.id}">Читать далее</a>
+            const cardHTML = `
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <div class="card-image-wrapper">
+                        <img src="${newsItem.image}" alt="${newsItem.title}" itemprop="image">
+                        ${newsItem.isHot ? '<span class="hot-badge">🔥 Горячее</span>' : ''}
                     </div>
-                </div>
+                    <div class="card-content">
+                        <span class="category-tag">${newsItem.category}</span>
+                        <div class="meta-info">
+                            <time class="publish-date" datetime="${schemaDate}">
+                                ${displayDate}
+                            </time>
+                            <meta itemprop="datePublished" content="${schemaDate}">
+                            ${newsItem.author ? `<meta itemprop="author" content="${newsItem.author}">` : ''}
+                        </div>
+                        <h3 class="news-title" itemprop="headline">
+                            <a href="article.html?id=${newsItem.id}">${newsItem.title}</a>
+                        </h3>
+                        <p class="news-desc" itemprop="description">${newsItem.description}</p>
+                    </div>
+                </article>
             `;
-            newsContainer.appendChild(newsElement);
+            
+            newsContainer.innerHTML += cardHTML;
         });
     }
 
@@ -170,9 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ПРОКРУТКА И ПРОГРЕСС-БАР (ИСПРАВЛЕНО) ---
+    // --- ПРОКРУТКА И ПРОГРЕСС-БАР ---
     
-    // 1. Логика прогресс-бара (оставлена как была)
     window.addEventListener('scroll', () => {
         progressBarScroll();
     });
@@ -185,9 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. Логика кнопки "Наверх" (ПОЛНОСТЬЮ ПЕРЕПИСАНА)
     if (scrollToTopButton) {
-        // Показываем/скрываем кнопку при скролле
         window.addEventListener('scroll', () => {
             if (window.scrollY > 300) {
                 scrollToTopButton.classList.add('visible');
@@ -196,11 +188,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Плавная прокрутка при клике
         scrollToTopButton.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth' // Плавная анимация
+                behavior: 'smooth'
             });
         });
     }
