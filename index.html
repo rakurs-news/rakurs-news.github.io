@@ -1,89 +1,124 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Новости</title>
-<style>
-  body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    margin: 0;
-    padding: 40px 20px;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ракурс NEWS — ироничные новости с экспертным взглядом</title>
 
-  h1 {
-    text-align: center;
-    font-size: 2.5em;
-    margin-bottom: 30px;
-    color: #222;
-  }
+    <!-- Иконка на вкладке браузера -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
 
-  #news-container {
-    list-style: none;
-    padding: 0;
-    margin: 0 auto;
-    max-width: 600px;
-  }
+    <!-- Мета для соцсетей (OG) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/">
+    <meta property="og:title" content="Ракурс NEWS">
+    <meta property="og:description" content="Свежие новости с иронией. Вся правда в иронии">
+    <meta property="og:image" content="images/logo.png"> 
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-  #news-container li {
-    margin-bottom: 10px;
-  }
+    <meta name="description" content="Ракурс NEWS: Ироничный взгляд на главные новости политики, общества и мира. Раскрываем правду через сарказм и острый анализ">
+    
+    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО CSS -->
+    <link rel="stylesheet" href="style.css">
 
-  #news-container a {
-    display: block;
-    padding: 15px;
-    background-color: #fff;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #007BFF;
-    font-size: 1.2em;
-    transition: background-color 0.2s, transform 0.2s;
-  }
-
-  #news-container a:hover {
-    background-color: #e6f0ff;
-    transform: translateY(-2px);
-  }
-</style>
+    <!-- Переменные для точного позиционирования (чтобы панель встала ровно под шапкой) -->
+    <style>
+        :root {
+            --header-height: 60px; /* Высота вашей шапки + отступы */
+        }
+    </style>
 </head>
 <body>
+    <h1 style="display: none;">Актуальные новости Ракурс NEWS</h1>
+    
+    <div id="progress-bar"></div>
 
-<h1>Новости</h1>
-<ul id="news-container"></ul>
+    <header>
+        <div class="logo-wrapper">
+            <img src="images/logo.png" alt="Logo">
+            <span id="logo-text">Ракурс NEWS</span>
+        </div>
+        <div class="controls-wrapper">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Поиск...">
+                <div id="search-results"></div>
+            </div>
+            <button class="theme-toggle" aria-label="Сменить тему">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
 
-<script>
-  // Загрузка новостей из JSON
-  fetch('news.json')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Ошибка загрузки JSON');
-      }
-      return response.json();
-    })
-    .then(data => {
-      const container = document.getElementById('news-container');
-      container.innerHTML = '';
+    <!-- НОВАЯ ПАНЕЛЬ КАТЕГОРИЙ -->
+    <!-- Высота 30px, прозрачность, горизонтальный скролл -->
+    <div class="categories-panel">
+        <div class="categories-wrapper" id="menu">
+            <button class="category-btn active" data-category="all">Все новости</button>
+            <button class="category-btn" data-category="СВО">СВО</button>
+            <button class="category-btn" data-category="Общество">Общество</button>
+            <button class="category-btn" data-category="Регионы">Регионы</button>
+            <button class="category-btn" data-category="Государство">Государство</button>
+            <button class="category-btn" data-category="Происшествия">Происшествия</button>
+            <button class="category-btn" data-category="Криминал">Криминал</button>
+            <button class="category-btn" data-category="Политика">Политика</button>
+            <button class="category-btn" data-category="Геополитика">Геополитика</button>
+            <button class="category-btn" data-category="Коррупция">Коррупция</button>
+            <button class="category-btn" data-category="Шоу-бизнес">Шоу-бизнес</button>
+            <button class="category-btn" data-category="Спорт">Спорт</button>
+            <button class="category-btn" data-category="Наука">Наука</button>
+            <button class="category-btn" data-category="Стиль">Стиль</button>
+            <button class="category-btn" data-category="Культура">Культура</button>
+        </div>
+    </div>
+    <!-- КОНЕЦ НОВОЙ ПАНЕЛИ -->
 
-      if (data.items && data.items.length > 0) {
-        data.items.forEach(item => {
-          const li = document.createElement('li');
-          const a = document.createElement('a');
-          a.href = item.link; // ссылка на страницу новости
-          a.textContent = item.title;
-          li.appendChild(a);
-          container.appendChild(li);
-        });
-      } else {
-        container.innerHTML = '<li>Нет новостей</li>';
-      }
-    })
-    .catch(error => {
-      console.error('Ошибка:', error);
-      document.getElementById('news-container').innerHTML = '<li>Ошибка загрузки новостей</li>';
-    });
-</script>
+    <div id="top-scroll-indicator" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: var(--accent);
+        z-index: 2001;
+    "></div>
 
+    <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
+    <div id="main-news" class="featured-news" style="display: none;"></div>
+    <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
+
+    <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <div class="floating-buttons" id="floatingButtons">
+        <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
+        <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
+    </div>
+
+    <div class="footer">
+        <div class="social-icons">
+            <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
+            <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
+    <script src="script.js" defer></script>
 </body>
 </html>
