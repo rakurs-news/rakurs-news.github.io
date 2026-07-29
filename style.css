@@ -867,3 +867,31 @@ function scrollToTop() {
 .categories-panel {
     width: 100%;
 }
+
+.categories-panel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.categories-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 6px 0;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    
+    /* Скрываем полосу прокрутки */
+    scrollbar-width: none; 
+}
+
+.categories-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.category-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    min-width: 140px;
+    padding: 10px 16px;
+}
