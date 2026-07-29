@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лента новостей — Страница 2</title>
+
+    <style>
+        :root {
+            --bg: #ffffff;
+            --card: #f9f9f9;
+            --text: #1a1a1a;
+            --accent: #ff9800;
+            --meta: #666;
+        }
+
+        body.dark-theme {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #e0e0e0;
+            --accent: #ff9800;
+            --meta: #aaa;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: sans-serif;
+            margin: 0;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 2000;
+        }
+
+        header {
+            background: var(--card);
+            padding: 15px 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-left: 5px;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #searchInput {
+            height: 32px;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid var(--accent);
+            background: var(--bg);
+            color: var(--text);
+            border-radius: 2px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 500px) {
+            #searchInput { width: 90px; }
+        }
+
+        .categories-panel {
+            height: 30px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: sticky;
+            top: calc(var(--header-height, 60px));
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+
+        body.dark-theme .categories-panel {
+            background-color: rgba(30, 30, 30, 0.3);
+        }
+
+        .categories-panel::-webkit-scrollbar { display: none; }
+
+        .categories-wrapper {
+            padding: 0 10px;
+            display: flex;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .category-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+            position: relative;
+            padding-bottom: 8px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .category-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.2s ease-in-out;
+        }
+
+        .category-btn.active { color: var(--accent); }
+        .category-btn.active::after { width: 100%; }
+        .category-btn:hover:not(.active) { color: var(--accent); }
+
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .news-item {
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background-color: #333;
+        }
+
+        .news-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .news-title {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .news-description {
+            font-size: 14px;
+            color: var(--meta);
+            margin-bottom: 15px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.2s ease-in-out;
+            margin-top: auto;
+        }
+
+        .read-more:hover { background: #e68a00; }
+
+        .news-category-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Цвета категорий */
+        .category-сво { background-color: #e53935; }
+        .category-общество { background-color: #43a047; }
+        .category-регионы { background-color: #fbc02d; color: #000; }
+        .category-государство { background-color: #1e88e5; }
+        .category-происшествия { background-color: #f4511e; }
+        .category-криминал { background-color: #6d4c41; }
+        .category-политика { background-color: #7b1fa2; }
+        .category-геополитика { background-color: #00acc1; }
+        .category-коррупция { background-color: #c62828; }
+        .category-шоу-бизнес { background-color: #ad1457; }
+        .category-спорт { background-color: #5e35b1; }
+        .category-наука { background-color: #00838f; }
+        .category-стиль { background-color: #8e24aa; }
+        .category-культура { background-color: #33691e; }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+            border-left: 1px solid #e0e0e0; 
+            padding-left: 1.5rem;
+        }
+
+        .widget {
+            background: var(--card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        .widget h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text);
+            border-bottom: 3px solid var(--accent); 
+            padding-bottom: 0.5rem;
+        }
+
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            background: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        .page-btn:hover:not(.disabled) { background: #007bff; color: white; border-color: #007bff; }
+        .page-btn.active { background: #007bff; color: white; border-color: #007bff; }
+        .page-btn.disabled { opacity: 0.5; cursor: not-allowed; border-color: #ddd; }
+
+        .footer {
+            min-height: 60px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--accent);    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            z-index: 1001;
+        }
+
+        .social-icons { display: flex; gap: 25px; }
+        .social-icons img { width: 36px; height: 36px; }
+
+        #scrollToTop {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            display: none;
+            z-index: 1002;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        @media (max-width: 992px) {
+            .layout-wrapper { grid-template-columns: 1fr; gap: 1.5rem; }
+            .sidebar { border-left: none; padding-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    
+    <header>
+        <div class="logo-wrapper">
+            <img src="img/logo.png" alt="Logo" onerror="this.style.display='none'">
+            <span>Ракурс NEWS</span>
+        </div>
+        <div class="controls-wrapper">
+            <input type="text" id="searchInput" placeholder="Поиск..." style="height:32px; width:150px; padding:0 10px; border:1px solid var(--accent); background:var(--bg); color:var(--text); border-radius:2px;">
+            <button class="theme-toggle" onclick="document.body.classList.toggle('dark-theme')" title="Переключить тему">🌙</button>
+        </div>
+    </header>
+
+    <nav class="categories-panel">
+        <div class="categories-wrapper">
+            <button class="category-btn active" data-category="all">Все</button>
+            <button class="category-btn" data-category="сво">СВО</button>
+            <button class="category-btn" data-category="общество">Общество</button>
+            <button class="category-btn" data-category="регионы">Регионы</button>
+            <button class="category-btn" data-category="государство">Государство</button>
+            <button class="category-btn" data-category="происшествия">Происшествия</button>
+            <button class="category-btn" data-category="криминал">Криминал</button>
+            <button class="category-btn" data-category="политика">Политика</button>
+            <button class="category-btn" data-category="геополитика">Геополитика</button>
+            <button class="category-btn" data-category="коррупция">Коррупция</button>
+            <button class="category-btn" data-category="шоу-бизнес">Шоу‑бизнес</button>
+            <button class="category-btn" data-category="спорт">Спорт</button>
+            <button class="category-btn" data-category="наука">Наука</button>
+            <button class="category-btn" data-category="стиль">Стиль</button>
+            <button class="category-btn" data-category="культура">Культура</button>
+        </div>
+    </nav>
+
+    <main class="layout-wrapper">
+        <section class="content-area">
+            <div class="breadcrumbs" style="padding:10px 20px; font-size:12px; color:var(--meta);">Главная / Новости</div>
+            
+            <div class="news-grid" id="news-container">
+                <!-- Новость 1 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-сво">СВО</span>
+                        <img src="/images/IMG_20260719_110542_908.jpg" alt="Новость 1" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Россия готовит особый ответ на наглую атаку беспилотниками на Москву</h3>
+                            <span class="news-date">20 июля 2026</span>
+                            <p class="news-description">Массовая атака на Москву БПЛА ВСУ. Власти заявили о готовности к зеркальным мерам.</p>
+                            <a href="news-1.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+            
+            <div class="pagination-wrapper">
+                <button class="page-btn disabled">←</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">→</button>
+            </div>
+            </section>
+            
+            <aside class="sidebar">
+                <div class="widget">
+                    <h3>Курс валют</h3>
+                    <div class="currency-rates">
+                        <div class="rate-item">
+                            <span class="currency-name">USD</span>
+                            <span class="rate-value">92.50 ₽</span>
+                        </div>
+                        <div class="rate-item">
+                            <span class="currency-name">EUR</span>
+                            <span class="rate-value">99.80 ₽</span>
+                        </div>
+                    </div>
+                    <p class="currency-comment">Данные обновляются каждые 15 минут.</p>
+                </div>
+            
+                <div class="widget">
+                    <h3>Горячие новости</h3>
+                    <ul class="trends-list">
+                        <li><a href="news-1.html">Главные события дня: сводка по ключевым направлениям</a></li>
+                        <li><a href="news-2.html">Социальные выплаты: новые категории получателей</a></li>
+                        <li><a href="news-3.html">Инфраструктурные проекты в регионах: финансирование и сроки</a></li>
+                        <li><a href="news-4.html">Цифровые сервисы: новый закон и его последствия</a></li>
+                        <li><a href="news-5.html">Пожар в промзоне: последние данные о пострадавших</a></li>
+                    </ul>
+                </div>
+            
+                <div class="widget">
+                    <h3>Мем дня</h3>
+                    <div class="meme-container">
+                        <img src="img/meme.jpg" alt="Мем дня" class="meme-image" onerror="this.style.display='none'">
+                    </div>
+                    <p class="meme-caption">Когда дедлайн уже вчера, а правки только начались.</p>
+                </div>
+            </aside>
+            </main>
+            
+            <footer class="footer">
+                <div class="social-icons">
+                    <img src="img/icon-vk.png" alt="VK" onerror="this.style.display='none'">
+                    <img src="img/icon-tg.png" alt="Telegram" onerror="this.style.display='none'">
+                </div>
+                <p style="margin: 0; font-size: 12px; color: var(--meta);">© 2023 Новостной портал. Все права защищены.</p>
+            </footer>
+            
+            <button id="scrollToTop" title="Наверх">↑</button>
+            
+            <script>
+                // Прогресс-бар при прокрутке
+                window.addEventListener('scroll', () => {
+                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercent = (scrollTop / scrollHeight) * 100;
+                    document.getElementById('progress-bar').style.width = scrollPercent + '%';
+            
+                    const btn = document.getElementById('scrollToTop');
+                    if (scrollTop > 300) {
+                        btn.style.display = 'block';
+                    } else {
+                        btn.style.display = 'none';
+                    }
+                });
+            
+                // Кнопка «Наверх»
+                document.getElementById('scrollToTop').addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            
+                // Фильтрация по категориям
+                const categoryButtons = document.querySelectorAll('.category-btn');
+                const newsItems = document.querySelectorAll('.news-item');
+            
+                categoryButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Обновляем активный класс кнопок
+                        categoryButtons.forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+            
+                        const category = btn.dataset.category;
+            
+                        newsItems.forEach(item => {
+                            const badge = item.querySelector('.news-category-badge');
+                            if (category === 'all' || (badge && badge.className.includes('category-' + category))) {
+                                item.style.display = 'flex';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    });
+                });
+            
+                // Пагинация (заглушка — в реальном проекте тут будет подгрузка данных)
+                const pageBtns = document.querySelectorAll('.page-btn');
+                pageBtns.forEach(btn => {
+                    if (!btn.classList.contains('disabled')) {
+                        btn.addEventListener('click', () => {
+                            pageBtns.forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            // Здесь можно добавить логику подгрузки следующей страницы
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                        });
+                    }
+                });
+            </script>
+            </body>
+            </html>
+            
