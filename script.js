@@ -11,19 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let allNewsData = [];
     let currentCategory = 'all';
+    
+    // --- НАСТРОЙКИ ПАГИНАЦИИ ---
+    const ITEMS_PER_PAGE = 20; 
+    let currentPage = 1;       
+    // --------------------------
 
     // --- 1. ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ ДЛЯ КАТЕГОРИЙ ---
     const categoriesContainer = document.querySelector('.categories-panel'); 
-    
     if (categoriesContainer) {
         categoriesContainer.addEventListener('wheel', (evt) => {
             evt.preventDefault(); 
             categoriesContainer.scrollLeft += evt.deltaY;
         }, { passive: false });
     } else {
-        console.warn('⚠️ Блок .categories-panel не найден. Проверь HTML.');
+        console.warn('⚠️ Блок .categories-panel не найден.');
     }
-    // --------------------------------------------------------
 
     // --- 2. ЗАГРУЗКА НОВОСТЕЙ ---
     fetch('news.json')
@@ -39,10 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (featuredNews) displayFeaturedNews(featuredNews);
         }
 
-        displayNews(allNewsData);
-        
-        // 👇 ВЫЗОВ populateTrendsList УДАЛЕН, так как функция удалена
-        // populateTrendsList(); 
+        renderPaginatedNews(allNewsData);
 
         if (loader) loader.style.display = 'none'; 
     })
@@ -52,16 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.textContent = 'Не удалось загрузить новости. Проверьте консоль.';
             loader.style.display = 'block'; 
         }
+        // Даже если новости не загрузились, пробуем отрисовать пустую пагинацию или заглушку
+        renderPaginatedNews([]);
     });
-
-    // 👇 ФУНКЦИЯ populateTrendsList ПОЛНОСТЬЮ УДАЛЕНА (она была с ошибкой и ломала скрипт)
-
 
     // --- ФУНКЦИИ ОТРИСОВКИ ---
     function displayFeaturedNews(newsItem) {
         if (featuredNewsContainer) {
             featuredNewsContainer.style.display = 'block';
-            
             let formattedDate = '';
             if (newsItem.date) {
                 try {
@@ -70,7 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     formattedDate = newsItem.date; 
                 }
             }
-
             featuredNewsContainer.innerHTML = `
                 <div class="featured-news-card">
                     <img src="${newsItem.image}" alt="${newsItem.title}" class="featured-news-image">
@@ -92,32 +89,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function displayNews(newsArray) {
+    // --- ПАГИНАЦИЯ ---
+    function renderPaginatedNews(newsArray) {
         if (!newsContainer) return;
         newsContainer.innerHTML = ''; 
+
         if (!newsArray || newsArray.length === 0) {
             newsContainer.innerHTML = '<p>Новостей не найдено.</p>';
             return;
         }
-    
+
+        const totalPages = Math.ceil(newsArray.length / ITEMS_PER_PAGE);
+        
+        if (totalPages <= 1) {
+            displayNewsSlice(newsArray, 0, newsArray.length);
+            return;
+        }
+
+        const start = (currentPage - 1) * ITEMS_PER_PAGE;
+        const end = start + ITEMS_PER_PAGE;
+        
+        displayNewsSlice(newsArray, start, end);
+
+        // --- ОТРИСОВКА КНОПОК ---
+        const paginationContainer = document.createElement('div');
+        paginationContainer.className = 'pagination-wrapper';
+
+        if (currentPage > 1) {
+            paginationContainer.innerHTML += `<button class="page-btn" onclick="changePage(${currentPage - 1})">« Назад</button>`;
+        } else {
+            paginationContainer.innerHTML += `<span class="page-btn disabled">« Назад</span>`;
+        }
+
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+        
+        for (let i = startPage; i <= endPage; i++) {
+            if (i === currentPage) {
+                paginationContainer.innerHTML += `<span class="page-btn active">${i}</span>`;
+            } else {
+                paginationContainer.innerHTML += `<button class="page-btn" onclick="changePage(${i})">${i}</button>`;
+            }
+        }
+
+        if (currentPage < totalPages) {
+            paginationContainer.innerHTML += `<button class="page-btn" onclick="changePage(${currentPage + 1})">Далее »</button>`;
+        } else {
+            paginationContainer.innerHTML += `<span class="page-btn disabled">Далее »</span>`;
+        }
+
+        newsContainer.appendChild(paginationContainer);
+    }
+
+    function displayNewsSlice(newsArray, startIndex, endIndex) {
         const categoryMap = {
-            'сво': 'сво',
-            'общество': 'общество',
-            'регионы': 'регионы',
-            'государство': 'государство',
-            'происшествия': 'происшествия',
-            'криминал': 'криминал',
-            'политика': 'политика',
-            'геополитика': 'геополитика',
-            'коррупция': 'коррупция',
-            'шоу-бизнес': 'шоу-бизнес',
-            'спорт': 'спорт',
-            'наука': 'наука',
-            'стиль': 'стиль',
-            'культура': 'культура'
+            'сво': 'сво', 'общество': 'общество', 'регионы': 'регионы',
+            'государство': 'государство', 'происшествия': 'происшествия',
+            'криминал': 'криминал', 'политика': 'политика',
+            'геополитика': 'геополитика', 'коррупция': 'коррупция',
+            'шоу-бизнес': 'шоу-бизнес', 'спорт': 'спорт',
+            'наука': 'наука', 'стиль': 'стиль', 'культура': 'культура'
         };
     
-        newsArray.forEach(newsItem => {
+        const slice = newsArray.slice(startIndex, endIndex);
+
+        slice.forEach(newsItem => {
             let formattedDate = '';
             if (newsItem.date) {
                 try {
@@ -154,7 +191,15 @@ document.addEventListener('DOMContentLoaded', () => {
             newsContainer.appendChild(newsElement);
         });
     }
-    
+
+    window.changePage = function(pageNumber) {
+        currentPage = pageNumber;
+        const filtered = currentCategory === 'all' 
+            ? allNewsData 
+            : allNewsData.filter(item => item.category === currentCategory);
+        renderPaginatedNews(filtered);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     // --- ФИЛЬТРАЦИЯ И ПОИСК ---
     categoryButtons.forEach(button => {
@@ -162,6 +207,7 @@ document.addEventListener('DOMContentLoaded', () => {
             categoryButtons.forEach(btn => btn.classList.remove('active'));
             button.classList.add('active');
             currentCategory = button.getAttribute('data-category');
+            currentPage = 1; 
             filterNews();
         });
     });
@@ -170,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const filtered = currentCategory === 'all' 
             ? allNewsData 
             : allNewsData.filter(item => item.category === currentCategory);
-        displayNews(filtered);
+        renderPaginatedNews(filtered);
     }
 
     searchInput.addEventListener('input', () => {
@@ -180,7 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.title.toLowerCase().includes(query) ||
                 item.description.toLowerCase().includes(query)
             );
-            displayNews(filtered);
+            currentPage = 1;
+            renderPaginatedNews(filtered);
         } else if (query.length === 0) {
             filterNews(); 
         }
@@ -216,15 +263,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // ИСПРАВЛЕНИЕ ОШИБКИ scrollToTop
     if (scrollToTopButton) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollToTopButton.classList.add('visible');
-            } else {
-                scrollToTopButton.classList.remove('visible');
-            }
-        });
-
         scrollToTopButton.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
@@ -235,7 +275,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ---
     const themeToggleBtn = document.querySelector('.theme-toggle');
-    
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
@@ -254,21 +293,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     
-    // --- КУРС ВАЛЮТ ---
+    // --- КУРС ВАЛЮТ (ИСПРАВЛЕННАЯ ВЕРСИЯ) ---
     async function updateCurrency() {
         const usdEl = document.getElementById('usd-rate');
         const eurEl = document.getElementById('eur-rate');
         const commentEl = document.getElementById('currency-comment');
     
         if (!usdEl || !eurEl || !commentEl) {
-            return; 
+            return; // Если блоков нет в HTML, просто выходим, не ломаем скрипт
         }
     
         try {
             const response = await fetch('https://api.exchangerate.host/latest?base=RUB');
             const data = await response.json();
-    
-            // Исправление: берем значения из данных API, а не из неопределенных переменных usd/eur
+            
+            // Проверка, что данные пришли корректно
+            if (!data.rates || !data.rates.USD || !data.rates.EUR) {
+                console.warn('API вернул неполные данные о курсе');
+                return;
+            }
+
             const usdRate = data.rates.USD;
             const eurRate = data.rates.EUR;
 
@@ -288,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
             commentEl.textContent = comment;
         } catch (e) {
             console.error('Ошибка загрузки курса:', e);
+            // Не показываем ошибку пользователю, просто не обновляем курс
         }
     }
     
