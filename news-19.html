@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      
-    <!-- Мета будут меняться скриптом -->
-    <title id="page-title">Загрузка...</title>
-    <meta property="og:title" content="" id="og-title">
-    <meta property="og:description" content="" id="og-desc">
-    <meta property="og:image" content="" id="og-img">
-    <meta property="og:url" content="">
+    
+    <!-- ШАГ 1: Мета-теги заполнены вручную, чтобы робот их сразу видел -->
+    <title>Дуров в розыске: «Дайвинчик» подставил? | Ракурс NEWS</title>
+    <meta property="og:title" content="Дуров в розыске: «Дайвинчик» подставил?">
+    <meta property="og:description" content="Основатель Telegram Павел Дуров объявлен в розыск. ФСБ связывает это с деятельностью чат-бота «Дайвинчик».">
+    <meta property="og:image" content="https://rakurs-news.github.io/images/5411529171307010672_120.jpg">
+    <meta property="og:url" content="https://rakurs-news.github.io/news-19.html">
+    <meta property="og:type" content="article">
 
     <style>
         :root {
@@ -70,6 +71,7 @@
             margin: 0;
         }
 
+        /* Упростили кнопку темы, чтобы она работала даже без сложного скрипта */
         .theme-toggle {
             cursor: pointer;
             background: transparent;
@@ -192,7 +194,8 @@
             <img src="/images/logo.png" alt="Logo">
             <span>Ракурс NEWS</span>
         </div>
-        <button class="theme-toggle" onclick="toggleTheme()" aria-label="Сменить тему">
+        <!-- Кнопка темы работает, но логика переключения темы теперь будет простой -->
+        <button class="theme-toggle" onclick="toggleThemeSimple()" aria-label="Сменить тему">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -207,94 +210,43 @@
         </button>
     </header>
     
-    <h1 id="article-title">Дуров в розыске: «Дайвинчик» подставил?</h1>
+    <!-- Заголовок теперь статический -->
+    <h1>Дуров в розыске: «Дайвинчик» подставил?</h1>
     
-    <img id="article-image" src="/images/5424694629048720938_121.jpg" alt="Дуров" style="display:none;">
+    <!-- Картинка теперь статическая -->
+    <img src="/images/5411529171307010672_120.jpg" alt="Павел Дуров">
     
-    <article id="article-content">
-        Ну что, господа, похоже, Павел Дуров, создатель нашего любимого «Телеграма», теперь официально — лицо международного розыска.
-
-       <p>И всё из-за какого-то там «Дайвинчика», который, видимо, стал последней каплей для ФСБ. Говорят, этот ваш чат-бот, популярный среди молодежи, использовался украинскими спецслужбами для вербовки наших детишек. А кому интересно, куда дети втягиваются, если все знают, что там еще и порнография с ЛГБТ* процветают?</p>
-       <p>За прошедший год, между прочим, 46 юных душ (от 12 до 22 лет, представьте себе!) в разных уголках России поймали на всякой диверсионно-террористической ерунде. Всему виной, как утверждает ФСБ, «обман и психологическая обработка» через тот самый «Дайвинчик/Leo — знакомства, общение и новые друзья». Этих бедняг заставляли то шкафы релейные поджигать, то на ментов нападать, то курьерами работать. Теперь им всем светит немалый срок.</p>
-       <p>В общем, пока Дуров где-то там, наслаждается жизнью, его детище, похоже, стало орудием в чьих-то грязных играх. И если раньше Telegram был просто удобным инструментом для общения, то теперь он, видимо, по версии следствия, превратился в настоящую вербовочную сеть. Впрочем, для тех, кто в теме, ничего удивительного, правда?</p>
-       <p>* — экстремистская организация, запрещенная в РФ.</p>
+    <article>
+        <!-- Текст теперь лежит прямо здесь, робот Яндекса его видит сразу -->
+        <p>Ну что, господа, похоже, Павел Дуров, создатель нашего любимого «Телеграма», теперь официально — лицо международного розыска.</p>
+        
+        <p>И всё из-за какого-то там «Дайвинчика», который, видимо, стал последней каплей для ФСБ. Говорят, этот ваш чат-бот, популярный среди молодежи, использовался украинскими спецслужбами для вербовки наших детишек. А кому интересно, куда дети втягиваются, если все знают, что там еще и порнография с ЛГБТ* процветают?</p>
+       
+        <p>За прошедший год, между прочим, 46 юных душ (от 12 до 22 лет, представьте себе!) в разных уголках России поймали на всякой диверсионно-террористической ерунде. Всему виной, как утверждает ФСБ, «обман и психологическая обработка» через тот самый «Дайвинчик/Leo — знакомства, общение и новые друзья». Этих бедняг заставляли то шкафы релейные поджигать, то на ментов нападать, то курьерами работать. Теперь им всем светит немалый срок.</p>
+       
+        <p>В общем, пока Дуров где-то там, наслаждается жизнью, его детище, похоже, стало орудием в чьих-то грязных играх. И если раньше Telegram был просто удобным инструментом для общения, то теперь он, видимо, по версии следствия, превратился в настоящую вербовочную сеть. Впрочем, для тех, кто в теме, ничего удивительного, правда?</p>
+       
+        <p>* — экстремистская организация, запрещенная в РФ.</p>
     </article>
     
     <div class="controls">
         <a href="index.html" class="btn">На главную</a>
-        <button class="btn" id="shareButton">Поделиться</button>
+        <!-- Кнопку "Поделиться" пока убрали, чтобы не мешала. Вернём позже, если нужно -->
     </div>
 
+    <!-- Оставили только самый простой скрипт для темы, без сложной логики -->
     <script>
-        // 1. Получаем ID из адресной строки (news.html?id=1)
-        const params = new URLSearchParams(window.location.search);
-        const newsId = params.get('id');
-
-        if (!newsId) {
-            document.getElementById('article-title').innerText = 'Ошибка: ID не передан';
-            throw new Error('Нет ID');
+        function toggleThemeSimple() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const next = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            localStorage.setItem('theme', next);
         }
-
-        // 2. Загружаем новости из JSON
-        fetch('news.json')
-            .then(res => res.json())
-            .then(data => {
-                const item = data.items.find(i => i.id == newsId);
-                
-                if (item) {
-                    // Заполняем страницу
-                    document.title = item.title + ' | Ракурс NEWS';
-                    document.getElementById('page-title').textContent = item.title;
-                    
-                    const imgEl = document.getElementById('article-image');
-                    if (item.image) {
-                        imgEl.src = item.image;
-                        imgEl.style.display = 'block';
-                    }
-                    
-                    document.getElementById('article-title').innerText = item.title;
-                    
-                    // Берем полный текст (content) или описание (description)
-                    const text = item.content || item.description || 'Текст новости отсутствует';
-                    document.getElementById('article-content').innerHTML = `<p>${text}</p>`;
-                    
-                    // Обновляем OG теги для соцсетей
-                    document.querySelector('meta[property="og:title"]').content = item.title;
-                    document.querySelector('meta[property="og:description"]').content = (item.description || '').substring(0, 100);
-                    document.querySelector('meta[property="og:image"]').content = item.image || '';
-                } else {
-                    document.getElementById('article-title').innerText = 'Новость не найдена';
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                document.getElementById('article-title').innerText = 'Ошибка загрузки данных';
-            });
-
-        // Логика темы
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', savedTheme);
         
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-        }
-
-        // Кнопка поделиться
-        const shareButton = document.getElementById('shareButton');
-        shareButton.addEventListener('click', () => {
-            if (navigator.share) {
-                navigator.share({
-                    title: document.title,
-                    url: window.location.href,
-                }).then(() => console.log('Успешно'))
-                 .catch(e => console.error(e));
-            } else {
-                alert('Скопируйте ссылку: ' + window.location.href);
-            }
-        });
+        // Простая загрузка сохранённой темы при старте
+        const saved = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
     </script>
 </body>
 </html>
+
