@@ -80,7 +80,25 @@ document.addEventListener('DOMContentLoaded', () => {
             newsContainer.innerHTML = '<p>Новостей не найдено.</p>';
             return;
         }
-
+    
+        // Словарь для приведения названий категорий к нужному формату классов
+        const categoryMap = {
+            'сво': 'сво',
+            'общество': 'общество',
+            'регионы': 'регионы',
+            'государство': 'государство',
+            'происшествия': 'происшествия',
+            'криминал': 'криминал',
+            'политика': 'политика',
+            'геополитика': 'геополитика',
+            'коррупция': 'коррупция',
+            'шоу-бизнес': 'шоу-бизнес',
+            'спорт': 'спорт',
+            'наука': 'наука',
+            'стиль': 'стиль',
+            'культура': 'культура'
+        };
+    
         newsArray.forEach(newsItem => {
             let formattedDate = '';
             if (newsItem.date) {
@@ -90,9 +108,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     formattedDate = newsItem.date; 
                 }
             }
-
-            const category = newsItem.category ? newsItem.category.toLowerCase() : 'other';
-            const categoryClass = `category-${category}`;
+    
+            // Получаем категорию и ищем соответствующий класс
+            let categoryKey = 'other';
+            if (newsItem.category) {
+                const lowerCat = newsItem.category.toLowerCase().trim();
+                // Если категория есть в нашем списке - берем ключ, иначе ставим 'other'
+                categoryKey = categoryMap[lowerCat] || 'other';
+            }
+            
+            const categoryClass = categoryKey !== 'other' ? `category-badge category-${categoryKey}` : 'news-category-badge';
             const categoryText = newsItem.category || 'Разное';
             
             const newsElement = document.createElement('div');
@@ -100,7 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             newsElement.innerHTML = `
                 <div class="news-card">
-                    <span class="news-category-badge ${categoryClass}">${categoryText}</span>
+                    <span class="${categoryClass}">${categoryText}</span>
                     <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image">
                     <div class="news-content">
                         <h3 class="news-title">${newsItem.title}</h3>
@@ -113,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             newsContainer.appendChild(newsElement);
         });
     }
+    
 
     // --- ФИЛЬТРАЦИЯ И ПОИСК ---
     categoryButtons.forEach(button => {
