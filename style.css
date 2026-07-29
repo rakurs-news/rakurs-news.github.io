@@ -841,3 +841,29 @@ function scrollToTop() {
     flex-shrink: 0; /* чтобы кнопки не сжимались */
     min-width: 120px; /* опционально, для читаемости */
 }
+
+/* Контейнер с кнопками должен иметь горизонтальный скролл */
+.categories-wrapper {
+    display: flex;
+    gap: 10px;
+    padding: 5px 0;
+    overflow-x: auto; /* ГЛАВНОЕ: включает горизонтальный скролл */
+    scrollbar-width: none; /* Скрываем полосу прокрутки в Firefox */
+}
+
+.categories-wrapper::-webkit-scrollbar {
+    display: none; /* Скрываем полосу прокрутки в Chrome/Safari */
+}
+
+/* Кнопки не должны сжиматься, чтобы их можно было скроллить */
+.category-btn {
+    flex-shrink: 0; 
+    white-space: nowrap; /* Текст кнопки не переносится на новую строку */
+    min-width: 130px;    /* Фиксируем минимальную ширину для удобства */
+    padding: 8px 12px;
+}
+
+/* Панель категорий просто держит контейнер, скролла тут быть не должно */
+.categories-panel {
+    width: 100%;
+}
