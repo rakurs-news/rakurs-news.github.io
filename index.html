@@ -85,92 +85,19 @@
     </div>
     <!-- КОНЕЦ НОВОЙ ПАНЕЛИ -->
 
-    <!-- ОБЁРТКА ДЛЯ СЕТКИ (Новости + Сайдбар) -->
-    <div class="layout-wrapper">
-        
-        <!-- ЛЕВАЯ ЧАСТЬ: Новости -->
-        <div id="news-content-area">
-            <div id="top-scroll-indicator" style="
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 0%;
-                height: 4px;
-                background: var(--accent);
-                z-index: 2001;
-            "></div>
+    <div id="top-scroll-indicator" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: var(--accent);
+        z-index: 2001;
+    "></div>
 
-            <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
-            <div id="main-news" class="featured-news" style="display: none;"></div>
-            <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
-
-            <!-- БЛОК ПАГИНАЦИИ (ЗАМЕНЯЕТ КНОПКУ "ЧИТАТЬ СЛЕДУЮЩИЕ") -->
-            <div class="pagination-wrapper" style="margin-top: 40px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
-                <!-- Кнопка "Назад" (на первой странице неактивна) -->
-                <span class="page-btn disabled" style="cursor: default; padding: 10px 16px; color: #ccc; border: 1px solid #ccc; border-radius: 4px;">←</span>
-                
-                <!-- Страница 1 (текущая) -->
-                <a href="page1.html" class="page-btn active" style="pointer-events: none; padding: 10px 16px; color: white; background: #007bff; border: none; border-radius: 4px; text-decoration: none; font-weight: bold;">1</a>
-                
-                <!-- Страница 2 (РАБОЧАЯ ССЫЛКА) -->
-                <a href="page2.html" class="page-btn" style="padding: 10px 16px; color: black; background: #f0f0f0; border: none; border-radius: 4px; text-decoration: none;">2</a>
-                
-                <!-- Кнопка "Далее" (ведет на страницу 2) -->
-                <a href="page2.html" class="page-btn" style="padding: 10px 16px; color: black; background: #f0f0f0; border: none; border-radius: 4px; text-decoration: none;">→</a>
-            </div>
-            <!-- КОНЕЦ БЛОКА ПАГИНАЦИИ -->
-
-        </div>
-
-        <!-- ПРАВАЯ ЧАСТЬ: САЙДБАР -->
-        <aside class="sidebar">
-            <!-- БЛОК 1: МЕМ ДНЯ -->
-            <section class="widget widget-meme">
-                <h3>Мем дня</h3>
-                <div class="meme-container">
-                    <img src="images/meme-placeholder.jpg" alt="Мем дня: ироничная ситуация" loading="lazy" class="meme-image">
-                    <p class="meme-caption">«Когда рубль падает, а ты просто хотел купить кофе»</p>
-                </div>
-            </section>
-
-            <!-- БЛОК 2: ГОРЯЧИЕ НОВОСТИ (ЗАМЕНЕН НА ТВОЙ КОД) -->
-            <section class="widget widget-trends">
-                <h3>Сейчас обсуждают</h3>
-                <ul class="trends-list">
-                    <li><a href="news-20.html" class="trend-link">🔥 Финляндия рубит сетевой кабель</a></li>
-                    <li><a href="news-19.html" class="trend-link">💥 Дуров в розыске: «Дайвинчик» подставил?</a></li>
-                    <li><a href="news-17.html" class="trend-link">📉 Дроны с розочкой: украинская изобретательность?</a></li>
-                </ul>
-            </section>
-            
-            <!-- ОШИБКА В ТВОЕМ КОДЕ (лишний закрывающий тег) -->
-            </ul>
-            </section>
-
-            <!-- БЛОК 3: КУРС ВАЛЮТ + ИРОНИЧНАЯ ПОДПИСЬ -->
-            <section class="widget widget-currency">
-                <h3>💵 Курс валют</h3>
-                
-                <div class="currency-rates">
-                    <div class="rate-item">
-                        <span class="currency-name">USD</span>
-                        <span class="rate-value" id="usd-rate">92.50</span>
-                    </div>
-                    <div class="rate-item">
-                        <span class="currency-name">EUR</span>
-                        <span class="rate-value" id="eur-rate">99.80</span>
-                    </div>
-                </div>
-
-                <p class="currency-comment" id="currency-comment">
-                    Рубль улетел в космос, но обещал вернуться… через неделю и с доплатой.
-                </p>
-            </section>
-        </aside>
-        <!-- КОНЕЦ САЙДБАРА -->
-
-    </div> 
-    <!-- КОНЕЦ ОБЁРТКИ .layout-wrapper -->
+    <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
+    <div id="main-news" class="featured-news" style="display: none;"></div>
+    <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
 
     <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
@@ -193,64 +120,5 @@
 
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
-
-    <!-- ДОБАВЛЕННЫЙ БЛОК ДЛЯ ГОРИЗОНТАЛЬНОГО СКРОЛЛА КОЛЕСИКОМ -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const categoriesContainer = document.querySelector('.categories-panel');
-            if (categoriesContainer) {
-                categoriesContainer.addEventListener('wheel', (evt) => {
-                    evt.preventDefault();
-                    categoriesContainer.scrollLeft += evt.deltaY * 1.2;
-                }, { passive: false });
-            }
-        });
-
-        function updateCurrency() {
-            // 1. Сначала находим элементы. Если их нет — выходим, чтобы не было ошибок в консоли
-            const usdEl = document.getElementById('usd-rate');
-            const eurEl = document.getElementById('eur-rate');
-            const commentEl = document.getElementById('currency-comment');
-
-            if (!usdEl || !eurEl || !commentEl) {
-                console.warn('⚠️ Элементы курса валют не найдены в DOM. Проверьте HTML.');
-                return;
-            }
-
-            // 2. Генерируем случайные значения (для теста)
-            // В будущем сюда подключишь реальный API
-            let usd = parseFloat((90 + (Math.random() * 10)).toFixed(2)); 
-            let eur = parseFloat((usd + 5 + (Math.random() * 5)).toFixed(2));
-
-            // 3. Принудительно обновляем текст
-            usdEl.textContent = usd.toFixed(2);
-            eurEl.textContent = eur.toFixed(2);
-
-            // 4. Подбираем ироничную фразу
-            let comment = '';
-            if (usd > 95) {
-                comment = "Рубль улетел в космос, но обещал вернуться… через неделю и с доплатой.";
-            } else if (usd > 90 && usd <= 95) {
-                comment = "Курс такой нервный, что даже котировки пьют валерьянку.";
-            } else {
-                comment = "Стабильность? Скорее, затишье перед иронией. Держите кофе крепче.";
-            }
-            commentEl.textContent = comment;
-
-            // 5. ВАЖНО: Гарантируем видимость. 
-            // Иногда другие скрипты ставят display:none. Этот код принудительно показывает виджет.
-            const widgetCurrency = usdEl.closest('.widget-currency');
-            if (widgetCurrency) {
-                widgetCurrency.style.display = 'block';
-                widgetCurrency.style.opacity = '1';
-            }
-        }
-
-        // Запускаем сразу после загрузки DOM
-        updateCurrency();
-
-        // Обновляем каждые 5 минут
-        setInterval(updateCurrency, 300000);
-    </script>
 </body>
 </html>

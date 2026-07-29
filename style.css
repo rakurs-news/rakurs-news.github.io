@@ -8,8 +8,8 @@
     --mobile-menu-text: var(--text);
     --mobile-menu-border: var(--accent);
     --footer-bg: rgba(255, 255, 255, 0.3);
-    --categories-bg-light: rgba(255, 255, 255, 0.3);
-    --categories-bg-dark: rgba(30, 30, 30, 0.8);
+    --categories-bg-light: rgba(255, 255, 255, 0.3); /* Фон категорий для светлой темы */
+    --categories-bg-dark: rgba(30, 30, 30, 0.8); /* Фон категорий для темной темы */
 }
 
 body.dark-theme {
@@ -91,6 +91,7 @@ header {
     }
 }
 
+/* Панель под шапкой */
 .categories-panel {
     height: 30px;
     width: 100%;
@@ -98,7 +99,7 @@ header {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     position: sticky;
-    top: calc(var(--header-height, 60px));
+    top: calc(var(--header-height, 60px)); /* Замените 60px на реальную высоту header при необходимости */
     z-index: 1001;
     display: flex;
     align-items: center;
@@ -115,6 +116,7 @@ body.dark-theme .categories-panel {
     display: none;
 }
 
+/* Блок категорий с горизонтальным скроллом и адаптивным фоном */
 .categories-wrapper {
     padding: 0 10px;
     display: flex;
@@ -284,16 +286,19 @@ body.dark-theme .categories-panel {
     width: 50px;
     height: 50px;
     cursor: pointer;
-    z-index: 9999;
-    display: flex;
+    z-index: 9999; /* Поднял выше, чтобы ничего не перекрывало */
+    display: flex; /* Важно: flex позволяет центрировать SVG внутри */
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    
+    /* Скрываем через opacity и visibility, а не через display:none */
     opacity: 0;       
     visibility: hidden; 
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
+/* Этот класс добавляет JS, чтобы показать кнопку */
 #scrollToTop.visible {
     opacity: 1;
     visibility: visible;
@@ -301,14 +306,14 @@ body.dark-theme .categories-panel {
 
 #scrollToTop:hover {
     transform: scale(1.1);
-    opacity: 1;
+    opacity: 1; /* При наведении делаем полностью видимой */
 }
 
 @media (max-width: 500px) {
     #scrollToTop {
         width: 44px;
         height: 44px;
-        bottom: 90px;
+        bottom: 90px; /* Чуть выше, чтобы не мешать мобильным кнопкам */
         right: 20px;
     }
 }
@@ -363,7 +368,8 @@ body.dark-theme .categories-panel {
     background: var(--footer-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-top: 1px solid var(--accent);    
+    border-top: 1px solid var(--accent);
+    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -472,46 +478,50 @@ body.dark-theme .categories-panel {
     letter-spacing: 0.5px;
 }
 
-/* Стили бейджа категории — исправлены и усилены */
-.news-category-badge {
+.category-badge {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    padding: 6px 10px;
-    border-radius: 6px;
+    top: 15px;
+    right: 0px;
+    padding: 6px 12px;
     font-size: 11px;
-    font-weight: 700;
-    color: #ffffff;
+    font-weight: bold;
+    color: white;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-    z-index: 10;
+    border-radius: 2px;
+    z-index: 20;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
     pointer-events: none;
+    line-height: 1;
 }
 
-/* Цвета категорий — усиленные селекторы через .news-card > */
-.news-card > .category-сво { background-color: #e53935; }
-.news-card > .category-общество { background-color: #43a047; }
-.news-card > .category-регионы { background-color: #fbc02d; color: #000; }
-.news-card > .category-государство { background-color: #1e88e5; }
-.news-card > .category-происшествия { background-color: #f4511e; }
-.news-card > .category-криминал { background-color: #6d4c41; }
-.news-card > .category-политика { background-color: #7b1fa2; }
-.news-card > .category-геополитика { background-color: #00acc1; }
-.news-card > .category-коррупция { background-color: #c62828; }
-.news-card > .category-шоу-бизнес { background-color: #ad1457; }
-.news-card > .category-спорт { background-color: #5e35b1; }
-.news-card > .category-наука { background-color: #00838f; }
-.news-card > .category-стиль { background-color: #8e24aa; }
-.news-card > .category-культура { background-color: #33691e; }
-
+.cat-svo { background-color: #d32f2f; }
+.cat-politics { background-color: #1976d2; }
+.cat-state { background-color: #2e7d32; }
+.cat-geopolitics { background-color: #4a148c; }
+.cat-society { background-color: #f57c00; }
+.cat-regions { background-color: #ffab40; }
+.cat-crime { background-color: #7b1fa2; }
+.cat-corruption { background-color: #c62828; }
+.cat-culture { background-color: #388e3c; }
+.cat-science { background-color: #00897b; }
+.cat-style { background-color: #ec407a; }
+.cat-incidents { background-color: #b71c1c; }
+.cat-sports { background-color: #e91e63; }
+.cat-showbiz { background-color: #fbc02d; }
+.cat-default {
+    background-color: #555;
+}
 .news-item {
-    display: flex;
-    flex-direction: column;
+    /* Общий контейнер для одной новости */
+    display: flex; /* Чтобы контент внутри карточки выравнивался */
+    flex-direction: column; /* Располагаем элементы друг под другом */
     background: var(--card);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    overflow: hidden; /* Обрезаем все, что выходит за границы */
+    cursor: pointer;
 }
 
 .news-item:hover {
@@ -520,25 +530,26 @@ body.dark-theme .categories-panel {
 }
 
 .news-card {
+    /* Конкретная карточка новости */
     position: relative;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: 100%; /* Чтобы карточки в сетке были одинаковой высоты */
 }
 
 .news-image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-    display: block;
-    background-color: #333;
+    height: 200px; /* Фиксированная высота изображения */
+    object-fit: cover; /* Масштабирует изображение, сохраняя пропорции и обрезая лишнее */
+    display: block; /* Убирает лишний отступ под изображением */
+    background-color: #333; /* Цвет фона, пока изображение загружается */
 }
 
 .news-content {
     padding: 15px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
+    flex-grow: 1; /* Позволяет блоку контента растягиваться */
 }
 
 .news-title {
@@ -546,7 +557,7 @@ body.dark-theme .categories-panel {
     margin-top: 0;
     margin-bottom: 10px;
     color: var(--text);
-    display: -webkit-box;
+    display: -webkit-box; /* Для обрезки заголовка, если он слишком длинный */
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
@@ -563,9 +574,9 @@ body.dark-theme .categories-panel {
     font-size: 14px;
     color: var(--meta);
     margin-bottom: 15px;
-    flex-grow: 1;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
+    flex-grow: 1; /* Позволяет описанию занять доступное пространство */
+    display: -webkit-box; /* Для обрезки описания */
+    -webkit-line-clamp: 3; /* Количество строк для описания */
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -581,13 +592,14 @@ body.dark-theme .categories-panel {
     font-weight: bold;
     text-align: center;
     transition: background 0.2s ease-in-out;
-    margin-top: auto;
+    margin-top: auto; /* Прижимает кнопку к низу, если контент не заполняет блок */
 }
 
 .read-more:hover {
-    background: #e68a00;
+    background: #e68a00; /* Более темный оттенок акцента */
 }
 
+/* --- Стили для главной новости (featured-news) --- */
 .featured-news-card {
     background: var(--card);
     border-radius: 8px;
@@ -601,7 +613,7 @@ body.dark-theme .categories-panel {
 }
 
 .featured-news-image {
-    width: 40%;
+    width: 40%; /* Или другая ширина */
     height: 250px;
     object-fit: cover;
     border-radius: 4px;
@@ -649,6 +661,7 @@ body.dark-theme .categories-panel {
     background: #e68a00;
 }
 
+/* --- Адаптивность для карточек --- */
 @media (max-width: 768px) {
     .news-grid {
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -670,7 +683,7 @@ body.dark-theme .categories-panel {
 
 @media (max-width: 500px) {
     .news-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Одна колонка на очень маленьких экранах */
         padding: 10px;
     }
     .news-item {
@@ -697,11 +710,14 @@ body.dark-theme .categories-panel {
     }
 }
 
+/* --- Дополнительные стили, если они нужны --- */
+/* Например, для класса .active на кнопках категорий */
 .category-btn.active {
     color: var(--accent);
     font-weight: bold;
 }
 
+/* Стили для .card, если вы хотите использовать их вместо .news-item */
 .card {
     background: var(--card);
     padding: 15px;
@@ -714,7 +730,7 @@ body.dark-theme .categories-panel {
     transform: translateY(-5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
-.card-image {
+.card-image { /* Используйте этот класс для изображений в карточках .card */
     width: 100%;
     height: 180px;
     object-fit: cover;
@@ -741,7 +757,48 @@ body.dark-theme .categories-panel {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth' // Плавная прокрутка
+    });
+}
+/* --- СТИЛИ ДЛЯ МЕТКИ КАТЕГОРИИ --- */
+.news-category-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    z-index: 10;
+}
 
+/* Цвета для разных категорий (меняй значения hex на свои) */
+.category-sport { background-color: #ff4757; }       /* Красный */
+.category-politics { background-color: #2f3542; }   /* Темно-серый */
+.category-economy { background-color: #1e90ff; }    /* Голубой */
+.category-tech { background-color: #ffa502; }      /* Оранжевый */
+.category-culture { background-color: #a29bfe; }    /* Фиолетовый */
+.category-science { background-color: #00d2d3; }   /* Бирюзовый */
+.category-world { background-color: #57606f; }     /* Серый */
+
+/* Если категория неизвестна, будет нейтральная */
+.category-other { background-color: #95a5a6; }
+/* 1. Обязательно: делаем карточку "контейнером" для плашки */
+.news-card {
+    position: relative; /* Без этого плашка улетит в угол экрана */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* 2. Стили самой плашки (яркие, непрозрачные) */
 .news-category-badge {
     position: absolute;
     top: 12px;
@@ -750,281 +807,22 @@ body.dark-theme .categories-panel {
     border-radius: 6px;
     font-size: 11px;
     font-weight: 700;
-    color: #ffffff;
+    color: #ffffff; /* Белый текст */
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15); /* Легкая тень для объема */
     z-index: 10;
-    pointer-events: none;
+    /* Нет прозрачности, сплошной цвет берется из следующего блока */
 }
 
-.news-card > .category-сво { background-color: #e53935; }
-.news-card > .category-общество { background-color: #43a047; }
-.news-card > .category-регионы { background-color: #fbc02d; color: #000; }
-.news-card > .category-государство { background-color: #1e88e5; }
-.news-card > .category-происшествия { background-color: #f4511e; }
-.news-card > .category-криминал { background-color: #6d4c41; }
-.news-card > .category-политика { background-color: #7b1fa2; }
-.news-card > .category-геополитика { background-color: #00acc1; }
-.news-card > .category-коррупция { background-color: #c62828; }
-.news-card > .category-шоу-бизнес { background-color: #ad1457; }
-.news-card > .category-спорт { background-color: #5e35b1; }
-.news-card > .category-наука { background-color: #00838f; }
-.news-card > .category-стиль { background-color: #8e24aa; }
-.news-card > .category-культура { background-color: #33691e; }
+/* 3. Яркие цвета для категорий (сплошные, без прозрачности) */
+.category-sport { background-color: #ff4757; }       /* Красный */
+.category-politics { background-color: #2f3542; }   /* Темно-серый */
+.category-economy { background-color: #1e90ff; }    /* Голубой */
+.category-tech { background-color: #ffa502; }      /* Оранжевый */
+.category-culture { background-color: #a29bfe; }   /* Фиолетовый */
+.category-science { background-color: #00d2d3; }  /* Бирюзовый */
+.category-world { background-color: #57606f; }     /* Серый */
 
-@media (max-width: 768px) {
-    .news-grid {
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        padding: 15px;
-    }
-    .featured-news-card {
-        flex-direction: column;
-        padding: 15px;
-    }
-    .featured-news-image {
-        width: 100%;
-        height: 200px;
-        margin-bottom: 15px;
-    }
-    .featured-news-title {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 500px) {
-    .news-grid {
-        grid-template-columns: 1fr;
-        padding: 10px;
-    }
-    .news-item {
-        margin-bottom: 15px;
-    }
-    .news-content {
-        padding: 10px;
-    }
-    .news-title {
-        font-size: 16px;
-    }
-    .news-description {
-        font-size: 13px;
-    }
-    .read-more {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
-    .featured-news-title {
-        font-size: 20px;
-    }
-    .featured-news-description {
-        font-size: 14px;
-    }
-}
-
-/* --- ОБЩИЕ НАСТРОЙКИ СЕТКИ (чтобы новости и сайдбар стояли рядом) --- */
-.layout-wrapper {
-    display: grid;
-    /* 1fr = новости (занимают всё место), 340px = сайдбар */
-    grid-template-columns: 1fr 340px;
-    gap: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 1rem;
-}
-
-/* --- САЙДБАР: РАЗДЕЛИТЕЛЬ И ПРИЛИПАНИЕ --- */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    position: sticky; /* Прилипание при прокрутке */
-    top: 80px;        /* Отступ сверху (под шапкой и панелью категорий) */
-    height: fit-content;
-    
-    /* РАЗДЕЛИТЕЛЬ: тонкая линия слева */
-    border-left: 1px solid #e0e0e0; 
-    padding-left: 1.5rem;
-}
-
-/* Виджеты */
-.widget {
-    background: var(--bg-secondary, #f9f9f9);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-}
-
-.widget h3 {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-    color: var(--text-main, #1a1a1a);
-    /* Цветная полоска под заголовком для стиля "Ракурс" */
-    border-bottom: 3px solid var(--accent, #ff4757); 
-    padding-bottom: 0.5rem;
-}
-
-/* --- МЕМ ДНЯ --- */
-.meme-container {
-    overflow: hidden;
-    border-radius: 8px;
-    margin-top: 0.5rem;
-}
-.meme-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 6px;
-}
-.meme-caption {
-    margin-top: 0.8rem;
-    font-style: italic;
-    color: #555;
-    font-size: 0.95rem;
-}
-
-/* --- ГОРЯЧИЕ НОВОСТИ (СПИСОК) --- */
-.trends-list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-.trends-list li {
-    margin-bottom: 1rem;
-    line-height: 1.4;
-}
-.trends-list a {
-    color: var(--text-link, #2f80ed);
-    text-decoration: none;
-    transition: color 0.2s;
-}
-.trends-list a:hover {
-    color: var(--accent);
-    text-decoration: underline;
-}
-
-/* --- КУРС ВАЛЮТ --- */
-.currency-rates {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px dashed #ccc;
-}
-.rate-item {
-    text-align: center;
-}
-.currency-name {
-    display: block;
-    font-size: 0.85rem;
-    color: #888;
-    text-transform: uppercase;
-}
-.rate-value {
-    display: block;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: var(--text-main);
-}
-.currency-comment {
-    font-size: 0.95rem;
-    color: #444;
-    font-style: italic;
-    line-height: 1.5;
-}
-
-/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
-@media (max-width: 992px) {
-    .layout-wrapper {
-        grid-template-columns: 1fr; /* Одна колонка */
-        gap: 1.5rem;
-    }
-    /* --- САЙДБАР: Фиксированная высота + внутренний скролл --- */
-.sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 2.5rem;
-    /* position: sticky убран — он мешает внутреннему скроллу */
-    
-    /* Высота: почти весь экран, но с отступами сверху и снизу */
-    height: calc(100vh - 120px); /* 120px = шапка (60px) + панель категорий (30px) + отступы */
-    max-height: 85vh;            /* Страховка, чтобы не вылезало за экран */
-    
-    /* ГЛАВНОЕ: включаем скролл только внутри этого блока */
-    overflow-y: auto; 
-    
-    /* Разделитель */
-    border-left: 1px solid #e0e0e0; 
-    padding-left: 1.5rem;
-}
-
-/* Стили для скроллбара (чтобы выглядел аккуратно) */
-.sidebar::-webkit-scrollbar {
-    width: 6px;
-}
-.sidebar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-.sidebar::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 3px;
-}
-.sidebar::-webkit-scrollbar-thumb:hover {
-    background: #999;
-}
-
-/* Виджеты (остаются без изменений) */
-.widget {
-    background: var(--bg-secondary, #f9f9f9);
-    padding: 1.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-    /* Важно: виджеты не должны иметь своей прокрутки, она у родителя */
-    overflow: visible; 
-}
-
-}
-
-@media (max-width: 768px) {
-    /* На совсем маленьких экранах можно скрыть сайдбар полностью, 
-       если места мало для чтения */
-    /* .sidebar { display: none; } */
-}
-
-.pagination-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 40px;
-    flex-wrap: wrap;
-}
-
-.page-btn {
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    background: #fff;
-    cursor: pointer;
-    font-size: 16px;
-    color: #333;
-    transition: all 0.3s ease;
-    border-radius: 4px;
-}
-
-.page-btn:hover:not(.disabled) {
-    background: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.page-btn.active {
-    background: #007bff;
-    color: white;
-    border-color: #007bff;
-}
-
-.page-btn.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    border-color: #ddd;
-}
+/* Если категория не найдена или пустая - нейтральный цвет */
+.category-other { background-color: #95a5a6; }
