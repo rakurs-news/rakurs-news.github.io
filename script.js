@@ -52,12 +52,22 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayFeaturedNews(newsItem) {
         if (featuredNewsContainer) {
             featuredNewsContainer.style.display = 'block';
+            
+            let formattedDate = '';
+            if (newsItem.date) {
+                try {
+                    formattedDate = new Date(newsItem.date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+                } catch (e) {
+                    formattedDate = newsItem.date; 
+                }
+            }
+
             featuredNewsContainer.innerHTML = `
                 <div class="featured-news-card">
                     <img src="${newsItem.image}" alt="${newsItem.title}" class="featured-news-image">
                     <div class="featured-news-content">
                         <h2 class="featured-news-title">${newsItem.title}</h2>
-                        <p class="featured-news-date">${newsItem.date}</p>
+                        <p class="featured-news-date">${formattedDate}</p>
                         <p class="featured-news-description">${newsItem.description}</p>
                         <a href="#" class="read-more-featured" data-id="${newsItem.id}">Читать полностью</a>
                     </div>
