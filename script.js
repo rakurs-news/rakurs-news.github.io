@@ -12,32 +12,33 @@ document.addEventListener('DOMContentLoaded', () => {
     let allNewsData = [];
     let currentCategory = 'all';
 
-    // --- 1. ЗАГРУЗКА НОВОСТЕЙ ---
+    // --- 1. ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ ДЛЯ КАТЕГОРИЙ (НОВОЕ) ---
+    const categoriesContainer = document.querySelector('.categories-container');
+    if (categoriesContainer) {
+        categoriesContainer.addEventListener('wheel', (evt) => {
+            evt.preventDefault(); 
+            categoriesContainer.scrollLeft += evt.deltaY;
+        }, { passive: false });
+    }
+    // --------------------------------------------------------
+
+    // --- 2. ЗАГРУЗКА НОВОСТЕЙ ---
     fetch('news.json')
         .then(response => {
-            if (!response.ok) {
-                throw new Error(`Ошибка HTTP: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
             return response.json();
         })
         .then(data => {
             allNewsData = data.items || []; 
 
-            // Показываем главную новость
             if (data.featuredNewsId && allNewsData.length > 0) {
                 const featuredNews = allNewsData.find(item => item.id === data.featuredNewsId);
-                if (featuredNews) {
-                    displayFeaturedNews(featuredNews);
-                }
+                if (featuredNews) displayFeaturedNews(featuredNews);
             }
 
-            // Показываем список новостей
             displayNews(allNewsData);
 
-            // Скрываем лоадер
-            if (loader) {
-                loader.style.display = 'none'; 
-            }
+            if (loader) loader.style.display = 'none'; 
         })
         .catch(error => {
             console.error('Ошибка загрузки новостей:', error);
@@ -47,8 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-    // --- ФУНКЦИИ ОТРИСОВКИ ---
-
+    // --- ФУНКЦИИ ОТРИСОВКИ (остальной твой код без изменений) ---
     function displayFeaturedNews(newsItem) {
         if (featuredNewsContainer) {
             featuredNewsContainer.style.display = 'block';
@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${newsItem.image}" alt="${newsItem.title}" class="featured-news-image">
                     <div class="featured-news-content">
                         <h2 class="featured-news-title">${newsItem.title}</h2>
-                        <!-- Оставил дату как было, чтобы не ломать верстку главной статьи -->
                         <p class="featured-news-date">${newsItem.date}</p>
                         <p class="featured-news-description">${newsItem.description}</p>
                         <a href="#" class="read-more-featured" data-id="${newsItem.id}">Читать полностью</a>
@@ -76,45 +75,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayNews(newsArray) {
         if (!newsContainer) return;
-
         newsContainer.innerHTML = ''; 
-        
         if (!newsArray || newsArray.length === 0) {
             newsContainer.innerHTML = '<p>Новостей не найдено.</p>';
             return;
         }
 
         newsArray.forEach(newsItem => {
-            const timeVal = newsItem.time || ''; 
-            const displayDate = timeVal ? `${newsItem.date}, ${timeVal}` : newsItem.date;
-            
-            const baseDate = newsItem.dateSchema || '1970-01-01'; 
-            const schemaDate = timeVal ? `${baseDate}T${timeVal}:00` : baseDate;
+            let formattedDate = '';
+            if (newsItem.date) {
+                try {
+                    formattedDate = new Date(newsItem.date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+                } catch (e) {
+                    formattedDate = newsItem.date; 
+                }
+            }
 
-            const cardHTML = `
-                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                    <div class="card-image-wrapper">
-                        <img src="${newsItem.image}" alt="${newsItem.title}" itemprop="image">
-                        ${newsItem.isHot ? '<span class="hot-badge">🔥 Горячее</span>' : ''}
-                    </div>
-                    <div class="card-content">
-                        <span class="category-tag">${newsItem.category}</span>
-                        <div class="meta-info">
-                            <time class="publish-date" datetime="${schemaDate}">
-                                ${displayDate}
-                            </time>
-                            <meta itemprop="datePublished" content="${schemaDate}">
-                            ${newsItem.author ? `<meta itemprop="author" content="${newsItem.author}">` : ''}
-                        </div>
-                        <h3 class="news-title" itemprop="headline">
-                            <a href="article.html?id=${newsItem.id}">${newsItem.title}</a>
-                        </h3>
-                        <p class="news-desc" itemprop="description">${newsItem.description}</p>
-                    </div>
-                </article>
-            `;
+            const category = newsItem.category ? newsItem.category.toLowerCase() : 'other';
+            const categoryClass = `category-${category}`;
+            const categoryText = newsItem.category || 'Разное';
             
-            newsContainer.innerHTML += cardHTML;
+            const newsElement = document.createElement('div');
+            newsElement.classList.add('news-item');
+            
+            newsElement.innerHTML = `
+                <div class="news-card">
+                    <span class="news-category-badge ${categoryClass}">${categoryText}</span>
+                    <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image">
+                    <div class="news-content">
+                        <h3 class="news-title">${newsItem.title}</h3>
+                        <p class="news-date">${formattedDate}</p>
+                        <p class="news-description">${newsItem.description}</p>
+                        <a href="#" class="read-more" data-id="${newsItem.id}">Читать далее</a>
+                    </div>
+                </div>
+            `;
+            newsContainer.appendChild(newsElement);
         });
     }
 
@@ -166,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- ПРОКРУТКА И ПРОГРЕСС-БАР ---
-    
     window.addEventListener('scroll', () => {
         progressBarScroll();
     });
@@ -202,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
-            
             if (document.body.classList.contains('dark-theme')) {
                 localStorage.setItem('theme', 'dark');
             } else {

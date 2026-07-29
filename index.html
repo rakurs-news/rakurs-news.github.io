@@ -120,5 +120,18 @@
 
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
+
+    <!-- ДОБАВЛЕННЫЙ БЛОК ДЛЯ ГОРИЗОНТАЛЬНОГО СКРОЛЛА КОЛЕСИКОМ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoriesContainer = document.querySelector('.categories-panel');
+            if (categoriesContainer) {
+                categoriesContainer.addEventListener('wheel', (evt) => {
+                    evt.preventDefault();
+                    categoriesContainer.scrollLeft += evt.deltaY * 1.2;
+                }, { passive: false });
+            }
+        });
+    </script>
 </body>
 </html>
