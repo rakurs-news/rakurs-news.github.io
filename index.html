@@ -104,14 +104,21 @@
             <div id="main-news" class="featured-news" style="display: none;"></div>
             <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
 
-            <!-- !!! ВОТ ЭТОТ БЛОК Я ДОБАВИЛА !!! -->
-            <!-- Ссылка на вторую страницу. Работает только если файл page2.html существует -->
-            <div class="pagination-wrapper" style="margin-top: 40px; text-align: center;">
-                <a href="page2.html" class="page-btn" style="padding: 12px 24px; text-decoration: none; color: white; background: #ff9800; border: none; border-radius: 4px; font-size: 16px; font-weight: bold;">
-                    Читать следующие новости →
-                </a>
+            <!-- БЛОК ПАГИНАЦИИ (ЗАМЕНЯЕТ КНОПКУ "ЧИТАТЬ СЛЕДУЮЩИЕ") -->
+            <div class="pagination-wrapper" style="margin-top: 40px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <!-- Кнопка "Назад" (на первой странице неактивна) -->
+                <span class="page-btn disabled" style="cursor: default; padding: 10px 16px; color: #ccc; border: 1px solid #ccc; border-radius: 4px;">←</span>
+                
+                <!-- Страница 1 (текущая) -->
+                <a href="page1.html" class="page-btn active" style="pointer-events: none; padding: 10px 16px; color: white; background: #007bff; border: none; border-radius: 4px; text-decoration: none; font-weight: bold;">1</a>
+                
+                <!-- Страница 2 (РАБОЧАЯ ССЫЛКА) -->
+                <a href="page2.html" class="page-btn" style="padding: 10px 16px; color: black; background: #f0f0f0; border: none; border-radius: 4px; text-decoration: none;">2</a>
+                
+                <!-- Кнопка "Далее" (ведет на страницу 2) -->
+                <a href="page2.html" class="page-btn" style="padding: 10px 16px; color: black; background: #f0f0f0; border: none; border-radius: 4px; text-decoration: none;">→</a>
             </div>
-            <!-- !!! КОНЕЦ БЛОКА !!! -->
+            <!-- КОНЕЦ БЛОКА ПАГИНАЦИИ -->
 
         </div>
 
@@ -137,8 +144,6 @@
             </section>
             
             <!-- ОШИБКА В ТВОЕМ КОДЕ (лишний закрывающий тег) -->
-            <!-- Я оставила его как есть, чтобы не нарушать правило "ничего не менять", 
-                 но в идеале тут не должно быть </ul> -->
             </ul>
             </section>
 
