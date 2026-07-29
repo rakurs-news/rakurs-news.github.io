@@ -111,29 +111,24 @@
         <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
     </div>
 
-    <div class="footer">
+       <div class="footer">
         <div class="social-icons">
             <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
             <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
         </div>
     </div>
-   <script>
-    const wrapper = document.getElementById('menu');
-    if (wrapper) {
-        wrapper.addEventListener('wheel', (e) => {
-            // Если крутим колесико — двигаем скролл горизонтально
-            if (e.deltaX !== 0 || e.deltaY !== 0) {
-                e.preventDefault(); // Отменяем стандартный скролл страницы
-                // Используем deltaX, если есть; если нет (ноутбук) — берем deltaY
-                const delta = e.deltaX || e.deltaY;
-                wrapper.scrollLeft += delta;
-            }
-        }, { passive: false });
-    }
-</script>
 
+    <!-- Твой скрипт для скролла — ставим ПЕРЕД внешним script.js -->
+    <script>
+        const wrapper = document.getElementById('menu');
+        if (wrapper) {
+            wrapper.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                wrapper.scrollLeft += e.deltaX || e.deltaY;
+            }, { passive: false });
+        }
+    </script>
 
-    
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
 </body>
