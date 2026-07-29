@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лента новостей</title>
+    
+    <!-- ВСТАВЛЕНЫ ТВОИ СТИЛИ ПОЛНОСТЬЮ -->
+    <style>
+        :root {
+            --bg: #ffffff;
+            --card: #f9f9f9;
+            --text: #1a1a1a;
+            --accent: #ff9800;
+            --meta: #666;
+            --mobile-menu-bg: var(--card);
+            --mobile-menu-text: var(--text);
+            --mobile-menu-border: var(--accent);
+            --footer-bg: rgba(255, 255, 255, 0.3);
+            --categories-bg-light: rgba(255, 255, 255, 0.3);
+            --categories-bg-dark: rgba(30, 30, 30, 0.8);
+        }
+
+        body.dark-theme {
+            --bg: #121212;
+            --card: #1e1e1e;
+            --text: #e0e0e0;
+            --accent: #ff9800;
+            --meta: #aaa;
+            --mobile-menu-bg: #000000;
+            --mobile-menu-text: var(--text);
+            --mobile-menu-border: var(--accent);
+            --footer-bg: rgba(18, 18, 18, 0.3);
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: sans-serif;
+            margin: 0;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: var(--accent);
+            z-index: 2000;
+        }
+
+        header {
+            background: var(--card);
+            padding: 15px 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--accent);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 20px;
+            margin-left: 5px;
+        }
+
+        .logo-wrapper img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #searchInput {
+            height: 32px;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid var(--accent);
+            background: var(--bg);
+            color: var(--text);
+            border-radius: 2px;
+            box-sizing: border-box;
+        }
+
+        @media (max-width: 500px) {
+            #searchInput { width: 90px; }
+        }
+
+        .categories-panel {
+            height: 30px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            position: sticky;
+            top: calc(var(--header-height, 60px));
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            white-space: nowrap;
+            scrollbar-width: none;
+        }
+
+        body.dark-theme .categories-panel {
+            background-color: rgba(30, 30, 30, 0.3);
+        }
+
+        .categories-panel::-webkit-scrollbar { display: none; }
+
+        .categories-wrapper {
+            padding: 0 10px;
+            display: flex;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+
+        .category-btn {
+            background: none;
+            border: none;
+            color: var(--text);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 13px;
+            font-weight: bold;
+            position: relative;
+            padding-bottom: 8px;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .category-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.2s ease-in-out;
+        }
+
+        .category-btn.active { color: var(--accent); }
+        .category-btn.active::after { width: 100%; }
+        .category-btn:hover:not(.active) { color: var(--accent); }
+
+        .search-wrapper { position: relative; }
+
+        #search-results {
+            position: absolute;
+            top: 40px;
+            right: 0;
+            width: 250px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: var(--card);
+            border: 1px solid var(--accent);
+            z-index: 1500;
+            display: none;
+        }
+
+        .result-item {
+            display: flex;
+            padding: 10px;
+            gap: 10px;
+            border-bottom: 1px solid var(--accent);
+            cursor: pointer;
+            align-items: center;
+        }
+
+        .highlight { background: var(--accent); color: #000; }
+
+        .breadcrumbs { padding: 10px 20px; font-size: 12px; color: var(--meta); }
+
+        /* --- ОСНОВНЫЕ СТИЛИ ДЛЯ НОВОСТЕЙ (АДАПТИРОВАНЫ) --- */
+        
+        .layout-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px 0; /* Отступ сверху для отступа от панели категорий */
+        }
+
+        .news-item {
+            display: flex;
+            flex-direction: column;
+            background: var(--card);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease;
+            position: relative; /* Важно для позиционирования бейджа */
+            overflow: hidden;
+        }
+
+        .news-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .news-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background-color: #333;
+        }
+
+        .news-content {
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .news-title {
+            font-size: 18px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-date {
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .news-description {
+            font-size: 14px;
+            color: var(--meta);
+            margin-bottom: 15px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .read-more {
+            display: inline-block;
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 15px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.2s ease-in-out;
+            margin-top: auto; /* Прижимает кнопку к низу */
+        }
+
+        .read-more:hover { background: #e68a00; }
+
+        /* Бейдж категории */
+        .news-category-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        /* Цвета категорий */
+        .news-card > .category-сво { background-color: #e53935; }
+        .news-card > .category-общество { background-color: #43a047; }
+        .news-card > .category-регионы { background-color: #fbc02d; color: #000; }
+        .news-card > .category-государство { background-color: #1e88e5; }
+        .news-card > .category-происшествия { background-color: #f4511e; }
+        .news-card > .category-криминал { background-color: #6d4c41; }
+        .news-card > .category-политика { background-color: #7b1fa2; }
+        .news-card > .category-геополитика { background-color: #00acc1; }
+        .news-card > .category-коррупция { background-color: #c62828; }
+        .news-card > .category-шоу-бизнес { background-color: #ad1457; }
+        .news-card > .category-спорт { background-color: #5e35b1; }
+        .news-card > .category-наука { background-color: #00838f; }
+        .news-card > .category-стиль { background-color: #8e24aa; }
+        .news-card > .category-культура { background-color: #33691e; }
+
+        /* Сайдбар */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+            border-left: 1px solid #e0e0e0; 
+            padding-left: 1.5rem;
+        }
+
+        .widget {
+            background: var(--bg-secondary, #f9f9f9);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+        }
+
+        .widget h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-main, #1a1a1a);
+            border-bottom: 3px solid var(--accent, #ff4757); 
+            padding-bottom: 0.5rem;
+        }
+
+        /* Пагинация */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            padding: 10px 15px;
+            border: 1px solid #ccc;
+            background: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            color: #333;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+        .page-btn:hover:not(.disabled) { background: #007bff; color: white; border-color: #007bff; }
+        .page-btn.active { background: #007bff; color: white; border-color: #007bff; }
+        .page-btn.disabled { opacity: 0.5; cursor: not-allowed; border-color: #ddd; }
+
+        /* Футер и прочее */
+        .footer {
+            position: static;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: auto;
+            min-height: 60px;
+            background: var(--footer-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-top: 1px solid var(--accent);    
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            z-index: 1001;
+        }
+
+        .social-icons { display: flex; gap: 25px; }
+        .social-icons img { width: 36px; height: 36px; }
+
+        .mobile-menu-button { display: none; }
+        .mobile-menu { display: none; }
+
+        .page-title-wrapper {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .page-title-indicator { width: 4px; height: 20px; background-color: var(--accent); }
+        .page-title { font-size: 20px; font-weight: bold; margin: 0; }
+
+        @keyframes fadeInUp { to { opacity: 1; transform: translateY(0); } }
+
+        .scroll-indicator-track {
+            position: fixed; right: 4px; top: 0; width: 4px; height: 100vh;
+            background: rgba(0, 0, 0, 0.08); pointer-events: none; z-index: 999;
+        }
+        .scroll-indicator-thumb {
+            position: absolute; top: 0; left: 0; width: 100%; height: 0%;
+            background: var(--accent); border-radius: 2px; pointer-events: none;
+}
+
+@media (max-width: 992px) {
+    .layout-wrapper {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+        height: calc(100vh - 120px);
+        max-height: 85vh;
+        overflow-y: auto;
+        border-left: 1px solid #e0e0e0;
+        padding-left: 1.5rem;
+    }
+    .sidebar::-webkit-scrollbar { width: 6px; }
+    .sidebar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+    .sidebar::-webkit-scrollbar-thumb:hover { background: #999; }
+    .widget { overflow: visible; }
+}
+
+@media (max-width: 768px) {
+    .news-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); padding: 15px; }
+    .featured-news-card { flex-direction: column; padding: 15px; }
+    .featured-news-image { width: 100%; height: 200px; margin-bottom: 15px; }
+    .featured-news-title { font-size: 24px; }
+}
+
+@media (max-width: 500px) {
+    .news-grid { grid-template-columns: 1fr; padding: 10px; }
+    .news-item { margin-bottom: 15px; }
+    .news-content { padding: 10px; }
+    .news-title { font-size: 16px; }
+    .news-description { font-size: 13px; }
+    .read-more { padding: 6px 12px; font-size: 12px; }
+    .featured-news-title { font-size: 20px; }
+    .featured-news-description { font-size: 14px; }
+    #searchInput { width: 90px; }
+}
+</style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+    
+    <header>
+        <div class="logo-wrapper">
+            <img src="img/logo.png" alt="Logo">
+            <span>Ракурс NEWS</span>
+        </div>
+        <div class="controls-wrapper">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Поиск...">
+                <div id="search-results"></div>
+            </div>
+            <button class="theme-toggle" onclick="document.body.classList.toggle('dark-theme')">🌙</button>
+        </div>
+    </header>
+
+    <nav class="categories-panel">
+        <div class="categories-wrapper">
+            <button class="category-btn active" data-category="all">Все</button>
+            <button class="category-btn" data-category="сво">СВО</button>
+            <button class="category-btn" data-category="общество">Общество</button>
+            <button class="category-btn" data-category="регионы">Регионы</button>
+            <button class="category-btn" data-category="государство">Государство</button>
+            <button class="category-btn" data-category="происшествия">Происшествия</button>
+            <button class="category-btn" data-category="криминал">Криминал</button>
+            <button class="category-btn" data-category="политика">Политика</button>
+            <button class="category-btn" data-category="геополитика">Геополитика</button>
+            <button class="category-btn" data-category="коррупция">Коррупция</button>
+            <button class="category-btn" data-category="шоу-бизнес">Шоу-бизнес</button>
+            <button class="category-btn" data-category="спорт">Спорт</button>
+            <button class="category-btn" data-category="наука">Наука</button>
+            <button class="category-btn" data-category="стиль">Стиль</button>
+            <button class="category-btn" data-category="культура">Культура</button>
+        </div>
+    </nav>
+
+    <main class="layout-wrapper">
+        <section class="content-area">
+            <div class="breadcrumbs">Главная / Новости</div>
+            
+            <div class="news-grid" id="news-container">
+                <!-- Карточка 1 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-сво">СВО</span>
+                        <img src="/images/5427049155890191084_120.jpg" alt="Новость 21" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Генерал Попов. Своих не бросаем</h3>
+                            <span class="news-date">29 июля 2026</span>
+                            <p class="news-description">Удивительное дело генерала Попова. Своих не бросаем! Но кто тут «свой» и кому?</p>
+                            <a href="news-21.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 2 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-общество">Геополитика</span>
+                        <img src="/images/5427154932344757684_121.jpg" alt="Новость 20" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Финляндия рубит сетевой кабель</h3>
+                            <span class="news-date">29 июля 2026</span>
+                            <p class="news-description">Финляндия решила «отключить» Россию от части интернет-трафика к 2027 году, перестав обслуживать опоры ЛЭП из-за невыгодности их содержания</p>
+                            <a href="news-20.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 3 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-регионы">Регионы</span>
+                        <img src="/images/5424694629048720938_121.jpg" alt="Новость 19" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Дуров в розыске: «Дайвинчик» подставил?</h3>
+                            <span class="news-date">29 июля 2026</span>
+                            <p class="news-description">Основатель мессенджера Telegram, Павел Дуров, оказался в центре международного внимания, будучи объявленным в розыск</p>
+                            <a href="news-19.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 4 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-государство">Государство</span>
+                        <img src="/images/5411529171307010672_120.jpg" alt="Новость 18" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Топливный Шок: Все Пойдет по Набиуллиной</h3>
+                            <span class="news-date">24 июля 2026</span>
+                            <p class="news-description">Наша любимая Эльвира Сахипзадовна, как всегда, успокаивает, но с перчинкой</p>
+                            <a href="news-18.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 5 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-происшествия">Происшествия</span>
+                        <img src="/images/1899546918_0_160_3072_1888_768x0_80_0_0_f1355f94074718f56c696c92d616979f.jpg.webp" alt="Новость 17" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Дроны с розочкой: украинская изобретательность?</h3>
+                            <span class="news-date">24 июля 2026</span>
+                            <p class="news-description">ВСУ превращают бензопилы в смертоносное оружие, навешивая фрагменты цепей на дроны. Российские саперы расскажут, как это работает и чего стоит опасаться</p>
+                            <a href="news-17.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 6 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-криминал">Криминал</span>
+                        <img src="/images/IMG_20260722_224940.webp" alt="Новость 16" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Алкогольный загул в Ульяновске</h3>
+                            <span class="news-date">22 июля 2026</span>
+                            <p class="news-description">В Ульяновске 22-летний парень украл алкогольное мороженое на 61 тысячу рублей и устроил пир прямо на месте преступления",
+                                "content": "В Ульяновске подрастает новый гений криминального мира — 22-летний гурман, решивший, что 13 килограммов алкогольного мороженого стоимостью 61 тысячу рублей сами себя не съедят. Парень вынес три увесистых контейнера из парка и, не отходя от кассы, принялся за дегустацию. Видимо, план побега был настолько же «гениальным», как и сама идея кражи: слопать всё, что влезет, а остатки «элитного» лакомства заботливо припрятать в кустах. Теперь этот ценитель прекрасного сидит под подпиской о невыезде и, вероятно, подсчитывает, стоило ли такое приключение уголовного дела. Похоже, ледяной десерт оказался настолько хорош, что парень забыл и о логике, и о последствиях. Интересно, в камере его будут кормить чем-то более прозаичным, или он всё еще надеется доесть те самые заначки из кустов?</p>
+                            <a href="news-16.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 7 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-политика">Политика</span>
+                        <img src="/images/IMG_20260722_221208.webp" alt="Новость 15" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Конец духа Анкориджаз</h3>
+                            <span class="news-date">22 июля 2026</span>
+                            <p class="news-description">Россия меняет правила игры, отказываясь от территориальных уступок и ставя точку в надеждах на былое взаимопонимание с США</p>
+                            <a href="news-15.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Карточка 8 -->
+                <article class="news-item">
+                    <div class="news-card">
+                        <span class="news-category-badge category-геополитика">Геополитика</span>
+                        <img src="/images/IMG_20260722_214556.webp" alt="Новость 14" class="news-image">
+                        <div class="news-content">
+                            <h3 class="news-title">Восстание машин началось всерьез</h3>
+                            <span class="news-date">22 июля 2026</span>
+                            <p class="news-description">ИИ довел американку до самоубийства, убедив ее спасти мир. Теперь Сэм Альтман и ChatGPT готовятся отвечать в суде за этот «цифровой глюк»</p>
+                            <a href="news-14.html" class="read-more">Читать далее</a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+                 <!-- Новость 13 -->
+                 <article class="news-item">
+                <div class="news-card">
+                    <span class="news-category-badge category-геополитика">Государство</span>
+                    <img src="/images/IMG_20260722_153831.webp" alt="Новость 13" class="news-image">
+                    <div class="news-content">
+                        <h3 class="news-title">Восстание машин началось всерьез</h3>
+                        <span class="news-date">22 июля 2026</span>
+                        <p class="news-description">ИИ довел американку до самоубийства, убедив ее спасти мир. Теперь Сэм Альтман и ChatGPT готовятся отвечать в суде за этот «цифровой глюк»</p>
+                        <a href="news-13.html" class="read-more">Читать далее</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+                <!-- Новость 12 -->
+                <article class="news-item">
+               <div class="news-card">
+                <span class="news-category-badge category-геополитика">Геополитика</span>
+                <img src="/images/IMG_20260722_111859.webp" alt="Новость 12" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Американская индустрия клонирует украинский Magura</h3>
+                    <span class="news-date">22 июля 2026</span>
+                    <p class="news-description">Производство дронов Magura переносится на мощности США.</p>
+                    <a href="news-12.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 11 -->
+                <article class="news-item">
+                <div class="news-card">
+            <span class="news-category-badge category-криминал">Криминал</span>
+            <img src="/images/IMG_20260722_102007.webp" alt="Новость 12" class="news-image">
+            <div class="news-content">
+                <h3 class="news-title">Провал диверсанта в метро Петербурга</h3>
+                <span class="news-date">22 июля 2026</span>
+                <p class="news-description">Очередная глупая попытка теракта в петербургском метро</p>
+                <a href="news-12.html" class="read-more">Читать далее</a>
+            </div>
+        </div>
+    </article>
+</div>
+                
+                <!-- Новость 10 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-геополитика">Геополитика</span>
+                <img src="/images/IMG_20260722_083256.webp" alt="Новость 10" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Польское терпение: конец украинского иждивенчества</h3>
+                    <span class="news-date">22 июля 2026</span>
+                    <p class="news-description">Поляки массово требуют прекратить спонсирование наглого соседа</p>
+                    <a href="news-10.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 9 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-государство">Государство</span>
+                <img src="/images/IMG_20260721_111931.webp" alt="Новость 9" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Технологический суверенитет за миллиарды рублей</h3>
+                    <span class="news-date">21 июля 2026</span>
+                    <p class="news-description">Критическая зависимость российской ИТ-инфраструктуры от американских чипов</p>
+                    <a href="news-9.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 8 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-государство">Государство</span>
+                <img src="/images/IMG_20260721_111931.webp" alt="Новость 8" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Госдума против бесконечного скроллинга ленты</h3>
+                    <span class="news-date">21 июля 2026</span>
+                    <p class="news-description">Депутаты предлагают ограничивать время просмотра интернет контента</p>
+                    <a href="news-8.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 7 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-СВО">СВО</span>
+                <img src="/images/IMG_20260721_083456.webp" alt="Новость 7" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Киевские террористы снова бьют по гражданским</h3>
+                    <span class="news-date">21 июля 2026</span>
+                    <p class="news-description">Киевские террористы атаковали липецкую область</p>
+                    <a href="news-7.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 6 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-государство">Государство</span>
+                <img src="/images/IMG_20260720_215518.webp" alt="Новость 6" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Депутат-неудачник сбежал от правосудия в Дубай</h3>
+                    <span class="news-date">20 июля 2026</span>
+                    <p class="news-description">Юрий Напсо: крах сочинского махинатора</p>
+                    <a href="news-6.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 5 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-культура">Культура</span>
+                <img src="/images/IMG_20260720_211647.webp" alt="Новость 5" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Московский пир во время чумы</h3>
+                    <span class="news-date">20 июля 2026</span>
+                    <p class="news-description">Гротескная деградация столичного шоу-бизнеса в эпоху СВО</p>
+                    <a href="news-5.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 4 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-общество">Общество</span>
+                <img src="/images/IMG_20260720_182931.webp" alt="Новость 4" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Подачки вместо жизни</h3>
+                    <span class="news-date">20 июля 2026</span>
+                    <p class="news-description">Госдума анонсировала «двухэтапное» выживание в 2027 году</p>
+                    <a href="news-4.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 3 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-происшествия">Происшествия</span>
+                <img src="/images/IMG_20260720_164027.webp" alt="Новость 3" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Трагедия в Шебекино: теракт против мирных жителей</h3>
+                    <span class="news-date">20 июля 2026</span>
+                    <p class="news-description">Киевские террористы целенаправленно убили пять безоружных людей</p>
+                    <a href="news-3.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 2 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-СВО">СВО</span>
+                <img src="/images/IMG_20260720_154511.webp" alt="Новость 2" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Фейки ВСУ про гражданские объекты</h3>
+                    <span class="news-date">20 июля 2026</span>
+                    <p class="news-description">Очередная неуклюжая попытка скрыть военный склад</p>
+                    <a href="news-2.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+
+                <!-- Новость 1 -->
+                <article class="news-item">
+                    <div class="news-card">
+                <span class="news-category-badge category-СВО">СВО</span>
+                <img src="/images/IMG_20260719_110542_908.jpg" alt="Новость 1" class="news-image">
+                <div class="news-content">
+                    <h3 class="news-title">Россия готовит особый ответ на наглую атаку беспилотниками на Москву</h3>
+                    <span class="news-date">20 июля 2026</span>
+                    <p class="news-description">Массовая атака на Москву бпла всу</p>
+                    <a href="news-1.html" class="read-more">Читать далее</a>
+                </div>
+            </div>
+        </article>
+    </div>
+                
+            <div class="pagination-wrapper">
+                <button class="page-btn disabled">←</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn">→</button>
+            </div>
+        </section>
+
+        <aside class="sidebar">
+            <div class="widget">
+                <h3>Курс валют</h3>
+                <div class="currency-rates">
+                    <div class="rate-item">
+                        <span class="currency-name">USD</span>
+                        <span class="rate-value">92.50 ₽</span>
+                    </div>
+                    <div class="rate-item">
+                        <span class="currency-name">EUR</span>
+                        <span class="rate-value">99.80 ₽</span>
+                    </div>
+                </div>
+                <p class="currency-comment">Данные обновляются каждые 15 минут.</p>
+            </div>
+
+            <div class="widget">
+                <h3>Горячие новости</h3>
+                <ul class="trends-list">
+                    <li><a href="news-1.html">Главные события дня: сводка по ключевым направлениям</a></li>
+                    <li><a href="news-2.html">Социальные выплаты: новые категории получателей</a></li>
+                    <li><a href="news-3.html">Инфраструктурные проекты в регионах: финансирование и сроки</a></li>
+                    <li><a href="news-4.html">Цифровые сервисы: новый закон и его последствия</a></li>
+                    <li><a href="news-5.html">Пожар в промзоне: последние данные о пострадавших</a></li>
+                </ul>
+            </div>
+
+            <div class="widget">
+                <h3>Мем дня</h3>
+                <div class="meme-container">
+                    <img src="img/meme.jpg" alt="Мем дня" class="meme-image">
+                </div>
+                <p class="meme-caption">Когда дедлайн уже вчера, а правки только начались.</p>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="footer">
+        <div class="social-icons">
+            <img src="img/icon-vk.png" alt="VK">
+            <img src="img/icon-tg.png" alt="Telegram">
+            <img src="img/icon-yt.png" alt="YouTube">
+        </div>
+        <p style="margin: 0; font-size: 12px; color: var(--meta);">© 2023 Новостной портал. Все права защищены.</p>
+    </footer>
+
+    <button id="scrollToTop" title="Наверх">↑</button>
+
+    <!-- Закомментируй эту строку, если тестируешь без сервера, чтобы убрать ошибки CORS -->
+    <script src="script.js"></script>
+</body>
+</html>
