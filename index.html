@@ -5,43 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ракурс NEWS — ироничные новости с экспертным взглядом</title>
 
+    <!-- Иконка на вкладке браузера -->
     <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
 
-    <!-- Мета для соцсетей -->
+    <!-- Мета для соцсетей (OG) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/">
     <meta property="og:title" content="Ракурс NEWS">
     <meta property="og:description" content="Свежие новости с иронией. Вся правда в иронии">
     <meta property="og:image" content="images/logo.png"> 
-    
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
     <meta name="description" content="Ракурс NEWS: Ироничный взгляд на главные новости политики, общества и мира. Раскрываем правду через сарказм и острый анализ">
     
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО CSS -->
     <link rel="stylesheet" href="style.css">
 
+    <!-- Переменные для точного позиционирования (чтобы панель встала ровно под шапкой) -->
     <style>
         :root {
-            --header-height: 60px;
+            --header-height: 60px; /* Высота вашей шапки + отступы */
         }
-
-        /* --- ЭТОТ БЛОК ГАРАНТИРУЕТ СКРОЛЛ --- */
-        .categories-wrapper {
-            display: flex;
-            flex-wrap: nowrap;       /* Кнопки в одну строку */
-            overflow-x: auto;        /* Горизонтальный скролл */
-            scrollbar-width: none;   /* Firefox */
-        }
-        .categories-wrapper::-webkit-scrollbar {
-            display: none;           /* Chrome/Safari */
-        }
-        .category-btn {
-            flex: 0 0 auto;          /* Кнопки не сжимаются */
-            white-space: nowrap;     /* Текст не переносится */
-            min-width: 130px;        /* Фиксированная ширина, чтобы вылезало за экран */
-            padding: 8px 12px;       /* Чуть воздуха внутри кнопки */
-        }
-        /* ------------------------------------- */
     </style>
 </head>
 <body>
@@ -75,30 +62,28 @@
         </div>
     </header>
 
-    <!-- ПАНЕЛЬ КАТЕГОРИЙ -->
-    <!-- ПАНЕЛЬ КАТЕГОРИЙ (ПОЛНОСТЬЮ ЗАМЕНИТЬ СТАРЫЙ БЛОК) -->
-<div class="categories-panel" style="width: 100%; overflow: hidden;">
-    <div class="categories-wrapper" id="menu" 
-         style="display: flex; flex-wrap: nowrap; gap: 12px; overflow-x: auto; scrollbar-width: none;">
-        
-        <button class="category-btn" data-category="all" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Все новости</button>
-        <button class="category-btn" data-category="СВО" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">СВО</button>
-        <button class="category-btn" data-category="Общество" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Общество</button>
-        <button class="category-btn" data-category="Регионы" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Регионы</button>
-        <button class="category-btn" data-category="Государство" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Государство</button>
-        <button class="category-btn" data-category="Происшествия" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Происшествия</button>
-        <button class="category-btn" data-category="Криминал" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Криминал</button>
-        <button class="category-btn" data-category="Политика" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Политика</button>
-        <button class="category-btn" data-category="Геополитика" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Геополитика</button>
-        <button class="category-btn" data-category="Коррупция" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Коррупция</button>
-        <button class="category-btn" data-category="Шоу-бизнес" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Шоу-бизнес</button>
-        <button class="category-btn" data-category="Спорт" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Спорт</button>
-        <button class="category-btn" data-category="Наука" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Наука</button>
-        <button class="category-btn" data-category="Стиль" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Стиль</button>
-        <button class="category-btn" data-category="Культура" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Культура</button>
+    <!-- НОВАЯ ПАНЕЛЬ КАТЕГОРИЙ -->
+    <!-- Высота 30px, прозрачность, горизонтальный скролл -->
+    <div class="categories-panel">
+        <div class="categories-wrapper" id="menu">
+            <button class="category-btn active" data-category="all">Все новости</button>
+            <button class="category-btn" data-category="СВО">СВО</button>
+            <button class="category-btn" data-category="Общество">Общество</button>
+            <button class="category-btn" data-category="Регионы">Регионы</button>
+            <button class="category-btn" data-category="Государство">Государство</button>
+            <button class="category-btn" data-category="Происшествия">Происшествия</button>
+            <button class="category-btn" data-category="Криминал">Криминал</button>
+            <button class="category-btn" data-category="Политика">Политика</button>
+            <button class="category-btn" data-category="Геополитика">Геополитика</button>
+            <button class="category-btn" data-category="Коррупция">Коррупция</button>
+            <button class="category-btn" data-category="Шоу-бизнес">Шоу-бизнес</button>
+            <button class="category-btn" data-category="Спорт">Спорт</button>
+            <button class="category-btn" data-category="Наука">Наука</button>
+            <button class="category-btn" data-category="Стиль">Стиль</button>
+            <button class="category-btn" data-category="Культура">Культура</button>
+        </div>
     </div>
-</div>
-<!-- КОНЕЦ ПАНЕЛИ -->
+    <!-- КОНЕЦ НОВОЙ ПАНЕЛИ -->
 
     <div id="top-scroll-indicator" style="
         position: fixed;
@@ -133,24 +118,7 @@
         </div>
     </div>
 
-    <!-- ВАШ СКРИПТ ДЛЯ СКРОЛЛА (перед основным script.js) -->
-        <!-- СКРИПТ ДЛЯ СКРОЛЛА КОЛЕСИКОМ -->
-        <script>
-            const wrapper = document.getElementById('menu');
-            if (wrapper) {
-                wrapper.addEventListener('wheel', (e) => {
-                    // Если крутим колесико — двигаем скролл горизонтально
-                    if (e.deltaX !== 0 || e.deltaY !== 0) {
-                        e.preventDefault(); // Блокируем обычный скролл страницы
-                        const delta = e.deltaX || e.deltaY;
-                        wrapper.scrollLeft += delta;
-                    }
-                }, { passive: false });
-            }
-        </script>
-    
-        <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS -->
-        <script src="script.js" defer></script>
-    </body>
-    </html>
-    
+    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
+    <script src="script.js" defer></script>
+</body>
+</html>
