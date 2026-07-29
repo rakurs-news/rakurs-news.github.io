@@ -120,5 +120,28 @@
 
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const categoriesPanel = document.querySelector('.categories-panel');
+        
+          let isHovering = false;
+        
+          const onWheel = (e) => {
+            e.preventDefault();
+            // Перемещение по горизонтали в зависимости от направления колеса
+            categoriesPanel.scrollLeft += e.deltaY;
+          };
+        
+          categoriesPanel.addEventListener('mouseenter', () => {
+            isHovering = true;
+            categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
+          });
+        
+          categoriesPanel.addEventListener('mouseleave', () => {
+            isHovering = false;
+            categoriesPanel.removeEventListener('wheel', onWheel);
+          });
+        });
+        </script>
 </body>
 </html>
