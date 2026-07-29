@@ -895,3 +895,21 @@ function scrollToTop() {
     min-width: 140px;
     padding: 10px 16px;
 }
+
+.categories-wrapper {
+    display: flex;
+    flex-wrap: nowrap;       /* Кнопки строго в одну строку */
+    overflow-x: auto;        /* Включаем горизонтальный скролл */
+    scrollbar-width: none;   /* Скрываем полосу (Firefox) */
+}
+
+.categories-wrapper::-webkit-scrollbar {
+    display: none;           /* Скрываем полосу (Chrome/Safari) */
+}
+
+.category-btn {
+    flex: 0 0 auto;          /* Кнопки не сжимаются */
+    white-space: nowrap;     /* Текст не переносится */
+    min-width: 120px;        /* Чтобы они реально вылезали за экран */
+}
+
