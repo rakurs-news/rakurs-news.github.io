@@ -5,30 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ракурс NEWS — ироничные новости с экспертным взглядом</title>
 
-    <!-- Иконка на вкладке браузера -->
     <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
 
-    <!-- Мета для соцсетей (OG) -->
+    <!-- Мета для соцсетей -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/">
     <meta property="og:title" content="Ракурс NEWS">
     <meta property="og:description" content="Свежие новости с иронией. Вся правда в иронии">
     <meta property="og:image" content="images/logo.png"> 
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-
+    
     <meta name="description" content="Ракурс NEWS: Ироничный взгляд на главные новости политики, общества и мира. Раскрываем правду через сарказм и острый анализ">
     
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО CSS -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Переменные для точного позиционирования (чтобы панель встала ровно под шапкой) -->
     <style>
         :root {
-            --header-height: 60px; /* Высота вашей шапки + отступы */
+            --header-height: 60px;
         }
+
+        /* --- ЭТОТ БЛОК ГАРАНТИРУЕТ СКРОЛЛ --- */
+        .categories-wrapper {
+            display: flex;
+            flex-wrap: nowrap;       /* Кнопки в одну строку */
+            overflow-x: auto;        /* Горизонтальный скролл */
+            scrollbar-width: none;   /* Firefox */
+        }
+        .categories-wrapper::-webkit-scrollbar {
+            display: none;           /* Chrome/Safari */
+        }
+        .category-btn {
+            flex: 0 0 auto;          /* Кнопки не сжимаются */
+            white-space: nowrap;     /* Текст не переносится */
+            min-width: 130px;        /* Фиксированная ширина, чтобы вылезало за экран */
+            padding: 8px 12px;       /* Чуть воздуха внутри кнопки */
+        }
+        /* ------------------------------------- */
     </style>
 </head>
 <body>
@@ -62,8 +75,7 @@
         </div>
     </header>
 
-    <!-- НОВАЯ ПАНЕЛЬ КАТЕГОРИЙ -->
-    <!-- Высота 30px, прозрачность, горизонтальный скролл -->
+    <!-- ПАНЕЛЬ КАТЕГОРИЙ -->
     <div class="categories-panel">
         <div class="categories-wrapper" id="menu">
             <button class="category-btn active" data-category="all">Все новости</button>
@@ -83,7 +95,7 @@
             <button class="category-btn" data-category="Культура">Культура</button>
         </div>
     </div>
-    <!-- КОНЕЦ НОВОЙ ПАНЕЛИ -->
+    <!-- КОНЕЦ ПАНЕЛИ -->
 
     <div id="top-scroll-indicator" style="
         position: fixed;
@@ -111,25 +123,29 @@
         <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
     </div>
 
-       <div class="footer">
+    <div class="footer">
         <div class="social-icons">
             <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
             <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
         </div>
     </div>
 
-    <!-- Твой скрипт для скролла — ставим ПЕРЕД внешним script.js -->
+    <!-- ВАШ СКРИПТ ДЛЯ СКРОЛЛА (перед основным script.js) -->
     <script>
         const wrapper = document.getElementById('menu');
         if (wrapper) {
             wrapper.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                wrapper.scrollLeft += e.deltaX || e.deltaY;
+                // Если крутим колесико — двигаем скролл горизонтально
+                if (e.deltaX !== 0 || e.deltaY !== 0) {
+                    e.preventDefault(); // Блокируем обычный скролл страницы
+                    const delta = e.deltaX || e.deltaY; // Берем горизонтальную дельту или вертикальную
+                    wrapper.scrollLeft += delta;
+                }
             }, { passive: false });
         }
     </script>
 
-    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
+    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS -->
     <script src="script.js" defer></script>
 </body>
 </html>
