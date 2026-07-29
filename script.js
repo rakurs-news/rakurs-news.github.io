@@ -64,10 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
        const topTrends = allNewsData.slice(0, 5); 
        trendsContainer.innerHTML = ''; 
 
-       topTrends.forEach(item => {
-           const li = document.createElement('li');
-           li.innerHTML = `<a href="#" class="trend-link" onclick="handleReadMoreClick('${item.id}')">🔥 ${item.title}</a>`;
-           trendsContainer.appendChild(li);
        });
    }
 
