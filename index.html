@@ -117,18 +117,25 @@
             <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
         </div>
     </div>
-    <script>
-        const categoriesWrapper = document.getElementById('menu');
-        
-        if (categoriesWrapper) {
-            categoriesWrapper.addEventListener('wheel', (e) => {
-                if (e.deltaY !== 0) {
-                    e.preventDefault();
-                    categoriesWrapper.scrollLeft += e.deltaY;
-                }
-            }, { passive: false });
-        }
-    </script>
+   <script>
+    const categoriesWrapper = document.getElementById('menu');
+    
+    if (categoriesWrapper) {
+        categoriesWrapper.addEventListener('wheel', (e) => {
+            // Прокручиваем только если колесико двигают по горизонтали (deltaX) 
+            // ИЛИ если браузер отдает дельту только в deltaY (старые браузеры/ноутбуки)
+            if (e.deltaX !== 0 || e.deltaY !== 0) {
+                e.preventDefault(); // Блокируем стандартный скролл страницы
+                
+                // Если есть deltaX — используем его (нативный горизонтальный скролл)
+                // Если нет (ноутбук) — конвертируем вертикальный в горизонтальный
+                const scrollAmount = e.deltaX || e.deltaY;
+                categoriesWrapper.scrollLeft += scrollAmount;
+            }
+        }, { passive: false });
+    }
+</script>
+
     
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
