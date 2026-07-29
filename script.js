@@ -12,41 +12,65 @@ document.addEventListener('DOMContentLoaded', () => {
     let allNewsData = [];
     let currentCategory = 'all';
 
-    // --- 1. ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ ДЛЯ КАТЕГОРИЙ (НОВОЕ) ---
-    const categoriesContainer = document.querySelector('.categories-container');
-    if (categoriesContainer) {
-        categoriesContainer.addEventListener('wheel', (evt) => {
-            evt.preventDefault(); 
-            categoriesContainer.scrollLeft += evt.deltaY;
-        }, { passive: false });
-    }
-    // --------------------------------------------------------
+        // --- 1. ГОРИЗОНТАЛЬНЫЙ СКРОЛЛ ДЛЯ КАТЕГОРИЙ (ИСПРАВЛЕНО) ---
+        const categoriesContainer = document.querySelector('.categories-panel'); // Ищем по классу панели
+    
+        if (categoriesContainer) {
+            categoriesContainer.addEventListener('wheel', (evt) => {
+                evt.preventDefault(); 
+                categoriesContainer.scrollLeft += evt.deltaY;
+            }, { passive: false });
+        } else {
+            console.warn('⚠️ Блок .categories-panel не найден. Проверь HTML.');
+        }
+        // --------------------------------------------------------
+    
 
     // --- 2. ЗАГРУЗКА НОВОСТЕЙ ---
-    fetch('news.json')
-        .then(response => {
-            if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
-            return response.json();
-        })
-        .then(data => {
-            allNewsData = data.items || []; 
+       // --- 2. ЗАГРУЗКА НОВОСТЕЙ ---
+       fetch('news.json')
+       .then(response => {
+           if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
+           return response.json();
+       })
+       .then(data => {
+           allNewsData = data.items || []; 
 
-            if (data.featuredNewsId && allNewsData.length > 0) {
-                const featuredNews = allNewsData.find(item => item.id === data.featuredNewsId);
-                if (featuredNews) displayFeaturedNews(featuredNews);
-            }
+           if (data.featuredNewsId && allNewsData.length > 0) {
+               const featuredNews = allNewsData.find(item => item.id === data.featuredNewsId);
+               if (featuredNews) displayFeaturedNews(featuredNews);
+           }
 
-            displayNews(allNewsData);
+           displayNews(allNewsData);
+           
+           // 👇 ВОТ ЗДЕСЬ МЫ ВЫЗЫВАЕМ ЗАПОЛНЕНИЕ САЙДБАРА (после успешной загрузки)
+           populateTrendsList(); 
 
-            if (loader) loader.style.display = 'none'; 
-        })
-        .catch(error => {
-            console.error('Ошибка загрузки новостей:', error);
-            if (loader) {
-                loader.textContent = 'Не удалось загрузить новости. Проверьте консоль.';
-                loader.style.display = 'block'; 
-            }
-        });
+           if (loader) loader.style.display = 'none'; 
+       })
+       .catch(error => {
+           console.error('Ошибка загрузки новостей:', error);
+           if (loader) {
+               loader.textContent = 'Не удалось загрузить новости. Проверьте консоль.';
+               loader.style.display = 'block'; 
+           }
+       });
+
+   // 👇 ЭТА ФУНКЦИЯ ДОЛЖНА БЫТЬ ОТДЕЛЬНО (не внутри catch!)
+   function populateTrendsList() {
+       const trendsContainer = document.querySelector('.trends-list');
+       if (!trendsContainer || allNewsData.length === 0) return;
+
+       const topTrends = allNewsData.slice(0, 5); 
+       trendsContainer.innerHTML = ''; 
+
+       topTrends.forEach(item => {
+           const li = document.createElement('li');
+           li.innerHTML = `<a href="#" class="trend-link" onclick="handleReadMoreClick('${item.id}')">🔥 ${item.title}</a>`;
+           trendsContainer.appendChild(li);
+       });
+   }
+
 
     // --- ФУНКЦИИ ОТРИСОВКИ (остальной твой код без изменений) ---
     function displayFeaturedNews(newsItem) {
@@ -227,23 +251,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ---
-    const themeToggleBtn = document.querySelector('.theme-toggle');
+        // --- ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (Твой код, он верный) ---
+        const themeToggleBtn = document.querySelector('.theme-toggle');
     
-    if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark-theme');
-            if (document.body.classList.contains('dark-theme')) {
-                localStorage.setItem('theme', 'dark');
-            } else {
-                localStorage.removeItem('theme');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                document.body.classList.toggle('dark-theme');
+                if (document.body.classList.contains('dark-theme')) {
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    localStorage.removeItem('theme');
+                }
+            });
+        }
+    
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme'); 
+        }
+    
+    
+        // --- КУРС ВАЛЮТ (ИСПРАВЛЕННЫЙ И ВСТРОЕННЫЙ) ---
+        
+        // Объявляем функцию ВНУТРИ DOMContentLoaded
+        async function updateCurrency() {
+            const usdEl = document.getElementById('usd-rate');
+            const eurEl = document.getElementById('eur-rate');
+            const commentEl = document.getElementById('currency-comment');
+    
+            // Проверка: если элементов нет (например, на мобильном сайдбар скрыт), выходим
+            if (!usdEl || !eurEl || !commentEl) {
+                return; 
             }
-        });
-    }
-
-    if (localStorage.getItem('theme') === 'dark') {
-        document.body.classList.add('dark-theme');
-    } else {
-        document.body.classList.remove('dark-theme'); 
-    }
-});
+    
+            try {
+                const response = await fetch('https://api.exchangerate.host/latest?base=RUB');
+                const data = await response.json();
+    
+                usdEl.textContent = usd;
+                eurEl.textContent = eur;
+    
+                let comment = '';
+                const usdVal = parseFloat(usd);
+                
+                if (usdVal > 95) {
+                    comment = "Рубль улетел в космос, но обещал вернуться… через неделю и с доплатой.";
+                } else if (usdVal > 90 && usdVal <= 95) {
+                    comment = "Курс такой нервный, что даже котировки пьют валерьянку.";
+                } else {
+                    comment = "Стабильность? Скорее, затишье перед иронией. Держите кофе крепче.";
+                }
+                commentEl.textContent = comment;
+            } catch (e) {
+                console.error('Ошибка загрузки курса:', e);
+                // Можно раскомментировать строку ниже, если хочешь видеть ошибку прямо на сайте
+                // commentEl.textContent = "Не удалось загрузить курс. Проверьте консоль.";
+            }
+        }
+    
+        // ЗАПУСКАЕМ функцию СРАЗУ после загрузки DOM
+        updateCurrency();
+    
+        // Обновляем каждые 5 минут (300 000 мс)
+        setInterval(updateCurrency, 300000);
+    
+    }); // <-- Это конец твоего большого DOMContentLoaded
+    

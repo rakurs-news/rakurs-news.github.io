@@ -821,3 +821,172 @@ body.dark-theme .categories-panel {
     }
 }
 
+/* --- ОБЩИЕ НАСТРОЙКИ СЕТКИ (чтобы новости и сайдбар стояли рядом) --- */
+.layout-wrapper {
+    display: grid;
+    /* 1fr = новости (занимают всё место), 340px = сайдбар */
+    grid-template-columns: 1fr 340px;
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* --- САЙДБАР: РАЗДЕЛИТЕЛЬ И ПРИЛИПАНИЕ --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    position: sticky; /* Прилипание при прокрутке */
+    top: 80px;        /* Отступ сверху (под шапкой и панелью категорий) */
+    height: fit-content;
+    
+    /* РАЗДЕЛИТЕЛЬ: тонкая линия слева */
+    border-left: 1px solid #e0e0e0; 
+    padding-left: 1.5rem;
+}
+
+/* Виджеты */
+.widget {
+    background: var(--bg-secondary, #f9f9f9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+}
+
+.widget h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: var(--text-main, #1a1a1a);
+    /* Цветная полоска под заголовком для стиля "Ракурс" */
+    border-bottom: 3px solid var(--accent, #ff4757); 
+    padding-bottom: 0.5rem;
+}
+
+/* --- МЕМ ДНЯ --- */
+.meme-container {
+    overflow: hidden;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+}
+.meme-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 6px;
+}
+.meme-caption {
+    margin-top: 0.8rem;
+    font-style: italic;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+/* --- ГОРЯЧИЕ НОВОСТИ (СПИСОК) --- */
+.trends-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.trends-list li {
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+.trends-list a {
+    color: var(--text-link, #2f80ed);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.trends-list a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+/* --- КУРС ВАЛЮТ --- */
+.currency-rates {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px dashed #ccc;
+}
+.rate-item {
+    text-align: center;
+}
+.currency-name {
+    display: block;
+    font-size: 0.85rem;
+    color: #888;
+    text-transform: uppercase;
+}
+.rate-value {
+    display: block;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: var(--text-main);
+}
+.currency-comment {
+    font-size: 0.95rem;
+    color: #444;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+/* --- АДАПТИВНОСТЬ (МОБИЛЬНЫЕ) --- */
+@media (max-width: 992px) {
+    .layout-wrapper {
+        grid-template-columns: 1fr; /* Одна колонка */
+        gap: 1.5rem;
+    }
+    /* --- САЙДБАР: Фиксированная высота + внутренний скролл --- */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    /* position: sticky убран — он мешает внутреннему скроллу */
+    
+    /* Высота: почти весь экран, но с отступами сверху и снизу */
+    height: calc(100vh - 120px); /* 120px = шапка (60px) + панель категорий (30px) + отступы */
+    max-height: 85vh;            /* Страховка, чтобы не вылезало за экран */
+    
+    /* ГЛАВНОЕ: включаем скролл только внутри этого блока */
+    overflow-y: auto; 
+    
+    /* Разделитель */
+    border-left: 1px solid #e0e0e0; 
+    padding-left: 1.5rem;
+}
+
+/* Стили для скроллбара (чтобы выглядел аккуратно) */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Виджеты (остаются без изменений) */
+.widget {
+    background: var(--bg-secondary, #f9f9f9);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    /* Важно: виджеты не должны иметь своей прокрутки, она у родителя */
+    overflow: visible; 
+}
+
+}
+
+@media (max-width: 768px) {
+    /* На совсем маленьких экранах можно скрыть сайдбар полностью, 
+       если места мало для чтения */
+    /* .sidebar { display: none; } */
+}
