@@ -76,26 +76,29 @@
     </header>
 
     <!-- ПАНЕЛЬ КАТЕГОРИЙ -->
-    <div class="categories-panel">
-        <div class="categories-wrapper" id="menu">
-            <button class="category-btn active" data-category="all">Все новости</button>
-            <button class="category-btn" data-category="СВО">СВО</button>
-            <button class="category-btn" data-category="Общество">Общество</button>
-            <button class="category-btn" data-category="Регионы">Регионы</button>
-            <button class="category-btn" data-category="Государство">Государство</button>
-            <button class="category-btn" data-category="Происшествия">Происшествия</button>
-            <button class="category-btn" data-category="Криминал">Криминал</button>
-            <button class="category-btn" data-category="Политика">Политика</button>
-            <button class="category-btn" data-category="Геополитика">Геополитика</button>
-            <button class="category-btn" data-category="Коррупция">Коррупция</button>
-            <button class="category-btn" data-category="Шоу-бизнес">Шоу-бизнес</button>
-            <button class="category-btn" data-category="Спорт">Спорт</button>
-            <button class="category-btn" data-category="Наука">Наука</button>
-            <button class="category-btn" data-category="Стиль">Стиль</button>
-            <button class="category-btn" data-category="Культура">Культура</button>
-        </div>
+    <!-- ПАНЕЛЬ КАТЕГОРИЙ (ПОЛНОСТЬЮ ЗАМЕНИТЬ СТАРЫЙ БЛОК) -->
+<div class="categories-panel" style="width: 100%; overflow: hidden;">
+    <div class="categories-wrapper" id="menu" 
+         style="display: flex; flex-wrap: nowrap; gap: 12px; overflow-x: auto; scrollbar-width: none;">
+        
+        <button class="category-btn" data-category="all" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Все новости</button>
+        <button class="category-btn" data-category="СВО" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">СВО</button>
+        <button class="category-btn" data-category="Общество" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Общество</button>
+        <button class="category-btn" data-category="Регионы" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Регионы</button>
+        <button class="category-btn" data-category="Государство" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Государство</button>
+        <button class="category-btn" data-category="Происшествия" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Происшествия</button>
+        <button class="category-btn" data-category="Криминал" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Криминал</button>
+        <button class="category-btn" data-category="Политика" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Политика</button>
+        <button class="category-btn" data-category="Геополитика" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Геополитика</button>
+        <button class="category-btn" data-category="Коррупция" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Коррупция</button>
+        <button class="category-btn" data-category="Шоу-бизнес" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Шоу-бизнес</button>
+        <button class="category-btn" data-category="Спорт" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Спорт</button>
+        <button class="category-btn" data-category="Наука" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Наука</button>
+        <button class="category-btn" data-category="Стиль" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Стиль</button>
+        <button class="category-btn" data-category="Культура" style="flex: 0 0 auto; white-space: nowrap; min-width: 130px; padding: 8px 12px;">Культура</button>
     </div>
-    <!-- КОНЕЦ ПАНЕЛИ -->
+</div>
+<!-- КОНЕЦ ПАНЕЛИ -->
 
     <div id="top-scroll-indicator" style="
         position: fixed;
@@ -131,21 +134,23 @@
     </div>
 
     <!-- ВАШ СКРИПТ ДЛЯ СКРОЛЛА (перед основным script.js) -->
-    <script>
-        const wrapper = document.getElementById('menu');
-        if (wrapper) {
-            wrapper.addEventListener('wheel', (e) => {
-                // Если крутим колесико — двигаем скролл горизонтально
-                if (e.deltaX !== 0 || e.deltaY !== 0) {
-                    e.preventDefault(); // Блокируем обычный скролл страницы
-                    const delta = e.deltaX || e.deltaY; // Берем горизонтальную дельту или вертикальную
-                    wrapper.scrollLeft += delta;
-                }
-            }, { passive: false });
-        }
-    </script>
-
-    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS -->
-    <script src="script.js" defer></script>
-</body>
-</html>
+        <!-- СКРИПТ ДЛЯ СКРОЛЛА КОЛЕСИКОМ -->
+        <script>
+            const wrapper = document.getElementById('menu');
+            if (wrapper) {
+                wrapper.addEventListener('wheel', (e) => {
+                    // Если крутим колесико — двигаем скролл горизонтально
+                    if (e.deltaX !== 0 || e.deltaY !== 0) {
+                        e.preventDefault(); // Блокируем обычный скролл страницы
+                        const delta = e.deltaX || e.deltaY;
+                        wrapper.scrollLeft += delta;
+                    }
+                }, { passive: false });
+            }
+        </script>
+    
+        <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS -->
+        <script src="script.js" defer></script>
+    </body>
+    </html>
+    
