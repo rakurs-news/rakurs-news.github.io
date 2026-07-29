@@ -117,7 +117,19 @@
             <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
         </div>
     </div>
-
+    <script>
+        const categoriesWrapper = document.getElementById('menu');
+        
+        if (categoriesWrapper) {
+            categoriesWrapper.addEventListener('wheel', (e) => {
+                if (e.deltaY !== 0) {
+                    e.preventDefault();
+                    categoriesWrapper.scrollLeft += e.deltaY;
+                }
+            }, { passive: false });
+        }
+    </script>
+    
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
 </body>

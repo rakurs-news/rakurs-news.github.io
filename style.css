@@ -826,3 +826,18 @@ function scrollToTop() {
 
 /* Если категория не найдена или пустая - нейтральный цвет */
 .category-other { background-color: #95a5a6; }
+.categories-panel {
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.categories-wrapper {
+    display: flex;
+    gap: 8px;
+    padding: 4px 0;
+}
+
+.category-btn {
+    flex-shrink: 0; /* чтобы кнопки не сжимались */
+    min-width: 120px; /* опционально, для читаемости */
+}
