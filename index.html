@@ -1,369 +1,358 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Ракурс NEWS — ироничные новости с экспертным взглядом</title>
-<link rel="icon" type="image/png" href="images/logo.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="images/logo.png" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/" />
-<meta property="og:title" content="Ракурс NEWS" />
-<meta property="og:description" content="Свежие новости с иронией. Вся правда в иронии" />
-<meta property="og:image" content="images/logo.png" /> 
-<meta name="description" content="Ракурс NEWS: Ироничный взгляд на главные новости политики, общества и мира. Раскрываем правду через сарказм и острый анализ" />
-<link rel="stylesheet" href="style.css" />
-<style>
-:root {
-    --header-height: 60px;
-    --pagination-color: #333;
-    --pagination-bg: #fff;
-    --pagination-border: #ddd;
-    --pagination-hover: #f0f0f0;
-    --pagination-active: #007bff;
-    --pagination-text: #333;
-}
-/* --- СТИЛИ БЕЙДЖЕЙ КАТЕГОРИЙ --- */
-.news-category-badge {
-    display: inline-block;
-    padding: 4px 10px;
-    font-size: 11px;
-    font-weight: 700;
-    color: white;
-    border-radius: 4px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    vertical-align: middle;
-    white-space: nowrap; 
-}
-.category-сво { background-color: #dc3545; }       
-.category-общество { background-color: #17a2b8; }   
-.category-регионы { background-color: #ffc107; }    
-.category-государство { background-color: #28a745; } 
-.category-происшествия { background-color: #fd7e14; } 
-.category-криминал { background-color: #6610f2; }   
-.category-политика { background-color: #e83e8c; }   
-.category-геополитика { background-color: #343a40; } 
-.category-коррупция { background-color: #8e44ad; }  
-.category-шоу-бизнес { background-color: #ff6b6b; }  
-.category-спорт { background-color: #007bff; }      
-.category-наука { background-color: #186ba0; }      
-.category-стиль { background-color: #f1c40f; }     
-.category-культура { background-color: #9b59b6; }   
-.category-other { background-color: #6c757d; } 
-@media (max-width: 600px) {
-    .news-category-badge { font-size: 9px; padding: 3px 8px; }
-}
-/* --- ПАГИНАЦИЯ --- */
-.pagination-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 30px 0;
-    padding: 0 15px;
-}
-.pagination-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    height: 40px;
-    background-color: var(--pagination-bg);
-    color: var(--pagination-text);
-    border: 1px solid var(--pagination-border);
-    border-radius: 6px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    user-select: none;
-}
-.pagination-btn:hover:not(.disabled):not(.active) {
-    background-color: var(--pagination-hover);
-    border-color: var(--pagination-color);
-}
-.pagination-btn.active {
-    background-color: var(--pagination-active);
-    color: #fff;
-    border-color: var(--pagination-active);
-}
-.pagination-btn.disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-}
-.pagination-btn svg {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-@media (max-width: 600px) {
-    .pagination-wrapper { gap: 6px; }
-    .pagination-btn { min-width: 36px; height: 36px; font-size: 13px; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ракурс NEWS — ироничные новости с экспертным взглядом</title>
+
+    <!-- Иконка на вкладке браузера -->
+    <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+
+    <!-- Мета для соцсетей (OG) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/">
+    <meta property="og:title" content="Ракурс NEWS">
+    <meta property="og:description" content="Свежие новости с иронией. Вся правда в иронии">
+    <meta property="og:image" content="images/logo.png"> 
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <meta name="description" content="Ракурс NEWS: Ироничный взгляд на главные новости политики, общества и мира. Раскрываем правду через сарказм и острый анализ">
+    
+    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Переменные для точного позиционирования (чтобы панель встала ровно под шапкой) -->
+    <style>
+        :root {
+            --header-height: 60px;
+            --pagination-color: #333;
+            --pagination-bg: #fff;
+            --pagination-border: #ddd;
+            --pagination-hover: #f0f0f0;
+            --pagination-active: #007bff;
+            --pagination-text: #333;
+        }
+
+        /* --- НАЧАЛО: Стили для цветных бейджей категорий --- */
+        .news-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            vertical-align: middle;
+            white-space: nowrap; 
+        }
+
+        .category-сво { background-color: #dc3545; }       
+        .category-общество { background-color: #17a2b8; }   
+        .category-регионы { background-color: #ffc107; }    
+        .category-государство { background-color: #28a745; } 
+        .category-происшествия { background-color: #fd7e14; } 
+        .category-криминал { background-color: #6610f2; }   
+        .category-политика { background-color: #e83e8c; }   
+        .category-геополитика { background-color: #343a40; } 
+        .category-коррупция { background-color: #8e44ad; }  
+        .category-шоу-бизнес { background-color: #ff6b6b; }  
+        .category-спорт { background-color: #007bff; }      
+        .category-наука { background-color: #186ba0; }      
+        .category-стиль { background-color: #f1c40f; }     
+        .category-культура { background-color: #9b59b6; }   
+        .category-other { background-color: #6c757d; } 
+
+        @media (max-width: 600px) {
+            .news-category-badge {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
+        }
+
+        /* --- ПАГИНАЦИЯ: СТИЛИ --- */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 30px 0;
+            padding: 0 15px;
+        }
+
+        .pagination-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            background-color: var(--pagination-bg);
+            color: var(--pagination-text);
+            border: 1px solid var(--pagination-border);
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .pagination-btn:hover:not(.disabled):not(.active) {
+            background-color: var(--pagination-hover);
+            border-color: var(--pagination-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--pagination-active);
+            color: #fff;
+            border-color: var(--pagination-active);
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .pagination-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @media (max-width: 600px) {
+            .pagination-wrapper {
+                gap: 6px;
+            }
+            .pagination-btn {
+                min-width: 36px;
+                height: 36px;
+                font-size: 13px;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1 style="display: none;">Актуальные новости Ракурс NEWS</h1>
-<div id="progress-bar"></div>
-<header>
-<div class="logo-wrapper">
-<img src="images/logo.png" alt="Logo" />
-<span id="logo-text">Ракурс NEWS</span>
-</div>
-<div class="controls-wrapper">
-<div class="search-wrapper">
-<input type="text" id="searchInput" placeholder="Поиск..." />
-<div id="search-results"></div>
-</div>
-<button class="theme-toggle" aria-label="Сменить тему">
-<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-<circle cx="12" cy="12" r="5"></circle>
-<line x1="12" y1="1" x2="12" y2="3"></line>
-<line x1="12" y1="21" x2="12" y2="23"></line>
-<line x1="1" y1="12" x2="3" y2="12"></line>
-<line x1="21" y1="12" x2="23" y2="12"></line>
-<line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-<line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-<line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-<line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-</svg>
-</button>
-</div>
-</div>
-</header>
-<div class="categories-panel">
-<div class="categories-wrapper" id="menu">
-<button class="category-btn active" data-category="all">Все новости</button>
-<button class="category-btn" data-category="сво">СВО</button>
-<button class="category-btn" data-category="общество">Общество</button>
-<button class="category-btn" data-category="регионы">Регионы</button>
-<button class="category-btn" data-category="государство">Государство</button>
-<button class="category-btn" data-category="происшествия">Происшествия</button>
-<button class="category-btn" data-category="криминал">Криминал</button>
-<button class="category-btn" data-category="политика">Политика</button>
-<button class="category-btn" data-category="геополитика">Геополитика</button>
-<button class="category-btn" data-category="коррупция">Коррупция</button>
-<button class="category-btn" data-category="шоу-бизнес">Шоу-бизнес</button>
-<button class="category-btn" data-category="спорт">Спорт</button>
-<button class="category-btn" data-category="наука">Наука</button>
-<button class="category-btn" data-category="стиль">Стиль</button>
-<button class="category-btn" data-category="культура">Культура</button>
-</div>
-</div>
-<div id="top-scroll-indicator" style="
-position: fixed;
-top: 0;
-left: 0;
-width: 0%;
-height: 4px;
-background: var(--accent, #007bff);
-z-index: 2001;
-"></div>
-<div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
-<div id="main-news" class="featured-news" style="display: none;"></div>
-<div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
-<nav aria-label="Навигация по страницам новостей" class="pagination-wrapper" id="pagination-controls"></nav>
-<button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
-<svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
-<line x1="12" y1="19" x2="12" y2="5"></line>
-<polyline points="5 12 12 5 19 12"></polyline>
-</svg>
-</button>
-<div class="floating-buttons" id="floatingButtons">
-<a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
-<a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
-</div>
-<div class="footer">
-<div class="social-icons">
-<a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
-<a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
-</div>
-</div>
-<script src="script.js" defer></script>
-<script>
-const ITEMS_PER_PAGE = 10;
-function getCurrentPage() {
-    const path = window.location.pathname;
-    const match = path.match(/page(\d+)\.html$/);
-    if (match) return parseInt(match[1], 10);
-    return 1;
-}
-document.addEventListener('DOMContentLoaded', () => {
-  const categoriesPanel = document.querySelector('.categories-panel');
-  let isHovering = false;
-  const onWheel = (e) => {
-    e.preventDefault();
-    categoriesPanel.scrollLeft += e.deltaY;
-  };
-  categoriesPanel.addEventListener('mouseenter', () => {
-    isHovering = true;
-    categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
-  });
-  categoriesPanel.addEventListener('mouseleave', () => {
-    isHovering = false;
-    categoriesPanel.removeEventListener('wheel', onWheel);
-  });
-});
-const paginationControls = document.getElementById('pagination-controls');
-const newsContainer = document.getElementById('news-container');
-const mainNewsContainer = document.getElementById('main-news');
-let allNews = []; 
-let featuredNews = [];
-let paginatedNews = [];
+    <h1 style="display: none;">Актуальные новости Ракурс NEWS</h1>
+    
+    <div id="progress-bar"></div>
 
-function renderPagination(currentPage, totalPages) {
-    paginationControls.innerHTML = '';
+    <header>
+        <div class="logo-wrapper">
+            <img src="images/logo.png" alt="Logo">
+            <span id="logo-text">Ракурс NEWS</span>
+        </div>
+        <div class="controls-wrapper">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Поиск...">
+                <div id="search-results"></div>
+            </div>
+            <button class="theme-toggle" aria-label="Сменить тему">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="5"></circle>
+                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
 
-    if (totalPages <= 1) return;
+    <!-- НОВАЯ ПАНЕЛЬ КАТЕГОРИЙ -->
+    <div class="categories-panel">
+        <div class="categories-wrapper" id="menu">
+            <button class="category-btn active" data-category="all">Все новости</button>
+            <button class="category-btn" data-category="сво">СВО</button>
+            <button class="category-btn" data-category="общество">Общество</button>
+            <button class="category-btn" data-category="регионы">Регионы</button>
+            <button class="category-btn" data-category="государство">Государство</button>
+            <button class="category-btn" data-category="происшествия">Происшествия</button>
+            <button class="category-btn" data-category="криминал">Криминал</button>
+            <button class="category-btn" data-category="политика">Политика</button>
+            <button class="category-btn" data-category="геополитика">Геополитика</button>
+            <button class="category-btn" data-category="коррупция">Коррупция</button>
+            <button class="category-btn" data-category="шоу-бизнес">Шоу-бизнес</button>
+            <button class="category-btn" data-category="спорт">Спорт</button>
+            <button class="category-btn" data-category="наука">Наука</button>
+            <button class="category-btn" data-category="стиль">Стиль</button>
+            <button class="category-btn" data-category="культура">Культура</button>
+        </div>
+    </div>
+    <!-- КОНЕЦ НОВОЙ ПАНЕЛИ -->
 
-    const prevBtn = document.createElement('button');
-    prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
-    prevBtn.setAttribute('aria-label', 'Предыдущая страница');
-    prevBtn.textContent = 'Назад';
-    if (currentPage > 1) {
-        prevBtn.onclick = () => location.href = currentPage - 1 === 1 ? 'index.html' : `page${currentPage - 1}.html`;
-    }
-    paginationControls.appendChild(prevBtn);
+    <div id="top-scroll-indicator" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: var(--accent);
+        z-index: 2001;
+    "></div>
 
-    const maxVisiblePages = 5;
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-    if (endPage - startPage + 1 < maxVisiblePages) {
-        startPage = Math.max(1, endPage - maxVisiblePages + 1);
-    }
+    <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
+    <div id="main-news" class="featured-news" style="display: none;"></div>
+    <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
 
-    const pageLinks = [];
-    pageLinks.push(1);
-    if (startPage > 2) {
-        pageLinks.push('...');
-    }
-    for (let i = startPage; i <= endPage; i++) {
-        if (!pageLinks.includes(i)) pageLinks.push(i);
-    }
-    if (endPage < totalPages - 1) {
-        pageLinks.push('...');
-    }
-    if (!pageLinks.includes(totalPages)) {
-        pageLinks.push(totalPages);
-    }
+    <!-- ПАГИНАЦИЯ -->
+    <nav aria-label="Навигация по страницам новостей" class="pagination-wrapper" id="pagination-controls">
+        <!-- Кнопки будут добавлены через JS -->
+    </nav>
 
-    pageLinks.forEach(num => {
-        if (num === '...') {
-            const span = document.createElement('span');
-            span.textContent = '…';
-            span.style.margin = '0 5px';
-            span.style.color = '#999';
-            paginationControls.appendChild(span);
-            return;
+    <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
+        <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
+
+    <div class="floating-buttons" id="floatingButtons">
+        <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
+        <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
+    </div>
+
+    <div class="footer">
+        <div class="social-icons">
+            <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK"></a>
+            <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram"></a>
+        </div>
+    </div>
+
+    <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
+    <script src="script.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const categoriesPanel = document.querySelector('.categories-panel');
+        
+          let isHovering = false;
+        
+          const onWheel = (e) => {
+            e.preventDefault();
+            categoriesPanel.scrollLeft += e.deltaY;
+          };
+        
+          categoriesPanel.addEventListener('mouseenter', () => {
+            isHovering = true;
+            categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
+          });
+        
+          categoriesPanel.addEventListener('mouseleave', () => {
+            isHovering = false;
+            categoriesPanel.removeEventListener('wheel', onWheel);
+          });
+        });
+
+        // --- ЛОГИКА ПАГИНАЦИИ ---
+        const paginationControls = document.getElementById('pagination-controls');
+        const newsContainer = document.getElementById('news-container');
+        let allNews = []; // Сюда должны попадать все новости (из API или JSON)
+        const itemsPerPage = 12; // Количество новостей на странице
+
+        function renderPagination(currentPage, totalPages) {
+            paginationControls.innerHTML = '';
+
+            // Кнопка «Назад»
+            const prevBtn = document.createElement('button');
+            prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+            prevBtn.setAttribute('aria-label', 'Предыдущая страница');
+            prevBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="7 12 17 6 17 18"></polyline></svg>`;
+            if (currentPage > 1) {
+                prevBtn.onclick = () => loadPage(currentPage - 1);
+            }
+            paginationControls.appendChild(prevBtn);
+
+            // Номера страниц (с учетом «многоточия» для больших списков)
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.setAttribute('aria-current', i === currentPage ? 'page' : 'false');
+                btn.onclick = () => loadPage(i);
+                paginationControls.appendChild(btn);
+            }
+
+            // Кнопка «Вперед»
+            const nextBtn = document.createElement('button');
+            nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextBtn.setAttribute('aria-label', 'Следующая страница');
+            nextBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="17 12 7 18 7 6"></polyline></svg>`;
+            if (currentPage < totalPages) {
+                nextBtn.onclick = () => loadPage(currentPage + 1);
+            }
+            paginationControls.appendChild(nextBtn);
         }
-        const btn = document.createElement('button');
-        btn.className = `pagination-btn ${num === currentPage ? 'active' : ''}`;
-        btn.textContent = num;
-        btn.setAttribute('aria-current', num === currentPage ? 'page' : 'false');
-        if (num !== currentPage) {
-            btn.onclick = () => {
-                if (num === 1) location.href = 'index.html';
-                else location.href = `page${num}.html`;
-            };
+
+        function loadPage(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedNews = allNews.slice(start, end);
+
+            newsContainer.innerHTML = '';
+            paginatedNews.forEach(newsItem => {
+                // Пример рендера карточки новости — адаптируй под свой шаблон
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                card.innerHTML = `
+                    <a href="/article.html?id=${newsItem.id}" class="news-link">
+                        <div class="news-img" style="background: #eee; height: 180px;"></div>
+                        <div class="news-meta">
+                            <span class="news-category-badge category-${newsItem.category}">${newsItem.category}</span>
+                            <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU')}</time>
+                        </div>
+                        <h3>${newsItem.title}</h3>
+                        <p>${newsItem.summary}</p>
+                                        </a>
+                `;
+                newsContainer.appendChild(card);
+            });
+
+            renderPagination(page, Math.ceil(allNews.length / itemsPerPage));
         }
-        paginationControls.appendChild(btn);
-    });
 
-    const nextBtn = document.createElement('button');
-    nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
-    nextBtn.setAttribute('aria-label', 'Следующая страница');
-    nextBtn.textContent = 'Далее';
-    if (currentPage < totalPages) {
-        nextBtn.onclick = () => location.href = `page${currentPage + 1}.html`;
-    };
-    paginationControls.appendChild(nextBtn);
-}
+        // Пример загрузки данных (замените на реальный fetch из API)
+        async function loadNews() {
+            try {
+                // Если у тебя есть JSON-файл с новостями:
+                const response = await fetch('news.json');
+                allNews = await response.json();
+                
+                // Для SEO и индексации Яндексом важно, чтобы первая страница (page=1) 
+                // отдавалась сразу при загрузке. Это помогает ботам увидеть контент.
+                loadPage(1);
+            } catch (error) {
+                console.error('Ошибка загрузки новостей:', error);
+                document.getElementById('loader').textContent = 'Не удалось загрузить новости';
+            }
+        }
 
-function loadPage(page) {
-    const start = (page - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    const pageItems = paginatedNews.slice(start, end);
+        loadNews();
 
-    newsContainer.innerHTML = '';
-
-    pageItems.forEach(newsItem => {
-        const catClass = newsItem.category.toLowerCase().replace(/\s+/g, '-');
-        const card = document.createElement('div');
-        card.className = 'news-card';
-        card.innerHTML = `
-            <a href="article.html?id=${newsItem.id}" class="news-link">
-                <div class="news-img" style="background-image: url('${newsItem.image}'); background-size: cover; height: 180px;"></div>
-                <div class="news-meta">
-                    <span class="news-category-badge category-${catClass}">${newsItem.category}</span>
-                    <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU')}</time>
-                </div>
-                <h3>${newsItem.title}</h3>
-                <p>${newsItem.description}</p>
-            </a>
-        `;
-        newsContainer.appendChild(card);
-    });
-
-    renderPagination(page, Math.ceil(paginatedNews.length / ITEMS_PER_PAGE));
-}
-
-async function loadNews() {
-    try {
-        const response = await fetch('news.json');
-        if (!response.ok) throw new Error('Network error');
-        const data = await response.json();
-        allNews = data.items;
-        allNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-        // Разделяем новости: первые 10 — для главной, остальные для пагинации
-        featuredNews = allNews.slice(0, 10);
-        paginatedNews = allNews.slice(10);
-        renderFeaturedNews();
-        const currentPage = getCurrentPage();
-        loadPage(currentPage);
-        document.getElementById('loader').style.display = 'none';
-    } catch (error) {
-        console.error('Ошибка загрузки новостей:', error);
-        document.getElementById('loader').textContent = 'Не удалось загрузить новости';
-    }
-}
-
-function renderFeaturedNews() {
-    const container = document.getElementById('main-news');
-    container.innerHTML = '';
-    featuredNews.forEach(newsItem => {
-        const catClass = newsItem.category.toLowerCase().replace(/\s+/g, '-');
-        const card = document.createElement('div');
-        card.className = 'news-card';
-        card.innerHTML = `
-            <a href="article.html?id=${newsItem.id}" class="news-link">
-                <div class="news-img" style="background-image: url('${newsItem.image}'); background-size: cover; height: 180px;"></div>
-                <div class="news-meta">
-                    <span class="news-category-badge category-${catClass}">${newsItem.category}</span>
-                    <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU')}</time>
-                </div>
-                <h3>${newsItem.title}</h3>
-                <p>${newsItem.description}</p>
-            </a>
-        `;
-        container.appendChild(card);
-    });
-    container.style.display = 'block';
-}
-
-function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-loadNews();
-</script>
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
