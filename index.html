@@ -32,7 +32,7 @@
             --pagination-bg: #fff;
             --pagination-border: #ddd;
             --pagination-hover: #f0f0f0;
-            --pagination-active: #007bff;
+            --pagination-active: #007bff; /* Цвет активной кнопки */
             --pagination-text: #333;
         }
 
@@ -101,6 +101,7 @@
             font-weight: 500;
             transition: all 0.2s ease;
             user-select: none;
+            padding: 0 10px; /* Добавлено для текста */
         }
 
         .pagination-btn:hover:not(.disabled):not(.active) {
@@ -130,6 +131,20 @@
             stroke-linejoin: round;
         }
 
+        /* Стили для кнопки "Еще новости" */
+        .pagination-btn.more-news {
+            background-color: var(--pagination-bg);
+            color: var(--pagination-text);
+            border: 1px solid var(--pagination-border);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pagination-btn.more-news:hover:not(.disabled) {
+            background-color: var(--pagination-hover);
+            border-color: var(--pagination-color);
+        }
+
         @media (max-width: 600px) {
             .pagination-wrapper {
                 gap: 6px;
@@ -138,6 +153,7 @@
                 min-width: 36px;
                 height: 36px;
                 font-size: 13px;
+                padding: 0 8px; /* Добавлено для текста */
             }
         }
     </style>
@@ -207,7 +223,7 @@
 
     <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
     <div id="main-news" class="featured-news" style="display: none;"></div>
-    <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
+    <div id="news-container" class="news-grid"></div>
 
     <!-- ПАГИНАЦИЯ -->
     <nav aria-label="Навигация по страницам новостей" class="pagination-wrapper" id="pagination-controls">
@@ -236,123 +252,235 @@
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const categoriesPanel = document.querySelector('.categories-panel');
-        
-          let isHovering = false;
-        
-          const onWheel = (e) => {
-            e.preventDefault();
-            categoriesPanel.scrollLeft += e.deltaY;
-          };
-        
-          categoriesPanel.addEventListener('mouseenter', () => {
-            isHovering = true;
-            categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
-          });
-        
-          categoriesPanel.addEventListener('mouseleave', () => {
-            isHovering = false;
-            categoriesPanel.removeEventListener('wheel', onWheel);
-          });
-        });
+        // --- КОНФИГУРАЦИЯ ПАГИНАЦИИ ---
+        const itemsPerPage = 12; // Количество новостей на одной странице
+        let currentPage = 1;     // Текущая страница
+        let allNewsData = [];    // Массив для хранения всех новостей
+        let totalPages = 0;      // Общее количество страниц
 
-        // --- ЛОГИКА ПАГИНАЦИИ ---
         const paginationControls = document.getElementById('pagination-controls');
         const newsContainer = document.getElementById('news-container');
-        let allNews = []; // Сюда должны попадать все новости (из API или JSON)
-        const itemsPerPage = 12; // Количество новостей на странице
+        const loader = document.getElementById('loader');
+        const mainNewsSection = document.getElementById('main-news'); // Предполагаем, что есть секция для "главных новостей"
 
+        // --- ФУНКЦИЯ ДЛЯ ЗАГРУЗКИ ДАННЫХ (ЗАМЕНИТЕ НА ВАШ РЕАЛЬНЫЙ ИСТОЧНИК) ---
+        async function fetchNewsData() {
+            try {
+                // Пример: Загрузка из локального JSON-файла.
+                // В реальном проекте это может быть AJAX-запрос к вашему API.
+                const response = await fetch('news.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allNewsData = await response.json();
+                
+                // Формируем URL для каждой новости, чтобы сайтмап мог их использовать
+                // (Предполагаем, что в news.json есть поле 'id' или 'slug' для уникального URL)
+                allNewsData = allNewsData.map(news => ({
+                    ...news,
+                    // Пример создания URL. Адаптируйте под структуру вашего сайта.
+                    // Если у вас есть отдельные страницы для каждой новости, например article.html?id=123
+                    // или /news/slug-новости
+                    url: news.id ? `/article.html?id=${news.id}` : '#' 
+                }));
+
+                totalPages = Math.ceil(allNewsData.length / itemsPerPage);
+                
+                // Для SEO и индексации Яндексом важно, чтобы первая страница (page=1) 
+                // отдавалась сразу при загрузке. Это помогает ботам увидеть контент.
+                loadPage(currentPage); 
+                
+                loader.style.display = 'none'; // Скрываем индикатор загрузки
+                mainNewsSection.style.display = 'block'; // Показываем секцию новостей
+                newsContainer.style.display = 'grid'; // Показываем контейнер новостей
+
+            } catch (error) {
+                console.error('Ошибка загрузки новостей:', error);
+                loader.textContent = 'Не удалось загрузить новости. Попробуйте позже.';
+            }
+        }
+
+        // --- ФУНКЦИЯ ДЛЯ ОТОБРАЖЕНИЯ КАРТОЧЕК НОВОСТЕЙ НА СТРАНИЦЕ ---
+        function renderNewsCards(newsItems) {
+            newsContainer.innerHTML = ''; // Очищаем текущие новости
+            if (newsItems.length === 0) {
+                newsContainer.innerHTML = '<p style="text-align: center; grid-column: 1 / -1;">Новостей не найдено.</p>';
+                return;
+            }
+
+            newsItems.forEach(newsItem => {
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                // Адаптируйте этот HTML под структуру ваших карточек новостей
+                card.innerHTML = `
+                    <a href="${newsItem.url}" class="news-link">
+                        <div class="news-img" style="background-image: url('${newsItem.imageUrl || 'images/placeholder.jpg'}');"></div>
+                        <div class="news-meta">
+                            <span class="news-category-badge category-${newsItem.category}">${newsItem.category}</span>
+                            <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}</time>
+                        </div>
+                        <h3>${newsItem.title}</h3>
+                        <p>${newsItem.summary}</p>
+                    </a>
+                `;
+                newsContainer.appendChild(card);
+            });
+        }
+
+        // --- ФУНКЦИЯ ДЛЯ РЕНДЕРИНГА ПАГИНАЦИИ ---
         function renderPagination(currentPage, totalPages) {
             paginationControls.innerHTML = '';
 
+            // Функция для создания кнопки
+            const createButton = (text, page, isLink = false, className = '', ariaLabel = '') => {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${className}`;
+                if (ariaLabel) btn.setAttribute('aria-label', ariaLabel);
+                
+                if (isLink) {
+                    btn.innerHTML = text;
+                    btn.onclick = () => loadPage(page);
+                } else {
+                    btn.textContent = text;
+                    if (page) btn.onclick = () => loadPage(page);
+                }
+                return btn;
+            };
+
             // Кнопка «Назад»
-            const prevBtn = document.createElement('button');
-            prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
-            prevBtn.setAttribute('aria-label', 'Предыдущая страница');
-            prevBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="7 12 17 6 17 18"></polyline></svg>`;
-            if (currentPage > 1) {
-                prevBtn.onclick = () => loadPage(currentPage - 1);
-            }
+            const prevBtn = createButton(
+                `<svg viewBox="0 0 24 24"><polyline points="7 12 17 6 17 18"></polyline></svg>`,
+                currentPage - 1,
+                true,
+                `${currentPage === 1 ? 'disabled' : ''}`,
+                'Предыдущая страница'
+            );
             paginationControls.appendChild(prevBtn);
 
             // Номера страниц (с учетом «многоточия» для больших списков)
-            const maxVisiblePages = 5;
+            const maxVisiblePages = 5; // Максимальное количество отображаемых страниц (без многоточия)
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
 
+            // Корректировка, если начало списка слишком близко к концу
             if (endPage - startPage + 1 < maxVisiblePages) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
 
+            // Отображение первой страницы, если она не в диапазоне
+            if (startPage > 1) {
+                paginationControls.appendChild(createButton('1', 1, true, '', 'Страница 1'));
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-btn disabled';
+                    ellipsis.textContent = '...';
+                    paginationControls.appendChild(ellipsis);
+                }
+            }
+
+            // Отображение страниц в диапазоне
             for (let i = startPage; i <= endPage; i++) {
-                const btn = document.createElement('button');
-                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
-                btn.textContent = i;
-                btn.setAttribute('aria-current', i === currentPage ? 'page' : 'false');
-                btn.onclick = () => loadPage(i);
+                const btn = createButton(
+                    i,
+                    i,
+                    true,
+                    `${i === currentPage ? 'active' : ''}`,
+                    `Страница ${i}`
+                );
                 paginationControls.appendChild(btn);
             }
 
-            // Кнопка «Вперед»
-            const nextBtn = document.createElement('button');
-            nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
-            nextBtn.setAttribute('aria-label', 'Следующая страница');
-            nextBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="17 12 7 18 7 6"></polyline></svg>`;
-            if (currentPage < totalPages) {
-                nextBtn.onclick = () => loadPage(currentPage + 1);
+            // Отображение последней страницы, если она не в диапазоне
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.className = 'pagination-btn disabled';
+                    ellipsis.textContent = '...';
+                    paginationControls.appendChild(ellipsis);
+                }
+                paginationControls.appendChild(createButton(totalPages, totalPages, true, '', `Страница ${totalPages}`));
+            }
+
+            // Кнопка «Вперед» (или "Еще новости")
+            const nextBtn = createButton(
+                currentPage < totalPages ? `<svg viewBox="0 0 24 24"><polyline points="17 12 7 18 7 6"></polyline></svg>` : 'Еще новости',
+                currentPage + 1,
+                true,
+                `${currentPage === totalPages ? 'disabled' : ''}`,
+                currentPage < totalPages ? 'Следующая страница' : 'Загрузить еще новости'
+            );
+            // Если это последняя страница, кнопка "Еще новости" должна загружать следующую порцию, а не просто быть кнопкой
+            if (currentPage === totalPages) {
+                 nextBtn.textContent = 'Еще новости'; // Меняем текст для последней кнопки
+                 nextBtn.className = `pagination-btn more-news ${currentPage === totalPages ? 'disabled' : ''}`; // Добавляем класс для стиля
+                 if (currentPage < totalPages) { // Если есть еще страницы
+                    nextBtn.onclick = () => loadPage(currentPage + 1);
+                 } else {
+                    nextBtn.classList.add('disabled'); // Если больше нет страниц, делаем неактивной
+                 }
+            } else {
+                 nextBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="17 12 7 18 7 6"></polyline></svg>`;
+                 nextBtn.onclick = () => loadPage(currentPage + 1);
             }
             paginationControls.appendChild(nextBtn);
         }
 
+        // --- ФУНКЦИЯ ДЛЯ ЗАГРУЗКИ КОНКРЕТНОЙ СТРАНИЦЫ ---
         function loadPage(page) {
-            const start = (page - 1) * itemsPerPage;
-            const end = start + itemsPerPage;
-            const paginatedNews = allNews.slice(start, end);
+            if (page < 1 || page > totalPages) return; // Проверка на валидность страницы
 
-            newsContainer.innerHTML = '';
-            paginatedNews.forEach(newsItem => {
-                // Пример рендера карточки новости — адаптируй под свой шаблон
-                const card = document.createElement('div');
-                card.className = 'news-card';
-                card.innerHTML = `
-                    <a href="/article.html?id=${newsItem.id}" class="news-link">
-                        <div class="news-img" style="background: #eee; height: 180px;"></div>
-                        <div class="news-meta">
-                            <span class="news-category-badge category-${newsItem.category}">${newsItem.category}</span>
-                            <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU')}</time>
-                        </div>
-                        <h3>${newsItem.title}</h3>
-                        <p>${newsItem.summary}</p>
-                                        </a>
-                `;
-                newsContainer.appendChild(card);
+            currentPage = page; // Обновляем текущую страницу
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedNews = allNewsData.slice(start, end);
+
+            renderNewsCards(paginatedNews); // Отображаем карточки новостей
+            renderPagination(currentPage, totalPages); // Обновляем кнопки пагинации
+
+            // Обновляем URL в адресной строке для SEO и удобства
+            const url = new URL(window.location);
+            if (currentPage === 1) {
+                url.searchParams.delete('page'); // Удаляем параметр page, если это первая страница
+            } else {
+                url.searchParams.set('page', currentPage); // Устанавливаем параметр page
+            }
+            window.history.pushState({}, '', url); // Обновляем URL без перезагрузки страницы
+        }
+
+        // --- ИНИЦИАЛИЗАЦИЯ ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // ... (ваш существующий код для categoriesPanel) ...
+            const categoriesPanel = document.querySelector('.categories-panel');
+            let isHovering = false;
+            const onWheel = (e) => {
+                e.preventDefault();
+                categoriesPanel.scrollLeft += e.deltaY;
+            };
+            categoriesPanel.addEventListener('mouseenter', () => {
+                isHovering = true;
+                categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
+            });
+            categoriesPanel.addEventListener('mouseleave', () => {
+                isHovering = false;
+                categoriesPanel.removeEventListener('wheel', onWheel);
             });
 
-            renderPagination(page, Math.ceil(allNews.length / itemsPerPage));
-        }
+            // Загружаем данные новостей при старте
+            fetchNewsData(); 
+        });
 
-        // Пример загрузки данных (замените на реальный fetch из API)
-        async function loadNews() {
-            try {
-                // Если у тебя есть JSON-файл с новостями:
-                const response = await fetch('news.json');
-                allNews = await response.json();
-                
-                // Для SEO и индексации Яндексом важно, чтобы первая страница (page=1) 
-                // отдавалась сразу при загрузке. Это помогает ботам увидеть контент.
-                loadPage(1);
-            } catch (error) {
-                console.error('Ошибка загрузки новостей:', error);
-                document.getElementById('loader').textContent = 'Не удалось загрузить новости';
-            }
-        }
-
-        loadNews();
-
+        // --- ФУНКЦИЯ ДЛЯ ВОЗВРАТА НАВЕРХ ---
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        // --- ОБРАБОТЧИК ДЛЯ КНОПКИ "ЕЩЕ НОВОСТИ" (если она последняя) ---
+        // Эта логика уже встроена в renderPagination, но можно добавить явный обработчик, если нужно
+        // Например, если вы хотите, чтобы кнопка "Еще новости" всегда была внизу,
+        // а не только как последняя кнопка пагинации.
+        // Но для SEO и правильной структуры пагинации лучше использовать кнопки страниц.
+
     </script>
 </body>
 </html>
