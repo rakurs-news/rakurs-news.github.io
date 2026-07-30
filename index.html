@@ -127,12 +127,12 @@
 
     <header>
         <div class="logo-wrapper">
-            <img src="images/logo.png" alt="Logo">
+            <img src="images/logo.png" alt="Logo" />
             <span id="logo-text">Ракурс NEWS</span>
         </div>
         <div class="controls-wrapper">
             <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="Поиск...">
+                <input type="text" id="searchInput" placeholder="Поиск..." />
                 <div id="search-results"></div>
             </div>
             <button class="theme-toggle" aria-label="Сменить тему">
@@ -151,7 +151,6 @@
         </div>
     </header>
 
-    <!-- ПАНЕЛЬ КАТЕГОРИЙ -->
     <div class="categories-panel">
         <div class="categories-wrapper" id="menu">
             <button class="category-btn active" data-category="all">Все новости</button>
@@ -183,15 +182,10 @@
     "></div>
 
     <div id="loader" style="text-align:center; padding: 20px;">Загрузка новостей...</div>
-    <!-- Блок для отображения первых 10 новостей -->
     <div id="main-news" class="featured-news" style="display: none;"></div>
-    <!-- Блок для остальной части новостей с пагинацией -->
     <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
 
-    <!-- ПАГИНАЦИЯ -->
-    <nav aria-label="Навигация по страницам новостей" class="pagination-wrapper" id="pagination-controls">
-        <!-- Кнопки будут добавлены через JS -->
-    </nav>
+    <nav aria-label="Навигация по страницам новостей" class="pagination-wrapper" id="pagination-controls"></nav>
 
     <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
@@ -213,42 +207,32 @@
     </div>
 
     <script src="script.js" defer></script>
-    
     <script>
-        // --- НАСТРОЙКИ ПАГИНАЦИИ ---
-        const ITEMS_PER_PAGE = 10; // 10 новостей на страницу
-
-        // Функция определения текущей страницы по URL
+        const ITEMS_PER_PAGE = 10;
         function getCurrentPage() {
             const path = window.location.pathname;
-            // Если это page2.html, page3.html и т.д.
             const match = path.match(/page(\d+)\.html$/);
             if (match) return parseInt(match[1], 10);
-            // Если index.html или корень сайта - это страница 1
             return 1;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
           const categoriesPanel = document.querySelector('.categories-panel');
           let isHovering = false;
-        
           const onWheel = (e) => {
             e.preventDefault();
             categoriesPanel.scrollLeft += e.deltaY;
           };
-        
           categoriesPanel.addEventListener('mouseenter', () => {
             isHovering = true;
             categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
           });
-        
           categoriesPanel.addEventListener('mouseleave', () => {
             isHovering = false;
             categoriesPanel.removeEventListener('wheel', onWheel);
           });
         });
 
-        // --- ЛОГИКА ЗАГРУЗКИ И ПАГИНАЦИИ ---
         const paginationControls = document.getElementById('pagination-controls');
         const newsContainer = document.getElementById('news-container');
         const mainNewsContainer = document.getElementById('main-news');
@@ -261,7 +245,6 @@
 
             if (totalPages <= 1) return;
 
-            // Кнопка «Назад»
             const prevBtn = document.createElement('button');
             prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
             prevBtn.setAttribute('aria-label', 'Предыдущая страница');
@@ -271,7 +254,6 @@
             }
             paginationControls.appendChild(prevBtn);
 
-            // Логика номеров страниц с многоточием (как у ТАСС)
             const maxVisiblePages = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
@@ -294,7 +276,6 @@
                 pageLinks.push(totalPages);
             }
 
-            // Отрисовка страниц
             pageLinks.forEach(num => {
                 if (num === '...') {
                     const span = document.createElement('span');
@@ -317,7 +298,6 @@
                 paginationControls.appendChild(btn);
             });
 
-            // Вперед
             const nextBtn = document.createElement('button');
             nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
             nextBtn.setAttribute('aria-label', 'Следующая страница');
@@ -362,19 +342,10 @@
                 if (!response.ok) throw new Error('Network error');
                 const data = await response.json();
                 allNews = data.items;
-
-                // Сортируем по дате
                 allNews.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-                // Первые 10 — в featured
                 featuredNews = allNews.slice(0, 10);
-                // Остальные — в пагинацию
                 paginatedNews = allNews.slice(10);
-
-                // Отображение первых 10
                 renderFeaturedNews();
-
-                // Загружаем страницу пагинации
                 const currentPage = getCurrentPage();
                 loadPage(currentPage);
                 document.getElementById('loader').style.display = 'none';
@@ -387,7 +358,6 @@
         function renderFeaturedNews() {
             const container = document.getElementById('main-news');
             container.innerHTML = '';
-
             featuredNews.forEach(newsItem => {
                 const catClass = newsItem.category.toLowerCase().replace(/\s+/g, '-');
                 const card = document.createElement('div');
@@ -412,7 +382,6 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Инициализация
         loadNews();
     </script>
 </body>
