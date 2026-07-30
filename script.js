@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return response.json();
         })
         .then(data => {
-            allNewsData = data.items || []; 
+            allNewsData = data.items || [];
 
             // Показываем главную новость
             if (data.featuredNewsId && allNewsData.length > 0) {
@@ -36,14 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Скрываем лоадер
             if (loader) {
-                loader.style.display = 'none'; 
+                loader.style.display = 'none';
             }
         })
         .catch(error => {
             console.error('Ошибка загрузки новостей:', error);
             if (loader) {
                 loader.textContent = 'Не удалось загрузить новости. Проверьте консоль.';
-                loader.style.display = 'block'; 
+                loader.style.display = 'block';
             }
         });
 
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayNews(newsArray) {
         if (!newsContainer) return;
 
-        newsContainer.innerHTML = ''; 
+        newsContainer.innerHTML = '';
         if (!newsArray || newsArray.length === 0) {
             newsContainer.innerHTML = '<p>Новостей не найдено.</p>';
             return;
@@ -87,30 +87,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 try {
                     formattedDate = new Date(newsItem.date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
                 } catch (e) {
-                    formattedDate = newsItem.date; 
+                    formattedDate = newsItem.date;
                 }
             }
 
-            // --- ЛОГИКА КАТЕГОРИИ (Новое) ---
-            // Получаем категорию. Если её нет, ставим 'other'
-            const category = newsItem.category ? newsItem.category.toLowerCase() : 'other';
-            
-            // Формируем класс для цвета (category-sport, category-tech и т.д.)
-            const categoryClass = `category-${category}`;
-            
-            // Текст для отображения (можно оставить как есть, или сделать маппинг: sport -> "Спорт")
+            // --- ИЗМЕНЕНИЕ ЗДЕСЬ: Надежное формирование класса ---
+            let categoryRaw = newsItem.category || 'other';
+            // 1. Приводим к нижнему регистру
+            // 2. Заменяем пробелы на дефисы (чтобы "Шоу-бизнес" стало "шоу-бизнес")
+            // 3. Убираем лишние спецсимволы, если они есть
+            const categoryClean = categoryRaw.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            const categoryClass = `category-${categoryClean}`;
             const categoryText = newsItem.category || 'Разное';
-            // ---------------------------------
-            
+            // ------------------------------------------------------
+
             const newsElement = document.createElement('div');
             newsElement.classList.add('news-item');
-            
+
             newsElement.innerHTML = `
                 <div class="news-card">
-                    <!-- Плашка категории -->
+                    <!-- Теперь этот класс точно совпадёт с CSS -->
                     <span class="news-category-badge ${categoryClass}">${categoryText}</span>
                     
-                    <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image">
+                    <img src="${newsItem.image}" alt="${newsItem.title}" class="news-image" />
                     <div class="news-content">
                         <h3 class="news-title">${newsItem.title}</h3>
                         <p class="news-date">${formattedDate}</p>
@@ -134,8 +133,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     function filterNews() {
-        const filtered = currentCategory === 'all' 
-            ? allNewsData 
+        const filtered = currentCategory === 'all'
+            ? allNewsData
             : allNewsData.filter(item => item.category === currentCategory);
         displayNews(filtered);
     }
@@ -149,11 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             displayNews(filtered);
         } else if (query.length === 0) {
-            filterNews(); 
+            filterNews();
         }
     });
 
-    // --- ОБРАБОТКА КЛИКА НА "ЧИТАТЬ ДАЛЕЕ" ---
     function handleReadMoreClick(newsId) {
         const item = allNewsData.find(i => i.id === newsId);
         if (item) {
@@ -161,20 +159,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    if (newsContainer) { 
+    if (newsContainer) {
         newsContainer.addEventListener('click', (event) => {
             if (event.target.classList.contains('read-more')) {
-                event.preventDefault(); 
+                event.preventDefault();
                 handleReadMoreClick(event.target.getAttribute('data-id'));
             }
         });
     }
 
-    // --- ПРОКРУТКА И ПРОГРЕСС-БАР (ИСПРАВЛЕНО) ---
-    
-    // 1. Логика прогресс-бара (оставлена как была)
+    // --- ПРОКРУТКА И ПРОГРЕСС-БАР ---
     window.addEventListener('scroll', () => {
         progressBarScroll();
+        // Показывать кнопку "наверх"
+        if (window.scrollY > 300) {
+            scrollToTopButton.classList.add('visible');
+        } else {
+            scrollToTopButton.classList.remove('visible');
+        }
     });
 
     function progressBarScroll() {
@@ -185,33 +187,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. Логика кнопки "Наверх" (ПОЛНОСТЬЮ ПЕРЕПИСАНА)
     if (scrollToTopButton) {
-        // Показываем/скрываем кнопку при скролле
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollToTopButton.classList.add('visible');
-            } else {
-                scrollToTopButton.classList.remove('visible');
-            }
-        });
-
-        // Плавная прокрутка при клике
         scrollToTopButton.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth' // Плавная анимация
-            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    // --- ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ---
+    // --- Тема ---
     const themeToggleBtn = document.querySelector('.theme-toggle');
-    
     if (themeToggleBtn) {
         themeToggleBtn.addEventListener('click', () => {
             document.body.classList.toggle('dark-theme');
-            
             if (document.body.classList.contains('dark-theme')) {
                 localStorage.setItem('theme', 'dark');
             } else {
@@ -219,10 +205,46 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-
     if (localStorage.getItem('theme') === 'dark') {
         document.body.classList.add('dark-theme');
     } else {
-        document.body.classList.remove('dark-theme'); 
+        document.body.classList.remove('dark-theme');
     }
+
+    // --- Новый функционал: "Сейчас обсуждают" ---
+    const hotNewsList = document.getElementById('hot-news-list');
+
+    // Здесь пример данных, замените на реальные
+    const hotNews = allNewsData.filter(item => item.isHot).slice(0, 3);
+    hotNews.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#" data-id="${item.id}">${item.title}</a>`;
+        hotNewsList.appendChild(li);
+    });
+
+    // Обработка кликов по "Сейчас обсуждают"
+    if (hotNewsList) {
+        hotNewsList.addEventListener('click', (e) => {
+            if (e.target.tagName === 'A') {
+                e.preventDefault();
+                handleReadMoreClick(e.target.getAttribute('data-id'));
+            }
+        });
+    }
+
+    // --- Обновление курса валют (пример, замените API) ---
+    const currencyDiv = document.getElementById('currency-rate');
+
+    function updateCurrency() {
+        // Здесь можно вставить вызов API для получения курса
+        // В примере — статический курс
+        const rate = "74.35"; // замените на реальный API
+        if (currencyDiv) {
+            currencyDiv.textContent = `${rate} ₽`;
+        }
+    }
+
+    // Обновлять курс при загрузке и по интервалу
+    updateCurrency();
+    setInterval(updateCurrency, 60000); // обновлять каждую минуту
 });

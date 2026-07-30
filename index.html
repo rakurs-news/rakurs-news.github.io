@@ -29,6 +29,47 @@
         :root {
             --header-height: 60px; /* Высота вашей шапки + отступы */
         }
+
+        /* --- СТИЛИ ДЛЯ ЦВЕТНЫХ БЕЙДЖЕЙ (ИСПРАВЛЕННЫЕ ПОД ТВОЙ JS) --- */
+    
+        .news-category-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: white;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            vertical-align: middle;
+            white-space: nowrap; 
+        }
+
+        /* Цвета для категорий. Префикс изменен на category- */
+        .category-сво { background-color: #dc3545; }       
+        .category-общество { background-color: #17a2b8; }   
+        .category-регионы { background-color: #ffc107; }    
+        .category-государство { background-color: #28a745; } 
+        .category-происшествия { background-color: #fd7e14; } 
+        .category-криминал { background-color: #6610f2; }   
+        .category-политика { background-color: #e83e8c; }   
+        .category-геополитика { background-color: #343a40; } 
+        .category-коррупция { background-color: #8e44ad; }  
+        .category-шоу-бизнес { background-color: #ff6b6b; }  
+        .category-спорт { background-color: #007bff; }      
+        .category-наука { background-color: #186ba0; }      
+        .category-стиль { background-color: #f1c40f; }     
+        .category-культура { background-color: #9b59b6; }   
+        .category-other { background-color: #6c757d; } 
+
+        @media (max-width: 600px) {
+            .news-category-badge {
+                font-size: 9px;
+                padding: 3px 8px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -67,20 +108,20 @@
     <div class="categories-panel">
         <div class="categories-wrapper" id="menu">
             <button class="category-btn active" data-category="all">Все новости</button>
-            <button class="category-btn" data-category="СВО">СВО</button>
-            <button class="category-btn" data-category="Общество">Общество</button>
-            <button class="category-btn" data-category="Регионы">Регионы</button>
-            <button class="category-btn" data-category="Государство">Государство</button>
-            <button class="category-btn" data-category="Происшествия">Происшествия</button>
-            <button class="category-btn" data-category="Криминал">Криминал</button>
-            <button class="category-btn" data-category="Политика">Политика</button>
-            <button class="category-btn" data-category="Геополитика">Геополитика</button>
-            <button class="category-btn" data-category="Коррупция">Коррупция</button>
-            <button class="category-btn" data-category="Шоу-бизнес">Шоу-бизнес</button>
-            <button class="category-btn" data-category="Спорт">Спорт</button>
-            <button class="category-btn" data-category="Наука">Наука</button>
-            <button class="category-btn" data-category="Стиль">Стиль</button>
-            <button class="category-btn" data-category="Культура">Культура</button>
+            <button class="category-btn" data-category="сво">СВО</button>
+            <button class="category-btn" data-category="общество">Общество</button>
+            <button class="category-btn" data-category="регионы">Регионы</button>
+            <button class="category-btn" data-category="государство">Государство</button>
+            <button class="category-btn" data-category="происшествия">Происшествия</button>
+            <button class="category-btn" data-category="криминал">Криминал</button>
+            <button class="category-btn" data-category="политика">Политика</button>
+            <button class="category-btn" data-category="геополитика">Геополитика</button>
+            <button class="category-btn" data-category="коррупция">Коррупция</button>
+            <button class="category-btn" data-category="шоу-бизнес">Шоу-бизнес</button>
+            <button class="category-btn" data-category="спорт">Спорт</button>
+            <button class="category-btn" data-category="наука">Наука</button>
+            <button class="category-btn" data-category="стиль">Стиль</button>
+            <button class="category-btn" data-category="культура">Культура</button>
         </div>
     </div>
     <!-- КОНЕЦ НОВОЙ ПАНЕЛИ -->
