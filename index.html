@@ -27,11 +27,16 @@
     <!-- Переменные для точного позиционирования (чтобы панель встала ровно под шапкой) -->
     <style>
         :root {
-            --header-height: 60px; /* Высота вашей шапки + отступы */
+            --header-height: 60px;
+            --pagination-color: #333;
+            --pagination-bg: #fff;
+            --pagination-border: #ddd;
+            --pagination-hover: #f0f0f0;
+            --pagination-active: #007bff;
+            --pagination-text: #333;
         }
 
-        /* --- СТИЛИ ДЛЯ ЦВЕТНЫХ БЕЙДЖЕЙ (ИСПРАВЛЕННЫЕ ПОД ТВОЙ JS) --- */
-    
+        /* --- НАЧАЛО: Стили для цветных бейджей категорий --- */
         .news-category-badge {
             display: inline-block;
             padding: 4px 10px;
@@ -47,7 +52,6 @@
             white-space: nowrap; 
         }
 
-        /* Цвета для категорий. Префикс изменен на category- */
         .category-сво { background-color: #dc3545; }       
         .category-общество { background-color: #17a2b8; }   
         .category-регионы { background-color: #ffc107; }    
@@ -68,6 +72,72 @@
             .news-category-badge {
                 font-size: 9px;
                 padding: 3px 8px;
+            }
+        }
+
+        /* --- ПАГИНАЦИЯ: СТИЛИ --- */
+        .pagination-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 30px 0;
+            padding: 0 15px;
+        }
+
+        .pagination-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            height: 40px;
+            background-color: var(--pagination-bg);
+            color: var(--pagination-text);
+            border: 1px solid var(--pagination-border);
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .pagination-btn:hover:not(.disabled):not(.active) {
+            background-color: var(--pagination-hover);
+            border-color: var(--pagination-color);
+        }
+
+        .pagination-btn.active {
+            background-color: var(--pagination-active);
+            color: #fff;
+            border-color: var(--pagination-active);
+        }
+
+        .pagination-btn.disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .pagination-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        @media (max-width: 600px) {
+            .pagination-wrapper {
+                gap: 6px;
+            }
+            .pagination-btn {
+                min-width: 36px;
+                height: 36px;
+                font-size: 13px;
             }
         }
     </style>
@@ -104,7 +174,6 @@
     </header>
 
     <!-- НОВАЯ ПАНЕЛЬ КАТЕГОРИЙ -->
-    <!-- Высота 30px, прозрачность, горизонтальный скролл -->
     <div class="categories-panel">
         <div class="categories-wrapper" id="menu">
             <button class="category-btn active" data-category="all">Все новости</button>
@@ -140,6 +209,11 @@
     <div id="main-news" class="featured-news" style="display: none;"></div>
     <div id="news-container" class="news-grid" style="padding-bottom: 80px;"></div>
 
+    <!-- ПАГИНАЦИЯ -->
+    <nav aria-label="Навигация по страницам новостей" class="pagination-wrapper" id="pagination-controls">
+        <!-- Кнопки будут добавлены через JS -->
+    </nav>
+
     <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
         <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
             <line x1="12" y1="19" x2="12" y2="5"></line>
@@ -162,27 +236,148 @@
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
     <script>
+        // --- НАСТРОЙКИ ---
+        const itemsPerPage = 12;
+        let allNews = [];
+        const newsContainer = document.getElementById('news-container');
+        const paginationControls = document.getElementById('pagination-controls');
+
+        // --- ФУНКЦИЯ ОТРИСОВКИ ПАГИНАЦИИ ---
+        function renderPagination(currentPage, totalPages) {
+            if (!paginationControls) return;
+            paginationControls.innerHTML = '';
+
+            // Кнопка «Назад»
+            const prevBtn = document.createElement('button');
+            prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
+            prevBtn.setAttribute('aria-label', 'Предыдущая страница');
+            prevBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="7 12 17 6 17 18"></polyline></svg>`;
+            if (currentPage > 1) prevBtn.onclick = () => loadPage(currentPage - 1);
+            paginationControls.appendChild(prevBtn);
+
+            // Номера страниц
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+
+            for (let i = startPage; i <= endPage; i++) {
+                const btn = document.createElement('button');
+                btn.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                btn.textContent = i;
+                btn.setAttribute('aria-current', i === currentPage ? 'page' : 'false');
+                btn.onclick = () => loadPage(i);
+                paginationControls.appendChild(btn);
+            }
+
+            // Кнопка «Вперед»
+            const nextBtn = document.createElement('button');
+            nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+            nextBtn.setAttribute('aria-label', 'Следующая страница');
+            nextBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="17 12 7 18 7 6"></polyline></svg>`;
+            if (currentPage < totalPages) nextBtn.onclick = () => loadPage(currentPage + 1);
+            paginationControls.appendChild(nextBtn);
+        }
+
+        // --- ФУНКЦИЯ ОТРИСОВКИ НОВОСТЕЙ ---
+        function loadPage(page) {
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedNews = allNews.slice(start, end);
+
+            newsContainer.innerHTML = '';
+            
+            paginatedNews.forEach(newsItem => {
+                // Создаем карточку
+                const card = document.createElement('div');
+                card.className = 'news-card';
+                
+                // ВАЖНО: Используем newsItem.categorySlug (мы его создали ниже) для класса CSS
+                // и newsItem.category для текста (чтобы было с большой буквы как в JSON)
+                const categoryClass = newsItem.categorySlug || 'category-other';
+                const categoryText = newsItem.category || 'Разное';
+
+                card.innerHTML = `
+                    <a href="/article.html?id=${newsItem.id}" class="news-link" style="text-decoration: none; color: inherit;">
+                        <div class="news-img" style="background-image: url('${newsItem.image}'); background-size: cover; background-position: center; height: 180px; width: 100%;"></div>
+                        <div class="news-meta">
+                            <span class="news-category-badge ${categoryClass}">${categoryText}</span>
+                            <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU')}</time>
+                        </div>
+                        <h3 style="margin: 10px 0 5px; font-size: 1.2rem;">${newsItem.title}</h3>
+                        <p style="margin: 0; color: #555; line-height: 1.4;">${newsItem.description || newsItem.summary || ''}</p>
+                    </a>
+                `;
+                newsContainer.appendChild(card);
+            });
+
+            renderPagination(page, Math.ceil(allNews.length / itemsPerPage));
+        }
+
+        // --- ГЛАВНАЯ ФУНКЦИЯ ЗАГРУЗКИ (ПОД ТВОЙ JSON) ---
+        async function loadNews() {
+            try {
+                const response = await fetch('news.json');
+                
+                if (!response.ok) throw new Error('Файл не найден или ошибка сети');
+                
+                const data = await response.json();
+                
+                // ТВОЕ ИСПРАВЛЕНИЕ: Берем массив из ключа "items"
+                allNews = data.items || [];
+
+                if (allNews.length === 0) {
+                    document.getElementById('loader').textContent = 'Новостей пока нет';
+                    return;
+                }
+
+                // Нормализация данных под твой JS и CSS
+                allNews.forEach(item => {
+                    // 1. Создаем slug категории (нижний регистр) для CSS классов (.category-коррупция)
+                    item.categorySlug = item.category ? item.category.toLowerCase() : 'other';
+                    
+                    // 2. Убеждаемся, что есть ID (для ссылки)
+                    if (!item.id) item.id = item.title.replace(/\s+/g, '-').toLowerCase();
+                });
+
+                document.getElementById('loader').style.display = 'none';
+                loadPage(1); // Загружаем первую страницу сразу
+            } catch (error) {
+                console.error('Ошибка загрузки:', error);
+                document.getElementById('loader').textContent = 'Ошибка загрузки данных. Проверьте консоль.';
+                // Даже при ошибке покажем пустую пагинацию, чтобы верстка не ломалась
+                renderPagination(1, 1);
+            }
+        }
+
+        // Запуск при загрузке страницы
         document.addEventListener('DOMContentLoaded', () => {
-          const categoriesPanel = document.querySelector('.categories-panel');
-        
-          let isHovering = false;
-        
-          const onWheel = (e) => {
-            e.preventDefault();
-            // Перемещение по горизонтали в зависимости от направления колеса
-            categoriesPanel.scrollLeft += e.deltaY;
-          };
-        
-          categoriesPanel.addEventListener('mouseenter', () => {
-            isHovering = true;
-            categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
-          });
-        
-          categoriesPanel.addEventListener('mouseleave', () => {
-            isHovering = false;
-            categoriesPanel.removeEventListener('wheel', onWheel);
-          });
+            loadNews();
+            
+            // Твой старый код для скролла категорий (оставляем как был)
+            const categoriesPanel = document.querySelector('.categories-panel');
+            if(categoriesPanel) {
+                let isHovering = false;
+                const onWheel = (e) => {
+                    e.preventDefault();
+                    categoriesPanel.scrollLeft += e.deltaY;
+                };
+                categoriesPanel.addEventListener('mouseenter', () => {
+                    isHovering = true;
+                    categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
+                });
+                categoriesPanel.addEventListener('mouseleave', () => {
+                    isHovering = false;
+                    categoriesPanel.removeEventListener('wheel', onWheel);
+                });
+            }
         });
-        </script>
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
