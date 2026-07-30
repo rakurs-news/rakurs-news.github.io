@@ -350,21 +350,11 @@ body.dark-theme .categories-panel {
 
 /* Обеспечиваем яркие цвета категорий и убираем прозрачность и тень */
 .news-category-badge, .category-badge {
-    position: absolute !important;
-    top: 12px !important;
-    left: 12px !important; /* или right, если нужно с другой стороны */
-    padding: 4px 10px !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    color: #ffffff !important;
-    border-radius: 4px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    box-shadow: none !important; 
-    white-space: nowrap !important;
-    z-index: 9999 !important;
-    margin: 0 !important;
-    display: inline-block !important; /* чтобы размер был по содержимому */
+    background-color: inherit !important; /* сохраняем заданный цвет */
+    color: #ffffff !important; /* цвет текста */
+    box-shadow: none !important; /* убираем тень */
+    opacity: 1 !important; /* убираем прозрачность, если есть */
+    border: none !important; /* убираем рамки, если есть */
 }
 
 /* Для конкретных категорий — задаем яркие цвета */
