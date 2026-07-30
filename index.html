@@ -236,15 +236,34 @@
     <!-- ПОДКЛЮЧЕНИЕ ВНЕШНЕГО JS С ОТЛОЖЕННОЙ ЗАГРУЗКОЙ -->
     <script src="script.js" defer></script>
     <script>
-        // --- НАСТРОЙКИ ---
-        const itemsPerPage = 12;
-        let allNews = [];
-        const newsContainer = document.getElementById('news-container');
-        const paginationControls = document.getElementById('pagination-controls');
+        document.addEventListener('DOMContentLoaded', () => {
+          const categoriesPanel = document.querySelector('.categories-panel');
+        
+          let isHovering = false;
+        
+          const onWheel = (e) => {
+            e.preventDefault();
+            categoriesPanel.scrollLeft += e.deltaY;
+          };
+        
+          categoriesPanel.addEventListener('mouseenter', () => {
+            isHovering = true;
+            categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
+          });
+        
+          categoriesPanel.addEventListener('mouseleave', () => {
+            isHovering = false;
+            categoriesPanel.removeEventListener('wheel', onWheel);
+          });
+        });
 
-        // --- ФУНКЦИЯ ОТРИСОВКИ ПАГИНАЦИИ ---
+        // --- ЛОГИКА ПАГИНАЦИИ ---
+        const paginationControls = document.getElementById('pagination-controls');
+        const newsContainer = document.getElementById('news-container');
+        let allNews = []; // Сюда должны попадать все новости (из API или JSON)
+        const itemsPerPage = 12; // Количество новостей на странице
+
         function renderPagination(currentPage, totalPages) {
-            if (!paginationControls) return;
             paginationControls.innerHTML = '';
 
             // Кнопка «Назад»
@@ -252,13 +271,16 @@
             prevBtn.className = `pagination-btn ${currentPage === 1 ? 'disabled' : ''}`;
             prevBtn.setAttribute('aria-label', 'Предыдущая страница');
             prevBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="7 12 17 6 17 18"></polyline></svg>`;
-            if (currentPage > 1) prevBtn.onclick = () => loadPage(currentPage - 1);
+            if (currentPage > 1) {
+                prevBtn.onclick = () => loadPage(currentPage - 1);
+            }
             paginationControls.appendChild(prevBtn);
 
-            // Номера страниц
+            // Номера страниц (с учетом «многоточия» для больших списков)
             const maxVisiblePages = 5;
             let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
             if (endPage - startPage + 1 < maxVisiblePages) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
@@ -277,38 +299,32 @@
             nextBtn.className = `pagination-btn ${currentPage === totalPages ? 'disabled' : ''}`;
             nextBtn.setAttribute('aria-label', 'Следующая страница');
             nextBtn.innerHTML = `<svg viewBox="0 0 24 24"><polyline points="17 12 7 18 7 6"></polyline></svg>`;
-            if (currentPage < totalPages) nextBtn.onclick = () => loadPage(currentPage + 1);
+            if (currentPage < totalPages) {
+                nextBtn.onclick = () => loadPage(currentPage + 1);
+            }
             paginationControls.appendChild(nextBtn);
         }
 
-        // --- ФУНКЦИЯ ОТРИСОВКИ НОВОСТЕЙ ---
         function loadPage(page) {
             const start = (page - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const paginatedNews = allNews.slice(start, end);
 
             newsContainer.innerHTML = '';
-            
             paginatedNews.forEach(newsItem => {
-                // Создаем карточку
+                // Пример рендера карточки новости — адаптируй под свой шаблон
                 const card = document.createElement('div');
                 card.className = 'news-card';
-                
-                // ВАЖНО: Используем newsItem.categorySlug (мы его создали ниже) для класса CSS
-                // и newsItem.category для текста (чтобы было с большой буквы как в JSON)
-                const categoryClass = newsItem.categorySlug || 'category-other';
-                const categoryText = newsItem.category || 'Разное';
-
                 card.innerHTML = `
-                    <a href="/article.html?id=${newsItem.id}" class="news-link" style="text-decoration: none; color: inherit;">
-                        <div class="news-img" style="background-image: url('${newsItem.image}'); background-size: cover; background-position: center; height: 180px; width: 100%;"></div>
+                    <a href="/article.html?id=${newsItem.id}" class="news-link">
+                        <div class="news-img" style="background: #eee; height: 180px;"></div>
                         <div class="news-meta">
-                            <span class="news-category-badge ${categoryClass}">${categoryText}</span>
+                            <span class="news-category-badge category-${newsItem.category}">${newsItem.category}</span>
                             <time datetime="${newsItem.date}">${new Date(newsItem.date).toLocaleDateString('ru-RU')}</time>
                         </div>
-                        <h3 style="margin: 10px 0 5px; font-size: 1.2rem;">${newsItem.title}</h3>
-                        <p style="margin: 0; color: #555; line-height: 1.4;">${newsItem.description || newsItem.summary || ''}</p>
-                    </a>
+                        <h3>${newsItem.title}</h3>
+                        <p>${newsItem.summary}</p>
+                                        </a>
                 `;
                 newsContainer.appendChild(card);
             });
@@ -316,64 +332,23 @@
             renderPagination(page, Math.ceil(allNews.length / itemsPerPage));
         }
 
-        // --- ГЛАВНАЯ ФУНКЦИЯ ЗАГРУЗКИ (ПОД ТВОЙ JSON) ---
+        // Пример загрузки данных (замените на реальный fetch из API)
         async function loadNews() {
             try {
+                // Если у тебя есть JSON-файл с новостями:
                 const response = await fetch('news.json');
+                allNews = await response.json();
                 
-                if (!response.ok) throw new Error('Файл не найден или ошибка сети');
-                
-                const data = await response.json();
-                
-                // ТВОЕ ИСПРАВЛЕНИЕ: Берем массив из ключа "items"
-                allNews = data.items || [];
-
-                if (allNews.length === 0) {
-                    document.getElementById('loader').textContent = 'Новостей пока нет';
-                    return;
-                }
-
-                // Нормализация данных под твой JS и CSS
-                allNews.forEach(item => {
-                    // 1. Создаем slug категории (нижний регистр) для CSS классов (.category-коррупция)
-                    item.categorySlug = item.category ? item.category.toLowerCase() : 'other';
-                    
-                    // 2. Убеждаемся, что есть ID (для ссылки)
-                    if (!item.id) item.id = item.title.replace(/\s+/g, '-').toLowerCase();
-                });
-
-                document.getElementById('loader').style.display = 'none';
-                loadPage(1); // Загружаем первую страницу сразу
+                // Для SEO и индексации Яндексом важно, чтобы первая страница (page=1) 
+                // отдавалась сразу при загрузке. Это помогает ботам увидеть контент.
+                loadPage(1);
             } catch (error) {
-                console.error('Ошибка загрузки:', error);
-                document.getElementById('loader').textContent = 'Ошибка загрузки данных. Проверьте консоль.';
-                // Даже при ошибке покажем пустую пагинацию, чтобы верстка не ломалась
-                renderPagination(1, 1);
+                console.error('Ошибка загрузки новостей:', error);
+                document.getElementById('loader').textContent = 'Не удалось загрузить новости';
             }
         }
 
-        // Запуск при загрузке страницы
-        document.addEventListener('DOMContentLoaded', () => {
-            loadNews();
-            
-            // Твой старый код для скролла категорий (оставляем как был)
-            const categoriesPanel = document.querySelector('.categories-panel');
-            if(categoriesPanel) {
-                let isHovering = false;
-                const onWheel = (e) => {
-                    e.preventDefault();
-                    categoriesPanel.scrollLeft += e.deltaY;
-                };
-                categoriesPanel.addEventListener('mouseenter', () => {
-                    isHovering = true;
-                    categoriesPanel.addEventListener('wheel', onWheel, { passive: false });
-                });
-                categoriesPanel.addEventListener('mouseleave', () => {
-                    isHovering = false;
-                    categoriesPanel.removeEventListener('wheel', onWheel);
-                });
-            }
-        });
+        loadNews();
 
         function scrollToTop() {
             window.scrollTo({ top: 0, behavior: 'smooth' });
