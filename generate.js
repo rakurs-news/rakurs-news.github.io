@@ -1,107 +1,88 @@
 const fs = require('fs');
 const path = require('path');
 
+// --- НАСТРОЙКИ ---
+const inputJson = './news.json';
+const imagesSourceDir = './images'; // Откуда брать картинки (локально у тебя)
+const imagesDestDir = './assets/images'; // Куда копировать картинки (чтобы Git видел)
+const postsDir = './_posts'; // Стандартная папка для Jekyll
+// -----------------
+
 // 1. Читаем данные
 let newsData;
 try {
-    newsData = JSON.parse(fs.readFileSync('./news.json', 'utf8'));
+    newsData = JSON.parse(fs.readFileSync(inputJson, 'utf8'));
 } catch (e) {
     console.error('❌ Ошибка чтения news.json! Проверь путь и формат файла.');
     process.exit(1);
 }
 
-const outputDir = './news';
+console.log('🚀 Начинаю генерацию для Jekyll...');
 
-// Очищаем папку news
-if (fs.existsSync(outputDir)) {
-    fs.rmSync(outputDir, { recursive: true, force: true });
+// Создаем папки, если их нет
+if (!fs.existsSync(imagesDestDir)) {
+    fs.mkdirSync(imagesDestDir, { recursive: true });
 }
-fs.mkdirSync(outputDir, { recursive: true });
-
-console.log('🚀 Начинаю генерацию...');
-
-let sitemapEntries = [];
+if (!fs.existsSync(postsDir)) {
+    fs.mkdirSync(postsDir, { recursive: true });
+}
 
 newsData.forEach((item) => {
-    const slug = item.slug;
-    const articleDir = path.join(outputDir, slug);
-    const articlePath = path.join(articleDir, 'index.html');
-
-    fs.mkdirSync(articleDir, { recursive: true });
-
-    // --- САМОЕ ГЛАВНОЕ: МЫ СОБИРАЕМ HTML ВРУЧНУЮ ---
-    // Никаких replace, никаких поисков по шаблону. 
-    // Мы просто вставляем переменные туда, где они должны быть.
+    // --- ПОДГОТОВКА ДАТЫ И ИМЕНИ ФАЙЛА ---
+    // Jekyll требует формат: YYYY-MM-DD-slug.md
+    const dateObj = new Date(item.date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(dateObj.getDate()).padStart(2, '0');
     
-    const dateStr = new Date(item.date).toLocaleDateString('ru-RU');
-    const category = item.category || 'Новости';
-    const summary = item.summary || '';
-    
-    // Формируем картинку, если есть
+    // Создаем слаг (чистый URL) из заголовка или берем готовый
+    let slug = item.slug || item.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const fileName = `${year}-${month}-${day}-${slug}.md`;
+    const filePath = path.join(postsDir, fileName);
+
+    // --- ОБРАБОТКА КАРТИНКИ ---
     let imageBlock = '';
+    let imgSrcPath = ''; // Путь для вставки в Markdown
+
     if (item.image) {
-        const imgName = item.image.split('/').pop();
-        const imgPath = `../images/${imgName}`;
-        imageBlock = `<img src="${imgPath}" alt="${item.title}" class="post-image">`;
+        // Получаем имя файла картинки (например, photo.jpg)
+        const imgName = path.basename(item.image);
+        
+        // Путь назначения в assets/images
+        const destImgPath = path.join(imagesDestDir, imgName);
+        const srcImgPath = path.join(imagesSourceDir, imgName);
+
+        // 1. Копируем картинку в assets/images (чтобы она попала в Git)
+        if (fs.existsSync(srcImgPath)) {
+            fs.copyFileSync(srcImgPath, destImgPath);
+            console.log(`   🖼️ Скопирована картинка: ${imgName}`);
+            
+            // 2. Формируем ПРАВИЛЬНУЮ Markdown ссылку (начинается с /)
+            imgSrcPath = `/assets/images/${imgName}`;
+            imageBlock = `![${item.title}](${imgSrcPath})`;
+        } else {
+            console.warn(`   ⚠️ Картинка не найдена локально: ${srcImgPath}. Ссылка не будет добавлена.`);
+        }
     }
 
-    const pageContent = `
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>${item.title}</title>
-    <link rel="stylesheet" href="../style.css">
-</head>
-<body>
-    <div class="container">
-        <a href="../index.html" class="back-link">← Вернуться на главную</a>
-        
-        <article class="post">
-            <h1 class="post-title">${item.title}</h1>
-            
-            <div class="post-meta">
-                <span class="category">${category}</span>
-                <span class="date">${dateStr}</span>
-            </div>
+    // --- ФОРМИРОВАНИЕ FRONT MATTER И КОНТЕНТА ---
+    const frontMatter = `---
+layout: post
+title: "${item.title}"
+date: ${year}-${month}-${day} 12:00:00 +0300
+categories: ${item.category || 'news'}
+---
+`;
 
-            ${imageBlock}
+    const pageContent = frontMatter + `
+${imageBlock}
 
-            <div class="post-summary">
-                ${summary}
-            </div>
+${item.content}
+`;
 
-            <div class="post-content">
-                ${item.content}
-            </div>
-        </article>
-    </div>
-</body>
-</html>
-    `;
-
-    fs.writeFileSync(articlePath, pageContent, 'utf8');
-    
-    console.log(`✅ Создана страница: /news/${slug}/ (Заголовок: ${item.title})`);
-
-    sitemapEntries.push(`https://rakurs-news.github.io/news/${slug}/`);
+    // Записываем .md файл
+    fs.writeFileSync(filePath, pageContent, 'utf8');
+    console.log(`✅ Создана новость: ${fileName}`);
 });
 
-// Генерация sitemap
-const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-   <loc>https://rakurs-news.github.io/</loc>
-
-    <priority>1.0</priority>
-  </url>
-  ${sitemapEntries.map(url => `
-  <url>
-    <loc>${url}</loc>
-    <priority>0.8</priority>
-  </url>`).join('')}
-</urlset>`;
-
-fs.writeFileSync('./sitemap.xml', sitemapXml, 'utf8');
-console.log('✅ Карта сайта (sitemap.xml) создана!');
-console.log('🎉 ГОТОВО!');
+console.log('🎉 ГОТОВО! Теперь сделай: git add . && git commit -m "update" && git push');
