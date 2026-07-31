@@ -1,8 +1,12 @@
 {
   "name": "rakurs-news",
   "version": "1.0.0",
+  "description": "Static news site generator",
   "main": "generate.js",
   "scripts": {
     "generate": "node generate.js"
-  }
+  },
+  "keywords": ["news", "static", "generator"],
+  "author": "You",
+  "license": "MIT"
 }
