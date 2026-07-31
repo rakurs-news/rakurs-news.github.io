@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{TITLE}}</title>
+    <!-- Важно: для GitHub Pages лучше относительный путь ../style.css, 
+         иначе стили могут не подтянуться внутри папок news/slug/ -->
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Вернуться на главную</a>
+        
+        <article class="post">
+            <h1 class="post-title">{{TITLE}}</h1>
+            
+            <div class="post-meta">
+                <!-- Исправлено: было CATEGORY_NAME, стало CATEGORY -->
+                <span class="category">{{CATEGORY}}</span>
+                <!-- Исправлено: было DATE_FORMATTED, стало DATE -->
+                <span class="date">{{DATE}}</span>
+            </div>
+
+            <div class="post-summary">
+                {{SUMMARY}}
+            </div>
+
+            <div class="post-content">
+                {{CONTENT}}
+            </div>
+
+            <!-- Убрал ссылку на URL, так как скрипт её не генерирует. 
+                 Если очень нужна кнопка "Поделиться", её делают через JS на самой странице,
+                 но пока давай просто уберём битую заглушку, чтобы не мешало -->
+        </article>
+    </div>
+</body>
+</html>
