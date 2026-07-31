@@ -1,0 +1,8 @@
+{
+  "name": "rakurs-news",
+  "version": "1.0.0",
+  "main": "generate.js",
+  "scripts": {
+    "generate": "node generate.js"
+  }
+}
