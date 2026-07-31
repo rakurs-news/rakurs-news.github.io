@@ -1,0 +1,7 @@
+User-agent: Yandex
+Allow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://rakurs-news.github.io/rakurs-news/sitemap.xml

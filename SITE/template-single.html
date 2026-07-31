@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{TITLE}}</title>
+    <!-- Было: <link rel="stylesheet" href="../style.css"> -->
+<!-- Стало (абсолютный путь от корня сайта): -->
+<link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+    <div class="container">
+        <a href="../index.html" class="back-link">← Вернуться на главную</a>
+        
+        <article class="post">
+            <h1 class="post-title">{{TITLE}}</h1>
+            
+            <div class="post-meta">
+                <span class="category">{{CATEGORY_NAME}}</span>
+                <span class="date">{{DATE_FORMATTED}}</span>
+            </div>
+
+            <div class="post-summary">
+                {{SUMMARY}}
+            </div>
+
+            <div class="post-content">
+                {{CONTENT}}
+            </div>
+
+            <a href="{{URL}}" class="share-link" target="_blank" rel="noopener noreferrer">
+                Поделиться ссылкой: {{URL}}
+            </a>
+        </article>
+    </div>
+</body>
+</html>
