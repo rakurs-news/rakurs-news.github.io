@@ -3,3 +3,5 @@ node_modules/
 .git/
 *.log
 Thumbs.db
+news/
+sitemap.xml
