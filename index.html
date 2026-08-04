@@ -416,6 +416,13 @@
             filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
 
+        .theme-icon {
+            display: block;
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+        }
+
         @media (max-width: 768px) {
             .featured-news-card {
                 flex-direction: column;
@@ -431,7 +438,6 @@
                 padding: 15px;
             }
         }
-        
     </style>
 </head>
 <body>
@@ -450,9 +456,8 @@
                 <div id="search-results"></div>
             </div>
             <button class="theme-toggle" aria-label="Сменить тему">
-    <!-- Указываем путь к картинке. Если у тебя нет файла, временно поставь заглушку -->
-    <img src="assets/images/IMG_20260804_214503.png" alt="Тема" class="theme-icon" width="20" height="20">
-</button>
+                <img src="assets/images/IMG_20260804_214503.png" alt="Тема" class="theme-icon">
+            </button>
         </div>
     </header>
 
@@ -523,12 +528,6 @@
 
         themeToggle.addEventListener('click', () => {
             body.classList.toggle('dark-theme');
-            const svg = themeToggle.querySelector('svg');
-            if (body.classList.contains('dark-theme')) {
-                svg.innerHTML = `<circle cx="12" cy="3" r="3"></circle><path d="M12 8v6"></path><path d="M9.27 9.27l-1.41-1.41"></path><path d="M14.73 14.73l-1.41-1.41"></path>`;
-            } else {
-                svg.innerHTML = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line>`;
-            }
         });
 
         window.addEventListener('scroll', () => {
@@ -567,3 +566,4 @@
     </script>
 </body>
 </html>
+
