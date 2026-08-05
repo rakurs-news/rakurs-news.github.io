@@ -3,382 +3,277 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO: Описание для Яндекса и Google -->
+    <meta name="description" content="Ракурс NEWS — актуальные новости России и мира: политика, экономика, СВО, технологии и культура. Только проверенные факты и аналитика событий." />
+    <meta name="keywords" content="новости, свежие новости, политика, экономика, сво, технологии, культура, Ракурс NEWS, новости сегодня" />
+
+    <!-- OG: Для ВКонтакте, Одноклассников, Telegram -->
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:site_name" content="Ракурс NEWS">
+    <meta property="og:title" content="Ракурс NEWS — Главные новости дня">
+    <meta property="og:description" content="Читайте главные новости политики, экономики, СВО и технологий на портале Ракурс NEWS. Оперативные новости и экспертное мнение." />
+    <!-- ВАЖНО: Заменить ссылку ниже на реальную картинку 1200x630 px -->
+    <meta property="og:image" content="https://rakurs-news.github.io/image/logo.png"> 
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+
+    <!-- Twitter Card: Для Твиттера (X) -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Ракурс NEWS — Главные новости дня">
+    <meta property="twitter:description" content="Актуальные новости политики, экономики и СВО. Аналитика и репортажи на Ракурс NEWS." />
+    <meta property="twitter:image" content="https://ваш-сайт.ru/image/logo-main.jpg">
+
+    <!-- SCHEMA.ORG: Структурированные данные для поисковиков -->
+    <!-- Блок 1: Информация о СМИ (помогает получить статус СМИ в Яндексе) -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "itemListOrder": "Ascending",
+  "name": "Главные новости портала Ракурс NEWS",
+  "numberOfItems": "9",
+  "itemListElement": [
+    {
+      "@type": "NewsArticle",
+      "headline": "Госдума: СВО будет продолжаться долго",
+      "datePublished": "2026-08-05T13:30:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/IMG_20260805_165743.webp",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "Коврик с флагом: цинизм без границ",
+      "datePublished": "2026-08-05T17:15:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "/image/IMG_20260805_165743.webp",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 3-Й НОВОСТИ",
+      "datePublished": "2024-05-23T09:30:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-3.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 4-Й НОВОСТИ",
+      "datePublished": "2024-05-22T14:00:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-4.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 5-Й НОВОСТИ",
+      "datePublished": "2024-05-21T13:15:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-5.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 6-Й НОВОСТИ",
+      "datePublished": "2024-05-20T10:30:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-6.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 7-Й НОВОСТИ",
+      "datePublished": "2024-05-19T16:00:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-7.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 8-Й НОВОСТИ",
+      "datePublished": "2024-05-18T11:45:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-8.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    },
+    {
+      "@type": "NewsArticle",
+      "headline": "ВСТАВЬ СЮДА ЗАГОЛОВОК 9-Й НОВОСТИ (САМОЙ СТАРОЙ ИЗ ГЛАВНЫХ)",
+      "datePublished": "2024-05-17T09:00:00+03:00",
+      "image": {
+        "@type": "ImageObject",
+        "url": "image/ссылка-на-картинке-9.jpg",
+        "width": 400,
+        "height": 200
+      },
+      "publisher": { "@type": "Organization", "name": "Ракурс NEWS" }
+    }
+  ]
+}
+</script>
+
     <title>Ракурс NEWS</title>
     <style>
-        /* Общие стили */
+        * { box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            background-color: #f4f7f6; /* Изначально светлый фон */
-            color: #333; /* Изначально темный текст */
+            background-color: #f4f7f6;
+            color: #333;
             line-height: 1.6;
-            transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход для темы */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow-x: hidden;
         }
-
         .container {
+            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 20px;
         }
-
-        /* Шапка */
         header {
-            background-color: #fff; /* Изначально белый фон шапки */
+            background-color: #fff;
             padding: 15px 0;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             position: sticky;
             top: 0;
             z-index: 1000;
-            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для темы */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
         }
-
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 2em;
-            font-weight: bold;
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-        }
-
-        nav ul li {
-            margin-left: 25px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #555; /* Изначально темный цвет ссылок навигации */
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        nav ul li a:hover {
-            color: #007bff;
-        }
-
-        /* Кнопка переключения темы */
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 2em; font-weight: bold; color: #007bff; text-decoration: none; }
+        nav ul { list-style: none; padding: 0; margin: 0; display: flex; }
+        nav ul li { margin-left: 25px; }
+        nav ul li a { text-decoration: none; color: #555; font-weight: 500; transition: color 0.3s ease; }
+        nav ul li a:hover { color: #007bff; }
         .theme-toggle-button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #555; /* Цвет иконки в светлой теме */
-            transition: color 0.3s ease;
-            margin-left: 20px; /* Отступ от навигации */
+            background: none; border: none; cursor: pointer; padding: 5px;
+            display: flex; align-items: center; justify-content: center;
+            color: #555; transition: color 0.3s ease; margin-left: 20px;
         }
-
-        .theme-toggle-button svg {
-            width: 24px;
-            height: 24px;
-        }
-
-        /* Поиск */
-        .search-bar {
-            margin: 20px 0;
-            text-align: center;
-        }
-
+        .theme-toggle-button svg { width: 24px; height: 24px; }
+        .search-bar { margin: 20px 0; text-align: center; }
         .search-bar input[type="text"] {
-            padding: 10px 15px;
-            width: 60%;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1em;
-            box-sizing: border-box; /* Учитываем padding и border в ширине */
-            transition: border-color 0.3s ease; /* Плавный переход для темы */
-        }
-
-        /* Главный контент */
-        main .container {
-            margin-top: 30px;
-        }
-
-        .main-news {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .article-card {
-            background-color: #fff; /* Изначально белый фон карточки */
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer; /* Указываем, что элемент кликабельный */
-        }
-
-        .article-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-        }
-
-        .article-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .article-content {
-            padding: 20px;
-            flex-grow: 1;
-        }
-
-        .article-content h3 {
-            margin-top: 0;
-            font-size: 1.4em;
-            margin-bottom: 10px;
-            color: #007bff; /* Изначально синий цвет заголовков */
-            transition: color 0.3s ease;
-        }
-
-        .article-content p {
-            font-size: 0.95em;
-            color: #666; /* Изначально серый цвет текста */
-            margin-bottom: 15px;
-            transition: color 0.3s ease;
-        }
-
-        .article-content .category {
-            font-size: 0.8em;
-            font-weight: bold;
-            color: #0056b3; /* Изначально темно-синий цвет категории */
-            text-transform: uppercase;
-            margin-bottom: 10px;
-            display: inline-block;
-            transition: color 0.3s ease;
-        }
-
-        /* Стили для скрытия карточек */
-        .article-card.hidden {
-            display: none;
-        }
-
-        .section-title {
-            font-size: 2em;
-            font-weight: bold;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #007bff; /* Изначально синяя граница */
-            padding-bottom: 10px;
-            display: inline-block;
-            transition: color 0.3s ease, border-color 0.3s ease;
-        }
-
-        /* Боковая панель */
-        .sidebar {
-            width: 100%;
-            margin-top: 40px;
-            padding: 20px;
-            background-color: #fff; /* Изначально белый фон сайдбара */
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .sidebar h4 {
-            font-size: 1.5em;
-            margin-top: 0;
-            border-bottom: 1px solid #eee; /* Изначально светло-серая граница */
-            padding-bottom: 10px;
-            margin-bottom: 15px;
+            padding: 10px 15px; width: 100%; max-width: 500px;
+            border: 1px solid #ccc; border-radius: 5px; font-size: 1em;
             transition: border-color 0.3s ease;
         }
-
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
+        .main-news {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px; margin-bottom: 40px;
         }
-
-        .sidebar ul li {
-            margin-bottom: 15px;
+        .article-card {
+            background-color: #fff; border-radius: 8px; overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex; flex-direction: column; cursor: pointer;
         }
-
-        .sidebar ul li a {
-            text-decoration: none;
-            color: #555; /* Изначально темный цвет ссылок в сайдбаре */
+        .article-card:hover { transform: translateY(-5px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+        .article-card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .article-content { padding: 20px; flex-grow: 1; }
+        .article-content h3 { margin-top: 0; font-size: 1.4em; margin-bottom: 10px; color: #007bff; transition: color 0.3s ease; }
+        .article-content p { font-size: 0.95em; color: #666; margin-bottom: 15px; transition: color 0.3s ease; }
+        .article-content .category {
+            font-size: 0.8em; font-weight: bold; color: #0056b3;
+            text-transform: uppercase; margin-bottom: 10px; display: inline-block;
             transition: color 0.3s ease;
         }
-
-        .sidebar ul li a:hover {
-            color: #007bff;
+        .article-card.hidden { display: none; }
+        .section-title {
+            font-size: 2em; font-weight: bold; margin-bottom: 25px;
+            border-bottom: 2px solid #007bff; padding-bottom: 10px;
+            display: inline-block; transition: color 0.3s ease, border-color 0.3s ease;
         }
-
-        /* Футер */
+        .sidebar {
+            width: 100%; margin-top: 40px; padding: 20px;
+            background-color: #fff; border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .sidebar h4 {
+            font-size: 1.5em; margin-top: 0; border-bottom: 1px solid #eee;
+            padding-bottom: 10px; margin-bottom: 15px;
+            transition: border-color 0.3s ease;
+        }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar ul li { margin-bottom: 15px; }
+        .sidebar ul li a { text-decoration: none; color: #555; transition: color 0.3s ease; }
+        .sidebar ul li a:hover { color: #007bff; }
         footer {
-            background-color: #333; /* Темный фон футера */
-            color: #fff; /* Белый текст футера */
-            text-align: center;
-            padding: 30px 0;
-            margin-top: 50px;
+            background-color: #333; color: #fff; text-align: center;
+            padding: 30px 0; margin-top: 50px;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
+        footer p { margin: 0; font-size: 0.9em; }
 
-        footer p {
-            margin: 0;
-            font-size: 0.9em;
-        }
+        body.dark-theme { background-color: #1a1a1a; color: #ffffff; }
+        body.dark-theme header { background-color: #2a2a2a; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        body.dark-theme header .container { color: #ffffff; }
+        body.dark-theme nav ul li a { color: #ccc; }
+        body.dark-theme nav ul li a:hover { color: #66b2ff; }
+        body.dark-theme .theme-toggle-button { color: #ccc; }
+        body.dark-theme .search-bar input[type="text"] { background-color: #333; border-color: #555; color: #fff; }
+        body.dark-theme .article-card { background-color: #222; box-shadow: 0 2px 10px rgba(0,0,0,0.3); border: 1px solid #333; }
+        body.dark-theme .article-content h3 { color: #66b2ff; }
+        body.dark-theme .article-content p { color: #bbb; }
+        body.dark-theme .article-content .category { color: #99ccff; }
+        body.dark-theme .section-title { color: #ffffff; border-bottom: 2px solid #66b2ff; }
+        body.dark-theme .sidebar { background-color: #2a2a2a; box-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        body.dark-theme .sidebar h4 { border-bottom: 1px solid #444; color: #fff; }
+        body.dark-theme .sidebar ul li a { color: #ccc; }
+        body.dark-theme footer { background-color: #111; }
 
-        /* Стили для темной темы */
-        body.dark-theme {
-            background-color: #1a1a1a; /* Темный фон */
-            color: #ffffff; /* Белый текст */
-        }
-
-        body.dark-theme header {
-            background-color: #2a2a2a; /* Темный фон шапки */
-            box-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Более выраженная тень в темной теме */
-        }
-
-        body.dark-theme header .container {
-            color: #ffffff; /* Белый текст в шапке */
-        }
-
-        body.dark-theme nav ul li a {
-            color: #ccc; /* Светло-серый цвет ссылок навигации в темной теме */
-        }
-
-        body.dark-theme nav ul li a:hover {
-            color: #66b2ff; /* Светло-голубой при наведении */
-        }
-
-        body.dark-theme .theme-toggle-button {
-            color: #ccc; /* Цвет иконки в темной теме */
-        }
-
-        body.dark-theme .search-bar input[type="text"] {
-            background-color: #333; /* Темный фон поля поиска */
-            border-color: #555; /* Темная граница поля поиска */
-            color: #fff; /* Белый текст в поле поиска */
-        }
-
-        body.dark-theme .article-card {
-            background-color: #222; /* Темный фон карточки */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3); /* Тень для темной темы */
-            border: 1px solid #333; /* Граница для карточки */
-        }
-
-        body.dark-theme .article-content h3 {
-            color: #66b2ff; /* Светло-голубой цвет заголовков */
-        }
-
-        body.dark-theme .article-content p {
-            color: #bbb; /* Светло-серый текст в карточке */
-        }
-
-        body.dark-theme .article-content .category {
-            color: #99ccff; /* Более светлый синий для категории */
-        }
-
-        body.dark-theme .section-title {
-            color: #ffffff; /* Белый цвет заголовков секций */
-            border-bottom: 2px solid #66b2ff; /* Светло-голубая граница */
-        }
-
-        body.dark-theme .sidebar {
-            background-color: #2a2a2a; /* Темный фон сайдбара */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
-        body.dark-theme .sidebar h4 {
-            border-bottom: 1px solid #444; /* Темная граница в сайдбаре */
-            color: #fff; /* Белый заголовок сайдбара */
-        }
-
-        body.dark-theme .sidebar ul li a {
-            color: #ccc; /* Светло-серый ссылки в сайдбаре */
-        }
-
-        body.dark-theme footer {
-            background-color: #111; /* Очень темный фон футера */
-        }
-
-        /* Адаптивность */
         @media (min-width: 768px) {
-            .main-content-wrapper {
-                display: grid;
-                grid-template-columns: 2fr 1fr;
-                gap: 40px;
-            }
-            .sidebar {
-                margin-top: 0;
-            }
+            .main-content-wrapper { display: grid; grid-template-columns: 2fr 1fr; gap: 40px; }
+            .sidebar { margin-top: 0; }
         }
-
         @media (max-width: 767px) {
-            header .container {
-                flex-direction: column;
-                text-align: center;
-            }
-            nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            nav ul li {
-                margin: 5px 10px;
-            }
-            .logo {
-                font-size: 1.8em;
-            }
-            .main-news {
-                grid-template-columns: 1fr;
-            }
-            .search-bar input[type="text"] {
-                width: 90%; /* Для мобильных устройств делаем поле поиска шире */
-            }
-            /* Добавляем кнопку переключения темы в шапку для мобильных */
-            .header-right {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                width: 100%;
-                margin-top: 10px;
-            }
+            header .container { flex-direction: column; text-align: center; }
+            nav ul { margin-top: 15px; flex-wrap: wrap; justify-content: center; }
+            nav ul li { margin: 5px 10px; }
+            .logo { font-size: 1.8em; }
+            .main-news { grid-template-columns: 1fr; }
+            .search-bar input[type="text"] { width: 90%; }
+            .header-right { display: flex; align-items: center; justify-content: center; width: 100%; margin-top: 10px; }
         }
-        /* Исправление горизонтальной прокрутки */
-* {
-    box-sizing: border-box; /* Гарантирует, что padding не увеличивает ширину элемента */
-}
-
-body {
-    margin: 0;
-    overflow-x: hidden; /* Запрещает горизонтальную прокрутку всей страницы */
-}
-
-.container {
-    width: 100%; /* Явно указываем 100%, чтобы не было конфликтов */
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px; /* Изменил padding: теперь он только по бокам, чтобы не ломать сетку */
-}
-
-/* Адаптация поля поиска */
-.search-bar input[type="text"] {
-    width: 100%; /* Растягиваем на всю доступную ширину внутри контейнера */
-    max-width: 500px; /* Ограничиваем максимальную ширину, чтобы на ПК оно не было гигантским */
-    box-sizing: border-box;
-}
     </style>
 </head>
-<body class="light-theme"> <!-- Изначально светлая тема -->
-
+<body class="light-theme">
     <header>
         <div class="container">
             <div class="header-left">
@@ -387,6 +282,7 @@ body {
                     <ul>
                         <li><a href="/">Главная</a></li>
                         <li><a href="#SVO">СВО</a></li>
+                        <li><a href="#migranti">Мигранты</a></li>
                         <li><a href="#politics">Политика</a></li>
                         <li><a href="#economics">Экономика</a></li>
                         <li><a href="#tech">Технологии</a></li>
@@ -396,7 +292,6 @@ body {
             </div>
             <div class="header-right">
                 <button id="theme-toggle-button" class="theme-toggle-button" aria-label="Переключить тему">
-                    <!-- Иконка будет меняться с помощью JS -->
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                     </svg>
@@ -520,7 +415,6 @@ body {
             const bodyElement = document.body;
             const localStorageThemeKey = 'siteTheme';
 
-            // Функция для применения темы
             const applyTheme = (theme) => {
                 if (theme === 'dark') {
                     bodyElement.classList.add('dark-theme');
@@ -532,37 +426,30 @@ body {
                 updateToggleButtonIcon(theme);
             };
 
-            // Функция для сохранения темы в localStorage
             const saveTheme = (theme) => {
                 localStorage.setItem(localStorageThemeKey, theme);
             };
 
-            // Функция для загрузки темы из localStorage
             const loadTheme = () => {
                 const savedTheme = localStorage.getItem(localStorageThemeKey);
                 if (savedTheme) {
                     applyTheme(savedTheme);
                 } else {
-                    // По умолчанию применяем светлую тему, если ничего не сохранено
                     applyTheme('light');
                 }
             };
 
-            // Функция для обновления иконки кнопки
             const updateToggleButtonIcon = (currentTheme) => {
                 const svgElement = themeToggleButton.querySelector('svg');
                 if (svgElement) {
                     if (currentTheme === 'dark') {
-                        // Иконка солнца для светлой темы
                         svgElement.innerHTML = `<path d="M12 2a10 10 0 0 0-9.54 12.5A9.5 9.5 0 0 0 12 22a10 10 0 0 0 0-20z"></path>`;
                     } else {
-                        // Иконка луны для темной темы
                         svgElement.innerHTML = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
                     }
                 }
             };
 
-            // Обработчик клика по кнопке
             themeToggleButton.addEventListener('click', () => {
                 const isDarkMode = bodyElement.classList.contains('dark-theme');
                 const newTheme = isDarkMode ? 'light' : 'dark';
@@ -570,48 +457,40 @@ body {
                 saveTheme(newTheme);
             });
 
-            // Загружаем сохраненную тему при первой загрузке страницы
             loadTheme();
         });
 
-        // Получаем все карточки новостей
         const articles = document.querySelectorAll('.article-card');
         const searchInput = document.getElementById('searchInput');
 
-        // Добавляем обработчик клика на каждую карточку
         articles.forEach(article => {
             article.addEventListener('click', () => {
-                const url = article.getAttribute('data-url'); // Получаем URL из атрибута data-url
+                const url = article.getAttribute('data-url');
                 if (url) {
-                    // Открываем ссылку в новой вкладке, если она есть
                     window.open(url, '_blank');
                 }
             });
         });
 
-        // Обработчик для поиска
         searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase(); // Получаем текст поиска в нижнем регистре
+            const searchTerm = e.target.value.toLowerCase();
 
             articles.forEach(article => {
                 const titleElement = article.querySelector('.article-content h3');
                 const descriptionElement = article.querySelector('.article-content p');
                 const categoryElement = article.querySelector('.article-content .category');
 
-                // Проверяем, существуют ли элементы перед доступом к их textContent
                 const title = titleElement ? titleElement.textContent.toLowerCase() : '';
                 const description = descriptionElement ? descriptionElement.textContent.toLowerCase() : '';
                 const category = categoryElement ? categoryElement.textContent.toLowerCase() : '';
 
-                // Проверяем, содержит ли заголовок, описание или категория текст поиска
                 if (title.includes(searchTerm) || description.includes(searchTerm) || category.includes(searchTerm)) {
-                    article.classList.remove('hidden'); // Показываем карточку, если совпадение найдено
+                    article.classList.remove('hidden');
                 } else {
-                    article.classList.add('hidden'); // Скрываем карточку, если совпадения нет
+                    article.classList.add('hidden');
                 }
             });
         });
     </script>
-
 </body>
 </html>
