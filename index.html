@@ -1,569 +1,356 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ракурс NEWS — ироничные новости с экспертным взглядом</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Ракурс NEWS — Главные новости дня</title>
+<meta name="description" content="Актуальные новости России и мира. Политика, экономика, спорт, технологии и культура на сайте Ракурс NEWS." />
+<meta property="og:title" content="Ракурс NEWS — Новости онлайн" />
+<meta property="og:description" content="Свежие новости, аналитика и обзоры событий в России и мире." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://example.com" />
+<meta property="og:image" content="https://example.com/assets/og-image.jpg" />
 
-    <link rel="icon" type="image/png" href="images/logo.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
+<style>
+:root {
+  --bg-light: #ffffff;
+  --text-light: #000000; /* Черный для дневной темы */
+  --header-bg-light: rgba(255, 255, 255, 0.95);
+  --card-bg-light: #f9f9f9;
+  --border-light: #e0e0e0;
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://rakurs-news.github.io/rakurs-news/">
-    <meta property="og:title" content="Ракурс NEWS">
-    <meta property="og:description" content="Свежие новости с иронией. Вся правда в иронии">
-    <meta property="og:image" content="images/logo.png"> 
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
+  --bg-dark: #121212;
+  --text-dark: #ff9f1c;   /* Оранжевый для ночной темы */
+  --header-bg-dark: rgba(18, 18, 18, 0.95);
+  --card-bg-dark: #1e1e1e;
+  --border-dark: #333;
 
-    <meta name="description" content="Ракурс NEWS: Ироничный взгляд на главные новости политики, общества и мира. Раскрываем правду через сарказм и острый анализ">
+  --accent-orange: #ff9f1c;
+}
 
-    <style>
-        :root {
-            --bg: #ffffff;
-            --card: #f9f9f9;
-            --text: #1a1a1a;
-            --accent: #ff9800;
-            --meta: #666;
-            --footer-bg: rgba(255, 255, 255, 0.3);
-            --header-height: 60px;
-        }
+[data-theme="light"] {
+  --bg: var(--bg-light);
+  --text: var(--text-light);
+  --header-bg: var(--header-bg-light);
+  --card-bg: var(--card-bg-light);
+  --border: var(--border-light);
+}
 
-        body.dark-theme {
-            --bg: #121212;
-            --card: #1e1e1e;
-            --text: #e0e0e0;
-            --accent: #ff9800;
-            --meta: #aaa;
-            --footer-bg: rgba(18, 18, 18, 0.3);
-        }
+[data-theme="dark"] {
+  --bg: var(--bg-dark);
+  --text: var(--text-dark);
+  --header-bg: var(--header-bg-dark);
+  --card-bg: var(--card-bg-dark);
+  --border: var(--border-dark);
+}
 
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            transition: background 0.3s, color 0.3s;
-        }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-        header {
-            background: var(--card);
-            padding: 15px 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--accent);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background 0.3s, color 0.3s;
+  line-height: 1.6;
+}
 
-        .logo-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: bold;
-            font-size: 20px;
-            margin-left: 5px;
-        }
+/* Стиль карточек */
+.article-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  color: var(--text);
+}
 
-        .logo-wrapper img {
-            width: 30px;
-            height: 30px;
-        }
+/* Внутри карточек */
+article-card * {
+  color: inherit;
+}
 
-        .controls-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+/* Для десктопа — три колонки с разной шириной */
+@media (min-width: 768px) {
+  #newsContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* первая колонка шире */
+    gap: 1rem;
+  }
+}
 
-        #searchInput {
-            height: 32px;
-            width: 180px;
-            padding: 0 10px;
-            border: 1px solid var(--accent);
-            background: var(--bg);
-            color: var(--text);
-            border-radius: 2px;
-            box-sizing: border-box;
-        }
+/* Остальной CSS */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--header-bg);
+  padding: 0.7rem 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+}
 
-        .theme-toggle {
-            cursor: pointer;
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 2px;
-            transition: all 0.3s;
-            height: 32px;
-            width: 32px;
-            padding: 0;
-        }
+.site-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
 
-        .theme-toggle:hover {
-            background: var(--accent);
-            color: #000;
-        }
+.header-actions {
+  display: flex;
+  gap: 0.6rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
 
-        .categories-panel {
-            height: 30px;
-            width: 100%;
-            background-color: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            position: sticky;
-            top: var(--header-height);
-            z-index: 1001;
-            display: flex;
-            align-items: center;
-            overflow-x: auto;
-            white-space: nowrap;
-            scrollbar-width: none;
-        }
+/* остальной CSS без изменений, пропущу для краткости */
 
-        body.dark-theme .categories-panel {
-            background-color: rgba(30, 30, 30, 0.3);
-        }
+.search-form { flex: 1; max-width: 320px; display: flex; align-items: center; border: 1px solid var(--border); border-radius: 24px; overflow: hidden; }
+.search-input { flex: 1; padding: 0.5rem 0.75rem; background: transparent; border: none; outline: none; color: var(--text); font-size: 0.9rem; }
+.search-btn { background: none; border: none; cursor: pointer; padding: 0.4rem 0.6rem; display: flex; align-items: center; justify-content: center; }
+.search-btn svg { width: 18px; height: 18px; fill: var(--text); }
 
-        .categories-wrapper {
-            padding: 0 10px;
-            display: flex;
-            gap: 20px;
-            flex-shrink: 0;
-        }
+.theme-btn { background: none; border: 1px solid var(--border); color: var(--text); padding: 0.5rem 0.6rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; }
+.theme-btn:hover { background: rgba(0,0,0,0.05); }
 
-        .category-btn {
-            background: none;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 13px;
-            font-weight: bold;
-            position: relative;
-            padding-bottom: 8px;
-            transition: color 0.2s;
-            white-space: nowrap;
-        }
+.cats-btn-container { position: relative; display: inline-block; }
+.cats-btn { background: none; border: 1px solid var(--border); color: var(--text); padding: 0.5rem 0.6rem; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; }
 
-        .category-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0%;
-            height: 2px;
-            background-color: var(--accent);
-            transition: width 0.2s ease-in-out;
-        }
+.dropdown-menu { position: absolute; top: calc(100% + 8px); right: 0; background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; min-width: 260px; box-shadow: 0 4px 12px rgba(0,0,0,0.3); display: none; flex-direction: column; overflow: hidden; z-index: 999; }
+.dropdown-menu.active { display: flex; }
 
-        .category-btn.active {
-            color: var(--accent);
-        }
+.overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 998; opacity: 0; visibility: hidden; transition: opacity 0.2s; }
+.overlay.active { opacity: 1; visibility: visible; }
 
-        .category-btn.active::after {
-            width: 100%;
-        }
+.cat-item { padding: 0.7rem 1rem; text-decoration: none; color: var(--text); border-bottom: 1px solid var(--border); transition: background 0.2s; font-size: 0.9rem; }
+.cat-item:last-child { border-bottom: none; }
+.cat-item:hover { background: rgba(255,255,255,0.1); }
 
-        .featured-news-card {
-            background: var(--card);
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            display: flex;
-            gap: 20px;
-            padding: 20px;
-            align-items: center;
-            margin-bottom: 30px;
-            border-left: 5px solid var(--accent);
-        }
+.desktop-categories {
+  display: none; margin-top: 0.8rem; padding-bottom: 0.5rem; background: rgba(0, 0, 0, 0.1);
+  overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+}
+.desktop-categories::-webkit-scrollbar { display: none; }
 
-        .featured-news-image {
-            width: 40%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 4px;
-            flex-shrink: 0;
-            background: #333;
-        }
+.category-pill { display: inline-block; padding: 0.5rem 1rem; margin-right: 0.5rem; border-radius: 20px; cursor: pointer; white-space: nowrap; border: 1px solid transparent; transition: transform 0.2s, background 0.2s; font-size: 0.85rem; }
 
-        .featured-news-content {
-            flex-grow: 1;
-        }
+.category-pill:hover { transform: scale(1.05); background: rgba(255,255,255,0.1); }
 
-        .featured-news-title {
-            font-size: 28px;
-            margin-top: 0;
-            margin-bottom: 12px;
-            color: var(--text);
-        }
+main { padding: 1rem; max-width: 1200px; margin: 0 auto; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.2rem; }
 
-        .featured-news-date {
-            font-size: 13px;
-            color: var(--accent);
-            margin-bottom: 15px;
-            font-weight: bold;
-        }
+.article-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  color: inherit;
+}
 
-        .featured-news-description {
-            font-size: 16px;
-            color: var(--meta);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
+/* Внутри карточек */
+.article-card * { color: inherit; }
 
-        .read-more-featured {
-            display: inline-block;
-            background: var(--accent);
-            color: #fff;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-            transition: background 0.2s;
-        }
+.card-image {
+  height: 160px;
+  background-color: #333;
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
 
-        .news-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-        }
+.card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+}
 
-        .news-item {
-            display: flex;
-            flex-direction: column;
-            background: var(--card);
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s, box-shadow 0.2s;
-            overflow: hidden;
-            cursor: pointer;
-        }
+.card-category {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--accent-orange);
+  margin-bottom: 0.4rem;
+}
 
-        .news-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
+.card-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
 
-        .news-card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
+.card-date {
+  font-size: 0.75rem;
+  color: rgba(0,0,0,0.6);
+  margin-bottom: 0.6rem;
+}
 
-        .news-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            display: block;
-            background: #333;
-        }
+.card-excerpt {
+  font-size: 0.85rem;
+  flex: 1;
+  color: rgba(0,0,0,0.8);
+}
 
-        .news-content {
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
+body[data-theme="dark"] .card-date,
+body[data-theme="dark"] .card-excerpt {
+  color: rgba(255,255,255,0.8);
+}
 
-        .news-category-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-            z-index: 10;
-        }
-
-        .category-sport { background-color: #ff4757; }
-        .category-politics { background-color: #2f3542; }
-        .category-economy { background-color: #1e90ff; }
-        .category-tech { background-color: #ffa502; }
-        .category-culture { background-color: #a29bfe; }
-        .category-science { background-color: #00d2d3; }
-        .category-world { background-color: #57606f; }
-        .category-other { background-color: #95a5a6; }
-
-        .news-title {
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: var(--text);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .news-date {
-            font-size: 12px;
-            color: var(--accent);
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        .news-description {
-            font-size: 14px;
-            color: var(--meta);
-            margin-bottom: 15px;
-            flex-grow: 1;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        .read-more {
-            display: inline-block;
-            background: var(--accent);
-            color: #fff;
-            padding: 8px 15px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 13px;
-            font-weight: bold;
-            text-align: center;
-            transition: background 0.2s;
-            margin-top: auto;
-        }
-
-        .footer {
-            min-height: 60px;
-            background: var(--footer-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-top: 1px solid var(--accent);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 10px 0;
-            z-index: 1001;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 25px;
-        }
-
-        .social-icons img {
-            width: 36px;
-            height: 36px;
-        }
-
-        #scrollToTop {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: var(--accent);
-            color: #fff;
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s, transform 0.3s;
-        }
-
-        #scrollToTop.visible {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        #top-scroll-indicator {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 0%;
-            height: 4px;
-            background: var(--accent);
-            z-index: 2001;
-        }
-
-        .floating-buttons {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            z-index: 1002;
-        }
-
-        .floating-buttons img {
-            width: 40px;
-            height: 40px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-        }
-
-        .theme-icon {
-            display: block;
-            width: 20px;
-            height: 20px;
-            object-fit: contain;
-        }
-
-        @media (max-width: 768px) {
-            .featured-news-card {
-                flex-direction: column;
-                padding: 15px;
-            }
-            .featured-news-image {
-                width: 100%;
-                height: 200px;
-                margin-bottom: 15px;
-            }
-            .news-grid {
-                grid-template-columns: 1fr;
-                padding: 15px;
-            }
-        }
-    </style>
+/* Мобильные стили не меняются */
+@media (min-width: 768px) {
+  /* уже добавлено: три колонки с разной шириной: 2fr 1fr 1fr */
+  #newsContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+  }
+}
+</style>
 </head>
-<body>
-    <h1 style="display: none;">Актуальные новости Ракурс NEWS</h1>
-    
-    <div id="progress-bar"></div>
+<body data-theme="light">
 
-    <header>
-        <div class="logo-wrapper">
-            <img src="images/logo.png" alt="Logo" onerror="this.style.display='none'">
-            <span id="logo-text">Ракурс NEWS</span>
-        </div>
-        <div class="controls-wrapper">
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="Поиск...">
-                <div id="search-results"></div>
-            </div>
-            <button class="theme-toggle" aria-label="Сменить тему">
-                <img src="assets/images/IMG_20260804_214503.png" alt="Тема" class="theme-icon">
-            </button>
-        </div>
-    </header>
-
-    <div class="categories-panel">
-        <div class="categories-wrapper" id="menu">
-            <button class="category-btn active" data-category="all">Все новости</button>
-            <button class="category-btn" data-category="СВО">СВО</button>
-            <button class="category-btn" data-category="Общество">Общество</button>
-            <button class="category-btn" data-category="Регионы">Регионы</button>
-            <button class="category-btn" data-category="Государство">Государство</button>
-            <button class="category-btn" data-category="Происшествия">Происшествия</button>
-            <button class="category-btn" data-category="Криминал">Криминал</button>
-            <button class="category-btn" data-category="Политика">Политика</button>
-            <button class="category-btn" data-category="Геополитика">Геополитика</button>
-            <button class="category-btn" data-category="Коррупция">Коррупция</button>
-            <button class="category-btn" data-category="Шоу-бизнес">Шоу-бизнес</button>
-            <button class="category-btn" data-category="Спорт">Спорт</button>
-            <button class="category-btn" data-category="Наука">Наука</button>
-            <button class="category-btn" data-category="Стиль">Стиль</button>
-            <button class="category-btn" data-category="Культура">Культура</button>
-        </div>
+<header>
+  <div class="site-title">Ракурс <span style="color:var(--accent-orange)">NEWS</span></div>
+  <div class="header-actions">
+    <form class="search-form" onsubmit="performSearch(event)">
+      <input type="text" class="search-input" id="searchInput" placeholder="Поиск новостей..." />
+      <button type="submit" class="search-btn" aria-label="Поиск">
+        <svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35C17.55 15.4 18 14.3 18 13c0-3.87-3.13-7-7-7s-7 3.13-7 7 3.13 7 7 7c1.3 0 2.4-.45 3.25-1.35L21 21z"/></svg>
+      </button>
+    </form>
+    <button class="theme-btn" id="themeToggleBtn" title="Сменить тему">Тема</button>
+    <div class="cats-btn-container">
+      <button class="cats-btn" id="mobileCatsToggle">
+        Категории
+        <svg viewBox="0 0 24 24" style="width:14px; height:14px;"><path d="M7 10l10 0M7 14l10 0M7 18l10 0"/></svg>
+      </button>
+      <div class="dropdown-menu" id="categoryDropdown">
+        <a href="novosti-russia.html" class="cat-item">Россия</a>
+        <a href="novosti-world.html" class="cat-item">Мир</a>
+        <a href="novosti-politics.html" class="cat-item">Политика</a>
+        <a href="novosti-economy.html" class="cat-item">Экономика</a>
+        <a href="novosti-sport.html" class="cat-item">Спорт</a>
+        <a href="novosti-tech.html" class="cat-item">Технологии</a>
+        <a href="novosti-culture.html" class="cat-item">Культура</a>
+        <a href="novosti-science.html" class="cat-item">Наука</a>
+        <a href="novosti-health.html" class="cat-item">Здоровье</a>
+        <a href="novosti-auto.html" class="cat-item">Авто</a>
+      </div>
     </div>
+  </div>
+</header>
 
-    <div id="top-scroll-indicator"></div>
-
-    <main style="padding-bottom: 100px;">
-        <section class="featured-news">
-            <article class="featured-news-card">
-                <img src="images/featured-1.jpg" alt="Главная новость" class="featured-news-image" onerror="this.src='https://via.placeholder.com/600x400'">
-                <div class="featured-news-content">
-                    <span class="news-category-badge category-society">Общество</span>
-                    <h2 class="featured-news-title">Крупный прорыв: в Бакшеевке запустили Wi‑Fi</h2>
-                    <p class="featured-news-date">25 Октября 2024</p>
-                    <p class="featured-news-description">Местные власти отчитались о настоящем прорыве в цифровизации глубинки. Стабильный сигнал Wi‑Fi теперь доступен на автобусной остановке поселка Бакшеевка.</p>
-                    <a href="news/article-1.html" class="read-more-featured">Читать далее →</a>
-                </div>
-            </article>
-        </section>
-
-        </div>
-    </main>
-
-    <footer class="footer">
-        <div class="social-icons">
-            <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK" onerror="this.style.display='none'"></a>
-            <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram" onerror="this.style.display='none'"></a>
-        </div>
-        <p style="margin-top: 15px; color: var(--meta);">&copy; 2024 Ракурс NEWS</p>
-    </footer>
-
-    <button id="scrollToTop" onclick="scrollToTop()" aria-label="Вернуться наверх" role="button">
-        <svg width="24" height="24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin: auto;">
-            <line x1="12" y1="19" x2="12" y2="5"></line>
-            <polyline points="5 12 12 5 19 12"></polyline>
-        </svg>
-    </button>
-
-    <div class="floating-buttons" id="floatingButtons">
-        <a href="https://vk.ru/rakurs_news" target="_blank"><img src="images/VK.png" alt="VK" onerror="this.style.display='none'"></a>
-        <a href="https://t.me/RAKURS_NEWS_RU" target="_blank"><img src="images/Telegram.png" alt="Telegram" onerror="this.style.display='none'"></a>
+<main id="newsContainer">
+  <article class="article-card" onclick="location.href='novosti-russia.html'">
+    <div class="card-image" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+    <div class="card-body">
+      <div class="card-category">Политика</div>
+      <h2 class="card-title">Саммит G20: ключевые заявления лидеров</h2>
+      <div class="card-date">15 октября 2023</div>
+      <p class="card-excerpt">Лидеры стран G20 обсудили вопросы глобальной экономики, изменения климата и международной безопасности. Особое внимание было уделено координации усилий по борьбе с инфляцией и поддержке развивающихся стран.</p>
     </div>
+  </article>
+  <article class="article-card" onclick="location.href='novosti-tech.html'">
+    <div class="card-image" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+    <div class="card-body">
+      <div class="card-category">Технологии</div>
+      <h2 class="card-title">Новый процессор от ведущего производителя: прорыв в производительности</h2>
+      <div class="card-date">14 октября 2023</div>
+      <p class="card-excerpt">Компания представила новый чип, который обещает увеличить производительность на 40% при снижении энергопотребления. Технология уже готова к массовому производству.</p>
+    </div>
+  </article>
+  <article class="article-card" onclick="location.href='novosti-sport.html'">
+    <div class="card-image" style="background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80');"></div>
+    <div class="card-body">
+      <div class="card-category">Спорт</div>
+      <h2 class="card-title">Финал Лиги чемпионов: напряжённая борьба до последних секунд</h2>
+      <div class="card-date">13 октября 2023</div>
+      <p class="card-excerpt">Матч завершился со счётом 3:2 в пользу хозяев поля. Решающий гол был забит на 90+5 минуте, вызвав бурю эмоций у болельщиков.</p>
+    </div>
+  </article>
+</main>
 
-    <script>
-        const themeToggle = document.querySelector('.theme-toggle');
-        const body = document.body;
-        const scrollBtn = document.getElementById('scrollToTop');
-        const progressBar = document.getElementById('progress-bar');
+<div id="noResults" class="no-results" style="display: none;">
+  Ничего не найдено по вашему запросу.
+</div>
 
-        themeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-theme');
-        });
+<script>
+const themeBtn = document.getElementById('themeToggleBtn');
+const body = document.body;
+const overlay = document.createElement('div');
+overlay.className = 'overlay';
+document.body.appendChild(overlay);
 
-        window.addEventListener('scroll', () => {
-            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-            progressBar.style.width = scrollPercent + '%';
+let isDark = false;
 
-            if (window.scrollY > 300) {
-                scrollBtn.classList.add('visible');
-            } else {
-                scrollBtn.classList.remove('visible');
-            }
-        });
+function setTheme(dark) {
+  isDark = dark;
+  body.setAttribute('data-theme', dark ? 'dark' : 'light');
+}
 
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        }
+function toggleTheme() {
+  setTheme(!isDark);
+}
+setTheme(false);
+themeBtn.addEventListener('click', () => { toggleTheme(); });
+overlay.addEventListener('click', () => { overlay.classList.remove('active'); });
+document.addEventListener('click', (e) => {
+  if (!document.getElementById('categoryDropdown').contains(e.target) && !document.getElementById('mobileCatsToggle').contains(e.target)) {
+    document.getElementById('categoryDropdown').classList.remove('active');
+    overlay.classList.remove('active');
+  }
+});
+const catsToggle = document.getElementById('mobileCatsToggle');
+const categoryDropdown = document.getElementById('categoryDropdown');
+catsToggle.addEventListener('click', (e) => {
+  e.stopPropagation();
+  categoryDropdown.classList.toggle('active');
+  overlay.classList.toggle('active');
+});
+const searchForm = document.querySelector('.search-form');
+searchForm.addEventListener('submit', performSearch);
+const articles = Array.from(document.querySelectorAll('.article-card'));
+const noResults = document.getElementById('noResults');
 
-        document.querySelectorAll('.category-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-                e.target.classList.add('active');
-                const category = e.target.getAttribute('data-category');
-                document.querySelectorAll('.news-item').forEach(item => {
-                    const badge = item.querySelector('.news-category-badge');
-                    if (category === 'all' || (badge && badge.className.includes(category.toLowerCase()))) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
+function performSearch(e) {
+  e.preventDefault();
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+  if (query.length <= 3) {
+    articles.forEach(article => { article.style.display = 'flex'; });
+    noResults.style.display = 'none';
+    return;
+  }
+  const sortedArticles = articles.slice().sort((a, b) => {
+    const dateA = new Date(a.querySelector('.card-date').textContent);
+    const dateB = new Date(b.querySelector('.card-date').textContent);
+    return dateB - dateA;
+  });
+  let found = false;
+  articles.forEach(article => { article.style.display = 'none'; });
+  sortedArticles.forEach(article => {
+    const title = article.querySelector('.card-title').textContent.toLowerCase();
+    if (title.includes(query)) {
+      article.style.display = 'flex';
+      found = true;
+    }
+  });
+  noResults.style.display = found ? 'none' : 'block';
+}
+</script>
+
 </body>
 </html>
-
