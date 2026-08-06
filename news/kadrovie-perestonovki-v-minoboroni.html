@@ -62,77 +62,29 @@
             flex-shrink: 0;
         }
 
-        .search-container {
-            display: flex;
-            align-items: center;
-            margin-left: 15px;
-            flex-grow: 1;
-            justify-content: center;
-        }
-
-        .search-input {
-            padding: 10px 15px;
-            border: 1px solid var(--search-border);
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            font-size: 16px;
-            color: var(--text-color);
-            background-color: var(--background-color);
-            transition: background-color 0.3s, color 0.3s;
-        }
-
         .theme-toggle {
             background: none;
             border: none;
             cursor: pointer;
             font-size: 24px;
-            margin-right: 10px;
             color: var(--logo-color);
             transition: color 0.3s;
             flex-shrink: 0;
+            margin-left: auto; 
         }
 
-        .categories-section {
-            margin-top: 70px;
-            width: 100%;
-            background-color: var(--header-bg);
-            border-bottom: 1px solid var(--divider);
-            padding: 15px 0;
-            box-sizing: border-box;
-        }
-
-        .categories-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .categories-list a {
-            text-decoration: none;
-            color: var(--category-text);
-            font-size: 15px;
-            padding: 8px 12px;
-            transition: color 0.3s, background-color 0.3s;
-            display: inline-block;
-            text-transform: uppercase;
-            font-weight: 500;
-            border-radius: 4px;
-        }
-
-        .categories-list a:hover {
-            color: var(--category-hover-text);
-            background-color: rgba(0,0,0,0.05);
+        @media (min-width: 769px) {
+            .theme-toggle {
+                margin-right: 20px;
+            }
         }
 
         .main-content {
             padding: 30px 20px;
             max-width: 1200px;
             margin: 0 auto;
+            /* Отступ сверху, чтобы контент не наезжал на шапку */
+            margin-top: 110px; 
         }
 
         .article-title {
@@ -196,50 +148,33 @@
 
         @media (max-width: 768px) {
             .logo { font-size: 20px; }
-            .search-container { margin-left: 10px; }
-            .search-input { max-width: 250px; font-size: 14px; }
             .theme-toggle { font-size: 20px; margin-right: 5px; }
-            .categories-list { justify-content: flex-start; padding: 0 10px; }
-            .categories-list a { font-size: 14px; padding: 6px 10px; }
-            .main-content { padding: 20px 10px; }
+            
+            .main-content { 
+                padding: 20px 10px; 
+                margin-top: 90px; 
+            }
+            
             .article-title { font-size: 28px; }
         }
+        
         .short-divider {
-    border: none;
-    border-top: 2px solid #ddd;
-    width: 40%;
-    margin: 30px auto;
-  }
+            border: none;
+            border-top: 2px solid #ddd;
+            width: 40%;
+            margin: 30px auto;
+        }
 
-  /* Чтобы линия подстраивалась под тёмную тему */
-  body.dark-theme .short-divider {
-    border-top-color: #555;
-  }
+        body.dark-theme .short-divider {
+            border-top-color: #555;
+        }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">Ракурс NEWS</div>
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Поиск..." />
-        </div>
         <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
     </header>
-
-    <section class="categories-section">
-        <ul class="categories-list">
-            <li><a href="#все" data-category="all">Все новости</a></li>
-            <li><a href="#общество" data-category="общество">Общество</a></li>
-            <li><a href="#мигранты" data-category="мигранты">Мигранты</a></li>
-            <li><a href="#коррупция" data-category="коррупция">Коррупция</a></li>
-            <li><a href="#криминал" data-category="криминал">Криминал</a></li>
-            <li><a href="#государство" data-category="государство">Государство</a></li>
-            <li><a href="#сво" data-category="сво">СВО</a></li>
-            <li><a href="#стиль" data-category="стиль">Стиль</a></li>
-            <li><a href="#звезды" data-category="звезды">Звёзды</a></li>
-            <li><a href="#спорт" data-category="спорт">Спорт</a></li>
-        </ul>
-    </section>
 
     <main class="main-content">
         <h1 class="article-title">Минобороны: Перестановки ради совершенствования</h1>
@@ -249,9 +184,14 @@
             <span class="category">СВО</span>
         </div>
 
+        <!-- ВОТ ЭТОТ БЛОК НИКУДА НЕ ПРОПАЛ -->
         <div class="article-image-wrapper">
-            <img src="/image/IMG_20260806_084704.webp" alt="Кадровые перестановки в Минобороны России" />
+            <!-- Если картинки нет по пути, покажем заглушку -->
+            <img src="/image/IMG_20260806_084704.webp" 
+                 alt="Кадровые перестановки в Минобороны России" 
+                 onerror="this.src='https://via.placeholder.com/800x400?text=Нет+изображения'" />
         </div>
+        <!-- ----------------------------- -->
 
         <div class="article-body">
             <p>Рядовые перестановки в оборонном ведомстве, призванные "совершенствовать" системы обеспечения, по сути, являются лишь перетасовкой колоды карт. Очередное "улучшение" с перераспределением обязанностей заместителей министра обороны и кадровыми назначениями в ВС РФ, по всей видимости, призвано создать видимость бурной деятельности, пока реальные проблемы остаются нерешенными.</p>
