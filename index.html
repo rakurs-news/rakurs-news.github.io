@@ -4,14 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <!-- SEO: Title -->
     <title>Ракурс NEWS - Ироничный взгляд на актуальные события</title>
     <meta name="description" content="Мы пишем новости в своем ироничном экспертном стиле и анализе новостей. Объективно и с юмором о главном." />
-    
-    <!-- SEO: Каноническая ссылка (ИСПРАВЛЕНО: твой реальный домен) -->
     <link rel="canonical" href="https://rakurs-news.github.io/" />
 
-    <!-- SEO: Микроразметка Organization -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -26,7 +22,6 @@
     }
     </script>
 
-    <!-- SEO: Микроразметка WebSite -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -41,76 +36,202 @@
     }
     </script>
 
-    <!-- Соцсети: Open Graph -->
     <meta property="og:title" content="Ракурс NEWS - Ироничный взгляд на актуальные события" />
     <meta property="og:description" content="Мы пишем новости в своем ироничном экспертном стиле и анализе новостей. Объективно о главном." />
     <meta property="og:image" content="https://rakurs-news.github.io/image/logo.png" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://rakurs-news.github.io" />
     <meta property="og:site_name" content="Ракурс NEWS" />
-
     <meta property="vk:image" content="https://rakurs-news.github.io/image/logo.png" />
 </head>
 <body>
+    <!-- Пустое место над шапкой -->
+    <div style="height: 70px;"></div>
+
     <!-- Шапка сайта -->
     <header class="header">
-        <div class="logo">Ракурс NEWS</div>
-        <div class="search-container">
-            <input type="text" class="search-input" placeholder="Поиск..." />
+        <!-- Блок категорий с горизонтальным скроллом -->
+        <div class="categories-scroll-wrapper">
+            <ul class="categories-list">
+                <li><a href="#" data-category="all">Все новости</a></li>
+                <li><a href="#" data-category="общество">Общество</a></li>
+                <li><a href="#" data-category="мигранты">Мигранты</a></li>
+                <li><a href="#" data-category="коррупция">Коррупция</a></li>
+                <li><a href="#" data-category="криминал">Криминал</a></li>
+                <li><a href="#" data-category="государство">Государство</a></li>
+                <li><a href="#" data-category="сво">СВО</a></li>
+                <li><a href="#" data-category="стиль">Стиль</a></li>
+                <li><a href="#" data-category="звезды">Звёзды</a></li>
+                <li><a href="#" data-category="спорт">Спорт</a></li>
+            </ul>
         </div>
-        <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
-    </header>
 
-    <!-- Секция категорий -->
-    <section class="categories-section" aria-label="Категории новостей">
-        <ul class="categories-list">
-            <li><a href="#" data-category="all">Все новости</a></li>
-            <li><a href="#" data-category="общество">Общество</a></li>
-            <li><a href="#" data-category="мигранты">Мигранты</a></li>
-            <li><a href="#" data-category="коррупция">Коррупция</a></li>
-            <li><a href="#" data-category="криминал">Криминал</a></li>
-            <li><a href="#" data-category="государство">Государство</a></li>
-            <li><a href="#" data-category="сво">СВО</a></li>
-            <li><a href="#" data-category="стиль">Стиль</a></li>
-            <li><a href="#" data-category="звезды">Звёзды</a></li>
-            <li><a href="#" data-category="спорт">Спорт</a></li>
-        </ul>
-    </section>
+        <!-- Нижняя часть шапки: логотип и поиск -->
+        <div class="header-bottom">
+            <div class="logo">Ракурс NEWS</div>
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Поиск..." />
+            </div>
+            <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
+        </div>
+    </header>
 
     <!-- Основной контент -->
     <main class="main-content">
         <h1 class="page-title" style="display:none;">Ракурс NEWS — Новости с иронией</h1>
-        
-        <div class="news-grid" id="news-grid">
-            
-            <!-- Карточка 1: Обычная ссылка -->
-            <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                <!-- Ссылка оборачивает весь контент карточки -->
-                <a href="/news/statya-pro-vazhnoe-sobytie.html" class="news-link" itemprop="url">
-                    <img src="https://via.placeholder.com/300x200?text=Новость+1" alt="Новость про важное событие" itemprop="image" />
-                    <div class="news-card-content">
-                        <h3 class="news-card-title" itemprop="headline">Заголовок первой новости о важном событии</h3>
-                        <p class="news-card-excerpt" itemprop="description">Краткое описание первой новости, которое заинтересовывает читателя и побуждает его перейти к полному тексту статьи.</p>
-                        <div class="news-card-meta" itemprop="datePublished" content="2026-08-05">05.08.2026 | Общество</div>
-                    </div>
-                </a>
-            </article>
-            
-            <!-- Карточка 2: ТВОЯ СТАТЬЯ (ИСПРАВЛЕННАЯ) -->
-            <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                <!-- Прямая ссылка на статью. data-id удалён, он больше не нужен -->
-                <a href="/news/kadrovie-perestonovki-v-minoboroni.html" class="news-link" itemprop="url">
-                    <img src="/image/IMG_20260806_084704.webp" alt="Кадровые перестановки в минобороны" itemprop="image" />
-                    <div class="news-card-content">
-                        <h3 class="news-card-title" itemprop="headline">Минобороны: Перестановки ради "совершенствования"</h3>
-                        <p class="news-card-excerpt" itemprop="description">Рядовые перестановки в оборонном ведомстве, призванные "совершенствовать" системы обеспечения, по сути, являются лишь перетасовкой колоды карт.</p>
-                        <div class="news-card-meta" itemprop="datePublished" content="2026-08-06">06.08.2026 | СВО</div>
-                    </div>
-                </a>
-            </article>
 
-        </div>
+        <!-- Блок "Главное" -->
+        <section class="section-block">
+            <h2 class="section-title">Главное</h2>
+            <div class="news-grid" id="main-news-grid">
+                <!-- Пример карточки 1 -->
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="/news/statya-pro-vazhnoe-sobytie.html" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Главное+1" alt="Новость про важное событие" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Заголовок первой новости о важном событии</h3>
+                            <p class="news-card-excerpt" itemprop="description">Краткое описание первой новости, которое заинтересовывает читателя и побуждает его перейти к полному тексту статьи.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-05">05.08.2026 | Общество</div>
+                        </div>
+                    </a>
+                </article>
+                
+                <!-- Пример карточки 2 -->
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="/news/kadrovie-perestonovki-v-minoboroni.html" class="news-link" itemprop="url">
+                        <img src="/image/IMG_20260806_084704.webp" alt="Кадровые перестановки в минобороны" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Минобороны: Перестановки ради "совершенствования"</h3>
+                            <p class="news-card-excerpt" itemprop="description">Рядовые перестановки в оборонном ведомстве, призванные "совершенствовать" системы обеспечения, по сути, являются лишь перетасовкой колоды карт.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-06">06.08.2026 | СВО</div>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Остальные карточки для блока "Главное" (до 5) -->
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Главное+3" alt="Новость 3" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Третья важная новость</h3>
+                            <p class="news-card-excerpt" itemprop="description">Описание третьей новости для блока Главное.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-07">07.08.2026 | Политика</div>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Главное+4" alt="Новость 4" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Четвертая важная новость</h3>
+                            <p class="news-card-excerpt" itemprop="description">Описание четвертой новости для блока Главное.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-08">08.08.2026 | Экономика</div>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Главное+5" alt="Новость 5" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Пятая важная новость</h3>
+                            <p class="news-card-excerpt" itemprop="description">Описание пятой новости для блока Главное.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-09">09.08.2026 | Технологии</div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Разделительная линия между блоками -->
+        <hr class="short-divider full-width-divider">
+
+        <!-- Блок "Популярное" -->
+        <section class="section-block">
+            <h2 class="section-title">Популярное</h2>
+            <div class="news-grid" id="popular-news-grid">
+                <!-- Пример карточки 1 для Популярного -->
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Популярное+1" alt="Популярная новость 1" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Популярная новость номер один</h3>
+                            <p class="news-card-excerpt" itemprop="description">Эта новость набрала много просмотров и комментариев.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-10">10.08.2026 | Спорт</div>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Пример карточки 2 для Популярного -->
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Популярное+2" alt="Популярная новость 2" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Скандальная новость дня</h3>
+                            <p class="news-card-excerpt" itemprop="description">Новость, которая вызвала бурные обсуждения в сети.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-11">11.08.2026 | Звезды</div>
+                        </div>
+                    </a>
+                </article>
+
+                <!-- Остальные карточки для блока "Популярное" (до 5) -->
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Популярное+3" alt="Популярная новость 3" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Еще одна популярная история</h3>
+                            <p class="news-card-excerpt" itemprop="description">История, которую все обсуждают.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-12">12.08.2026 | Стиль</div>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Популярное+4" alt="Популярная новость 4" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Хит недели</h3>
+                            <p class="news-card-excerpt" itemprop="description">Самая читаемая новость этой недели.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-13">13.08.2026 | Криминал</div>
+                        </div>
+                    </a>
+                </article>
+
+                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
+                    <a href="#" class="news-link" itemprop="url">
+                        <img src="https://via.placeholder.com/300x200?text=Популярное+5" alt="Популярная новость 5" itemprop="image" />
+                        <div class="news-card-content">
+                            <h3 class="news-card-title" itemprop="headline">Тренд недели</h3>
+                            <p class="news-card-excerpt" itemprop="description">Новость, задавшая тренд на неделю.</p>
+                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-14">14.08.2026 | Мигранты</div>
+                        </div>
+                    </a>
+                </article>
+            </div>
+        </section>
+
+        <!-- Разделительная линия после Популярного -->
+        <hr class="short-divider full-width-divider">
     </main>
+
+    <!-- Футер -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>&copy; 2026 Ракурс NEWS. Все права защищены.</p>
+            
+            <div class="social-links">
+                <!-- Telegram -->
+                <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" aria-label="Telegram">
+                    <img src="/image/Telegram.png" alt="Telegram" class="social-icon" />
+                </a>
+                <!-- VK -->
+                <a href="https://vk.ru/rakurs_news" target="_blank" aria-label="ВКонтакте">
+                    <img src="image/VK.png" alt="ВКонтакте" class="social-icon" />
+                </a>
+            </div>
+        </div>
+    </footer>
 
     <style>
         :root {
@@ -148,99 +269,43 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Убираем курсор-руку у карточки, так как ссылка внутри */
-        .news-card {
-            cursor: default; 
-        }
-        
-        /* Стили для ссылки внутри карточки */
-        .news-link {
-            text-decoration: none;
-            color: inherit;
-            display: block; /* Чтобы ссылка занимала всю карточку */
-            height: 100%;
-        }
-
+        /* Стили шапки */
         .header {
-            height: 70px;
-            background-color: var(--header-bg);
-            display: flex;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--divider);
-            box-sizing: border-box;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--logo-color);
-            margin-left: 5px;
-            flex-shrink: 0;
-        }
-
-        .search-container {
-            display: flex;
-            align-items: center;
-            margin-left: 15px;
-            flex-grow: 1;
-            justify-content: center;
-        }
-
-        .search-input {
-            padding: 10px 15px;
-            border: 1px solid var(--search-border);
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-            font-size: 16px;
-            color: var(--text-color);
-            background-color: var(--background-color);
-        }
-
-        .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 24px;
-            margin-right: 10px;
-            color: var(--logo-color);
-            flex-shrink: 0;
-        }
-
-        .categories-section {
-            margin-top: 70px;
+            position: relative;
             width: 100%;
             background-color: var(--header-bg);
             border-bottom: 1px solid var(--divider);
-            padding: 15px 0;
-            box-sizing: border-box;
+        }
+
+        /* Блок горизонтального скролла категорий */
+        .categories-scroll-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 8px 0;
+            scrollbar-width: thin;
         }
 
         .categories-list {
             list-style: none;
-            padding: 0;
             margin: 0;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            padding: 0;
+            display: inline-flex;
+            gap: 12px;
+        }
+
+        .categories-list li {
+            display: inline-block;
         }
 
         .categories-list a {
             text-decoration: none;
             color: var(--category-text);
-            font-size: 15px;
-            padding: 8px 12px;
-            transition: color 0.3s, background-color 0.3s;
-            display: inline-block;
-            text-transform: uppercase;
-            font-weight: 500;
-            border-radius: 4px;
+            font-size: 14px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: all 0.3s;
+            display: block;
         }
 
         .categories-list a:hover {
@@ -248,38 +313,92 @@
             background-color: rgba(0,0,0,0.05);
         }
 
+        /* Нижняя часть шапки: логотип, поиск, тема */
+        .header-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 20px;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--logo-color);
+            cursor: pointer;
+        }
+
+        .search-container {
+            flex-grow: 1;
+            max-width: 400px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--search-border);
+            border-radius: 4px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 22px;
+            color: var(--logo-color);
+        }
+
+        /* Основной контент */
         .main-content {
-            padding: 30px 20px;
+            padding: 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
+        .section-block {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: var(--text-color);
+        }
+
+        /* Сетка новостей */
         .news-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 25px;
         }
 
+        /* Карточка новости */
         .news-card {
             background-color: var(--card-bg);
             border: 1px solid var(--divider);
             overflow: hidden;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            /* cursor: pointer убран, так как ссылка сама обрабатывает клик */
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
         }
 
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        .news-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
         }
 
         .news-card img {
             width: 100%;
             height: 200px;
             object-fit: cover;
-            border-bottom: 1px solid var(--divider);
+            display: block;
         }
 
         .news-card-content {
@@ -292,7 +411,7 @@
         .news-card-title {
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin: 0 0 10px 0;
             line-height: 1.3;
             color: var(--text-color);
         }
@@ -312,20 +431,66 @@
             margin-top: auto;
         }
 
+        /* Разделитель */
+        .short-divider.full-width-divider {
+            border: none;
+            border-top: 2px solid var(--divider);
+            width: 100%;
+            margin: 40px 0;
+            opacity: 0.7;
+        }
+
+        /* Футер */
+        .site-footer {
+            background-color: var(--header-bg);
+            padding: 30px 20px;
+            text-align: center;
+            border-top: 1px solid var(--divider);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-icon {
+            width: 32px;
+            height: 32px;
+            filter: brightness(1);
+        }
+
+        body.dark-theme .social-icon {
+            filter: invert(1);
+        }
+
         @media (max-width: 768px) {
-            .logo { font-size: 20px; }
-            .search-container { margin-left: 10px; }
-            .search-input { max-width: 250px; font-size: 14px; }
-            .theme-toggle { font-size: 20px; margin-right: 5px; }
-            .categories-list { justify-content: flex-start; padding: 0 10px; }
-            .categories-list a { font-size: 14px; padding: 6px 10px; }
-            .main-content { padding: 20px 10px; }
-            .news-grid { grid-template-columns: 1fr; }
+            .header-bottom {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-container {
+                max-width: 100%;
+                margin-top: 10px;
+            }
+
+            .categories-scroll-wrapper::-webkit-scrollbar {
+                height: 6px;
+            }
         }
     </style>
 
     <script>
-        // 1. Переключатель темы (оставлен, он работает отлично)
+        // Переключатель темы
         const themeToggleBtn = document.querySelector('.theme-toggle');
         const body = document.body;
         const savedTheme = localStorage.getItem('theme');
@@ -342,18 +507,17 @@
             themeToggleBtn.textContent = isDarkTheme ? '☀️' : '🌙';
         });
 
-        // 2. Фильтрация по категориям (оставлена, она работает без перезагрузки)
+        // Фильтрация по категориям
         const categoryLinks = document.querySelectorAll('.categories-list a');
         const allNewsCards = document.querySelectorAll('.news-card');
 
         categoryLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                e.preventDefault(); // Не скроллим к якорю #
+                e.preventDefault();
                 const category = link.getAttribute('data-category');
 
                 allNewsCards.forEach(card => {
                     const metaText = card.querySelector('.news-card-meta').textContent;
-                    // Получаем категорию из текста мета (после символа |)
                     const cardCategory = metaText.split('|')[1].trim().toLowerCase();
 
                     if (category === 'all' || category === 'все') {
@@ -367,7 +531,7 @@
             });
         });
 
-        // 3. Поиск по заголовкам (оставлен, работает без перезагрузки)
+        // Поиск по заголовкам
         const searchInput = document.querySelector('.search-input');
         searchInput.addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
