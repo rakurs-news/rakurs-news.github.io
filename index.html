@@ -45,12 +45,11 @@
     <meta property="vk:image" content="https://rakurs-news.github.io/image/logo.png" />
 </head>
 <body>
-    <!-- Пустое место над шапкой -->
-    <div style="height: 70px;"></div>
+    <!-- Убран искусственный пустой блок высотой 70px -->
 
     <!-- Шапка сайта -->
     <header class="header">
-        <!-- Блок категорий с горизонтальным скроллом -->
+        <!-- Блок категорий с горизонтальным скроллом (оставлен, но визуально облегчен) -->
         <div class="categories-scroll-wrapper">
             <ul class="categories-list">
                 <li><a href="#" data-category="all">Все</a></li>
@@ -86,10 +85,10 @@
         <!-- Блок "Главное" -->
         <section class="section-block">
             <h2 class="section-title">Главное</h2>
+
             <div class="news-grid" id="main-news-grid">
                
-               
-                  <!-- Пример карточки 5 -->
+                <!-- Пример карточки 5 -->
                 <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
                     <a href="/news/statya-pro-vazhnoe-sobytie.html" class="news-link" itemprop="url">
                         <img src="https://via.placeholder.com/300x200?text=Главное+1" alt="Новость про важное событие" itemprop="image" />
@@ -149,11 +148,12 @@
                     </a>
                 </article>
 
-        <!-- Разделительная линия между блоками -->
-        <hr class="short-divider full-width-divider">
+        </div> <!-- Закрытие #main-news-grid -->
 
+        <!-- Разделитель заменен на CSS-отступ, hr убран -->
+        
         <!-- Блок "Популярное" -->
-        <section class="section-block">
+        <section class="section-block" style="margin-top: 40px;">
             <h2 class="section-title">Популярное</h2>
             <div class="news-grid" id="popular-news-grid">
 
@@ -204,7 +204,7 @@
                     </a>
                 </article>
 
-                 <!-- Пример карточки 1 для Популярного -->
+                 <!-- Пример карточки 1 для Популярного (оставляем дубль, как просил) -->
                 <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
                     <a href="#" class="news-link" itemprop="url">
                         <img src="https://via.placeholder.com/300x200?text=Популярное+1" alt="Популярная новость 1" itemprop="image" />
@@ -216,8 +216,9 @@
                     </a>
                 </article>
 
-        <!-- Разделительная линия после Популярного -->
-        <hr class="short-divider full-width-divider">
+        </div> <!-- Закрытие #popular-news-grid -->
+    </section>
+
     </main>
 
     <!-- Футер -->
@@ -382,6 +383,17 @@
             gap: 25px;
         }
 
+        /* Для секции «Главное» — первая карточка на 2 колонки */
+        #main-news-grid .news-card:first-child {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 600px) {
+            #main-news-grid .news-card:first-child {
+                grid-column: span 1;
+            }
+        }
+
         /* Карточка новости */
         .news-card {
             background-color: var(--card-bg);
@@ -390,6 +402,11 @@
             border-radius: 8px;
             display: flex;
             flex-direction: column;
+        }
+
+        .news-card:hover {
+            border-color: #007bff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .news-link {
@@ -436,13 +453,25 @@
             margin-top: auto;
         }
 
-        /* Разделитель */
-        .short-divider.full-width-divider {
-            border: none;
-            border-top: 2px solid var(--divider);
-            width: 100%;
-            margin: 40px 0;
-            opacity: 0.7;
+        /* Панель фильтров над сеткой */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--divider);
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .filter-btn.active {
+            background: #007bff;
+            color: #fff;
+            border-color: #007bff;
         }
 
         /* Футер */
@@ -512,27 +541,44 @@
             themeToggleBtn.textContent = isDarkTheme ? '☀️' : '🌙';
         });
 
-        // Фильтрация по категориям
+        // Фильтрация по категориям (работает и для кнопок в шапке, и для нового фильтра)
         const categoryLinks = document.querySelectorAll('.categories-list a');
+        const filterBtns = document.querySelectorAll('.filter-btn');
         const allNewsCards = document.querySelectorAll('.news-card');
+
+        function updateFilter(category) {
+            // Обновляем активные состояния кнопок фильтра
+            filterBtns.forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(filterBtns).find(b => b.getAttribute('data-category') === category || (category === 'all' && b.textContent === 'Все'));
+            if (activeBtn) activeBtn.classList.add('active');
+
+            allNewsCards.forEach(card => {
+                const metaText = card.querySelector('.news-card-meta').textContent;
+                // Берем часть после "|", убираем пробелы, приводим к нижнему регистру
+                const cardCategory = metaText.split('|')[1] ? metaText.split('|')[1].trim().toLowerCase() : '';
+
+                if (category === 'all') {
+                    card.style.display = 'flex';
+                } else if (cardCategory === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
 
         categoryLinks.forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const category = link.getAttribute('data-category');
+                updateFilter(category);
+            });
+        });
 
-                allNewsCards.forEach(card => {
-                    const metaText = card.querySelector('.news-card-meta').textContent;
-                    const cardCategory = metaText.split('|')[1].trim().toLowerCase();
-
-                    if (category === 'all' || category === 'все') {
-                        card.style.display = 'flex';
-                    } else if (cardCategory === category) {
-                        card.style.display = 'flex';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.getAttribute('data-category');
+                updateFilter(category);
             });
         });
 
@@ -552,3 +598,4 @@
     </script>
 </body>
 </html>
+
