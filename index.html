@@ -1,29 +1,55 @@
- 
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ракурс NEWS — Лента новостей</title>
+    <title>Ракурс NEWS — Активные новости: СВО, политика, общество, аналитика</title>
     
     <link rel="icon" href="/image/logo.ico" type="image/x-icon">
     <link rel="shortcut icon" href="/image/logo.ico" type="image/x-icon"> 
     
-    <meta name="description" content="Новости настоящие в авторском ироничном стиле с экспертным взглядом на официальные события. Ракурс NEWS: разбираем, что стоит за заголовками." />
+    <meta name="description" content="Настоящие новости в авторском ироничном стиле с экспертным взглядом на официальные события. Ракурс NEWS: разбираем, что стоит за заголовками." />
     <meta name="keywords" content="новости, лента новостей, аналитика, ироничные новости, Ракурс NEWS, экспертный взгляд" />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Ракурс NEWS — Новости с иронией и экспертизой" />
     <meta property="og:description" content="Свежие новости в авторском стиле: разбираем официальные сводки без лишней паники и с долей иронии." />
-    <meta property="og:url" content="https://rakurs-news/github.io/index.html" />
-    <meta property="og:image" content="https://rakurs-news/github.io/image/logo.png" />
+    <meta property="og:url" content="https://rakurs-news.github.io/" />
+    <meta property="og:image" content="https://rakurs-news.github.io/image/logo.png" />
     <meta property="og:site_name" content="Ракурс NEWS" />
     
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ракурс NEWS — Новости с иронией и экспертизой" />
     <meta name="twitter:description" content="Свежие новости в авторском стиле: разбираем официальные сводки без лишней паники и с долей иронии." />
-    <meta name="twitter:image" content="https://rakurs-news/github.io/image/logo.png" />
+    <meta name="twitter:image" content="https://rakurs-news.github.io/image/logo.png" />
 
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Ракурс NEWS",
+      "url": "https://rakurs-news.github.io/",
+      "logo": "https://rakurs-news.github.io/image/logo.png",
+      "sameAs": [
+        "https://t.me/RAKURS_NEWS_RU",
+        "https://vk.ru/rakurs_news"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Главная",
+          "item": "https://rakurs-news.github.io/"
+        }
+      ]
+    }
+    </script>
 
     <style>
         :root {
@@ -268,20 +294,20 @@
             <div class="logo">Ракурс NEWS</div>
         </div>
         <ul class="categories-list" id="categories">
-            <li><a href="#" data-category="all">Все</a></li>
-            <li><a href="#" data-category="svo">СВО</a></li>
-            <li><a href="#" data-category="migrants">Мигранты</a></li>
-            <li><a href="#" data-category="society">Общество</a></li>
-            <li><a href="#" data-category="corruption">Коррупция</a></li>
-            <li><a href="#" data-category="crime">Криминал</a></li>
-            <li><a href="#" data-category="state">Государство</a></li>
-            <li><a href="#" data-category="politics">Политика</a></li>
-            <li><a href="#" data-category="geopolitics">Геополитика</a></li>
-            <li><a href="#" data-category="world">Мир</a></li>
-            <li><a href="#" data-category="stars">Звёзды</a></li>
-            <li><a href="#" data-category="sport">Спорт</a></li>
-            <li><a href="#" data-category="economy">Экономика</a></li>
-            <li><a href="#" data-category="ukraine">Украина</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=all" data-category="all">Все</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=svo" data-category="svo">СВО</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=migrants" data-category="migrants">Мигранты</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=society" data-category="society">Общество</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=corruption" data-category="corruption">Коррупция</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=crime" data-category="crime">Криминал</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=state" data-category="state">Государство</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=politics" data-category="politics">Политика</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=geopolitics" data-category="geopolitics">Геополитика</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=world" data-category="world">Мир</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=stars" data-category="stars">Звёзды</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=sport" data-category="sport">Спорт</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=economy" data-category="economy">Экономика</a></li>
+            <li><a href="https://rakurs-news.github.io/?category=ukraine" data-category="ukraine">Украина</a></li>
         </ul>
         <div class="search-box"><input type="text" placeholder="Поиск..." /></div>
         <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
@@ -299,7 +325,32 @@
                     <div class="grid-main">
                     
                     <a href="/news/molodaya-mat'-zadushila-svoego-rebenka.html" class="card card-medium" data-category="crime">
-                            <img src="/image/IMG_20260807_161541.webp" alt="мать задушила младенца в красноярске" />
+                            <script type="application/ld+json">
+                            {
+                              "@context": "https://schema.org",
+                              "@type": "NewsArticle",
+                              "headline": "Материнская любовь: крик и петля.",
+                              "image": [
+                                "https://rakurs-news.github.io/image/IMG_20260807_161541.webp"
+                               ],
+                              "datePublished": "2026-08-07T16:26:00+03:00",
+                              "dateModified": "2026-08-07T16:26:00+03:00",
+                              "author": [{
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS"
+                              }],
+                              "publisher": {
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS",
+                                "logo": {
+                                  "@type": "ImageObject",
+                                  "url": "https://rakurs-news.github.io/image/logo.png"
+                                }
+                              },
+                              "description": "Краткое описание новости: Молодая мать задушила своего 3-х месячного ребенка в Красноярске."
+                            }
+                            </script>
+                            <img src="/image/IMG_20260807_161541.webp" alt="Мать задушила младенца в Красноярске" />
                             <div class="card-content">
                                 <span class="tag">Криминал</span>
                                 <h3 class="card-title">Материнская любовь: крик и петля.</h3>
@@ -308,6 +359,31 @@
                         </a>
                     
                     <a href="/news/gorelie-posilki-dlya-ukraincev.html" class="card card-medium" data-category="ukraine">
+                            <script type="application/ld+json">
+                            {
+                              "@context": "https://schema.org",
+                              "@type": "NewsArticle",
+                              "headline": "Посылки с ароматом пепла для украинцев",
+                              "image": [
+                                "https://rakurs-news.github.io/image/IMG_20260807_153530.webp"
+                               ],
+                              "datePublished": "2026-08-07T15:55:00+03:00",
+                              "dateModified": "2026-08-07T15:55:00+03:00",
+                              "author": [{
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS"
+                              }],
+                              "publisher": {
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS",
+                                "logo": {
+                                  "@type": "ImageObject",
+                                  "url": "https://rakurs-news.github.io/image/logo.png"
+                                }
+                              },
+                              "description": "Краткое описание новости: Анализ посылок с пеплом, отправляемых украинцам."
+                            }
+                            </script>
                             <img src="/image/IMG_20260807_153530.webp" alt="Посылки с ароматом пепла для украинцев" />
                             <div class="card-content">
                                 <span class="tag">Украина</span>
@@ -317,6 +393,31 @@
                         </a>
                     
                         <a href="/news/trassa-novorossia-snova-pod-udarom-vsu.html" class="card card-medium" data-category="svo">
+                            <script type="application/ld+json">
+                            {
+                              "@context": "https://schema.org",
+                              "@type": "NewsArticle",
+                              "headline": "Трасса «Новороссия» снова под ударом ВСУ",
+                              "image": [
+                                "https://rakurs-news.github.io/image/IMG_20260807_142403.webp"
+                               ],
+                              "datePublished": "2026-08-07T14:35:00+03:00",
+                              "dateModified": "2026-08-07T14:35:00+03:00",
+                              "author": [{
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS"
+                              }],
+                              "publisher": {
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS",
+                                "logo": {
+                                  "@type": "ImageObject",
+                                  "url": "https://rakurs-news.github.io/image/logo.png"
+                                }
+                              },
+                              "description": "Краткое описание новости: Последствия ударов ВСУ по трассе «Новороссия»."
+                            }
+                            </script>
                             <img src="/image/IMG_20260807_142403.webp" alt="Трасса «Новороссия» снова под ударом всу" />
                             <div class="card-content">
                                 <span class="tag">СВО</span>
@@ -326,6 +427,31 @@
                         </a>
                         
                         <a href="/news/ataka-ukr-bekov-na-yaltu.html" class="card card-medium" data-category="svo">
+                            <script type="application/ld+json">
+                            {
+                              "@context": "https://schema.org",
+                              "@type": "NewsArticle",
+                              "headline": "Атака украинских БЭКов на Ялту",
+                              "image": [
+                                "https://rakurs-news.github.io/image/IMG_20260807_133312.webp"
+                               ],
+                              "datePublished": "2026-08-07T13:45:00+03:00",
+                              "dateModified": "2026-08-07T13:45:00+03:00",
+                              "author": [{
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS"
+                              }],
+                              "publisher": {
+                                "@type": "Organization",
+                                "name": "Ракурс NEWS",
+                                "logo": {
+                                  "@type": "ImageObject",
+                                  "url": "https://rakurs-news.github.io/image/logo.png"
+                                }
+                              },
+                              "description": "Краткое описание новости: Подробности атаки украинских безэкипажных катеров на Ялту."
+                            }
+                            </script>
                             <img src="/image/IMG_20260807_133312.webp" alt="атака украинских бэков на ялту" />
                             <div class="card-content">
                                 <span class="tag">СВО</span>
@@ -335,6 +461,31 @@
                         </a>
                         <div class="cards-right">
                             <a href="/news/cinizm-armenii.html" class="card card-medium" data-category="geopolitics">
+                                <script type="application/ld+json">
+                                {
+                                  "@context": "https://schema.org",
+                                  "@type": "NewsArticle",
+                                  "headline": "Железные дороги Армении: наш подарок, их изоляторы.",
+                                  "image": [
+                                    "https://rakurs-news.github.io/image/IMG_20260807_115148.webp"
+                                   ],
+                                  "datePublished": "2026-08-07T12:01:00+03:00",
+                                  "dateModified": "2026-08-07T12:01:00+03:00",
+                                  "author": [{
+                                    "@type": "Organization",
+                                    "name": "Ракурс NEWS"
+                                  }],
+                                  "publisher": {
+                                    "@type": "Organization",
+                                    "name": "Ракурс NEWS",
+                                    "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://rakurs-news.github.io/image/logo.png"
+                                    }
+                                  },
+                                  "description": "Краткое описание новости: Анализ цинизма Армении в вопросе железных дорог."
+                                }
+                                </script>
                                 <img src="/image/IMG_20260807_115148.webp" alt="Цинизм Армении" />
                                 <div class="card-content">
                                     <span class="tag">Геополитика</span>
@@ -345,6 +496,31 @@
                         </div>
                     </div>
                     <a href="/news/latviya-hochet-vikrast-putina.html" class="card card-hero" data-category="geopolitics">
+                        <script type="application/ld+json">
+                        {
+                          "@context": "https://schema.org",
+                          "@type": "NewsArticle",
+                          "headline": "Путин: Венесуэльский План Латвии – Провал",
+                          "image": [
+                            "https://rakurs-news.github.io/image/IMG_20260807_093044_717.jpg"
+                           ],
+                          "datePublished": "2026-08-07T09:45:00+03:00",
+                          "dateModified": "2026-08-07T09:45:00+03:00",
+                          "author": [{
+                            "@type": "Organization",
+                            "name": "Ракурс NEWS"
+                          }],
+                          "publisher": {
+                            "@type": "Organization",
+                            "name": "Ракурс NEWS",
+                            "logo": {
+                              "@type": "ImageObject",
+                              "url": "https://rakurs-news.github.io/image/logo.png"
+                            }
+                          },
+                          "description": "Майор Латвии предложил «выкрасть» Путина, но сам же признал бессмысленность плана."
+                        }
+                        </script>
                         <img src="/image/IMG_20260807_093044_717.jpg" alt="Главная новость" />
                         <div class="card-content">
                             <span class="tag">Геополитика</span>
@@ -360,6 +536,31 @@
                 <h2 class="section-title">Популярное</h2>
                 <div class="grid-popular">
                     <a href="/news/cinizm-armenii.html" class="card card-small" data-category="geopolitics">
+                        <script type="application/ld+json">
+                        {
+                          "@context": "https://schema.org",
+                          "@type": "NewsArticle",
+                          "headline": "Железные дороги Армении: наш подарок, их изоляторы.",
+                          "image": [
+                            "https://rakurs-news.github.io/image/IMG_20260807_115148.webp"
+                           ],
+                          "datePublished": "2026-08-07T12:01:00+03:00",
+                          "dateModified": "2026-08-07T12:01:00+03:00",
+                          "author": [{
+                            "@type": "Organization",
+                            "name": "Ракурс NEWS"
+                          }],
+                          "publisher": {
+                            "@type": "Organization",
+                            "name": "Ракурс NEWS",
+                            "logo": {
+                              "@type": "ImageObject",
+                              "url": "https://rakurs-news.github.io/image/logo.png"
+                            }
+                          },
+                          "description": "Краткое описание новости: Анализ цинизма Армении в вопросе железных дорог."
+                        }
+                        </script>
                         <img src="/image/IMG_20260807_115148.webp" alt="Цинизм Армении" />
                         <div class="card-content">
                             <span class="tag">Геополитика</span>
@@ -379,12 +580,64 @@
                     <li class="feed-item">
                         
                             <div class="feed-time-block">14:30</div>
-                            <a href="/news/pensioner-obmanul-moshennikov.html" class="feed-link" data-category="society">Пенсионер из Тольятти надул мошенников</a>
+                            <a href="/news/pensioner-obmanul-moshennikov.html" class="feed-link" data-category="society">
+                                <script type="application/ld+json">
+                                {
+                                  "@context": "https://schema.org",
+                                  "@type": "NewsArticle",
+                                  "headline": "Пенсионер из Тольятти надул мошенников",
+                                  "image": [],
+                                  "datePublished": "2026-08-07T14:30:00+03:00",
+                                  "dateModified": "2026-08-07T14:30:00+03:00",
+                                  "author": [{
+                                    "@type": "Organization",
+                                    "name": "Ракурс NEWS"
+                                  }],
+                                  "publisher": {
+                                    "@type": "Organization",
+                                    "name": "Ракурс NEWS",
+                                    "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://rakurs-news.github.io/image/logo.png"
+                                    }
+                                  },
+                                  "description": "Краткое описание новости: История пенсионера, обманувшего мошенников."
+                                }
+                                </script>
+                                Пенсионер из Тольятти надул мошенников
+                            </a>
                         </li>                  
                         <li class="feed-item">
                         
                             <div class="feed-time-block">12:05</div>
-                            <a href="/news/trassa-novorossia-snova-pod-udarom-vsu.html" class="feed-link" data-category="svo">Трасса «Новороссия» снова под ударом всу</a>
+                            <a href="/news/trassa-novorossia-snova-pod-udarom-vsu.html" class="feed-link" data-category="svo">
+                                <script type="application/ld+json">
+                                {
+                                  "@context": "https://schema.org",
+                                  "@type": "NewsArticle",
+                                  "headline": "Трасса «Новороссия» снова под ударом всу",
+                                  "image": [
+                                    "https://rakurs-news.github.io/image/IMG_20260807_142403.webp"
+                                   ],
+                                  "datePublished": "2026-08-07T12:05:00+03:00",
+                                  "dateModified": "2026-08-07T12:05:00+03:00",
+                                  "author": [{
+                                    "@type": "Organization",
+                                    "name": "Ракурс NEWS"
+                                  }],
+                                  "publisher": {
+                                    "@type": "Organization",
+                                    "name": "Ракурс NEWS",
+                                    "logo": {
+                                      "@type": "ImageObject",
+                                      "url": "https://rakurs-news.github.io/image/logo.png"
+                                    }
+                                  },
+                                  "description": "Краткое описание новости: Последствия ударов ВСУ по трассе «Новороссия» (повтор)."
+                                }
+                                </script>
+                                Трасса «Новороссия» снова под ударом всу
+                            </a>
                         </li>
                         <li class="feed-item">
                         
@@ -405,7 +658,8 @@
                     </a>
                 </li>
                 <li class="most-read-item">
-                        <a href="/news/amerika-i-razvedka.html" class="most-read-link" data-category="geopolitics">
+                        <a href="/news/amerika-i-razved 
+ka.html" class="most-read-link" data-category="geopolitics">
                             <span class="eye-icon">👁️</span>
                             <span class="most-read-title">Зачем шпионить: США сливают Украине данные</span>
                         </a>
@@ -490,10 +744,19 @@
         });
     });
 
-    // Изначальная фильтрация при загрузке страницы (показываем все)
-    filterItems('all');
+    // Получаем текущий URL и парсим параметры
+    const urlParams = new URLSearchParams(window.location.search);
+    const initialCategory = urlParams.get('category') || 'all';
+
+    // Активируем нужную категорию в меню
+    const initialCatLink = document.querySelector(`.categories-list a[data-category="${initialCategory}"]`);
+    if (initialCatLink) {
+        initialCatLink.classList.add('active');
+    }
+
+    // Изначальная фильтрация при загрузке страницы
+    filterItems(initialCategory);
 </script>
 
 </body>
 </html>
- 
