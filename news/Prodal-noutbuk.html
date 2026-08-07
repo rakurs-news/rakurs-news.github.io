@@ -168,6 +168,84 @@
         body.dark-theme .short-divider {
             border-top-color: #555;
         }
+
+        /* Карусель стили */
+        .image-gallery {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 20px; /* Добавим отступ снизу */
+        }
+
+        .gallery-container {
+            position: relative;
+            width: 100%;
+            display: flex; /* Используем flex для выравнивания */
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%; /* Ширина контейнера для слайдов */
+        }
+
+        .slide-img {
+            min-width: 100%; /* Каждый слайд занимает всю ширину */
+            box-sizing: border-box;
+            display: block; /* Убираем лишние отступы */
+        }
+
+        .gallery-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 10;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        .indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .indicator-dot.active {
+            background-color: white;
+        }
     </style>
 </head>
 <body>
@@ -232,6 +310,62 @@
             localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
             themeToggleBtn.textContent = isDarkTheme ? '☀️' : '🌙';
         });
+
+        // Карусель
+        const slidesContainer = document.querySelector('.slides');
+        const slideImages = document.querySelectorAll('.slide-img');
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const indicatorsContainer = document.querySelector('.indicators');
+
+        let currentIndex = 0;
+        const totalSlides = slideImages.length;
+
+        // Создание индикаторов
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('indicator-dot');
+            if (i === currentIndex) {
+                dot.classList.add('active');
+            }
+            indicatorsContainer.appendChild(dot);
+        }
+
+        const indicatorDots = document.querySelectorAll('.indicator-dot');
+
+        function goToSlide(index) {
+            if (index < 0) {
+                index = totalSlides - 1;
+            } else if (index >= totalSlides) {
+                index = 0;
+            }
+            currentIndex = index;
+            slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+            updateIndicators();
+        }
+
+        function updateIndicators() {
+            indicatorDots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        prevBtn.addEventListener('click', () => {
+            goToSlide(currentIndex - 1);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            goToSlide(currentIndex + 1);
+        });
+
+        indicatorDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                goToSlide(index);
+            });
+        });
+
+        // Инициализация карусели
+        goToSlide(currentIndex);
     </script>
 </body>
 </html>
