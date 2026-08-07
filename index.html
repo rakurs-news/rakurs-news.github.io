@@ -3,583 +3,460 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
-    <title>Ракурс NEWS — Главные новости с иронией и аторским взглядом</title>
-    <meta name="description" content="Мы пишем новости в своем ироничном экспертном стиле и анализе новостей. Объективно и с юмором о главном." />
-    <link rel="canonical" href="https://rakurs-news.github.io/" />
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Ракурс NEWS",
-      "url": "https://rakurs-news.github.io",
-      "logo": "/image/logo.png",
-      "sameAs": [
-        "https://vk.ru/rakurs_news",
-        "https://t.me/RAKURS_NEWS_RU"
-      ]
-    }
-    </script>
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "url": "https://rakurs-news.github.io",
-      "name": "Ракурс NEWS",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://rakurs-news.github.io/search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }
-    </script>
-
-    <meta property="og:title" content="Ракурс NEWS - Ироничный взгляд на актуальные события" />
-    <meta property="og:description" content="Мы пишем новости в своем ироничном экспертном стиле и анализе новостей. Объективно о главном." />
-    <meta property="og:image" content="https://rakurs-news.github.io/image/logo.png" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rakurs-news.github.io" />
-    <meta property="og:site_name" content="Ракурс NEWS" />
-    <meta property="vk:image" content="https://rakurs-news.github.io/image/logo.png" />
-</head>
-<body>
-    <!-- Шапка сайта -->
-    <header class="header">
-        <div class="categories-scroll-wrapper">
-            <ul class="categories-list">
-                <li><a href="#" data-category="all">Все</a></li>
-                <li><a href="#" data-category="сво">СВО</a></li>
-                <li><a href="#" data-category="политика">Политика</a></li>
-                <li><a href="#" data-category="геополитика">Геополитика</a></li>
-                <li><a href="#" data-category="мир">Мир</a></li>
-                <li><a href="#" data-category="общество">Общество</a></li>
-                <li><a href="#" data-category="мигранты">Мигранты</a></li>
-                <li><a href="#" data-category="коррупция">Коррупция</a></li>
-                <li><a href="#" data-category="криминал">Криминал</a></li>
-                <li><a href="#" data-category="государство">Государство</a></li>
-                <li><a href="#" data-category="стиль">Стиль</a></li>
-                <li><a href="#" data-category="звезды">Звезды</a></li>
-                <li><a href="#" data-category="спорт">Спорт</a></li>
-            </ul>
-        </div>
-
-        <div class="header-bottom">
-            <div class="logo">Ракурс NEWS</div>
-            <div class="search-container">
-                <input type="text" class="search-input" placeholder="Поиск..." />
-            </div>
-            <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
-        </div>
-    </header>
-
-    <!-- Основной контент -->
-    <main class="main-content">
-        <h1 class="page-title" style="display:none;">Ракурс NEWS — Главные новости с иронией и аторским взглядом</h1>
-
-        <!-- Блок "Главное" (стиль РИА: 1 большая + 4 мелкие) -->
-        <section class="section-block">
-            <h2 class="section-title">Главное</h2>
-            
-            <div class="news-grid main-grid" id="main-news-grid">
-                <!-- Большая карточка (1-я) -->
-                <article class="news-card card-large" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="/news/statya-pro-vazhnoe-sobytie.html" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/600x350?text=Главное+1" alt="Главная новость" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Общество</span>
-                            <h3 class="news-card-title" itemprop="headline">Заголовок первой новости о важном событии</h3>
-                            <p class="news-card-excerpt" itemprop="description">Краткое описание первой новости, которое заинтересовывает читателя и побуждает его перейти к полному тексту статьи.</p>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-05">05.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <!-- Мелкие карточки (2–5) -->
-                <article class="news-card card-small" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Главное+2" alt="Новость 2" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Политика</span>
-                            <h3 class="news-card-title" itemprop="headline">Третья важная новость</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-07">07.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="news-card card-small" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Главное+3" alt="Новость 3" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Экономика</span>
-                            <h3 class="news-card-title" itemprop="headline">Четвертая важная новость</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-08">08.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="news-card card-small" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="/news/amerika-i-razvedka.html" class="news-link" itemprop="url">
-                        <img src="/image/5451610519077854170_121.jpg" alt="Кадровые перестановки в минобороны" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Геополитика</span>
-                            <h3 class="news-card-title" itemprop="headline">Зачем шпионить: США сливают Украине данные"</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-06">06.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="news-card card-small" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="/news/kadrovie-perestonovki-v-minoboroni.html" class="news-link" itemprop="url">
-                        <img src="/image/IMG_20260806_084704.webp" alt="Кадровые перестановки в минобороны" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">СВО</span>
-                            <h3 class="news-card-title" itemprop="headline">Минобороны: Перестановки ради "совершенствования"</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-06">06.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-            </div>
-        </section>
-
-        <!-- Разделитель -->
-        <hr class="short-divider full-width-divider">
-
-        <!-- Блок "Популярное" (стиль РИА: сетка 3 в ряд) -->
-        <section class="section-block">
-            <h2 class="section-title">Популярное</h2>
-            <div class="news-grid popular-grid" id="popular-news-grid">
-                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Популярное+1" alt="Популярная новость 1" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Спорт</span>
-                            <h3 class="news-card-title" itemprop="headline">Популярная новость номер один</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-10">10.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Популярное+2" alt="Популярная новость 2" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Звезды</span>
-                            <h3 class="news-card-title" itemprop="headline">Скандальная новость дня</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-11">11.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Популярное+3" alt="Популярная новость 3" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Стиль</span>
-                            <h3 class="news-card-title" itemprop="headline">Еще одна популярная история</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-12">12.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Популярное+4" alt="Популярная новость 4" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Криминал</span>
-                            <h3 class="news-card-title" itemprop="headline">Хит недели</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-13">13.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-
-                 <!-- Дубль по запросу -->
-                <article class="news-card" itemscope itemtype="https://schema.org/NewsArticle">
-                    <a href="#" class="news-link" itemprop="url">
-                        <img src="https://via.placeholder.com/300x200?text=Популярное+1" alt="Популярная новость 1" itemprop="image" />
-                        <div class="news-card-content">
-                            <span class="news-tag">Спорт</span>
-                            <h3 class="news-card-title" itemprop="headline">Популярная новость номер один</h3>
-                            <div class="news-card-meta" itemprop="datePublished" content="2026-08-10">10.08.2026</div>
-                        </div>
-                    </a>
-                </article>
-            </div>
-        </section>
-    </main>
-
-    <!-- Футер -->
-    <footer class="site-footer">
-        <div class="footer-content">
-            <p>&copy; 2026 Ракурс NEWS. Все права защищены.</p>
-            
-            <div class="social-links">
-                <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" aria-label="Telegram">
-                    <img src="/image/Telegram.png" alt="Telegram" class="social-icon" />
-                </a>
-                <a href="https://vk.ru/rakurs_news" target="_blank" aria-label="ВКонтакте">
-                    <img src="/image/VK.png" alt="ВКонтакте" class="social-icon" />
-                </a>
-            </div>
-        </div>
-    </footer>
+    <title>Ракурс NEWS — Стиль RT с оранжевым акцентом</title>
 
     <style>
         :root {
-            --text-color: #000;
-            --background-color: #fff;
-            --header-bg: #f0f0f0;
-            --search-border: #ccc;
-            --card-bg: #f9f9f9;
-            --divider: #e0e0e0;
-            --category-text: #555;
-            --category-hover-text: #000;
-            --logo-color: #333;
-            --search-placeholder: #888;
-            --tag-bg: #eef2f5;
-            --tag-color: #222;
+            --rt-orange: #ff4500;
+            --bg-body: #f4f4f4;
+            --card-bg: #ffffff;
+            --text-main: #111;
+            --text-muted: #666;
+            --border-color: #e0e0e0;
         }
-
         .dark-theme {
-            --text-color: #fff;
-            --background-color: #1a1a1a;
-            --header-bg: #222;
-            --search-border: #444;
-            --card-bg: #2b2b2b;
-            --divider: #333;
-            --category-text: #bbb;
-            --category-hover-text: #fff;
-            --logo-color: #eee;
-            --search-placeholder: #aaa;
-            --tag-bg: #3a3a40;
-            --tag-color: #ddd;
+            --bg-body: #121212;
+            --card-bg: #222222;
+            --text-main: #fff;
+            --text-muted: #aaa;
+            --border-color: #333;
         }
 
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Roboto', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.5;
         }
 
-        /* Шапка */
-        .header {
-            position: relative;
-            width: 100%;
-            background-color: var(--header-bg);
-            border-bottom: 1px solid var(--divider);
+        header {
+            background: var(--card-bg);
+            padding: 0 0 1px 0;
         }
-
-        .categories-scroll-wrapper {
-            width: 100%;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 8px 0;
-        }
-
-        .categories-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: inline-flex;
-            gap: 12px;
-        }
-
-        .categories-list li {
-            display: inline-block;
-        }
-
-        .categories-list a {
-            text-decoration: none;
-            color: var(--category-text);
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            transition: all 0.3s;
-            display: block;
-        }
-
-        .categories-list a:hover {
-            color: var(--category-hover-text);
-            background-color: rgba(0,0,0,0.05);
-        }
-
-        .header-bottom {
+        
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px 15px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 5px 20px;
+            flex-wrap: wrap;
             gap: 15px;
+            position: relative;
+        }
+
+        .accent-line {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 40px;
+            width: 4px;
+            background-color: var(--rt-orange);
+            z-index: 1;
         }
 
         .logo {
+            position: relative;
+            z-index: 2;
+            font-weight: 900;
             font-size: 24px;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 8px;
+        }
+
+        .categories-list {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .categories-list a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            transition: all 0.2s;
+        }
+        .categories-list a:hover, .categories-list a.active {
+            color: var(--rt-orange);
             font-weight: bold;
-            color: var(--logo-color);
-            cursor: pointer;
         }
 
-        .search-container {
-            flex-grow: 1;
-            max-width: 400px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--search-border);
+        .search-box input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
             border-radius: 4px;
-            background-color: var(--background-color);
-            color: var(--text-color);
-            font-size: 16px;
-            box-sizing: border-box;
+            width: 250px;
         }
-
         .theme-toggle {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 22px;
-            color: var(--logo-color);
+            background: none; border: none; cursor: pointer; font-size: 20px; color: var(--text-main);
         }
 
-        .main-content {
-            padding: 20px;
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px 15px;
         }
 
-        .section-block {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: var(--text-color);
-        }
-
-        .news-grid {
+        .layout-grid {
             display: grid;
-            gap: 25px;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
         }
 
-        /* Сетка для блока «Главное» в стиле РИА: 1 большая + 4 мелкие */
-        .main-grid {
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        section { margin-bottom: 40px; }
+        h2.section-title {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            position: relative;
+            padding-left: 10px;
+            font-weight: 700;
+        }
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; 
+            height: 100%; 
+            width: 4px; 
+            background: var(--rt-orange);
         }
 
-        .card-large {
-            grid-column: span 2;
-        }
-
-        @media (max-width: 768px) {
-            .card-large {
-                grid-column: span 1;
-            }
-        }
-
-        /* Сетка для блока «Популярное»: 3 в ряд на десктопе */
-        .popular-grid {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        }
-
-        .news-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--divider);
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
             overflow: hidden;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .news-card:hover {
-            border-color: #007bff;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .news-link {
+            border-radius: 0;
             text-decoration: none;
             color: inherit;
-            display: block;
-            height: 100%;
-        }
-
-        .news-card img {
-            width: 100%;
-            height: auto;
-            object-fit: cover;
-            display: block;
-        }
-
-        .card-large img {
-            height: 350px;
-        }
-
-        .card-small img {
-            height: 200px;
-        }
-
-        .news-card-content {
-            padding: 15px;
-            flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
+        .card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: auto; display: block; }
+        
+        .card-hero img { height: 450px; object-fit: cover; }
+        .card-medium img { height: 280px; object-fit: cover; }
+        .card-small img { height: 180px; object-fit: cover; }
 
-        .news-tag {
-            background-color: var(--tag-bg);
-            color: var(--tag-color);
-            font-size: 11px;
-            text-transform: uppercase;
-            font-weight: 600;
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 8px;
-            width: fit-content;
+        .card-content { padding: 16px; flex-grow: 1; display: flex; flex-direction: column; }
+        .tag {
+            background: #eee; color: #333; font-size: 11px; text-transform: uppercase;
+            padding: 4px 8px; border-radius: 0; display: inline-block; margin-bottom: 8px;
+            border-right: 3px solid var(--rt-orange);
         }
+        .dark-theme .tag { background: #333; color: #ddd; border-right-color: var(--rt-orange); }
+        
+        .card-title { font-size: 20px; font-weight: 700; margin: 0 0 8px 0; line-height: 1.3; color: var(--text-main); }
+        .card-excerpt { font-size: 14px; color: var(--text-muted); margin-bottom: 12px; flex-grow: 1; }
+        .meta { font-size: 12px; color: var(--text-muted); text-align: right; margin-top: auto; }
 
-        .news-card-title {
-            font-size: 18px;
+        .most-read-list { list-style: none; margin: 0; padding: 0; }
+        .most-read-item { margin-bottom: 16px; border-bottom: 1px dashed var(--border-color); padding-bottom: 10px; }
+        .most-read-link {
+            display: flex; align-items: flex-start; gap: 12px; text-decoration: none; color: var(--text-main);
+        }
+        .eye-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+        .most-read-title {
+            font-size: 15px; font-weight: 600; line-height: 1.4;
+        }
+        .most-read-link:hover .most-read-title { color: var(--rt-orange); }
+
+        /* Лента новостей */
+        .feed-wrapper {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0;
+        }
+        .feed-header-bar {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 15px;
+            font-size: 16px;
             font-weight: bold;
-            margin: 0 0 10px 0;
-            line-height: 1.3;
-            color: var(--text-color);
+            text-transform: uppercase;
         }
-
-        .news-card-excerpt {
-            font-size: 14px;
-            color: var(--category-text);
-            line-height: 1.5;
-            margin-bottom: 15px;
-            flex-grow: 1;
+        .feed-items-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
         }
-
-        .news-card-meta {
-            font-size: 12px;
-            color: #888;
-            text-align: right;
-            margin-top: auto;
-        }
-
-        hr.short-divider.full-width-divider {
-            border: 0;
-            height: 1px;
-            background: var(--divider);
-            margin: 40px 0;
-        }
-
-        .site-footer {
-            background-color: var(--header-bg);
-            padding: 30px 20px;
-            text-align: center;
-            border-top: 1px solid var(--divider);
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
+        .feed-item {
+            padding: 15px 15px;
+            border-bottom: 2px solid #d40000;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            gap: 15px;
+            gap: 8px;
+        }
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+        .feed-time-block {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+        .feed-link {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.3;
+            transition: color 0.2s;
+        }
+        .feed-link:hover {
+            color: var(--rt-orange);
         }
 
-        .social-links {
-            display: flex;
-            gap: 20px;
+        footer {
+            background: var(--card-bg); border-top: 1px solid var(--border-color);
+            padding: 30px 0; text-align: center; color: var(--text-muted);
         }
 
-        .social-icon {
-            width: 32px;
-            height: 32px;
-            filter: brightness(1);
-        }
-
-        body.dark-theme .social-icon {
-            filter: invert(1);
-        }
-
-        @media (max-width: 768px) {
-            .header-bottom {
-                flex-direction: column;
-                align-items: stretch;
-            }
+        @media (max-width: 900px) {
+            .layout-grid { grid-template-columns: 1fr; }
+            .header-inner { flex-direction: column; align-items: stretch; }
+            .search-box { width: 100%; }
+            .card-hero img { height: 350px; }
             
-            .search-container {
-                max-width: 100%;
-                margin-top: 10px;
+            .main-column { display: flex; flex-direction: column; }
+            .hero-section { order: 1; width: 100%; margin-bottom: 30px; }
+            .other-sections { order: 2; width: 100%; }
+
+            .hero-section .grid-main {
+                display: block;
+            }
+            .hero-section .card-hero,
+            .hero-section .card-medium {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .hero-section .cards-right {
+                display: block;
             }
 
-            .categories-scroll-wrapper::-webkit-scrollbar {
-                height: 6px;
-            }
-
-            .section-title {
-                font-size: 24px;
+            .other-sections .grid-popular {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
             }
         }
     </style>
+</head>
+<body>
 
-    <script>
-        const themeToggleBtn = document.querySelector('.theme-toggle');
-        const body = document.body;
-        const savedTheme = localStorage.getItem('theme');
+<header>
+    <div class="header-inner">
+        <div style="position: relative;">
+            <div class="accent-line"></div>
+            <div class="logo">Ракурс NEWS</div>
+        </div>
+        <ul class="categories-list" id="categories">
+            <li><a href="#" class="active" data-category="all">Все</a></li>
+            <li><a href="#" data-category="svo">СВО</a></li>
+            <li><a href="#" data-category="politics">Политика</a></li>
+            <li><a href="#" data-category="world">Мир</a></li>
+            <li><a href="#" data-category="society">Общество</a></li>
+            <li><a href="#" data-category="economy">Экономика</a></li>
+        </ul>
+        <div class="search-box"><input type="text" placeholder="Поиск..." /></div>
+        <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
+    </div>
+</header>
 
-        if (savedTheme === 'dark') {
-            body.classList.add('dark-theme');
-            themeToggleBtn.textContent = '☀️';
-        }
+<main class="container">
+    <div class="layout-grid">
+        
+        <div class="main-column">
+            
+            <section class="hero-section">
+    <h2 class="section-title">Главное</h2>
+    <div class="grid-main">
+        <!-- Карточка 1: Главная новость -->
+        <!-- Обратите внимание: <a> теперь является основным контейнером вместо <article> -->
+        <a href="/news/glavnaya-statya.html" class="card card-hero" data-category="society">
+            <img src="https://via.placeholder.com/800x450?text=Главная+новость" alt="Главная новость" />
+            <div class="card-content">
+                <span class="tag">Общество</span>
+                <h3 class="card-title">Крупный заголовок главной новости — акцентный и заметный</h3>
+                <p class="card-excerpt">Развернутое описание для привлечения внимания. Читатель сразу понимает, о чем речь, и хочет перейти к полному тексту.</p>
+                <div class="meta">Сегодня, 10:15</div>
+            </div>
+        </a>
 
-        themeToggleBtn.addEventListener('click', () => {
-            body.classList.toggle('dark-theme');
-            const isDarkTheme = body.classList.contains('dark-theme');
-            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
-            themeToggleBtn.textContent = isDarkTheme ? '☀️' : '🌙';
-        });
+        <div class="cards-right">
+            <!-- Карточка 2 -->
+            <a href="/news/statya-2.html" class="card card-medium" data-category="politics">
+                <img src="https://via.placeholder.com/400x280?text=Новость+2" alt="Новость 2" />
+                <div class="card-content">
+                    <span class="tag">Политика</span>
+                    <h3 class="card-title">Важная новость дня: что происходит прямо сейчас</h3>
+                    <div class="meta">Сегодня, 09:45</div>
+                </div>
+            </a>
+            
+            <!-- Карточка 3 -->
+            <a href="/news/statya-3.html" class="card card-medium" data-category="economy">
+                <img src="https://via.placeholder.com/400x280?text=Новость+3" alt="Новость 3" />
+                <div class="card-content">
+                    <span class="tag">Экономика</span>
+                    <h3 class="card-title">Экономические тренды: чего ждать в ближайшие месяцы</h3>
+                    <div class="meta">Сегодня, 08:30</div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
 
-        const categoryLinks = document.querySelectorAll('.categories-list a');
-        const allNewsCards = document.querySelectorAll('.news-card');
+<section class="other-sections">
+    <h2 class="section-title">Популярное</h2>
+    <div class="grid-popular">
+        <!-- Карточка Популярное 1 -->
+        <a href="#" class="card card-small" data-category="sport">
+            <img src="https://via.placeholder.com/300x180?text=Популярное+1" alt="Популярное 1" />
+            <div class="card-content">
+                <span class="tag">Спорт</span>
+                <h3 class="card-title">Скандальная новость дня: кто виноват и что делать</h3>
+                <div class="meta">Вчера, 18:20</div>
+            </div>
+        </a>
+        
+        <!-- Карточка Популярное 2 -->
+        <a href="#" class="card card-small" data-category="stars">
+            <img src="https://via.placeholder.com/300x180?text=Популярное+2" alt="Популярное 2" />
+            <div class="card-content">
+                <span class="tag">Звезды</span>
+                <h3 class="card-title">Громкий скандал в мире шоу-бизнеса</h3>
+                <div class="meta">Вчера, 17:45</div>
+            </div>
+        </a>
+        
+        <!-- Карточка Популярное 3 -->
+        <a href="#" class="card card-small" data-category="style">
+            <img src="https://via.placeholder.com/300x180?text=Популярное+3" alt="Популярное 3" />
+            <div class="card-content">
+                <span class="tag">Стиль</span>
+                <h3 class="card-title">Тренды сезона: что носить этой осенью</h3>
+                <div class="meta">Вчера, 16:10</div>
+            </div>
+        </a>
+    </div>
+</section>
 
-        function updateFilter(category) {
-            allNewsCards.forEach(card => {
-                const metaText = card.querySelector('.news-card-meta').textContent;
-                const cardCategory = metaText.split('|')[1] ? metaText.split('|')[1].trim().toLowerCase() : '';
+            <section class="other-sections">
+                <h2 class="section-title">Лента новостей</h2>
+                <div class="feed-wrapper">
+                    <div class="feed-header-bar">Лента новостей</div>
+                    <ul class="feed-items-list">
+                        <li class="feed-item">
+                            <div class="feed-time-block">12:05</div>
+                            <a href="/feed/novost-ne-znayu.html" class="feed-link">Взрыв на заводе: первые подробности и кадры с места</a>
+                        </li>
+                        <li class="feed-item">
+    <div class="feed-time-block">11:40</div>
+    <a href="/feed/novost-ne-znayu.html" class="feed-link">Взрыв на заводе: первые подробности и кадры с места</a>
+                        </li>
+                        <li class="feed-item">
+    <div class="feed-time-block">11:40</div>
+    <a href="/feed/novost-ne-znayu.html" class="feed-link">Курс доллара пробил отметку в 95 рублей</a>
+</li>
+<li class="feed-item">
+    <div class="feed-time-block">11:15</div>
+    <a href="/feed/novost-ne-znayu.html" class="feed-link">В регионе объявлено штормовое предупреждение</a>
+</li>
+<li class="feed-item">
+    <div class="feed-time-block">10:50</div>
+    <a href="/feed/novost-ne-znayu.html" class="feed-link">Крупный пожар на складе: площадь возгорания превысила 1000 кв. м</a>
+</li>
+<li class="feed-item">
+    <div class="feed-time-block">10:20</div>
+    <a href="/feed/novost-ne-znayu.html" class="feed-link">ДТП с участием автобуса: есть пострадавшие</a>
+</li>
+</ul>
+</div>
+</section>
+</div>
 
-                if (category === 'all') {
-                    card.style.display = 'flex';
-                } else if (cardCategory === category) {
-                    card.style.display = 'flex';
+<aside class="sidebar">
+    <section>
+        <h2 class="section-title">Самое читаемое сегодня</h2>
+        <ul class="most-read-list">
+            <li class="most-read-item">
+                <a href="/news/amerika-i-razvedka.html" class="most-read-link">
+                    <span class="eye-icon">👁️</span>
+                    <span class="most-read-title">Зачем шпионить: США сливают Украине данные</span>
+                </a>
+            </li>
+            <li class="most-read-item">
+                <a href="/news/kadrovie-perestanovki-v-minoboroni.html" class="most-read-link">
+                    <span class="eye-icon">👁️</span>
+                    <span class="most-read-title">Минобороны: Перестановки ради "совершенствования"</span>
+                </a>
+            </li>
+            <li class="most-read-item">
+                <a href="#" class="most-read-link">
+                    <span class="eye-icon">👁️</span>
+                    <span class="most-read-title">Популярная новость номер один</span>
+                </a>
+            </li>
+            <li class="most-read-item">
+                <a href="#" class="most-read-link">
+                    <span class="eye-icon">👁️</span>
+                    <span class="most-read-title">Еще одна горячая тема дня</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+</aside>
+</div>
+</main>
+
+<footer>
+    <div class="container">
+        <p>&copy; 2026 Ракурс NEWS. Все права защищены.</p>
+    </div>
+</footer>
+
+<script>
+    const themeToggle = document.querySelector('.theme-toggle');
+    const body = document.body;
+    const saved = localStorage.getItem('theme');
+
+    if (saved === 'dark') body.classList.add('dark-theme');
+
+    themeToggle.addEventListener('click', () => {
+        body.classList.toggle('dark-theme');
+        localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+        themeToggle.textContent = body.classList.contains('dark-theme') ? '☀️' : '🌙';
+    });
+
+    const categories = document.querySelectorAll('.categories-list a');
+    const cards = document.querySelectorAll('.card');
+
+    categories.forEach(cat => {
+        cat.addEventListener('click', (e) => {
+            e.preventDefault();
+            categories.forEach(c => c.classList.remove('active'));
+            cat.classList.add('active');
+            const category = cat.getAttribute('data-category');
+
+            cards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+                if (category === 'all' || category === cardCategory) {
+                    card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
                 }
             });
-        }
-
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const category = link.getAttribute('data-category');
-                updateFilter(category);
-            });
         });
+    });
+</script>
 
-        const searchInput = document.querySelector('.search-input');
-        searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase();
-            allNewsCards.forEach(card => {
-                const title = card.querySelector('.news-card-title').textContent.toLowerCase();
-                if (title.includes(searchTerm)) {
-                    card.style.display = 'flex';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
+
