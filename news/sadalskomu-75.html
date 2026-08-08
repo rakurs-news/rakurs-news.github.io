@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Садальскому 75. Злобный гений или актер-самородок? | Ракурс NEWS</title>
+    <style>
+        :root {
+            --text-color: #000;
+            --background-color: #fff;
+            --header-bg: #f0f0f0;
+            --search-border: #ccc;
+            --card-bg: #f9f9f9;
+            --divider: #e0e0e0;
+            --category-text: #555;
+            --category-hover-text: #000;
+            --logo-color: #333;
+            --search-placeholder: #888;
+        }
+
+        .dark-theme {
+            --text-color: #fff;
+            --background-color: #1a1a1a;
+            --header-bg: #222;
+            --search-border: #444;
+            --card-bg: #2b2b2b;
+            --divider: #333;
+            --category-text: #bbb;
+            --category-hover-text: #fff;
+            --logo-color: #eee;
+            --search-placeholder: #aaa;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .header {
+            height: 70px;
+            background-color: var(--header-bg);
+            display: flex;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--divider);
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--logo-color);
+            margin-left: 5px;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: var(--logo-color);
+            transition: color 0.3s;
+            flex-shrink: 0;
+            margin-left: auto; 
+        }
+
+        @media (min-width: 769px) {
+            .theme-toggle {
+                margin-right: 20px;
+            }
+        }
+
+        .main-content {
+            padding: 30px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            /* Отступ сверху, чтобы контент не наезжал на шапку */
+            margin-top: 110px; 
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: var(--category-text);
+            margin-bottom: 25px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .article-image-wrapper {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .article-image-wrapper img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+            border: 1px solid var(--divider);
+        }
+
+        .article-body {
+            font-size: 18px;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .article-body p {
+            margin-bottom: 20px;
+        }
+
+        .back-to-home-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 50px auto 0;
+            padding: 12px 30px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--divider);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .back-to-home-btn:hover {
+            background-color: var(--divider);
+            color: var(--text-color);
+        }
+
+        @media (max-width: 768px) {
+            .logo { font-size: 20px; }
+            .theme-toggle { font-size: 20px; margin-right: 5px; }
+            
+            .main-content { 
+                padding: 20px 10px; 
+                margin-top: 90px; 
+            }
+            
+            .article-title { font-size: 28px; }
+        }
+        
+        .short-divider {
+            border: none;
+            border-top: 2px solid #ddd;
+            width: 40%;
+            margin: 30px auto;
+        }
+
+        body.dark-theme .short-divider {
+            border-top-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Ракурс NEWS</div>
+        <button class="theme-toggle" aria-label="Сменить тему">🌙</button>
+    </header>
+
+    <main class="main-content">
+        <h1 class="article-title">Садальский: Злобный гений или актер-самородок?</h1>
+        
+        <div class="article-meta">
+            <span class="date">08.08.2026</span>
+            <span class="category">Звёзды</span>
+        </div>
+
+        <!-- ВОТ ЭТОТ БЛОК НИКУДА НЕ ПРОПАЛ -->
+        <div class="article-image-wrapper">
+            <!-- Если картинки нет по пути, покажем заглушку -->
+            <img src="/image/IMG_20260808_101046.webp" 
+                 alt="Садальскому 75" 
+                 onerror="this.src='https://via.placeholder.com/800x400?text=Нет+изображения'" />
+        </div>
+        <!-- ----------------------------- -->
+
+        <div class="article-body">
+            <p>Ну что, дождались? Нашему «злому гению» Станиславу Садальскому стукнуло 75. И, как водится, вся страна обсуждает его прошлое, настоящее и, конечно, ту самую «злую» натуру, о которой он сам не стесняется говорить. Родился в глуши, в Чувашии, в семье педагогов, которые, видимо, не смогли привить ему достаточно доброты. Переезды, теснота в 10-метровой комнатке с шестью душами – классика жанра для будущей звезды. А потом – потеря матери в 36 лет. Отец, недолго думая, сплавил детей в школу-интернат. Учеба? Так себе. Зато читать любил и уже тогда, в «Чиполлино», играл помидора. Мечтал стать артистом, наивный.</p>
+                    
+            <p>В Москву с первого раза не попал, видите ли, челюсть мешала. А в Ярославле – та же история. Ну, ничего, разнорабочим на моторный завод устроился, заодно в ДК моторостроителей драму постигал. И вот, в 1969-м, чудо: сразу в ГИТИС и Щукинское! Выбрал ГИТИС, где, как и положено будущему гению, учился на тройки. Только по актерскому мастерству – пятерки. Видимо, там и закладывался фундамент его будущей «злости». В кино дебютировал еще студентом, а настоящая слава пришла после «Трех дней в Москве». Дальше – как по маслу: «Место встречи изменить нельзя», «Вокзал для двоих», «Противостояние». И это только начало.</p>           
+            
+            <p>А еще театр, озвучка, ТВ и, конечно, блог в LiveJournal, который он ведет до сих пор. Пишет для себя, делится воспоминаниями, фотографиями. Говорит, что иногда получается «зло», но потом стыдно. «Я, в принципе, человек злой», – признается он. Ну что ж, Станислав Садальский, с юбилеем! Продолжайте радовать нас своим «злым» гением, а мы будем смотреть и восхищаться. Главное, чтобы стыдно потом не стало.</p>        
+   
+                        <hr class="short-divider">
+
+        </div>
+
+        <a href="/" class="back-to-home-btn">На главную</a>
+    </main>
+
+    <script>
+        const themeToggleBtn = document.querySelector('.theme-toggle');
+        const body = document.body;
+        const savedTheme = localStorage.getItem('theme');
+
+        if (savedTheme === 'dark') {
+            body.classList.add('dark-theme');
+            themeToggleBtn.textContent = '☀️';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('dark-theme');
+            const isDarkTheme = body.classList.contains('dark-theme');
+            localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light');
+            themeToggleBtn.textContent = isDarkTheme ? '☀️' : '🌙';
+        });
+    </script>
+</body>
+</html>
