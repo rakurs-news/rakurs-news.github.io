@@ -545,14 +545,14 @@ card.href = item.url;
 
             newsItems.forEach((news, index) => {
                 const articleCard = document.createElement('a');
-                articleCard.href = `article.html?id=${news.id || '#'}`;
+                articleCard.href = news.url || '#';
                 articleCard.className = 'article-card';
                 articleCard.style.cssText = "text-decoration:none; color:inherit; display:block;";
 
                 // Безопасное получение данных
                 const title = news.title || "Нет заголовка";
                 const desc = news.description || "";
-                const img = news.imageUrl || "path/to/placeholder.jpg";
+                const img = news.imageUrl || "images/to/placeholder.jpg";
 
                 articleCard.innerHTML = `
                     <img src="${img}" alt="${title}" class="card-img-side">
