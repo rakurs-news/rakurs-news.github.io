@@ -394,6 +394,11 @@
         .mt-20 {
             margin-top: 20px;
         }
+        /* Отступ сверху, чтобы поиск встал ровно под фиксированной шапкой */
+.search-container {
+    margin-top: 80px; /* Высота твоей шапки (header { height: 80px; }) */
+}
+
     </style>
 </head>
 <body>
@@ -494,122 +499,154 @@
     </footer>
 
     <script>
-        // --- Логика мобильного меню ---
-        function toggleMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
-        }
+    // 1. ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ КНОПКИ (должна быть видна везде)
+    function performSearch() {
+        const input = document.getElementById('searchInput');
+        if (!input) return;
+        
+        // Принудительно вызываем событие ввода
+        const event = new Event('input', { bubbles: true });
+        input.dispatchEvent(event);
+    }
 
-        window.onclick = function(event) {
-            const menu = document.getElementById('mobileMenu');
-            if (event.target.closest('.burger-btn') === null && event.target !== menu && menu.classList.contains('active')) {
-                menu.classList.remove('active');
+    document.addEventListener('DOMContentLoaded', () => {
+        const contentArea = document.querySelector('.content-area');
+        const sliderContainer = document.getElementById('slider-container');
+        const searchInput = document.getElementById('searchInput');
+        const loadingMsg = document.getElementById('loading-msg');
+
+        let allNews = []; 
+        let isDataLoaded = false; // Флаг: загрузились ли данные
+
+        function renderSlider(newsItems) {
+            if (!sliderContainer) return;
+            sliderContainer.innerHTML = ''; 
+            
+            const itemsToShow = newsItems.slice(0, 5); 
+            if (itemsToShow.length === 0) {
+                sliderContainer.innerHTML = '<p style="color:#999; text-align:center;">Нет новостей</p>';
+                return;
             }
+
+            itemsToShow.forEach(news => {
+                const card = document.createElement('a');
+                card.href = `article.html?id=${news.id}`; 
+                card.className = 'news-card-mini';
+                card.style.cssText = "text-decoration:none; color:inherit; display:block;";
+                
+                card.innerHTML = `
+                    <img src="${news.imageUrl}" alt="${news.title}" class="mini-img">
+                    <div class="mini-overlay">
+                        <div class="mini-title">${news.title}</div>
+                    </div>
+                `;
+                sliderContainer.appendChild(card);
+            });
         }
 
-        // --- Функция для генерации остальных карточек с реальными ссылками ---
-        document.addEventListener('DOMContentLoaded', () => {
-            const contentArea = document.querySelector('.content-area');
-            const sliderContainer = document.getElementById('slider-container');
-            const searchInput = document.getElementById('searchInput');
-            const loadingMsg = document.getElementById('loading-msg');
+        function renderNews(newsItems) {
+            contentArea.innerHTML = ''; 
+            if (newsItems.length === 0) {
+                contentArea.innerHTML = '<p style="text-align:center; color:#888;">Новостей не найдено</p>';
+                return;
+            }
 
-            let allNews = []; 
+            newsItems.forEach((news, index) => {
+                const articleCard = document.createElement('a');
+                articleCard.href = `article.html?id=${news.id}`;
+                articleCard.className = 'article-card';
+                articleCard.style.cssText = "text-decoration:none; color:inherit; display:block;";
+                if (index === 0) articleCard.style.marginTop = '10px';
 
-            // Функция для отрисовки мини-карточек в слайдере (горизонтальная лента)
-            function renderSlider(newsItems) {
-                if (!sliderContainer) return;
-                
-                const itemsToShow = newsItems.slice(0, 5); 
-                
-                if (itemsToShow.length === 0) {
-                    sliderContainer.innerHTML = '<p style="color:#999; width:100%; text-align:center;">Нет новостей для слайдера</p>';
-                    return;
-                }
-
-                sliderContainer.innerHTML = ''; 
-
-                itemsToShow.forEach(news => {
-                    // Каждая карточка в слайдере - это реальная ссылка <a>
-                    const card = document.createElement('a');
-                    card.href = `article.html?id=${news.id}`; 
-                    card.className = 'news-card-mini';
-                    card.style.textDecoration = 'none';
-                    card.style.color = 'inherit';
-                    
-                    card.innerHTML = `
-                        <img src="${news.imageUrl}" alt="${news.title}" class="mini-img">
-                        <div class="mini-overlay">
-                            <div class="mini-title">${news.title}</div>
+                articleCard.innerHTML = `
+                    <img src="${news.imageUrl}" alt="${news.title}" class="card-img-side">
+                    <div class="card-text">
+                        <h3 class="card-title">${news.title}</h3>
+                        <p class="card-desc">${news.description}</p>
+                        <div class="card-meta">
+                            <span>Опубликовано: ${news.publishDate}</span>
+                            <span class="updated-badge">Обновлено:</span>
+                            <span>${news.updateDate}</span>
                         </div>
-                    `;
-                    sliderContainer.appendChild(card);
-                });
-            }
+                    </div>
+                `;
+                contentArea.appendChild(articleCard);
+            });
+        }
 
-            async function loadNews() {
-                try {
-                    const response = await fetch('news.json'); 
-                    if (!response.ok) throw new Error('Не удалось загрузить файл news.json');
-                    
-                    const data = await response.json();
+        async function loadNews() {
+            try {
+                // Пытаемся забрать файл
+                const response = await fetch('news.json'); 
+                if (!response.ok) throw new Error('HTTP ошибка: файл не найден');
+                
+                const data = await response.json();
+
+                // ВАЖНО: Проверяем структуру JSON. 
+                // Твой код ждет data.news. Если там просто массив [], будет ошибка.
+                if (data.news && Array.isArray(data.news)) {
                     allNews = data.news;
-                    renderNews(allNews);      
-                    renderSlider(allNews);    
-                } catch (error) {
-                    console.error('Ошибка:', error);
-                    loadingMsg.textContent = "Ошибка загрузки новостей. Проверьте файл news.json";
-                    loadingMsg.style.color = "red";
+                    isDataLoaded = true; // Данные есть!
+                    console.log('Данные загружены:', allNews.length, 'новостей');
+                } else if (Array.isArray(data)) {
+                    // Если в JSON просто массив без ключа "news"
+                    allNews = data;
+                    isDataLoaded = true;
+                    console.warn('JSON без ключа "news", используем корневой массив');
+                } else {
+                    throw new Error('Неверный формат JSON. Ожидается {"news": [...]} или [...]');
                 }
-            }
 
-            function renderNews(newsItems) {
-                contentArea.innerHTML = ''; 
+                renderNews(allNews);      
+                renderSlider(allNews);    
                 
-                if (newsItems.length === 0) {
-                    contentArea.innerHTML = '<p style="text-align:center; color:#888;">Новостей не найдено</p>';
-                    return;
+                if(loadingMsg) loadingMsg.style.display = 'none';
+
+            } catch (error) {
+                console.error('КРИТИЧЕСКАЯ ОШИБКА ЗАГРУЗКИ:', error);
+                if(loadingMsg) {
+                    loadingMsg.textContent = 'Ошибка: ' + error.message;
+                    loadingMsg.style.color = 'red';
                 }
-
-                newsItems.forEach((news, index) => {
-                    // Каждая обычная карточка - это реальная ссылка <a>
-                    const articleCard = document.createElement('a');
-                    articleCard.href = `article.html?id=${news.id}`;
-                    articleCard.className = 'article-card';
-                    articleCard.style.textDecoration = 'none';
-                    articleCard.style.color = 'inherit';
-                    
-                    if (index === 0) articleCard.style.marginTop = '10px';
-
-                    articleCard.innerHTML = `
-                        <img src="${news.imageUrl}" alt="${news.title}" class="card-img-side">
-                        <div class="card-text">
-                            <h3 class="card-title">${news.title}</h3>
-                            <p class="card-desc">${news.description}</p>
-                            <div class="card-meta">
-                                <span>Опубликовано: ${news.publishDate}</span>
-                                <span class="updated-badge">Обновлено:</span>
-                                <span>${news.updateDate}</span>
-                            </div>
-                        </div>
-                    `;
-                    contentArea.appendChild(articleCard);
-                });
             }
+        }
 
+        // НАСТРОЙКА ПОИСКА
+        if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 const query = e.target.value.toLowerCase().trim();
+
+                // ЕСЛИ ДАННЫЕ ЕЩЕ НЕ ЗАГРУЗИЛИСЬ — НЕ ПЫТАЕМСЯ ИСКАТЬ
+                if (!isDataLoaded) {
+                    return; 
+                }
+
+                // ФИЛЬТРАЦИЯ
                 const filteredNews = allNews.filter(news => 
-                    news.title.toLowerCase().includes(query) || 
-                    news.description.toLowerCase().includes(query)
+                    (news.title && news.title.toLowerCase().includes(query)) || 
+                    (news.description && news.description.toLowerCase().includes(query))
                 );
+
                 renderNews(filteredNews);
                 renderSlider(filteredNews);
             });
+        }
 
-            loadNews();
-        });
-    </script>
+        loadNews();
+    });
+
+    // Логика меню (оставляем как было)
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        if(menu) menu.classList.toggle('active');
+    }
+
+    window.onclick = function(event) {
+        const menu = document.getElementById('mobileMenu');
+        if (menu && event.target.closest('.burger-btn') === null && event.target !== menu && menu.classList.contains('active')) {
+            menu.classList.remove('active');
+        }
+    }
+</script>
 </body>
 </html>
-
