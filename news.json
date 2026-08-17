@@ -2,103 +2,13 @@
   "news": [
     {
       "id": 1,
-      "title": "Пример заголовка Главное",
-      "description": "Краткое описание первой статьи для десктопной версии, раскрывающее суть материала.",
-      "imageUrl": "path/to/card1.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 15:00",
-      "category": "Политика",
-      "url": "kak-kupit-zvezdu.html"
-    },
-    {
-      "id": 2,
-      "title": "Заголовок статьи номер 2",
-      "description": "Краткое описание второй статьи для десктопной версии.",
-      "imageUrl": "path/to/card2.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 15:15",
-      "category": "Экономика",
-      "url": "article2.html"
-    },
-    {
-      "id": 3,
-      "title": "Нароман ёбаный",
-      "description": "Краткое описание третьей статьи для десктопной версии.",
-      "imageUrl": "path/to/card3.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 15:30",
-      "category": "Общество",
-      "url": "article3.html"
-    },
-    {
-      "id": 4,
-      "title": "Заголовок статьи номер 4",
-      "description": "Краткое описание четвертой статьи для десктопной версии.",
-      "imageUrl": "path/to/card4.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 15:45",
-      "category": "Технологии",
-      "url": "article4.html"
-    },
-    {
-      "id": 5,
-      "title": "Заголовок статьи номер 5",
-      "description": "Краткое описание пятой статьи для десктопной версии.",
-      "imageUrl": "path/to/card5.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 16:00",
-      "category": "Культура",
-      "url": "article5.html"
-    },
-    {
-      "id": 6,
-      "title": "Заголовок статьи номер 6",
-      "description": "Краткое описание шестой статьи для десктопной версии.",
-      "imageUrl": "path/to/card6.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 16:15",
-      "category": "Политика",
-      "url": "article6.html"
-    },
-    {
-      "id": 7,
-      "title": "Заголовок статьи номер 7",
-      "description": "Краткое описание седьмой статьи для десктопной версии.",
-      "imageUrl": "path/to/card7.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 16:30",
-      "category": "Геополитика",
-      "url": "article7.html"
-    },
-    {
-      "id": 8,
-      "title": "Заголовок статьи номер 8",
-      "description": "Краткое описание восьмой статьи для десктопной версии.",
-      "imageUrl": "path/to/card8.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 16:45",
-      "category": "Общество",
-      "url": "article8.html"
-    },
-    {
-      "id": 9,
-      "title": "Заголовок статьи номер 9",
-      "description": "Краткое описание девятой статьи для десктопной версии.",
-      "imageUrl": "path/to/card9.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 17:00",
-      "category": "Технологии",
-      "url": "article9.html"
-    },
-    {
-      "id": 10,
-      "title": "Заголовок статьи номер 10",
-      "description": "Краткое описание десятой статьи для десктопной версии.",
-      "imageUrl": "path/to/card10.jpg",
-      "publishDate": "24 Октября 2023",
-      "updateDate": "24 Октября 2023, 17:15",
-      "category": "Культура",
-      "url": "article10.html"
+      "title": "Стрельба в Дагестане",
+      "description": "Дагестан потряс инцидент у Гимринского тоннеля: обычная ночная разборка обернулась покушением.",
+      "imageUrl": "images/IMG_20260817_221223_008.jpg",
+      "publishDate": "17 Августа 2026",
+      "updateDate": "17 Августа 2026, 23:00",
+      "category": "Криминал",
+      "url": "konflikt-i-strelba-v-dagestane.html"
     }
   ]
 }
