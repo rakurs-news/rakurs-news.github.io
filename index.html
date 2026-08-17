@@ -521,7 +521,8 @@
 
             itemsToShow.forEach(news => {
                 const card = document.createElement('a');
-                card.href = `article.html?id=${news.id}`; 
+// Берем готовую ссылку прямо из данных
+card.href = item.url;
                 card.className = 'news-card-mini';
                 card.style.cssText = "text-decoration:none; color:inherit; display:block;";
                 
