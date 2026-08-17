@@ -1,6 +1,16 @@
 {
   "news": [
     {
+      "id": 2,
+      "title": "Полный пиздец",
+      "description": "Реально сайт заебал",
+      "imageUrl": "images/IMG_20260817_221223_008.jpg",
+      "publishDate": "17 Августа 2026",
+      "updateDate": "17 Августа 2026, 23:00",
+      "category": "Криминал",
+      "url": "news/konflikt-i-strelba-v-dagestane.html"
+    },
+    {
       "id": 1,
       "title": "Стрельба в Дагестане",
       "description": "Дагестан потряс инцидент у Гимринского тоннеля: обычная ночная разборка обернулась покушением.",
@@ -8,7 +18,7 @@
       "publishDate": "17 Августа 2026",
       "updateDate": "17 Августа 2026, 23:00",
       "category": "Криминал",
-      "url": "/konflikt-i-strelba-v-dagestane.html"
+      "url": "news/konflikt-i-strelba-v-dagestane.html"
     }
   ]
 }
