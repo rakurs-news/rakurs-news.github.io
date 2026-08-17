@@ -499,16 +499,6 @@
     </footer>
 
     <script>
-    // 1. ГЛОБАЛЬНАЯ ФУНКЦИЯ ДЛЯ КНОПКИ (должна быть видна везде)
-    function performSearch() {
-        const input = document.getElementById('searchInput');
-        if (!input) return;
-        
-        // Принудительно вызываем событие ввода
-        const event = new Event('input', { bubbles: true });
-        input.dispatchEvent(event);
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
         const contentArea = document.querySelector('.content-area');
         const sliderContainer = document.getElementById('slider-container');
@@ -516,13 +506,14 @@
         const loadingMsg = document.getElementById('loading-msg');
 
         let allNews = []; 
-        let isDataLoaded = false; // Флаг: загрузились ли данные
+        let isDataLoaded = false;
 
+        // --- Функции отрисовки ---
         function renderSlider(newsItems) {
             if (!sliderContainer) return;
             sliderContainer.innerHTML = ''; 
-            
             const itemsToShow = newsItems.slice(0, 5); 
+            
             if (itemsToShow.length === 0) {
                 sliderContainer.innerHTML = '<p style="color:#999; text-align:center;">Нет новостей</p>';
                 return;
@@ -535,9 +526,9 @@
                 card.style.cssText = "text-decoration:none; color:inherit; display:block;";
                 
                 card.innerHTML = `
-                    <img src="${news.imageUrl}" alt="${news.title}" class="mini-img">
+                    <img src="${news.imageUrl || 'path/to/placeholder.jpg'}" alt="${news.title || 'No title'}" class="mini-img">
                     <div class="mini-overlay">
-                        <div class="mini-title">${news.title}</div>
+                        <div class="mini-title">${news.title || 'Без заголовка'}</div>
                     </div>
                 `;
                 sliderContainer.appendChild(card);
@@ -547,26 +538,28 @@
         function renderNews(newsItems) {
             contentArea.innerHTML = ''; 
             if (newsItems.length === 0) {
-                contentArea.innerHTML = '<p style="text-align:center; color:#888;">Новостей не найдено</p>';
+                contentArea.innerHTML = '<p style="text-align:center; color:#888;">По вашему запросу ничего не найдено</p>';
                 return;
             }
 
             newsItems.forEach((news, index) => {
                 const articleCard = document.createElement('a');
-                articleCard.href = `article.html?id=${news.id}`;
+                articleCard.href = `article.html?id=${news.id || '#'}`;
                 articleCard.className = 'article-card';
                 articleCard.style.cssText = "text-decoration:none; color:inherit; display:block;";
-                if (index === 0) articleCard.style.marginTop = '10px';
+
+                // Безопасное получение данных
+                const title = news.title || "Нет заголовка";
+                const desc = news.description || "";
+                const img = news.imageUrl || "path/to/placeholder.jpg";
 
                 articleCard.innerHTML = `
-                    <img src="${news.imageUrl}" alt="${news.title}" class="card-img-side">
+                    <img src="${img}" alt="${title}" class="card-img-side">
                     <div class="card-text">
-                        <h3 class="card-title">${news.title}</h3>
-                        <p class="card-desc">${news.description}</p>
+                        <h3 class="card-title">${title}</h3>
+                        <p class="card-desc">${desc}</p>
                         <div class="card-meta">
-                            <span>Опубликовано: ${news.publishDate}</span>
-                            <span class="updated-badge">Обновлено:</span>
-                            <span>${news.updateDate}</span>
+                            <span>Опубликовано: ${news.publishDate || 'Дата неизвестна'}</span>
                         </div>
                     </div>
                 `;
@@ -574,68 +567,83 @@
             });
         }
 
+        // --- Загрузка данных ---
         async function loadNews() {
             try {
-                // Пытаемся забрать файл
                 const response = await fetch('news.json'); 
-                if (!response.ok) throw new Error('HTTP ошибка: файл не найден');
+                if (!response.ok) throw new Error('Файл news.json не найден или ошибка сервера');
                 
                 const data = await response.json();
 
-                // ВАЖНО: Проверяем структуру JSON. 
-                // Твой код ждет data.news. Если там просто массив [], будет ошибка.
+                // Гибкая обработка структуры JSON
                 if (data.news && Array.isArray(data.news)) {
                     allNews = data.news;
-                    isDataLoaded = true; // Данные есть!
-                    console.log('Данные загружены:', allNews.length, 'новостей');
                 } else if (Array.isArray(data)) {
-                    // Если в JSON просто массив без ключа "news"
                     allNews = data;
-                    isDataLoaded = true;
-                    console.warn('JSON без ключа "news", используем корневой массив');
                 } else {
-                    throw new Error('Неверный формат JSON. Ожидается {"news": [...]} или [...]');
+                    throw new Error('Неверный формат JSON. Проверьте файл.');
                 }
 
-                renderNews(allNews);      
-                renderSlider(allNews);    
+                isDataLoaded = true;
+                console.log('Данные загружены:', allNews.length, 'новостей');
+                
+                // Если пользователь уже что-то вводил, пока грузились данные - перерисуем
+                const currentQuery = searchInput ? searchInput.value.toLowerCase().trim() : '';
+                if (currentQuery) {
+                    filterNews(currentQuery);
+                } else {
+                    renderNews(allNews);      
+                    renderSlider(allNews);    
+                }
                 
                 if(loadingMsg) loadingMsg.style.display = 'none';
 
             } catch (error) {
                 console.error('КРИТИЧЕСКАЯ ОШИБКА ЗАГРУЗКИ:', error);
                 if(loadingMsg) {
-                    loadingMsg.textContent = 'Ошибка: ' + error.message;
+                    loadingMsg.textContent = 'Ошибка загрузки новостей: ' + error.message;
                     loadingMsg.style.color = 'red';
                 }
             }
         }
 
-        // НАСТРОЙКА ПОИСКА
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                const query = e.target.value.toLowerCase().trim();
+        // --- Логика поиска ---
+        function filterNews(query) {
+            if (!isDataLoaded) return;
 
-                // ЕСЛИ ДАННЫЕ ЕЩЕ НЕ ЗАГРУЗИЛИСЬ — НЕ ПЫТАЕМСЯ ИСКАТЬ
-                if (!isDataLoaded) {
-                    return; 
-                }
-
-                // ФИЛЬТРАЦИЯ
-                const filteredNews = allNews.filter(news => 
-                    (news.title && news.title.toLowerCase().includes(query)) || 
-                    (news.description && news.description.toLowerCase().includes(query))
-                );
-
-                renderNews(filteredNews);
-                renderSlider(filteredNews);
+            const filtered = allNews.filter(news => {
+                // Проверка на существование полей перед обращением к ним
+                const t = (news.title || '').toLowerCase();
+                const d = (news.description || '').toLowerCase();
+                
+                return t.includes(query) || d.includes(query);
             });
+
+            renderNews(filtered);
+            renderSlider(filtered);
+        }
+
+        if (searchInput) {
+            // 1. Поиск по вводу (основной способ)
+            searchInput.addEventListener('input', (e) => {
+                filterNews(e.target.value.toLowerCase().trim());
+            });
+
+            // 2. Поиск по нажатию Enter (удобно для десктопа)
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    filterNews(e.target.value.toLowerCase().trim());
+                }
+            });
+            
+            // Опционально: блокировать поиск, если данные не загружены
+            // Можно добавить disabled атрибут на input в HTML, пока isDataLoaded === false
         }
 
         loadNews();
     });
 
-    // Логика меню (оставляем как было)
+    // Функция меню
     function toggleMenu() {
         const menu = document.getElementById('mobileMenu');
         if(menu) menu.classList.toggle('active');
@@ -648,5 +656,6 @@
         }
     }
 </script>
+
 </body>
 </html>
