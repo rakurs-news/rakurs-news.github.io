@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Дронопорты: почему ПВО НАТО ждет экономический коллапс — Ракурс NEWS</title>
+    
+    <!-- Open Graph (Facebook, VK, Telegram, WhatsApp) -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://rakurs-news.github.io/news/dronoporti-russii.html"> 
+    <meta property="og:title" content="Дронопорты: почему ПВО НАТО ждет экономический коллапс">
+    <meta property="og:description" content="Массовые дроны меняют правила игры.">
+    <meta property="og:image" content="https://rakurs-news.github.io/images/IMG_20260818_170745_978.jpg"> 
+    <meta property="og:site_name" content="Ракурс NEWS">
+    <link rel="canonical" href="https://rakurs-news.github.io/news/dronoporti-russii.html">
+    <meta name="robots" content="index, follow">
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --header-bg: #f8f9fa;
+            --border-color: #e2e2e2;
+            --accent-color: #d32f2f;
+            --hover-color: #f5f5f5;
+            --font-main: 'Georgia', 'Times New Roman', serif;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1e1e1e;
+            --border-color: #333333;
+            --accent-color: #ef5350;
+            --hover-color: #2b2b2b;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            font-family: var(--font-main); 
+            line-height: 1.7; 
+            overflow-x: hidden; 
+        }
+        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        ul { list-style: none; }
+
+        /* Header & Nav */
+        header { background-color: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+        .logo { font-size: 24px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
+        
+        .theme-toggle { cursor: pointer; padding: 5px 10px; background: transparent; border: 1px solid var(--border-color); color: var(--text-color); font-size: 14px; }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+
+        /* --- BURGER MENU STYLES (ИДЕНТИЧНО ГЛАВНОЙ) --- */
+        .burger { display: block; cursor: pointer; }
+        .burger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+
+        /* --- MOBILE SIDEBAR NAVIGATION (ИДЕНТИЧНО ГЛАВНОЙ) --- */
+        .mobile-nav {
+            position: fixed;
+            top: 60px;
+            left: -280px; /* Скрыто слева */
+            width: 280px;
+            height: calc(100vh - 60px);
+            background-color: var(--header-bg);
+            border-right: 1px solid var(--border-color);
+            transition: left 0.3s ease;
+            padding-top: 20px;
+            flex-direction: column;
+            z-index: 2000;
+        }
+        .mobile-nav.active { left: 0; } /* Класс для открытия */
+
+        .mobile-nav-scroll {
+            overflow-y: auto;
+            max-height: calc(100vh - 80px);
+            padding: 0 10px;
+        }
+        
+        /* Стилизация скроллбара */
+        .mobile-nav-scroll::-webkit-scrollbar { width: 6px; }
+        .mobile-nav-scroll::-webkit-scrollbar-track { background: transparent; }
+        .mobile-nav-scroll::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 20px; }
+
+        /* Двухколоночный макет для мобильного меню */
+        .mobile-cols { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+        .col-1, .col-2 { flex: 1; padding-right: 15px; padding-left: 15px; }
+        .col-divider { width: 1px; height: 100%; background-color: var(--border-color); margin: 10px 0; }
+        .col-title {
+            font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--accent-color); margin-bottom: 15px;
+            border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 5px;
+        }
+
+        .nav-item {
+            display: block; padding: 12px 0; border-bottom: none;
+            font-size: 18px; color: var(--text-color); transition: color 0.2s;
+        }
+        .nav-item:hover { color: var(--accent-color); padding-left: 5px; }
+
+        /* Список категорий в мобильном меню */
+        .categories-list { list-style: none; margin: 0; padding: 0; }
+        .categories-list li { padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+        .categories-list li:last-child { border-bottom: none; }
+        .categories-list a { font-size: 18px; color: var(--text-color); display: block; transition: color 0.2s; }
+        .categories-list a:hover { color: var(--accent-color); }
+
+        /* --- СТИЛИ ДЛЯ СТАТЬИ (ОСТАВЛЕНЫ ТВОИ) --- */
+        .main-content { padding: 40px 0; } 
+
+        .article-header {
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 20px;
+            position: static !important;
+            background-color: transparent;
+        }
+
+        .article-title-big {
+            font-size: 2.8rem;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            position: static !important;
+        }
+        .article-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+            position: static !important;
+        }
+
+        .article-hero-img {
+            width: 100%;
+            height: auto;
+            max-height: 500px;
+            object-fit: cover;
+            display: block;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .article-body { font-size: 1.05rem; }
+        .article-body p { margin-bottom: 1.5rem; }
+        .article-body ul, .article-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
+        .article-body li { margin-bottom: 0.6rem; }
+        .article-body strong { color: var(--accent-color); font-weight: 700; }
+
+        .article-section-title {
+            font-size: 1.1rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            color: var(--text-color);
+            position: static !important;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            font-size: 0.9rem;
+            background: var(--header-bg);
+            display: block;
+            overflow-x: auto;
+        }
+
+        table thead, table tbody, table tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            word-wrap: break-word;
+            vertical-align: top;
+        }
+
+        th {
+            background: #f0f0f0;
+            color: var(--text-color);
+            position: sticky;
+            top: 0;
+        }
+
+        .highlight-box {
+            background: var(--hover-color);
+            border-left: 5px solid var(--accent-color);
+            padding: 20px;
+            margin: 30px 0;
+            font-style: italic;
+            color: #444;
+        }
+
+        footer {
+            background-color: var(--header-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+        .footer-col h4 { font-size: 18px; margin-bottom: 15px; color: var(--text-color); }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col a { color: #555; }
+        .footer-col a:hover { color: var(--accent-color); }
+
+        /* Автор и подписи */
+        .author-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .author-photo-link {
+            display: block;
+            width: 32px;
+            height: 32px;
+        }
+
+        .author-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+
+        .author-name {
+            font-size: 0.85rem;       
+            font-weight: 400;        
+            color: #666;              
+            line-height: 1.2;
+        }
+
+        .article-end-line {
+            height: 1px;
+            background-color: var(--border-color);
+            border: none;
+            margin: 40px 0 0 0;
+            width: 100%;
+        }
+
+        figure {
+            margin: 0;
+            margin-bottom: 35px;
+        }
+
+        figcaption {
+            text-align: left;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 5px;
+            line-height: 1.2;
+        }
+
+        /* Ссылки в статье */
+        .article-body a {
+            color: var(--accent-color);
+            text-decoration: underline;
+            opacity: 0.95;
+        }
+
+        .article-body a:hover {
+            opacity: 1;
+            text-shadow: 0 0 4px rgba(211, 47, 47, 0.4);
+        }
+
+        /* --- RESPONSIVE DESIGN (ИДЕНТИЧНО ГЛАВНОЙ) --- */
+        @media (max-width: 768px) {
+            .articles-grid { grid-template-columns: 1fr; gap: 20px; }
+            .burger { display: block; }
+            .mobile-nav { display: block !important; } 
+            
+            .article-title-big { font-size: 2rem; }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 30px;
+                align-items: flex-start;
+            }
+            
+            .col-divider { display: none; }
+        }
+
+        @media (min-width: 769px) {
+            .burger { display: none !important; }
+            .mobile-nav { display: none !important; }
+        }
+
+        @media (max-width: 400px) {
+            .mobile-cols { flex-direction: column; }
+            .col-1, .col-2 { width: 100%; padding: 0; margin-bottom: 20px; }
+            .col-divider { display: none; }
+        }
+        
+        h2, h3 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+h2 {
+  position: relative;           /* Важно: чтобы позиционировать линию относительно заголовка */
+  padding-left: 15px;           /* Отступ слева, чтобы текст не наезжал на линию */
+  margin-bottom: 10px;          /* Немного воздуха снизу */
+}
+
+h2::before {
+  content: "";                  /* Обязательно: без этого псевдоэлемент не отобразится */
+  position: absolute;           /* Вырываем из потока и ставим точно слева */
+  left: 0;                      /* Прижимаем к левому краю h2 */
+  top: 0;                       /* Выравниваем по верху заголовка */
+  bottom: 0;                    /* Растягиваем до низа заголовка */
+  width: 4px;                   /* Толщина полосы */
+  background-color: #d32f2f;    /* Твой акцентный цвет (замени на нужный) */
+}
+/* Принудительно добавляем большой отступ снизу для списка категорий */
+.categories-list, .category-list {
+    padding-bottom: 100px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Если у тебя есть обертка для скролла, тоже страхуем её */
+.mobile-nav-scroll {
+    padding-bottom: 120px !important; /* Делаем запас с головой */
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">Ракурс NEWS</a>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">🌙 Темная</button>
+                
+                <!-- Иконка бургер меню -->
+                <div class="burger" id="burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Мобильная панель навигации (ИДЕНТИЧНА ГЛАВНОЙ) -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-scroll">
+            <div class="mobile-cols">
+                <div class="col-1">
+                    <h3 class="col-title">Основные разделы</h3>
+                    
+                    <a href="https://rakurs-news.github.io" class="nav-item">Главная</a>
+                    <a href="politics.html" class="nav-item">Политика</a>
+                    <a href="geopolitics.html" class="nav-item">Геополитика</a>
+                    <a href="society.html" class="nav-item">Общество</a>
+                    <a href="crime.html" class="nav-item">Криминал</a>
+                    <a href="corruption.html" class="nav-item">Коррупция</a>
+                    <a href="migration.html" class="nav-item">Мигранты</a>
+                    <a href="state.html" class="nav-item">Государство</a>
+                    <a href="army.html" class="nav-item">Армия</a>
+                    <a href="svo.html" class="nav-item">СВО</a>
+                    <a href="stars.html" class="nav-item">Звезды</a>
+                    <a href="sport.html" class="nav-item">Спорт</a>
+                    <a href="archive.html" class="nav-item">Архив</a>
+                </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <header class="article-header">
+                <h1 class="article-title-big">Дронопорты: почему ПВО НАТО ждет экономический коллапс</h1>
+                <p class="article-subtitle">Массовые дроны меняют правила игры.</p>
+            </header>
+            <div class="author-block">
+                <a href="https://t.me/RAKURS_NEWS_RU" class="author-photo-link" target="_blank" rel="noopener noreferrer">
+                    <img src="/images/my_photo.jpg" alt="Дмитрий Мусиенко" class="author-photo">
+                </a>
+                <span class="author-name">Дмитрий Мусиенко</span>
+            </div>
+            <figure>
+                <img src="/images/IMG_20260818_172835.jpg" alt="Дмитрий Мусиенко" class="article-hero-img">
+                <figcaption>фото © Тг «Военная Хроника»</figcaption>
+            </figure>
+
+            <div class="article-body">
+            
+                <h2>Пока эксперты спорят о технологиях, реальная угроза кроется в математике войны, где один выстрел Patriot стоит дороже завода.</h2>
+                
+                <p>Мир с интересом наблюдает за развитием российских дронопортов, но официальные сводки упорно игнорируют «слона в комнате». Речь не о дальности или скорости изделий, а об элементарной арифметике выживания.</p>
+                
+                <p>Десятилетиями ПВО строилась на логике эксклюзивности: цель дорогая — ракета дорогая. Сегодня этот баланс превратился в финансовый абсурд. Стоимость одной зенитной ракеты превосходит цену целого роя БПЛА в десятки раз. Пока мы обсуждаем «эффективность перехвата», ПВО тихо проигрывает в режиме истощения ресурсов.</p>
+                
+                <p>Иронично, но для победы в современной войне уже не нужно создавать «неуловимый» дрон. Нужно просто сделать его достаточно дешевым, чтобы разорить бюджет противника на этапе подготовки к отражению атаки. Пока НАТО пытается нарастить выпуск элитных комплексов, Россия превращает небо в промышленный конвейер.</p>
+                
+                <p>Суть проста: побеждает не тот, у кого точнее радар, а тот, чей ВПК способен печатать «расходники» быстрее, чем оппонент — счета за их уничтожение. Когда цена защиты превышает стоимость инфраструктуры, доктрины превращаются в красивые бумажки, которые очень удобно использовать для растопки печей.</p>
+                
+                <hr class="article-end-line">
+
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h4>Ракурс NEWS</h4>
+                <p>Экспертный взгляд на главные события дня. Без кликбейта, только факты и аналитика.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Разделы</h4>
+                <ul>
+                    <li><a href="politics.html">Политика</a></li>
+                    <li><a href="geopolitics.html">Геополитика</a></li>
+                    <li><a href="society.html">Общество</a></li>
+                    <li><a href="crime.html">Криминал</a></li>
+                    <li><a href="corruption.html">Коррупция</a></li>
+                    <li><a href="migration.html">Мигранты</a></li>
+                    <li><a href="state.html">Государство</a></li>
+                    <li><a href="army.html">Армия</a></li>
+                    <li><a href="svo.html">СВО</a></li>
+                    <li><a href="stars.html">Звёзды</a></li>
+                    <li><a href="sport.html">Спорт</a></li>
+                    <li><a href="archive.html">Архив</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><a href="mailto:rakurs-news@mail.ru">rakurs-news@mail.ru</a></li>                    
+                    <li><h4>Наши соцсети</h4></li>
+                    <li><a href="https://t.me/RAKURS_NEWS_RU">Телеграм</a></li>
+                    <li><a href="https://vk.ru/rakurs_news">ВКонтакте</a></li>
+                    <li>Россия, Москва</li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+        const burger = document.getElementById('burger');
+        const mobileNav = document.getElementById('mobileNav');
+
+        if (themeToggle) {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️';
+            } else {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙';
+            }
+            themeToggle.addEventListener('click', () => {
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    localStorage.setItem('theme', 'light');
+                    themeToggle.textContent = '🌙';
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    themeToggle.textContent = '☀️';
+                }
+            });
+        }
+
+        if (burger && mobileNav) {
+            burger.addEventListener('click', () => mobileNav.classList.toggle('active'));
+            document.querySelectorAll('.nav-item, .categories-list a').forEach(item => {
+                item.addEventListener('click', () => mobileNav.classList.remove('active'));
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const articleBody = document.querySelector('.article-body');
+            
+            if (articleBody) {
+                articleBody.addEventListener('copy', (event) => {
+                    const selection = window.getSelection();
+                    let textToCopy = selection.toString();
+
+                    if (!textToCopy) return;
+
+                    const disclaimer = 
+                        '\n\n---\nТекст скопирован из сайта «Ракурс NEWS».\n' +
+                        'Если вы берете текст из сайта, упоминайте наш сайт в вашей статье.\n' +
+                        'Источник: https://rakurs-news.github.io';
+
+                    event.clipboardData.setData('text/plain', textToCopy + disclaimer);
+                    event.preventDefault();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
