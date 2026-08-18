@@ -6,8 +6,8 @@
     
     <!-- Meta для SEO -->
     <title>Ракурс NEWS | Экспертный разбор новостей простым языком</title>
+    <!-- Убрал дублирующийся meta description, оставил один лучший вариант -->
     <meta name="description" content="Не просто новости, а их разбор: Ракурс NEWS показывает, что стоит за заголовками. Геополитика, СВО, экономика и политика — простыми словами, с фактами и логикой.">
-    <meta name="description" content="Ракурс NEWS: профессиональный разбор официальных новостей. Аналитика, СВО, политика, армия и геополитика простым языком.">
     <meta name="keywords" content="новости, аналитика, разбор новостей, Ракурс, политика, СВО, армия">
     <meta name="robots" content="index, follow">
     
@@ -21,7 +21,93 @@
 
     <!-- Подключение стилей и скриптов -->
     <link rel="stylesheet" href="style.css">
+    <!-- defer гарантирует, что скрипт запустится после загрузки HTML -->
     <script src="script.js" defer></script>
+
+    <style>
+        /* --- Стили кнопки "Наверх" и анимации --- */
+        #scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;       /* Фиксированный размер */
+    height: 50px;      /* Фиксированный размер */
+    background-color: #1e293b;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;       /* Центрирование по вертикали */
+    justify-content: center;   /* Центрирование по горизонтали */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 9999;
+    overflow: visible;
+    padding: 0;                 /* ВАЖНО: убираем внутренние отступы */
+    margin: 0;                  /* ВАЖНО: убираем внешние отступы */
+}
+
+#scrollTopBtn.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+#scrollTopBtn:hover {
+    background-color: #334155;
+    transform: scale(1.1) translateY(0);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Сама стрелка */
+#scrollTopBtn svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    z-index: 10;               /* Чтобы стрелка была поверх кругов */
+    position: relative;        /* Чтобы z-index сработал */
+}
+
+/* --- ИСПРАВЛЕННАЯ АНИМАЦИЯ КРУГОВ --- */
+.pulse-ring {
+    position: absolute;
+    /* Границы делаем полупрозрачными, цвет как у шапки */
+    border: 2px solid #1e293b; 
+    border-radius: 50%;
+    animation: pulse-animation 2s infinite;
+    
+    /* МАГИЯ ЦЕНТРИРОВАНИЯ: */
+    top: 50%;                  /* Сдвигаем верх круга на 50% высоты кнопки */
+    left: 50%;                 /* Сдвигаем левый край круга на 50% ширины кнопки */
+    transform: translate(-50%, -50%); /* Компенсируем собственный размер круга, возвращая центр точно в центр кнопки */
+    
+    opacity: 0.6;
+    pointer-events: none;      /* Чтобы круги не перехватывали клики */
+    z-index: 1;                /* Круги под стрелкой */
+}
+
+/* Размеры и задержки для трех колец */
+#scrollTopBtn .pulse-ring:nth-child(1) { width: 40px; height: 40px; animation-delay: 0s; }
+#scrollTopBtn .pulse-ring:nth-child(2) { width: 60px; height: 60px; animation-delay: 0.4s; }
+#scrollTopBtn .pulse-ring:nth-child(3) { width: 80px; height: 80px; animation-delay: 0.8s; }
+
+@keyframes pulse-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(0.5); /* Важно: сохраняем центрирование при скейле */
+        opacity: 0.8;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0;
+    }
+}
+    </style>
 </head>
 <body>
 
@@ -103,6 +189,19 @@
             </div>
         </div>
     </footer>
+
+    <!-- Кнопка "Наверх" с анимацией -->
+    <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Наверх">
+        <!-- Расходящиеся круги (анимация в CSS) -->
+        <span class="pulse-ring"></span>
+        <span class="pulse-ring"></span>
+        <span class="pulse-ring"></span>
+        <!-- Стрелка -->
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="12 5 12 19"></polyline>
+            <polyline points="5 12 12 5 19 12"></polyline>
+        </svg>
+    </button>
 
 </body>
 </html>

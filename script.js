@@ -1,5 +1,3 @@
-// script.js
-
 const newsContainer = document.getElementById('news-container');
 const searchInput = document.getElementById('searchInput');
 const loader = document.getElementById('loader');
@@ -11,27 +9,67 @@ let currentPage = 0;
 const itemsPerPage = 10;
 let isLoading = false;
 
-// Загрузка данных из JSON
+// ---------------------------------------------------------
+// 1. ЗАГРУЗКА ДАННЫХ
+// ---------------------------------------------------------
 async function loadNews() {
     try {
         const response = await fetch('news.json');
-        if (!response.ok) throw new Error('Ошибка загрузки новостей');
+        if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
+        
         allNews = await response.json();
+        console.log('✅ Данные загружены:', allNews.length, 'новостей');
         renderNews();
     } catch (error) {
-        console.error(error);
-        newsContainer.innerHTML = '<p>Не удалось загрузить новости</p>';
+        console.error('❌ Ошибка загрузки:', error);
+        newsContainer.innerHTML = `<p style="color:red; padding:20px;">Ошибка загрузки news.json. Проверь консоль (F12).</p>`;
     }
 }
 
-// Рендеринг карточек
+// ---------------------------------------------------------
+// 2. РЕНДЕР И ФИЛЬТРАЦИЯ (ГЛАВНАЯ ЛОГИКА)
+// ---------------------------------------------------------
 function renderNews() {
     const start = currentPage * itemsPerPage;
     const end = start + itemsPerPage;
-    const pageItems = allNews.slice(start, end);
+    
+    // Получаем имя текущего файла (например, state.html, svo.html)
+    const currentFileName = window.location.pathname.split('/').pop();
+    
+    let filteredNews = allNews;
 
-    if (pageItems.length === 0) {
+    // --- МАПИНГ: Файл -> Категория ---
+    // Если файл совпадает, фильтруем новости по этой категории
+    if (currentFileName === 'svo.html') {
+        filteredNews = allNews.filter(item => item.category === 'СВО');
+    } 
+    else if (currentFileName === 'army.html') {
+        filteredNews = allNews.filter(item => item.category === 'Армия');
+    } 
+    else if (currentFileName === 'state.html') {
+        filteredNews = allNews.filter(item => item.category === 'Государство');
+    } 
+    else if (currentFileName === 'politics.html') {
+        filteredNews = allNews.filter(item => item.category === 'Политика');
+    } 
+    else if (currentFileName === 'geopolitics.html') {
+        filteredNews = allNews.filter(item => item.category === 'Геополитика');
+    } 
+    else if (currentFileName === 'world.html') {
+        filteredNews = allNews.filter(item => item.category === 'Мир');
+    } 
+    else if (currentFileName === 'crime.html') {
+        filteredNews = allNews.filter(item => item.category === 'Криминал');
+    }
+    // Если ни одно условие не подошло (например, index.html), показываем ВСЕ новости
+
+    console.log(`📄 Страница: ${currentFileName} | Показано: ${filteredNews.length} новостей`);
+
+    const pageItems = filteredNews.slice(start, end);
+
+    if (pageItems.length === 0 && currentPage === 0) {
         loader.style.display = 'none';
+        newsContainer.innerHTML = '<p style="padding: 20px; color: #64748b;">Новостей по этой категории пока нет.</p>';
         return;
     }
 
@@ -40,31 +78,20 @@ function renderNews() {
         card.className = 'news-card';
         card.style.animationDelay = `${index * 0.1}s`;
         
-        // Форматирование даты
         const dateObj = new Date(item.date);
         const formattedDate = dateObj.toLocaleString('ru-RU', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
+            day: 'numeric', month: 'long', year: 'numeric'
         });
 
         card.innerHTML = `
-            <img src="${item.image}" alt="${item.title}" class="news-image">
             <div class="card-body">
-                <div class="card-date">${formattedDate}</div>
+                <span class="card-date">${formattedDate}</span>
                 <h3 class="card-title">${item.title}</h3>
                 <p class="card-description">${item.description}</p>
             </div>
         `;
         
-        // Клик по карточке - имитация перехода на страницу статьи
-        card.addEventListener('click', () => {
-            alert(`Переход на статью: ${item.title}`);
-            // Здесь должна быть логика window.location.href = `/article/${item.id}`;
-        });
-
+        card.addEventListener('click', () => alert(`Переход: ${item.title}`));
         newsContainer.appendChild(card);
     });
 
@@ -73,25 +100,45 @@ function renderNews() {
     checkLoaderVisibility();
 }
 
-// Бесконечная лента
+// ---------------------------------------------------------
+// 3. БЕСКОНЕЧНАЯ ЛЕНТА (ПОДГРУЗКА)
+// ---------------------------------------------------------
 function checkLoaderVisibility() {
     const lastNewsCard = document.querySelector('.news-card:last-child');
     if (!lastNewsCard) return;
 
-    const options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-    };
+    const options = { root: null, rootMargin: '0px', threshold: 0.1 };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-            if (entry.isIntersecting && !isLoading && currentPage * itemsPerPage < allNews.length) {
-                loader.style.display = 'block';
-                isLoading = true;
-                setTimeout(() => {
-                    renderNews();
-                }, 500); // Имитация задержки сети
+            if (entry.isIntersecting && !isLoading) {
+                const currentFileName = window.location.pathname.split('/').pop();
+                let totalCount = allNews.length; // По умолчанию все
+
+                // Повторяем ту же логику, чтобы узнать ОБЩИЙ размер отфильтрованного списка
+                if (currentFileName === 'svo.html') {
+                    totalCount = allNews.filter(i => i.category === 'СВО').length;
+                } else if (currentFileName === 'army.html') {
+                    totalCount = allNews.filter(i => i.category === 'Армия').length;
+                } else if (currentFileName === 'state.html') {
+                    totalCount = allNews.filter(i => i.category === 'Государство').length;
+                } else if (currentFileName === 'politics.html') {
+                    totalCount = allNews.filter(i => i.category === 'Политика').length;
+                } else if (currentFileName === 'geopolitics.html') {
+                    totalCount = allNews.filter(i => i.category === 'Геополитика').length;
+                } else if (currentFileName === 'world.html') {
+                    totalCount = allNews.filter(i => i.category === 'Мир').length;
+                } else if (currentFileName === 'crime.html') {
+                    totalCount = allNews.filter(i => i.category === 'Криминал').length;
+                }
+
+                if (currentPage * itemsPerPage < totalCount) {
+                    loader.style.display = 'block';
+                    isLoading = true;
+                    setTimeout(() => renderNews(), 500);
+                } else {
+                    loader.style.display = 'none';
+                }
             }
         });
     }, options);
@@ -99,42 +146,68 @@ function checkLoaderVisibility() {
     observer.observe(lastNewsCard);
 }
 
-// Поиск
-searchInput.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase();
-    const cards = document.querySelectorAll('.news-card');
-    
-    cards.forEach(card => {
-        const title = card.querySelector('.card-title').textContent.toLowerCase();
-        const desc = card.querySelector('.card-description').textContent.toLowerCase();
+// ---------------------------------------------------------
+// 4. ПОИСК (ПОИСК ПО ТЕКСТУ)
+// ---------------------------------------------------------
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        const cards = document.querySelectorAll('.news-card');
         
-        if (query.length >= 3 && (title.includes(query) || desc.includes(query))) {
-            card.style.display = 'block';
-            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        } else if (query.length < 3) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
+        cards.forEach(card => {
+            const title = card.querySelector('.card-title').textContent.toLowerCase();
+            const desc = card.querySelector('.card-description').textContent.toLowerCase();
+            
+            if (query.length >= 3 && (title.includes(query) || desc.includes(query))) {
+                card.style.display = 'block';
+            } else if (query.length < 3) {
+                card.style.display = 'block'; // Если пусто или мало букв - показываем всё
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+}
+
+// ---------------------------------------------------------
+// 5. МОБИЛЬНОЕ МЕНЮ
+// ---------------------------------------------------------
+if (burgerBtn && mobileMenu) {
+    burgerBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('active');
+        const spans = burgerBtn.querySelectorAll('span');
+        spans.forEach(span => span.style.backgroundColor = mobileMenu.classList.contains('active') ? '#ff0000' : '#fff');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+            mobileMenu.classList.remove('active');
+            const spans = burgerBtn.querySelectorAll('span');
+            spans.forEach(span => span.style.backgroundColor = '#fff');
         }
+    });
+}
+
+// ---------------------------------------------------------
+// 6. КНОПКА "НАВЕРХ"
+// ---------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (!scrollTopBtn) return;
+
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    });
+
+    scrollTopBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        scrollTopBtn.classList.remove('visible');
     });
 });
 
-// Мобильное меню
-burgerBtn.addEventListener('click', () => {
-    mobileMenu.classList.toggle('active');
-    // Инверсия цвета полосок для эффекта крестика (опционально)
-    const spans = burgerBtn.querySelectorAll('span');
-    spans.forEach(span => span.style.backgroundColor = mobileMenu.classList.contains('active') ? '#ff0000' : '#fff');
-});
-
-// Закрытие меню при клике вне его
-document.addEventListener('click', (e) => {
-    if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
-        mobileMenu.classList.remove('active');
-        const spans = burgerBtn.querySelectorAll('span');
-        spans.forEach(span => span.style.backgroundColor = '#fff');
-    }
-});
-
-// Инициализация
+// ЗАПУСК
 loadNews();
