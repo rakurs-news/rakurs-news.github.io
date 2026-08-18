@@ -653,7 +653,7 @@ function showError(msg) {
 
 async function fetchData() {
     try {
-        const response = await fetch('articles.json');
+        const response = await fetch('news.json');
         if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
         
         const text = await response.text();
