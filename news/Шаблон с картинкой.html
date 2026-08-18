@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta для SEO -->
+    <title>Ракурс NEWS | Детальный разбор новости</title>
+    <meta name="description" content="Ракурс NEWS: профессиональный разбор официальных новостей. Аналитика, СВО, политика, армия и геополитика простым языком.">
+    <meta name="keywords" content="новости, аналитика, разбор новостей, Ракурс, политика, СВО, армия">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Ракурс NEWS — Экспертный разбор новостей">
+    <meta property="og:description" content="Профессиональный взгляд на официальные новости. Простой язык, глубокий анализ.">
+    <meta property="og:url" content="https://example.com">
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/2c3e50/fff?text=Rakurs+NEWS">
+    <meta property="og:site_name" content="Ракурс NEWS">
+
+    <style>
+        /* --- Сброс и Базовые стили --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica Neue', 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- Шапка --- */
+        .site-header {
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .site-title {
+            font-weight: 900;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 300px;
+            margin: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 15px 8px 40px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            font-weight: bold;
+        }
+
+        .search-input::placeholder { color: rgba(255,255,255,0.7); }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            fill: none;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .burger-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            padding: 10px;
+            margin-left: 10px;
+        }
+
+        .burger-btn span {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Мобильное меню */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100vh;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            z-index: 999;
+            transition: left 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            padding-top: 80px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            left: 0;
+        }
+
+        .menu-list {
+            padding: 0 15px;
+        }
+
+        .menu-list li {
+            margin-bottom: 5px;
+        }
+
+        .menu-link {
+            font-weight: bold;
+            font-size: 12px;
+            color: #fff;
+            display: block;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .menu-link:hover {
+            color: #f8fafc;
+        }
+
+        /* Основной контент статьи */
+        .article-main {
+            flex: 1;
+            width: 100%;
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 15px;
+            background: #fff;
+            padding-bottom: 40px;
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            color: #1e1e1e;
+        }
+
+        .article-lead {
+            font-size: 18px;
+            font-weight: bold;
+            color: #475569;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .article-content p {
+            font-size: 16px;
+            line-height: 1.7;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        /* Блок с картинкой и подписью */
+        .article-image-block {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .article-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 0; /* Без радиусов */
+        }
+
+        .image-caption {
+            text-align: left;
+            margin-top: 2px;
+            font-size: 13px;
+            color: #64748b;
+            font-style: normal;
+            max-width: 100%;
+        }
+
+        /* Автор и дата */
+        .meta-info {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .author-name {
+            font-weight: bold;
+            font-size: 16px;
+            color: #1e1e1e;
+        }
+
+        .pub-date {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* Цитаты со стилизованными кавычками */
+        blockquote {
+            margin: 30px 0;
+            padding: 20px 20px 20px 40px;
+            border-left: 4px solid #1e3a8a;
+            background-color: #f8fafc;
+            font-style: italic;
+            color: #334155;
+            position: relative;
+        }
+
+        blockquote::before {
+            content: "«";
+            font-size: 60px;
+            line-height: 0.5;
+            color: #cbd5e1;
+            position: absolute;
+            top: -40px;
+            left: 0;
+            font-family: serif;
+        }
+
+        blockquote::after {
+            content: "»";
+            font-size: 60px;
+            line-height: 0.5;
+            color: #cbd5e1;
+            position: absolute;
+            bottom: -30px;
+            right: 0;
+            font-family: serif;
+        }
+
+        /* Футер */
+        .site-footer {
+            background-color: #0f172a;
+            color: #fff;
+            padding: 30px 10px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .copyright {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .socials-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .socials-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #cbd5e1;
+        }
+
+        .social-icon {
+            width: 24px;
+            height: 24px;
+            stroke-width: 2;
+        }
+
+        .social-item:hover .social-icon,
+        .social-item:hover span {
+            color: #fff;
+        }
+
+        @media (min-width: 768px) {
+            .article-container {
+                padding: 0 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+            <div class="logo-wrapper">
+                <img src="path/to/logo.png" alt="Логотип Ракурс NEWS" class="logo-img">
+                <span class="site-title">Ракурс NEWS</span>
+            </div>
+
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Поиск..." class="search-input">
+                <svg class="search-icon" viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+            </div>
+
+            <button class="burger-btn" aria-label="Открыть меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Мобильное меню -->
+    <nav class="mobile-menu">
+        <ul class="menu-list">
+            <li><a href="#" class="menu-link">СВО</a></li>
+            <li><a href="#" class="menu-link">Армия</a></li>
+            <li><a href="#" class="menu-link">Государство</a></li>
+            <li><a href="#" class="menu-link">Политика</a></li>
+            <li><a href="#" class="menu-link">Геополитика</a></li>
+            <li><a href="#" class="menu-link">Мир</a></li>
+            <li><a href="#" class="menu-link">Криминал</a></li>
+        </ul>
+    </nav>
+
+    <main class="article-main">
+        <article class="article-container">
+            
+            <!-- Заголовок статьи -->
+            <h1 class="article-title">Новый пакет санкций: как это отразится на экономике</h1>
+            
+            <!-- Вводное описание (лид) -->
+            <p class="article-lead">Эксперты анализируют последствия новых ограничений для ключевых отраслей промышленности. Разбираем цифры, скрытые смыслы и прогнозы на ближайшие годы простым языком.</p>
+
+            <!-- Основной контент статьи -->
+            <section class="article-content">
+                
+                <!-- Картинка с подписью -->
+                <figure class="article-image-block">
+                    <img src="https://via.placeholder.com/800x450/333/fff?text=Economy+Analysis" alt="График роста инфляции" class="article-img">
+                    <figcaption class="image-caption">
+                        Источник: Центральный Банк РФ. График демонстрирует динамику роста инфляции в условиях санкционного давления.
+                    </figcaption>
+                </figure>
+
+                <!-- Текст статьи -->
+                <p>Санкции стали неотъемлемой частью экономической повестки последних лет. Однако каждый новый пакет мер требует отдельного разбора, так как затрагивает разные сектора экономики по-разному. В этот раз основной удар пришелся на логистические цепочки и доступ к высокотехнологичному оборудованию.</p>
+                
+                <p>По словам экспертов, наиболее уязвимыми остаются отрасли, зависящие от импортных комплектующих. Это касается как машиностроения, так и фармацевтики. Государство пытается компенсировать потери за счет параллельного импорта и локализации производства, но процесс идет неравномерно.</p>
+
+                <blockquote>
+                    «Главная проблема не в самих санкциях, а в скорости адаптации экономики к новым условиям. Если мы не ускорим импортозамещение в критических сферах, эффект от ограничений будет нарастать лавинообразно.»
+                </blockquote>
+
+                <p>Аналитики выделяют три основных сценария развития событий: базовый, оптимистичный и пессимистичный. Базовый сценарий предполагает постепенное восстановление объемов производства к концу следующего года при сохранении текущих ограничений. Оптимистичный сценарий возможен только при существенном смягчении санкционного режима или появлении прорывных технологий в импортозамещении.</p>
+
+                <p>Пессимистичный сценарий учитывает возможное расширение санкционного списка и усиление вторичных санкций против партнеров России. В этом случае падение ВВП может составить до 3-4% в годовом выражении, а инфляция останется на повышенном уровне в течение длительного времени.</p>
+            </section>
+
+            <!-- Метаданные: автор и дата -->
+            <div class="meta-info">
+                <div class="author-name">Автор: Иван Петров</div>
+                <div class="pub-date">24 октября 2026, 10:30</div>
+            </div>
+        </article>
+    </main>
+
+    <!-- Футер -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Ракурс NEWS. Все права защищены</p>
+            
+            <div class="socials-section">
+                <p class="socials-title">Наши соцсети</p>
+                
+                <div class="social-item">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 2H2a2 2 0 0 0-2 2v20a2 2 0 0 0 2 2h20a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zm-13.5 15l-1-1l-3.5-3.5l1.5-1.5L11 13l3.5 3.5l4-4l1.5 1.5L10.5 17l-2 2z"></path>
+                    </svg>
+                    <span>Телеграм</span>
+                </div>
+
+                <div class="social-item">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18.5 2H5.5C4.1 2 3 3.1 3 4.5v15C3 18.1 4.1 19.2 5.5 19.2h4.1l2.5 2.5c.4.4 1 .4 1.4 0l2.5-2.5H18.5C19.9 19.2 21 18.1 21 16.7V4.5C21 3.1 19.9 2 18.5 2z"></path>
+                        <path d="M8 14.5c0 .8-.6 1.5-1.3 1.5H5.3c-.8 0-1.5-.7-1.5-1.5V7.5c0-.8.7-1.5 1.5-1.5h1.4c.8 0 1.5.7 1.5 1.5v7.5z"></path>
+                        <path d="M11.5 8.5c-.4-.4-.7-.6-1.1-.6H9.3c-.4 0-.7.3-.7.7v1.4c0 .4.3.7.7.7h1.1c.4 0 .6-.2.7-.5.2-.4.3-.8.3-1.2v-1.4z"></path>
+                        <path d="M15.5 8.5c-.4-.4-.7-.6-1.1-.6h-1.1c-.4 0-.7.3-.7.7v1.4c0 .4.3.7.7.7h1.1c.4 0 .6-.2.7-.5.2-.4.3-.8.3-1.2v-1.4z"></path>
+                    </svg>
+                    <span>ВКонтакте</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const burgerBtn = document.querySelector('.burger-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+
+        burgerBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            const spans = burgerBtn.querySelectorAll('span');
+            spans.forEach(span => span.style.backgroundColor = mobileMenu.classList.contains('active') ? '#ff0000' : '#fff');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+                const spans = burgerBtn.querySelectorAll('span');
+                spans.forEach(span => span.style.backgroundColor = '#fff');
+            }
+        });
+    </script>
+</body>
+</html>
