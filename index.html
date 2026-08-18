@@ -1,18 +1,42 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Разрешаем зум -->
-    <title>Ракурс | Новости</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ракурс NEWS | Последние новости России и мира</title>
+<meta name="description" content="Пишу новости в авторском стиле с иронией. Пишу и нахожу правду за официальным.">
+<meta name="keywords" content="новости, Ракурс, СВО, аналитика, авторские новости, правда за официальным">
+<meta name="author" content="Ракурс">
+<meta name="robots" content="index, follow">
+
+<!-- Open Graph (соцсети) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ракурс NEWS | Последние новости России и мира">
+<meta property="og:description" content="Пишу новости в авторском стиле с иронией. Пишу и нахожу правду за официальным.">
+<meta property="og:url" content="https://example.com"> <!-- Замени на реальный URL -->
+<meta property="og:image" content="https://example.com/images/og-image.jpg"> <!-- Замени на реальное изображение -->
+<meta property="og:site_name" content="Ракурс NEWS">
+
+<!-- Twitter (карточки) — без упоминания X/Twitter в запросе, но мета для отображения ссылок в мессенджерах и соцсетях -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ракурс NEWS | Последние новости России и мира">
+<meta name="twitter:description" content="Пишу новости в авторском стиле с иронией. Пишу и нахожу правду за официальным.">
+<meta name="twitter:image" content="https://example.com/images/og-image.jpg">
+
+<!-- Фавикон -->
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="manifest" href="site.webmanifest">
+```
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Шапка -->
+    <!-- Шапка (ЗАКРЕПЛЕНА) -->
     <header>
         <div class="logo-container">
-            <!-- Заглушка логотипа -->
-            <img src="https://via.placeholder.com/50?text=LOGO" alt="Logo" class="logo-img">
+            <img src="images/logo.png" alt="Logo" class="logo-img">
             <span class="logo-text">РАКУРС NEWS</span>
         </div>
         
@@ -22,53 +46,50 @@
             <div class="burger-line"></div>
         </div>
     </header>
-
+<div class="search-wrapper">
+    <input type="text" class="search-box" placeholder="Поиск...">
+    <button class="search-btn">🔍</button>
+</div>
     <!-- Мобильная панель -->
     <nav class="mobile-panel" id="mobilePanel">
         <ul class="nav-list">
-            <li class="nav-item"><a href="https://rakurs-news.github.io" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Главная</a></li>
             <li class="nav-item"><a href="#" class="nav-link">СВО</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Армия</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Государство</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Политика</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Геополитика</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Мир</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">Криминал</a></li>
+            <li class="nav-item"><a href="army.html" class="nav-link">Армия</a></li>
+            <li class="nav-item"><a href="state.html" class="nav-link">Государство</a></li>
+            <li class="nav-item"><a href="politics.html" class="nav-link">Политика</a></li>
+            <li class="nav-item"><a href="geopolitics.html" class="nav-link">Геополитика</a></li>
+            <li class="nav-item"><a href="world.html" class="nav-link">Мир</a></li>
+            <li class="nav-item"><a href="crime.html" class="nav-link">Криминал</a></li>
         </ul>
     </nav>
-
-    <!-- Поиск -->
     <div class="search-wrapper">
         <input type="text" class="search-box" id="searchInput" placeholder="Поиск по заголовкам...">
         <button class="search-btn" id="searchBtn">&#128269;</button>
     </div>
 
     <main class="container">
-        
-        <!-- ГЛАВНАЯ НОВОСТЬ (Вручную в HTML) -->
+        <!-- Контент -->
         <article class="hero-card">
             <img src="https://via.placeholder.com/800x600?text=Main+Headline" alt="Главная новость" class="hero-img">
             <div class="hero-info">
                 <span class="hero-meta">Армия • 25.10.2023 10:00</span>
                 <h2 class="hero-title">Крупные учения флота начались в Балтийском море</h2>
                 <p class="hero-desc">В маневрах задействовано более 50 кораблей и 10 тысяч военнослужащих. Отрабатывается сценарий защиты морских границ.</p>
-                <!-- Кнопка действия опциональна, можно убрать -->
             </div>
         </article>
 
-        <!-- ЛЕНТА НОВОСТЕЙ (Генерируется JS) -->
         <section id="newsFeed" class="news-grid">
             <!-- Сюда JS вставит карточки -->
         </section>
-
     </main>
 
     <footer>
-        <p>&copy; 2023 Ракурс. Все права защищены.</p>
+        <p>&copy; 2026 Ракурс. Все права защищены.</p>
     </footer>
 
     <script>
-        // 1. Загрузка данных
+        // Твой JS код (без изменений логики)
         async function loadNews() {
             try {
                 const response = await fetch('news.json');
@@ -80,17 +101,14 @@
             }
         }
 
-        // 2. Рендер карточек (Лента)
         function renderNews(articles) {
             const feed = document.getElementById('newsFeed');
-            // Сортировка: сначала новые (по ID или дате, если есть)
             articles.sort((a, b) => parseInt(b.id) - parseInt(a.id)); 
-            
             feed.innerHTML = '';
             articles.forEach(article => {
                 const card = document.createElement('article');
                 card.className = 'news-card';
-                card.onclick = () => window.location.href = article.url; // Переход по клику на карточку
+                card.onclick = () => window.location.href = article.url;
 
                 card.innerHTML = `
                     <img src="${article.image}" alt="${article.title}" class="card-img-small">
@@ -103,14 +121,13 @@
             });
         }
 
-        // 3. Логика поиска
         const searchInput = document.getElementById('searchInput');
         const searchBtn = document.getElementById('searchBtn');
 
         function performSearch() {
             const query = searchInput.value.toLowerCase();
             if (!query) {
-                loadNews(); // Если поле пустое, показать все новости
+                loadNews();
                 return;
             }
 
@@ -130,7 +147,6 @@
             if (e.key === 'Enter') performSearch();
         });
 
-        // 4. Логика мобильного меню
         const burgerBtn = document.getElementById('burgerBtn');
         const mobilePanel = document.getElementById('mobilePanel');
         let isMenuOpen = false;
@@ -144,7 +160,6 @@
             }
         });
 
-        // Запуск при загрузке
         loadNews();
     </script>
 </body>
