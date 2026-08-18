@@ -1,168 +1,971 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ракурс NEWS | Последние новости России и мира</title>
-<meta name="yandex-verification" content="8e3a5a0a7520b3b8" />    
-<meta name="description" content="Пишу новости в авторском стиле с иронией. Пишу и нахожу правду за официальным.">
-<meta name="keywords" content="новости, Ракурс, СВО, аналитика, авторские новости, правда за официальным">
-<meta name="author" content="Ракурс">
-<meta name="robots" content="index, follow">
- 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ракурс NEWS — Последние новости России и мира. Экспертный анализ новостей: политика, геополитика, общество</title>
+    <link rel="icon" type="image/png" href="/image/favicon.png">
+    
+    <meta name="description" content="Ракурс NEWS: экспертный разбор главных новостей дня. Политика, геополитика, СВО, экономика и общество. Только проверенные факты, прогнозы и понятные выводы для читателя.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rakurs-news.github.io/">
+    <meta property="og:title" content="Ракурс NEWS — экспертный анализ новостей">
+    <meta property="og:description" content="Актуальные новости и экспертная аналитика по главным темам дня: политика, геополитика, СВО, общество, экономика и другие. Читайте на Ракурс NEWS.">
+    <meta property="og:image" content="https://rakurs-news.github.io/image/IMG_20260815_204825.png">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Ракурс NEWS">
 
-<!-- Open Graph (соцсети) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ракурс NEWS | Последние новости России и мира">
-<meta property="og:description" content="Пишу новости в авторском стиле с иронией. Пишу и нахожу правду за официальным.">
-<meta property="og:url" content="https://example.com"> <!-- Замени на реальный URL -->
-<meta property="og:image" content="https://example.com/images/og-image.jpg"> <!-- Замени на реальное изображение -->
-<meta property="og:site_name" content="Ракурс NEWS">
+    <style>
+        :root {
+    --bg-color: #ffffff;
+    --text-color: #111111;
+    --header-bg: #f8f9fa;
+    --border-color: #e2e2e2;
+    --accent-color: #d32f2f;
+    --hover-color: #f5f5f5;
+    --font-main: 'Georgia', 'Times New Roman', serif;
+}
 
-<!-- Twitter (карточки) — без упоминания X/Twitter в запросе, но мета для отображения ссылок в мессенджерах и соцсетях -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Ракурс NEWS | Последние новости России и мира">
-<meta name="twitter:description" content="Пишу новости в авторском стиле с иронией. Пишу и нахожу правду за официальным.">
-<meta name="twitter:image" content="https://example.com/images/og-image.jpg">
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #e0e0e0;
+    --header-bg: #1e1e1e;
+    --border-color: #333333;
+    --accent-color: #d32f2f;
+    --hover-color: #2b2b2b;
+}
 
-<!-- Фавикон -->
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-<link rel="manifest" href="site.webmanifest">
-```
-    <link rel="stylesheet" href="style.css">
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-main); line-height: 1.6; overflow-x: hidden; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* Header & Nav */
+header { background-color: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+.header-inner { display: flex; justify-content: space-between; align-items: center; height: 60px; }
+.logo { font-size: 24px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
+
+.theme-toggle { cursor: pointer; padding: 5px 10px; background: transparent; border: 1px solid var(--border-color); color: var(--text-color); font-size: 14px; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+
+/* BURGER MENU STYLES */
+.burger { display: block; cursor: pointer; }
+.burger span {
+    display: block; width: 25px; height: 3px; background-color: var(--text-color);
+    margin: 5px 0; transition: all 0.3s;
+}
+
+/* MOBILE SIDEBAR NAVIGATION */
+.mobile-nav {
+    position: fixed; top: 60px; left: -280px; width: 280px;
+    height: calc(100vh - 60px); background-color: var(--header-bg);
+    border-right: 1px solid var(--border-color); transition: left 0.3s ease;
+    padding-top: 20px; flex-direction: column; z-index: 2000;
+}
+.mobile-nav.active { left: 0; }
+.mobile-nav-scroll { overflow-y: auto; max-height: calc(100vh - 80px); padding: 0 10px; }
+.mobile-nav-scroll::-webkit-scrollbar { width: 6px; }
+.mobile-nav-scroll::-webkit-scrollbar-track { background: transparent; }
+.mobile-nav-scroll::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 20px; }
+
+.mobile-cols { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+.col-1, .col-2 { flex: 1; padding-right: 15px; padding-left: 15px; }
+.col-divider { width: 1px; height: 100%; background-color: var(--border-color); margin: 10px 0; }
+.col-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); margin-bottom: 15px; border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 5px; }
+
+.nav-item { display: block; padding: 12px 0; border-bottom: none; font-size: 18px; color: var(--text-color); transition: color 0.2s; }
+.nav-item:hover { color: var(--accent-color); padding-left: 5px; }
+
+.categories-list { list-style: none; margin: 0; padding: 0; }
+.categories-list li { padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+.categories-list li:last-child { border-bottom: none; }
+.categories-list a { font-size: 18px; color: var(--text-color); display: block; transition: color 0.2s; }
+.categories-list a:hover { color: var(--accent-color); }
+
+.categories-wrapper { display: none; width: 220px; border-right: 1px solid var(--border-color); padding-right: 20px; }
+.category-list li { padding: 12px 0; border-bottom: 1px solid var(--border-color); font-size: 16px; color: var(--text-color); }
+.category-list li:last-child { border-bottom: none; }
+.category-list a:hover { color: var(--accent-color); }
+
+.main-content { padding: 20px 0; }
+.articles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+
+.article-card-link {
+    position: relative; display: block; text-decoration: none; border-bottom: 1px solid var(--border-color);
+    padding-bottom: 20px; transition: transform 0.2s, box-shadow 0.2s;
+}
+.article-card-link:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+.badge-overlay {
+    position: absolute; top: 7px; left: 0px; background-color: #d32f2f; color: white;
+    padding: 4px 9px; font-weight: bold; font-size: 14px; text-transform: uppercase;
+    letter-spacing: 1px; box-shadow: 0 2px 4px rgba(0,0,0,0.3); z-index: 10; border-radius: 4px;
+}
+
+.article-image-hero { width: 100%; height: 300px; object-fit: cover; margin-bottom: 15px; border-radius: 4px; }
+.article-meta { font-size: 13px; color: #777; margin-bottom: 8px; display: flex; justify-content: space-between; }
+.meta-category-link { color: var(--accent-color); font-weight: bold; cursor: pointer; }
+.meta-category-link:hover { text-decoration: underline; }
+
+.article-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; line-height: 1.3; }
+.article-summary { font-size: 15px; color: var(--text-color); }
+
+footer { background-color: var(--header-bg); border-top: 1px solid var(--border-color); padding: 40px 0; margin-top: 40px; }
+.footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
+.footer-col h4 { font-size: 18px; margin-bottom: 15px; color: var(--text-color); }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col a { color: #555; }
+.footer-col a:hover { color: var(--accent-color); }
+
+@media (max-width: 768px) {
+    .categories-wrapper { display: none; }
+    .articles-grid { grid-template-columns: 1fr; gap: 20px; }
+    .burger { display: block; }
+    .mobile-nav { display: block !important; } 
+}
+
+@media (min-width: 769px) {
+    .burger { display: none !important; }
+    .mobile-nav { display: none !important; }
+    .categories-wrapper { display: block; }
+    .main-layout { display: flex; flex-direction: row; }
+}
+
+@media (max-width: 400px) {
+    .mobile-cols { flex-direction: column; }
+    .col-1, .col-2 { width: 100%; padding: 0; margin-bottom: 20px; }
+    .col-divider { display: none; }
+}
+
+/* Анимация появления статей (оставлена как в оригинале) */
+.article-card-link {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: popIn 0.5s ease-out forwards;
+}
+
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Кнопка "Наверх" */
+.back-to-top {
+    position: fixed;
+    bottom: 30px;       /* отступ снизу */
+    right: 30px;        /* отступ справа */
+    width: 50px;
+    height: 50px;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;           /* скрытая по умолчанию */
+    visibility: hidden;   /* чтобы не было кликабельной, пока скрыта */
+    transform: translateY(20px); /* небольшой сдвиг вниз для анимации */
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); /* плавная анимация */
+    z-index: 1001;
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.back-to-top svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+/* Анимация исчезновения при клике (плавное затухание) */
+.back-to-top.fading-out {
+    opacity: 0;
+    pointer-events: none; /* чтобы нельзя было нажать во время исчезновения */
+    transform: translateY(10px);
+}
+
+/* Стили для картинки внутри кнопки */
+.btn-arrow-img {
+    width: 50px;       /* Размер картинки (подбери под себя) */
+    height: 50px;
+    object-fit: contain; /* Чтобы картинка не сплющивалась */
+    display: block;
+}
+
+/* Hero Story Block */
+.hero-story {
+    margin-bottom: 40px;
+    min-height: 460px; /* Чуть больше высоты картинки (450px + запас) */
+    position: relative; /* Важно для позиционирования элементов внутри */
+    scroll-margin-top: 80px; /* ЗАМЕНИ 80 на реальную высоту твоего хедера! */
+}
+
+.hero-link { 
+    display: block; 
+    text-decoration: none; 
+    color: inherit;
+    height: 100%; /* Растягиваем ссылку на всю высоту блока */
+    overflow: hidden; /* Чтобы скругление картинки работало корректно */
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%; /* Теперь картинка займет все 460px высоты родителя */
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+.hero-content { padding: 25px 0; }
+.hero-title {
+    font-size: 32px;
+    line-height: 1.2;
+    margin: 0 0 15px 0;
+    font-weight: 700;
+}
+.hero-summary {
+    font-size: 18px;
+    color: var(--text-color, #333);
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+.hero-meta {
+    font-size: 14px;
+    color: #777;
+}
+@media (max-width: 768px) {
+    .hero-image { height: 300px; }
+    .hero-title { font-size: 24px; }
+}
+
+.back-to-top.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    /* Добавляем легкую пульсацию, но только когда кнопка видна */
+    animation: pulse-button 2s infinite; 
+}
+
+@keyframes pulse-button {
+    0% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(211, 47, 47, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+}
+
+/* Чтобы убрать пульсацию при клике (когда начинаем скроллить вверх) */
+.back-to-top.fading-out, .back-to-top:active {
+    animation: none;
+}
+
+h2 {
+  position: relative;           /* Важно: чтобы позиционировать линию относительно заголовка */
+  padding-left: 15px;           /* Отступ слева, чтобы текст не наезжал на линию */
+  margin-bottom: 10px;          /* Немного воздуха снизу */
+}
+
+h2::before {
+  content: "";                  /* Обязательно: без этого псевдоэлемент не отобразится */
+  position: absolute;           /* Вырываем из потока и ставим точно слева */
+  left: 0;                      /* Прижимаем к левому краю h2 */
+  top: 0;                       /* Выравниваем по верху заголовка */
+  bottom: 0;                    /* Растягиваем до низа заголовка */
+  width: 4px;                   /* Толщина полосы */
+  background-color: #d32f2f;    /* Твой акцентный цвет (замени на нужный) */
+}
+
+/* --- TELEGRAM BANNER STYLES (ОБНОВЛЕННЫЕ С ПЛАВНЫМ ПОЯВЛЕНИЕМ) --- */
+.tg-banner-container {
+    position: fixed; 
+    bottom: 30px; 
+    left: 30px;
+    background-color: var(--accent-color); 
+    color: white; 
+    padding: 12px 16px;
+    border-radius: 2px; 
+    display: flex; 
+    align-items: center; 
+    gap: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
+    z-index: 9999;
+    
+    /* Настройки для плавного появления */
+    opacity: 0;
+    transform: translateY(20px);
+    animation: popInBanner 0.5s forwards ease-out;
+}
+
+@keyframes popInBanner {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tg-banner-link {
+    display: flex; align-items: center; color: inherit; text-decoration: none;
+    font-weight: 600; font-size: 15px; flex-grow: 1;
+}
+
+.tg-icon { width: 28px; height: 28px; object-fit: contain; } 
+.tg-text { white-space: nowrap; }
+
+.tg-close-btn {
+    background-color: rgba(255, 255, 255, 0.2); border: none; color: white;
+    width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    margin-left: 16px; display: flex; align-items: center; justify-content: center; 
+    font-size: 20px; line-height: 1; transition: background-color 0.2s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.tg-close-btn:hover { background-color: rgba(255, 255, 255, 0.4); }
+.tg-close-btn:active { transform: scale(0.95); }
+
+@media (max-width: 320px) {
+    .tg-banner-container {
+        width: calc(100% - 30px);
+        left: 50%; transform: translateX(-50%) translateY(0);
+        flex-wrap: wrap; justify-content: center; padding: 10px; gap: 8px;
+        animation: popInBannerMobile 0.5s forwards ease-out;
+    }
+    .tg-text { display: block; text-align: center; width: 100%; }
+}
+
+@keyframes popInBanner {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popInBannerMobile {
+    from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+/* Принудительно добавляем большой отступ снизу для списка категорий */
+.categories-list, .category-list {
+    padding-bottom: 100px !important;
+    margin-bottom: 0 !important;
+}
+
+/* Если у тебя есть обертка для скролла, тоже страхуем её */
+.mobile-nav-scroll {
+    padding-bottom: 120px !important; /* Делаем запас с головой */
+}
+/* --- СТИЛИ ДЛЯ ПАГИНАЦИИ (ОБНОВЛЕННЫЕ) --- */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px; /* Чуть больше отступа между кнопками */
+    margin-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* Общие стили для всех кнопок пагинации */
+.page-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border-color);
+    background-color: var(--header-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+/* Круглые кнопки с цифрами (1, 2, 3...) */
+.page-btn.number-btn {
+    border-radius: 50%;
+}
+
+/* --- СТИЛИ ДЛЯ ПАГИНАЦИИ (С ИКОНКАМИ) --- */
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 40px;
+    padding-bottom: 40px;
+}
+
+.page-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--border-color);
+    background-color: var(--header-bg);
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--text-color); /* Цвет для иконок, если они будут через fill */
+    border-radius: 3px; /* Сразу ставим радиус 3px для всех, цифры потом скруглим отдельно */
+}
+
+/* Делаем цифры круглыми, а стрелки остаются прямоугольными */
+.page-btn.number-btn {
+    border-radius: 50%;
+}
+
+/* Стили конкретно для кнопок-стрелок */
+.page-btn.arrow-btn {
+    /* Убираем внутренние отступы, чтобы картинка была во всю кнопку */
+    padding: 0; 
+    min-width: auto;
+    
+    /* Если используешь <img>, этот цвет не нужен, но если SVG с fill="currentColor" — он подхватит цвет текста */
+    color: var(--text-color); 
+}
+
+.page-btn:hover:not(:disabled) {
+    background-color: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.page-btn.active {
+    background-color: var(--accent-color) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(211, 47, 47, 0.4);
+}
+
+.page-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: var(--bg-color);
+    border-color: var(--border-color);
+    color: var(--text-color); /* Возвращаем цвет текста/иконки серым */
+}
+
+/* CSS: подсветка найденного текста */
+.highlight {
+    background-color: var(--accent-color, #ffeb3b); /* акцентный цвет фона */
+    color: #ffffff; /* белый текст и для светлой, и для тёмной темы */
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 2px; /* маленький радиус скругления фона */
+    display: inline-block;
+}
+
+/* Адаптив для узкой строки поиска на мобильных */
+@media (max-width: 600px) {
+    .search-wrapper {
+        padding: 0 15px;
+        max-width: 100%;
+    }
+    #news-search-input {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+/* Адаптивные отступы для блока "Коротко" на мобильных */
+@media (max-width: 768px) {
+    .container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    #short-news {
+        gap: 15px; /* Расстояние между новостями уменьшаем с 30px до 15px */
+    }
+
+    h3 {
+        margin-bottom: 15px; /* Отступ под заголовком тоже чуть уменьшаем */
+    }
+}
+
+    </style>
 </head>
 <body>
 
-    <!-- Шапка (ЗАКРЕПЛЕНА) -->
     <header>
-        <div class="logo-container">
-            <img src="images/logo.png" alt="Logo" class="logo-img">
-            <span class="logo-text">РАКУРС NEWS</span>
-        </div>
-        
-        <div class="burger-btn" id="burgerBtn">
-            <div class="burger-line"></div>
-            <div class="burger-line"></div>
-            <div class="burger-line"></div>
+        <div class="container header-inner">
+            <a href="index.html" class="logo">Ракурс NEWS</a>
+            <div class="header-actions">
+                <button class="theme-toggle" id="themeToggle">🌙 Темная</button>
+                <div class="burger" id="burger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
         </div>
     </header>
-<div class="search-wrapper">
-    <input type="text" class="search-box" placeholder="Поиск...">
-    <button class="search-btn">🔍</button>
+    <div style="height: 20px;"></div> 
+    <!-- ПОЛЕ ПОИСКА -->
+    <div class="search-wrapper" style="margin: 30px auto; max-width: 500px; text-align: center;">
+    <input 
+        type="text" 
+        id="news-search-input" 
+        placeholder="🔍 Поиск по сайту..." 
+        style="
+            width: 100%; 
+            max-width: 450px; 
+            padding: 12px 20px; 
+            border: 2px solid #e0e0e0; 
+            border-radius: 3px; /* уменьшенный радиус у самого поля */
+            font-size: 16px; 
+            outline: none; 
+            transition: all 0.3s;
+        " 
+        onfocus="this.style.borderColor = 'var(--accent-color, #2481cc)'; this.style.boxShadow = '0 0 0 3px rgba(36, 129, 204, 0.2)';" 
+        onblur="this.style.borderColor = '#e0e0e0'; this.style.boxShadow = 'none';"
+    >
 </div>
-    <!-- Мобильная панель -->
-    <nav class="mobile-panel" id="mobilePanel">
-        <ul class="nav-list">
-            <li class="nav-item"><a href="#" class="nav-link">Главная</a></li>
-            <li class="nav-item"><a href="#" class="nav-link">СВО</a></li>
-            <li class="nav-item"><a href="army.html" class="nav-link">Армия</a></li>
-            <li class="nav-item"><a href="state.html" class="nav-link">Государство</a></li>
-            <li class="nav-item"><a href="politics.html" class="nav-link">Политика</a></li>
-            <li class="nav-item"><a href="geopolitics.html" class="nav-link">Геополитика</a></li>
-            <li class="nav-item"><a href="world.html" class="nav-link">Мир</a></li>
-            <li class="nav-item"><a href="crime.html" class="nav-link">Криминал</a></li>
-        </ul>
+
+    <!-- Пустой контейнер для главной новости -->
+<section class="container">
+    <div class="hero-story" id="hero-container"></div>
+</section>
+
+    <!-- Мобильная панель навигации -->
+    <nav class="mobile-nav" id="mobileNav">
+        <div class="mobile-nav-scroll">
+            <div class="mobile-cols">
+                <div class="col-1">
+                    <h3 class="col-title">Основные разделы</h3>
+                    <a href="https://rakurs-news.github.io" class="nav-item">Главная</a>
+                    <a href="politics.html" class="nav-item">Политика</a>
+                    <a href="geopolitics.html" class="nav-item">Геополитика</a>
+                    <a href="society.html" class="nav-item">Общество</a>
+                    <a href="crime.html" class="nav-item">Криминал</a>
+                    <a href="corruption.html" class="nav-item">Коррупция</a>
+                    <a href="migration.html" class="nav-item">Мигранты</a>
+                    <a href="state.html" class="nav-item">Государство</a>
+                    <a href="army.html" class="nav-item">Армия</a>
+                    <a href="svo.html" class="nav-item">СВО</a>
+                    <a href="stars.html" class="nav-item">Звезды</a>
+                    <a href="sport.html" class="nav-item">Спорт</a>
+                    <a href="archive.html" class="nav-item">Архив</a>
+                    
+                </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </nav>
-    <div class="search-wrapper">
-        <input type="text" class="search-box" id="searchInput" placeholder="Поиск по заголовкам...">
-        <button class="search-btn" id="searchBtn">&#128269;</button>
+
+<!-- БЛОК "КОРОТКО О ГЛАВНОМ" -->
+<!-- Блок "Коротко о главном" с правильными отступами -->
+<section class="container" style="max-width: 1200px; margin: 0 auto; padding: 30px 15px 20px; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <h3 style="font-size: 16px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-color); margin-bottom: 25px; display: block;">Коротко о главном</h3>
+    
+    <div id="short-news" style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between;">
+        <!-- Сюда JS сам подставит новости -->
+    </div>
+</section>
+<!-- Конец блока -->
+
+    <!-- Основной контент -->
+    <div class="container">
+        <main class="main-content">
+            <section class="articles-grid" id="news-list">
+                <p style="text-align: center; color: #777;">Загрузка новостей...</p>
+            </section>
+        </main>
     </div>
 
-    <main class="container">
-        <!-- Контент -->
-        <article class="hero-card">
-            <img src="https://via.placeholder.com/800x600?text=Main+Headline" alt="Главная новость" class="hero-img">
-            <div class="hero-info">
-                <span class="hero-meta">Армия • 25.10.2023 10:00</span>
-                <h2 class="hero-title">Крупные учения флота начались в Балтийском море</h2>
-                <p class="hero-desc">В маневрах задействовано более 50 кораблей и 10 тысяч военнослужащих. Отрабатывается сценарий защиты морских границ.</p>
-            </div>
-        </article>
-
-        <section id="newsFeed" class="news-grid">
-            <!-- Сюда JS вставит карточки -->
-        </section>
-    </main>
-
     <footer>
-        <p>&copy; 2026 Ракурс. Все права защищены.</p>
+        <div class="container footer-content">
+            <div class="footer-col">
+                <h4>Ракурс NEWS</h4>
+                <p>Экспертный взгляд на главные события дня. Без кликбейта, только факты и аналитика.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Разделы</h4>
+                <ul>
+                    <li><a href="politics.html">Политика</a></li>
+                    <li><a href="geopolitics.html">Геополитика</a></li>
+                    <li><a href="society.html">Общество</a></li>
+                    <li><a href="crime.html">Криминал</a></li>
+                    <li><a href="corruption.html">Коррупция</a></li>
+                    <li><a href="migration.html">Мигранты</a></li>
+                    <li><a href="state.html">Государство</a></li>
+                    <li><a href="army.html">Армия</a></li>
+                    <li><a href="svo.html">СВО</a></li>
+                    <li><a href="stars.html">Звёзды</a></li>
+                    <li><a href="sport.html">Спорт</a></li>
+                    <li><a href="archive.html">Архив</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Контакты</h4>
+                <ul>
+                    <li><a href="mailto:rakurs-news@mail.ru">rakurs-news@mail.ru</a></li>                    
+                    <h4>Наши соцсети</h4>
+                    <li><a href="https://t.me/RAKURS_NEWS_RU">Телеграм</a></li>
+                    <li><a href="https://vk.ru/rakurs_news">ВКонтакте</a></li>
+                    <li>Россия, Москва</li>
+                </ul>
+            </div>
+        </div>
     </footer>
 
+    <!-- Telegram Banner HTML -->
+    <div id="tg-banner" class="tg-banner-container">
+        <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" rel="noopener noreferrer" class="tg-banner-link">
+            <img src="image/Telegram_logo.svg.png" alt="Telegram" class="tg-icon">
+            <span class="tg-text">Наш телеграм</span>
+        </a>
+        <button type="button" class="tg-close-btn" aria-label="Закрыть баннер">&times;</button>
+    </div>
+    
+<!-- Кнопка "Наверх" с картинкой -->
+<button id="backToTopBtn" class="back-to-top" aria-label="Наверх">
+    <img src="image/IMG_20260815_140740.png" alt="Наверх" class="btn-arrow-img">
+</button>
+
+
     <script>
-        // Твой JS код (без изменений логики)
-        async function loadNews() {
-            try {
-                const response = await fetch('news.json');
-                const data = await response.json();
-                renderNews(data);
-            } catch (error) {
-                console.error('Ошибка загрузки новостей:', error);
-                document.getElementById('newsFeed').innerHTML = '<p style="color:white;">Новости временно недоступны</p>';
+   const ARTICLES_PER_PAGE = 6; 
+const container = document.getElementById('news-list');
+const heroContainer = document.getElementById('hero-container');
+const searchInput = document.getElementById('news-search-input');
+
+let allArticles = [];
+let currentPage = 1;
+let isSearchActive = false;
+let filteredArticles = [];
+let currentSearchQuery = '';
+
+function showError(msg) {
+    if (container) {
+        container.innerHTML = `<p style="color: red; text-align: center; padding: 20px; border: 1px solid red; font-weight: bold;">⚠️ ${msg}</p>`;
+    }
+    console.error(msg);
+}
+
+async function fetchData() {
+    try {
+        const response = await fetch('articles.json');
+        if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
+        
+        const text = await response.text();
+        allArticles = JSON.parse(text);
+
+        if (!Array.isArray(allArticles)) {
+            throw new Error('Ошибка JSON: данные должны быть списком [...]');
+        }
+
+        const heroArticle = allArticles.find(article => article.isHero === true);
+        if (heroArticle) {
+            renderHero(heroArticle);
+            allArticles = allArticles.filter(article => article.isHero !== true);
+            renderShortNews(allArticles);
+
+        } else {
+            console.warn('⚠️ Главная новость (isHero) не найдена в JSON.');
+        }
+
+        initSearch();
+        renderPagination(); 
+        changePage(1);      
+
+    } catch (error) {
+        showError(error.message);
+    }
+}
+
+function highlightText(text, query) {
+    if (!query || !text) return text;
+    const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(`(${escapedQuery})`, 'gi');
+    return text.replace(regex, '<span class="highlight">$1</span>');
+}
+
+function renderHero(article) {
+    const imgPath = article.image || 'https://via.placeholder.com/800x450?text=No+Image';
+    const badgeHtml = article.badge ? `<span class="badge-overlay">${article.badge}</span>` : '';
+
+    heroContainer.innerHTML = `
+        ${badgeHtml}
+        <a href="${article.url || '#'}" class="hero-link">
+            <img src="${imgPath}" loading="lazy" alt="${article.title}" class="hero-image">
+            <div class="hero-content">
+                <h1 class="hero-title">${article.title}</h1>
+                <p class="hero-summary">${article.summary}</p>
+                <div class="hero-meta">
+                    <span>${article.category}</span> | <span>${article.date}</span>
+                </div>
+            </div>
+        </a>
+    `;
+}
+
+function createCardHTML(item, query = '') {
+    const imgPath = item.image || 'https://via.placeholder.com/400x200?text=No+Image';
+    let badgeHtml = '';
+    if (item.badge) badgeHtml = `<span class="badge-overlay">${item.badge}</span>`;
+
+    const highlightedTitle = highlightText(item.title, query);
+    const highlightedSummary = highlightText(item.summary, query);
+
+    return `
+        <a href="${item.url || '#'}" class="article-card-link">
+            ${badgeHtml}
+            <img src="${imgPath}" loading="lazy" alt="${item.title || 'Новость'}" class="article-image-hero" 
+                 onerror="this.src='https://via.placeholder.com/400x200?text=Image+Error'">
+            <div class="article-meta">
+                <span class="meta-category-link">${item.category || 'Разное'}</span>
+                <span>${item.date || ''}</span>
+            </div>
+            <h2 class="article-title">${highlightedTitle}</h2>
+            <p class="article-summary">${highlightedSummary}</p>
+        </a>
+    `;
+}
+
+function changePage(page) {
+    currentPage = page;
+    container.innerHTML = ''; 
+
+    const startIndex = (page - 1) * ARTICLES_PER_PAGE;
+    const endIndex = startIndex + ARTICLES_PER_PAGE;
+    
+    const articlesToShow = isSearchActive ? filteredArticles : allArticles;
+    const articlesSlice = articlesToShow.slice(startIndex, endIndex);
+
+    if (articlesSlice.length === 0) {
+        if (isSearchActive) {
+            container.innerHTML = '<p style="text-align:center; color:#777">Ничего не найдено 😔</p>';
+        } else {
+            container.innerHTML = '<p style="text-align:center; color:#777">Список новостей пуст</p>';
+        }
+        return;
+    }
+
+    articlesSlice.forEach(item => {
+        container.insertAdjacentHTML('beforeend', createCardHTML(item, currentSearchQuery));
+    });
+
+    updatePaginationButtons(); 
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function initSearch() {
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        currentSearchQuery = query;
+
+        if (!query) {
+            isSearchActive = false;
+            filteredArticles = [];
+            changePage(1);
+            renderPagination();
+        } else {
+            isSearchActive = true;
+            filteredArticles = allArticles.filter(article => 
+                article.title.toLowerCase().includes(query) || 
+                (article.summary && article.summary.toLowerCase().includes(query))
+            );
+            
+            changePage(1);
+            renderPagination(); 
+        }
+    });
+}
+
+function renderPagination() {
+    const totalPages = isSearchActive 
+        ? Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE) 
+        : Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
+    
+    const wrapper = document.querySelector('.pagination-wrapper');
+    if (wrapper) wrapper.remove();
+
+    if (totalPages <= 1 && !isSearchActive) return;
+
+    const wrapperNew = document.createElement('div');
+    wrapperNew.className = 'pagination-wrapper';
+
+    const btnPrev = document.createElement('button');
+    btnPrev.className = 'page-btn arrow-btn';
+    btnPrev.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>`;
+    btnPrev.onclick = () => changePage(currentPage - 1);
+    wrapperNew.appendChild(btnPrev);
+
+    for (let i = 1; i <= totalPages; i++) {
+        const btn = document.createElement('button');
+        btn.className = `page-btn number-btn ${i === 1 ? 'active' : ''}`;
+        btn.textContent = i;
+        btn.onclick = () => changePage(i);
+        wrapperNew.appendChild(btn);
+    }
+
+    const btnNext = document.createElement('button');
+    btnNext.className = 'page-btn arrow-btn';
+    btnNext.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>`;
+    btnNext.onclick = () => changePage(currentPage + 1);
+    wrapperNew.appendChild(btnNext);
+
+    container.parentNode.insertBefore(wrapperNew, container.nextSibling);
+}
+
+function updatePaginationButtons() {
+    const buttons = document.querySelectorAll('.page-btn');
+    buttons.forEach(btn => {
+        const txt = btn.textContent.trim();
+        
+        if (!isNaN(txt)) {
+            const pageNum = parseInt(txt);
+            btn.classList.toggle('active', pageNum === currentPage);
+        } 
+        else {
+            if (btn.querySelector('svg')) {
+                if (btn.innerHTML.includes('line x1="19"')) {
+                    btn.disabled = currentPage === 1;
+                } else if (btn.innerHTML.includes('line x1="5"')) {
+                    const totalPages = isSearchActive 
+                        ? Math.ceil(filteredArticles.length / ARTICLES_PER_PAGE) 
+                        : Math.ceil(allArticles.length / ARTICLES_PER_PAGE);
+                    btn.disabled = currentPage >= totalPages;
+                }
+                btn.style.opacity = btn.disabled ? '0.5' : '1';
             }
         }
+    });
+}
 
-        function renderNews(articles) {
-            const feed = document.getElementById('newsFeed');
-            articles.sort((a, b) => parseInt(b.id) - parseInt(a.id)); 
-            feed.innerHTML = '';
-            articles.forEach(article => {
-                const card = document.createElement('article');
-                card.className = 'news-card';
-                card.onclick = () => window.location.href = article.url;
+function initTelegramBanner() {
+    const banner = document.getElementById('tg-banner');
+    const closeBtn = document.querySelector('.tg-close-btn') || document.getElementById('tg-close-btn');
 
-                card.innerHTML = `
-                    <img src="${article.image}" alt="${article.title}" class="card-img-small">
-                    <h3 class="card-title">${article.title}</h3>
-                    <div class="card-meta">
-                        <span>${article.category}</span> • <span>${article.date}</span>
-                    </div>
-                `;
-                feed.appendChild(card);
-            });
-        }
-
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
-
-        function performSearch() {
-            const query = searchInput.value.toLowerCase();
-            if (!query) {
-                loadNews();
-                return;
-            }
-
-            fetch('news.json')
-                .then(response => response.json())
-                .then(data => {
-                    const filtered = data.filter(article =>
-                        article.title.toLowerCase().includes(query)
-                    );
-                    renderNews(filtered);
-                })
-                .catch(error => console.error('Ошибка поиска:', error));
-        }
-
-        searchBtn.addEventListener('click', performSearch);
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') performSearch();
+    if (banner && closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            banner.style.transition = 'opacity 0.3s ease';
+            banner.style.opacity = '0';
+            setTimeout(() => {
+                if (banner.parentNode) {
+                    banner.parentNode.removeChild(banner);
+                }
+            }, 300);
         });
+    }
+}
 
-        const burgerBtn = document.getElementById('burgerBtn');
-        const mobilePanel = document.getElementById('mobilePanel');
-        let isMenuOpen = false;
+document.addEventListener('DOMContentLoaded', () => {
+    window.scrollTo(0, 0);
 
-        burgerBtn.addEventListener('click', () => {
-            isMenuOpen = !isMenuOpen;
-            if (isMenuOpen) {
-                mobilePanel.classList.add('active');
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    if (themeToggle) {
+        if (!localStorage.getItem('theme')) {
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.setAttribute('data-theme', 'dark'); 
+                themeToggle.textContent = '☀️'; 
+                localStorage.setItem('theme', 'dark');
             } else {
-                mobilePanel.classList.remove('active');
+                body.removeAttribute('data-theme'); 
+                themeToggle.textContent = '🌙'; 
+                localStorage.setItem('theme', 'light');
+            }
+        } else {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') { 
+                body.setAttribute('data-theme', 'dark'); 
+                themeToggle.textContent = '☀️'; 
+            } else { 
+                body.removeAttribute('data-theme'); 
+                themeToggle.textContent = '🌙'; 
+            }
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme'); 
+                localStorage.setItem('theme', 'light'); 
+                themeToggle.textContent = '🌙';
+            } else {
+                body.setAttribute('data-theme', 'dark'); 
+                localStorage.setItem('theme', 'dark'); 
+                themeToggle.textContent = '☀️';
             }
         });
+    }
 
-        loadNews();
-    </script>
+    const burger = document.getElementById('burger');
+    const mobileNav = document.getElementById('mobileNav');
+    if (burger && mobileNav) {
+        burger.addEventListener('click', () => mobileNav.classList.toggle('active'));
+        document.querySelectorAll('.nav-item, .categories-list a').forEach(item => {
+            item.addEventListener('click', () => mobileNav.classList.remove('active'));
+        });
+    }
+
+    const backToTopBtn = document.getElementById('backToTopBtn');
+    if (backToTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                backToTopBtn.classList.remove('force-hide');
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+                backToTopBtn.classList.remove('force-hide');
+            }
+        });
+        backToTopBtn.addEventListener('click', () => {
+            backToTopBtn.classList.remove('show');
+            backToTopBtn.classList.add('force-hide');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+
+    fetchData();
+    initTelegramBanner();
+    setTimeout(initTelegramBanner, 500);
+});
+function renderShortNews(articles) {
+    const container = document.getElementById('short-news');
+    if (!container) return;
+
+    const limit = 5; 
+    const items = articles.slice(0, limit);
+
+    if (items.length === 0) {
+        container.innerHTML = '<p style="color:#777; text-align:center">Пока нет коротких новостей</p>';
+        return;
+    }
+
+    let html = '';
+    items.forEach(item => {
+        const shortTitle = item.title.length > 70 
+            ? item.title.substring(0, 70) + '...' 
+            : item.title;
+
+        html += `
+            <div class="short-item" style="flex: 1; min-width: 220px;">
+                <a href="${item.url || '#'}" style="color: var(--text-color); text-decoration: none; font-weight: 600; display: block; line-height: 1.4;">
+                    ${shortTitle}
+                </a>
+                <span style="display: block; font-size: 12px; margin-top: 4px;">
+                    <span class="short-meta-category" style="color: var(--accent-color); font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px;">${item.category}</span>
+                    <span style="color: #888;"> • </span>
+                    <span class="short-meta-date" style="color: var(--accent-color); font-weight: bold;">${item.date}</span>
+                </span>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+</script>
 </body>
 </html>
