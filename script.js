@@ -27,41 +27,31 @@ async function loadNews() {
 }
 
 // ---------------------------------------------------------
-// 2. РЕНДЕР И ФИЛЬТРАЦИЯ (ГЛАВНАЯ ЛОГИКА)
+// 2. РЕНДЕР И ФИЛЬТРАЦИЯ (С КАРТИНКАМИ)
 // ---------------------------------------------------------
 function renderNews() {
     const start = currentPage * itemsPerPage;
     const end = start + itemsPerPage;
     
-    // Получаем имя текущего файла (например, state.html, svo.html)
     const currentFileName = window.location.pathname.split('/').pop();
-    
     let filteredNews = allNews;
 
-    // --- МАПИНГ: Файл -> Категория ---
-    // Если файл совпадает, фильтруем новости по этой категории
+    // Фильтрация по категориям в зависимости от имени файла
     if (currentFileName === 'svo.html') {
         filteredNews = allNews.filter(item => item.category === 'СВО');
-    } 
-    else if (currentFileName === 'army.html') {
+    } else if (currentFileName === 'army.html') {
         filteredNews = allNews.filter(item => item.category === 'Армия');
-    } 
-    else if (currentFileName === 'state.html') {
+    } else if (currentFileName === 'state.html') {
         filteredNews = allNews.filter(item => item.category === 'Государство');
-    } 
-    else if (currentFileName === 'politics.html') {
+    } else if (currentFileName === 'politics.html') {
         filteredNews = allNews.filter(item => item.category === 'Политика');
-    } 
-    else if (currentFileName === 'geopolitics.html') {
+    } else if (currentFileName === 'geopolitics.html') {
         filteredNews = allNews.filter(item => item.category === 'Геополитика');
-    } 
-    else if (currentFileName === 'world.html') {
+    } else if (currentFileName === 'world.html') {
         filteredNews = allNews.filter(item => item.category === 'Мир');
-    } 
-    else if (currentFileName === 'crime.html') {
+    } else if (currentFileName === 'crime.html') {
         filteredNews = allNews.filter(item => item.category === 'Криминал');
     }
-    // Если ни одно условие не подошло (например, index.html), показываем ВСЕ новости
 
     console.log(`📄 Страница: ${currentFileName} | Показано: ${filteredNews.length} новостей`);
 
@@ -77,13 +67,27 @@ function renderNews() {
         const card = document.createElement('article');
         card.className = 'news-card';
         card.style.animationDelay = `${index * 0.1}s`;
+
+        // Проверка на наличие картинки
+        const hasImage = item.image && item.image.trim() !== '';
+        if (!hasImage) {
+            card.classList.add('has-no-image');
+        }
         
         const dateObj = new Date(item.date);
         const formattedDate = dateObj.toLocaleString('ru-RU', {
             day: 'numeric', month: 'long', year: 'numeric'
         });
 
+        // Формируем блок с картинкой (если есть)
+        const imageBlock = hasImage
+            ? `<div class="card-image-wrapper">
+                 <img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy">
+               </div>`
+            : '';
+
         card.innerHTML = `
+            ${imageBlock}
             <div class="card-body">
                 <span class="card-date">${formattedDate}</span>
                 <h3 class="card-title">${item.title}</h3>
@@ -91,7 +95,15 @@ function renderNews() {
             </div>
         `;
         
-        card.addEventListener('click', () => alert(`Переход: ${item.title}`));
+        // Переход по ссылке при клике
+        card.addEventListener('click', () => {
+            if (item.url) {
+                window.location.href = item.url;
+            } else {
+                console.warn('У новости нет ссылки:', item.title);
+            }
+        });
+
         newsContainer.appendChild(card);
     });
 
@@ -113,9 +125,9 @@ function checkLoaderVisibility() {
         entries.forEach(entry => {
             if (entry.isIntersecting && !isLoading) {
                 const currentFileName = window.location.pathname.split('/').pop();
-                let totalCount = allNews.length; // По умолчанию все
+                let totalCount = allNews.length;
 
-                // Повторяем ту же логику, чтобы узнать ОБЩИЙ размер отфильтрованного списка
+                // Повторяем логику фильтрации, чтобы узнать общее количество новостей в категории
                 if (currentFileName === 'svo.html') {
                     totalCount = allNews.filter(i => i.category === 'СВО').length;
                 } else if (currentFileName === 'army.html') {
@@ -147,7 +159,7 @@ function checkLoaderVisibility() {
 }
 
 // ---------------------------------------------------------
-// 4. ПОИСК (ПОИСК ПО ТЕКСТУ)
+// 4. ПОИСК (ПО ТЕКСТУ)
 // ---------------------------------------------------------
 if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -161,7 +173,7 @@ if (searchInput) {
             if (query.length >= 3 && (title.includes(query) || desc.includes(query))) {
                 card.style.display = 'block';
             } else if (query.length < 3) {
-                card.style.display = 'block'; // Если пусто или мало букв - показываем всё
+                card.style.display = 'block'; // Если пусто или мало букв — показываем всё
             } else {
                 card.style.display = 'none';
             }
