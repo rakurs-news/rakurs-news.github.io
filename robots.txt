@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Верификация Яндекс.Вебмастер
+yandex-verification: 8e3a5a0a7520b3b8
