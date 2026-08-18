@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Минобороны сообщило о новых учениях | Ракурс</title>
+    
+    <!-- Шрифты -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap">
+    
+    <style>
+    /* --- ПЕРЕМЕННЫЕ И СБРОС --- */
+    :root {
+        --primary-gradient: linear-gradient(30deg, #0f202a 0%, #203a43 50%, #2c5364 100%);
+        --bg-dark: #0f161b;
+        --card-bg: #f8f9fa;
+        --text-main: #ffffff;
+        --text-secondary: #adb5bd;
+        --accent: #ff9800;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: var(--bg-dark);
+        color: #333;
+        line-height: 1.6;
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, .logo-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* --- ШАПКА --- */
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background: var(--primary-gradient);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        z-index: 1000;
+        padding: 0 10px;
+    }
+
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .logo-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        border-radius: 4px;
+    }
+
+    .logo-text {
+        font-size: 24px;
+        letter-spacing: 1px;
+    }
+
+    /* --- БУРГЕР МЕНЮ --- */
+    .burger-btn {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 5px;
+    }
+    .burger-line {
+        width: 25px;
+        height: 3px;
+        background-color: white;
+        transition: 0.3s;
+    }
+
+.mobile-panel {
+    position: fixed;
+    top: 80px;
+    left: 0; /* Оставляем 0, двигаем только transform-ом */
+    width: 200px; /* Фиксированная ширина 200 пикселей */
+    height: calc(100vh - 80px);
+    background: var(--primary-gradient);
+    padding: 20px;
+    
+    /* Скрываем сдвигом влево на 100% своей ширины (то есть на 200px) */
+    transform: translateX(-100%); 
+    transition: transform 0.4s ease-in-out;
+    
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+    z-index: 999;
+    overflow-y: auto; /* Добавим скролл, если пунктов меню станет много */
+}
+
+.mobile-panel.active {
+    /* Возвращаем на место */
+    transform: translateX(0);
+}
+
+.nav-list { list-style: none; }
+.nav-item {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+    /* --- ОСНОВНОЙ КОНТЕНТ --- */
+    main {
+        max-width: 1200px;
+        margin: 80px auto 40px;
+        padding: 10px;
+        width: 100%;
+    }
+
+    /* --- СТРУКТУРА СТАТЬИ --- */
+    .article-container {
+        background: var(--card-bg);
+        border-radius: 12px;
+        padding: 40px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .article-header-img {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        display: block;
+    }
+
+    .article-title {
+        font-size: 36px;
+        margin-bottom: 15px;
+        color: #000000;
+    }
+
+    .article-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 30px;
+        color: var(--text-secondary);
+        font-size: 14px;
+    }
+    .meta-item span { margin-right: 5px; }
+
+    .article-content p {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 17px;
+    }
+    .article-content h2 {
+        font-size: 28px;
+        margin: 30px 0 15px;
+        color: #000;
+    }
+
+    /* --- ЦИТАТА --- */
+    blockquote {
+    border-left: 5px solid var(--accent); /* Акцентная линия */
+    background-color: #2a323d;            /* Тёмно-серая подложка в тон шапке */
+    padding: 25px 30px;
+    margin: 30px 0;
+    position: relative;
+    border-radius: 0 12px 12px 0;         /* Чуть скруглённые углы */
+    color: #ffffff;                       /* Белый текст на тёмном фоне */
+    font-style: italic;
+    font-size: 18px;
+}
+
+/* Кавычки-ёлочки, полупрозрачные, акцентного цвета */
+blockquote::before {
+    content: "«";                         /* Открывающая ёлочка */
+    font-size: 70px;                     /* Крупнее, чтобы было заметно */
+    color: rgba(255, 152, 0, 0.3);       /* Акцентный цвет с прозрачностью */
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    font-family: serif;                  /* Для правильной формы кавычек */
+    line-height: 1;
+    z-index: 1;
+}
+
+blockquote::after {
+    content: "»";                         /* Закрывающая ёлочка */
+    font-size: 70px;
+    color: rgba(255, 152, 0, 0.3);
+    position: absolute;
+    bottom: -10px;
+    right: 15px;
+    font-family: serif;
+    line-height: 1;
+    z-index: 1;
+}
+    .quote-source {
+        display: block;
+        margin-top: 15px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        text-align: right;
+        font-style: normal;
+    }
+
+    footer {
+        text-align: center;
+        padding: 40px;
+        color: var(--text-secondary);
+        margin-top: 40px;
+        border-top: 1px solid #222;
+    }
+
+    @media (max-width: 768px) {
+        .article-container { padding: 20px; }
+        .article-header-img { height: 300px; }
+        .article-title { font-size: 28px; }
+        /* На мобильных панель уже имеет ширину 85%, менять не нужно */
+    }
+</style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo-container">
+            <img src="https://via.placeholder.com/50?text=LOGO" alt="Logo" class="logo-img">
+            <span class="logo-text">РАКУРС</span>
+        </div>
+        
+        <div class="burger-btn" id="burgerBtn">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+        </div>
+    </header>
+
+    <!-- Мобильная панель -->
+    <nav class="mobile-panel" id="mobilePanel">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="index.html" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">СВО</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Армия</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Государство</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Политика</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Геополитика</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Мир</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Криминал</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <article class="article-container">
+            <!-- Картинка на всю ширину карточки -->
+            <img src="https://via.placeholder.com/1200x600?text=Military+Exercise" alt="Учения флота" class="article-header-img">
+
+            <!-- Заголовок -->
+            <h1 class="article-title">Крупные учения флота начались в Балтийском море</h1>
+
+            <!-- Метаданные: автор, дата, категория -->
+            <div class="article-meta">
+                <span class="meta-item">Автор: <strong>Иван Петров</strong></span>
+                <span class="meta-item">Дата: <strong>25.10.2023, 10:00</strong></span>
+                <span class="meta-item">Категория: <strong>Армия</strong></span>
+            </div>
+
+            <!-- Основной текст статьи -->
+            <div class="article-content">
+                <p>В маневрах задействовано более 50 кораблей и 10 тысяч военнослужащих. Отрабатывается сценарий защиты морских границ в условиях сложной оперативной обстановки. Особое внимание уделяется взаимодействию надводных сил и морской авиации.</p>
+                
+                <p>По данным Министерства обороны, в ходе учений экипажи отработают задачи по поиску и уничтожению подводных лодок условного противника, а также проведут стрельбы по морским и воздушным целям. Для координации действий используется единая автоматизированная система управления.</p>
+
+                <!-- Цитата со стилизацией -->
+                <blockquote>
+                    «Такие учения позволяют проверить готовность флота к выполнению задач в любых условиях. Мы видим высокий уровень слаженности экипажей и эффективность новых тактических приемов.»
+                    <span class="quote-source">— Адмирал флота, комментарий для СМИ</span>
+                </blockquote>
+
+                <p>На отдельных этапах учений планируется привлечение сил береговой обороны и подразделений морской пехоты. Сценарий предусматривает отражение массированных ракетных ударов и высадку десанта на необорудованное побережье.</p>
+                
+                <h2>Реакция экспертов</h2>
+                <p>Независимые военные аналитики отмечают, что масштаб учений свидетельствует о повышенном внимании к безопасности в регионе. По их словам, подобные мероприятия способствуют сдерживанию потенциальных угроз и поддержанию баланса сил на морских направлениях.</p>
+            </div>
+        </article>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Ракурс. Все права защищены.</p>
+    </footer>
+
+    <script>
+        // Логика мобильного меню
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobilePanel = document.getElementById('mobilePanel');
+        let isMenuOpen = false;
+
+        burgerBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobilePanel.classList.add('active');
+            } else {
+                mobilePanel.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
