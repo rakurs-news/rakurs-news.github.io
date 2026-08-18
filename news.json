@@ -1,24 +1,47 @@
-{
-  "news": [
-    {
-      "id": 2,
-      "title": "Полный пиздец",
-      "description": "Реально сайт заебал",
-      "imageUrl": "images/IMG_20260817_221223_008.jpg",
-      "publishDate": "17 Августа 2026",
-      "updateDate": "17 Августа 2026, 23:00",
-      "category": "Криминал",
-      "url": "news/zaebsl-sayt.html"
-    },
-    {
-      "id": 1,
-      "title": "Стрельба в Дагестане",
-      "description": "Дагестан потряс инцидент у Гимринского тоннеля: обычная ночная разборка обернулась покушением.",
-      "imageUrl": "images/IMG_20260817_221223_008.jpg",
-      "publishDate": "17 Августа 2026",
-      "updateDate": "17 Августа 2026, 23:00",
-      "category": "Криминал",
-      "url": "news/konflikt-i-strelba-v-dagestane.html"
-    }
-  ]
-}
+[
+  {
+    "id": "1",
+    "category": "Армия",
+    "title": "Минобороны сообщило о новых учениях на полигонах",
+    "date": "24.10.2023 14:30",
+    "excerpt": "В ходе учений отрабатывались сценарии взаимодействия разных родов войск.",
+    "image": "https://via.placeholder.com/600x400?text=Army+News",
+    "url": "articles/army-1.html"
+  },
+  {
+    "id": "2",
+    "category": "Политика",
+    "title": "Парламент утвердил новый бюджет на следующий год",
+    "date": "24.10.2023 12:15",
+    "excerpt": "Основные средства направлены на социальные программы и инфраструктуру.",
+    "image": "https://via.placeholder.com/600x400?text=Politics",
+    "url": "articles/politics-1.html"
+  },
+  {
+    "id": "3",
+    "category": "Криминал",
+    "title": "Задержана группа мошенников, действовавших в интернете",
+    "date": "23.10.2023 09:45",
+    "excerpt": "Ущерб от действий группы оценивается в несколько миллионов рублей.",
+    "image": "https://via.placeholder.com/600x400?text=Crime",
+    "url": "articles/crime-1.html"
+  },
+  {
+    "id": "4",
+    "category": "Мир",
+    "title": "Саммит G20: основные итоги встречи лидеров",
+    "date": "22.10.2023 18:00",
+    "excerpt": "Лидеры обсудили вопросы климата и мировой экономики.",
+    "image": "https://via.placeholder.com/600x400?text=World",
+    "url": "articles/world-1.html"
+  },
+  {
+    "id": "5",
+    "category": "Государство",
+    "title": "Новый указ о поддержке малого бизнеса подписан президентом",
+    "date": "21.10.2023 11:20",
+    "excerpt": "Предприниматели смогут получить льготные кредиты и налоговые каникулы.",
+    "image": "https://via.placeholder.com/600x400?text=State",
+    "url": "articles/state-1.html"
+  }
+]

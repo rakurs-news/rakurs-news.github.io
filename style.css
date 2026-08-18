@@ -1,0 +1,247 @@
+/* --- Шрифты и сброс --- */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(30deg, #0f202a 0%, #203a43 50%, #2c5364 100%);
+    --bg-dark: #0f161b;
+    --card-bg: #f8f9fa; /* Чуть темнее белого */
+    --text-main: #ffffff;
+    --text-secondary: #adb5bd;
+    --accent: #ff9800;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--bg-dark);
+    color: #333;
+    line-height: 1.6;
+    overflow-x: hidden; /* Чтобы меню не ломало ширину */
+}
+
+h1, h2, h3, .logo-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+/* --- Шапка (Header) --- */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 1000;
+    padding: 0 10px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 3px; /* Отступ между лого и текстом */
+}
+
+.logo-img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.logo-text {
+    font-size: 24px;
+    letter-spacing: 1px;
+}
+
+/* Бургер меню */
+.burger-btn {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 5px;
+}
+.burger-line {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    transition: 0.3s;
+}
+
+/* Мобильная панель (Sidebar) */
+.mobile-panel {
+    position: fixed;
+    top: 80px; /* Под шапкой */
+    left: -300px; /* Скрыта слева */
+    width: 300px;
+    height: calc(100vh - 80px);
+    background: var(--primary-gradient);
+    padding: 20px;
+    transition: left 0.4s ease-in-out;
+    box-shadow: 5px 0 15px rgba(0,0,0,0.5);
+    z-index: 999;
+}
+
+.mobile-panel.active {
+    left: 0;
+}
+
+.nav-list {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.2); /* Разделительная линия */
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+/* --- Поиск --- */
+.search-wrapper {
+    width: 100%;
+    background: linear-gradient(30deg, #1a2a35 0%, #2a4a5a 100%);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* УБРАНЫ: position: sticky; top: 80px; z-index: 900; */
+    margin-top: 80px; /* Отступ сверху, чтобы уйти из-под фиксированной шапки */
+}
+
+.search-box {
+    width: 85%;
+    max-width: 600px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    font-size: 16px;
+    color: white;
+    background: rgba(255,255,255,0.1);
+}
+
+.search-btn {
+    background: none;
+    border: 2px solid white;
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    transition: all 0.3s;
+}
+
+.search-btn:hover {
+    background: white;
+    color: #000;
+}
+
+/* --- Контент --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10px; /* Отступы по краям 10px */
+    width: 100%;
+}
+
+/* Главная новость (Hero) */
+.hero-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.hero-img { width: 100%; height: 350px; object-fit: cover; }
+.hero-info { padding: 30px; display: flex; flex-direction: column; justify-content: center; }
+.hero-title {
+    font-size: 32px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    color: #000000 !important; /* Чёрный цвет, приоритет выше любых других стилей */
+}
+.hero-meta { color: var(--text-secondary); font-size: 14px; margin-bottom: 10px; }
+.hero-desc { color: #555; font-size: 18px; }
+
+/* Лента новостей */
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.news-card {
+    background: var(--card-bg); /* Чуть темнее белого */
+    padding: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card:hover { transform: translateY(-5px); }
+
+.card-img-small { width: 100%; height: 180px; object-fit: cover; margin-bottom: 15px; border-radius: 6px;}
+.card-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; color: #222; }
+.card-meta { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
+
+/* Футер */
+footer {
+    text-align: center;
+    padding: 40px;
+    color: var(--text-secondary);
+    margin-top: 40px;
+    border-top: 1px solid #222;
+}
+
+/* --- Адаптив (Mobile) --- */
+@media (max-width: 768px) {
+    .hero-card { grid-template-columns: 1fr; }
+    .hero-img { height: 200px; }
+    
+    .search-wrapper { padding: 10px; }
+    .search-box { width: 70%; }
+    
+    /* На мобильных лента идет друг под другом (1 колонка) */
+    .news-grid { grid-template-columns: 1fr; } 
+}
+.hero-title {
+    font-size: 32px;
+    margin-bottom: 15px;
+    line-height: 1.2;
+    color: var(--hero-title-color, #ffffff);
+}
+
+/* Светлая тема: черный заголовок */
+@media (prefers-color-scheme: light) {
+    :root {
+        --hero-title-color: #000000;
+    }
+}
+
+/* Темная тема: белый заголовок (по умолчанию, если prefers-color-scheme не сработал) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --hero-title-color: #ffffff;
+    }
+}

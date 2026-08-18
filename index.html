@@ -2,658 +2,150 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    
-    <!-- Meta Tags -->
-    <!-- SEO & META DATA 2026 -->
-<title>Ракурс NEWS | Новости России и мира: аналитика, обзоры, эксклюзивные материалы</title>
-<meta name="description" content="Ракурс NEWS — оперативно и достоверно. Свежие новости, глубокий анализ событий, экономические прогнозы и эксклюзивные репортажи. Читайте главные события дня на нашем портале.">
-<meta name="keywords" content="новости России, новости сегодня, главные новости, аналитика событий, экономическая аналитика, политические новости, эксклюзивные репортажи, свежие сводки, обзор рынка, новости Москвы, горячие новости, достоверные источники">
-<meta name="author" content="Редакция Ракурс NEWS">
-<meta name="robots" content="index, follow, max-image-preview:large">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-
-<!-- Favicon (ИСПРАВЛЕНО) -->
-<!-- Вариант 1: Стандартный ICO (лучше всего для старых браузеров) -->
-<link rel="icon" type="image/x-icon" href="images/favicon.ico">
-<!-- Вариант 2: Современный PNG (для Chrome, Android) -->
-<link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
-<link rel="icon" type="image/png" sizes="32x32" href="images/logo-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
-
-<!-- Schema.org (ПРОКАЧАННАЯ ВЕРСИЯ ДЛЯ 2026) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "NewsAgency",
-  "name": "Ракурс NEWS",
-  "url": "https://example.com",
-  "logo": {
-    "@type": "ImageObject",
-    "url": "images/logo.png",
-    "width": 200,
-    "height": 50
-  },
-  "description": "Профессиональный новостной портал с оперативной подачей информации и экспертной аналитикой.",
-  "sameAs": [
-    "https://vk.ru/rakurs_news",
-    "https://t.me/RAKURS_NEWS_RU",
-  ],
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://example.com/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-</script>
-
-<!-- Open Graph (ДЛЯ СОЦСЕТЕЙ И ПОИСКА) -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ракурс NEWS — Новости и аналитика событий в России и мире">
-<meta property="og:description" content="Оперативные новости, экспертные обзоры и эксклюзивные расследования от редакции Ракурс NEWS.">
-<meta property="og:url" content="https://example.com">
-<meta property="og:image" content="images/main-hero-image.jpg">
-<meta property="og:site_name" content="Ракурс NEWS">
-<meta property="article:published_time" content="2026-10-27T10:00:00+03:00">
-<meta property="article:modified_time" content="2026-10-27T12:30:00+03:00">
-<meta property="article:author" content="Редакция Ракурс NEWS">
-<meta property="article:section" content="Новости, Аналитика">
-
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;1,400&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-
-
-    <style>
-        :root {
-            --primary-gradient: linear-gradient(90deg, #0b1a3a 0%, #2b4a7a 100%);
-            --bg-color: #f4f6f8;
-            --text-main: #1a1a1a;
-            --text-secondary: #555;
-            --radius-small: 3px;
-            --radius-card: 2px;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; color: var(--text-main); background-color: var(--bg-color); overflow-x: hidden; }
-
-        /* Header */
-        header {
-            height: 80px;
-            background: var(--primary-gradient);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            padding: 0 20px;
-        }
-
-        .header-content {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo-img {
-            height: 40px;
-            width: auto;
-        }
-
-        .site-title {
-            font-family: 'Merriweather', serif;
-            font-size: 24px;
-            font-weight: 700;
-            color: white;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }
-
-        .burger-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-            width: 30px;
-            height: 30px;
-            padding: 5px 0;
-            position: absolute; 
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 1001;
-        }
-
-        .burger-line {
-            width: 100%;
-            height: 3px;
-            background-color: white;
-            display: block;
-        }
-
-        @media (max-width: 768px) {
-            .header-content { justify-content: space-between; }
-            .site-title { margin-left: 0; }
-        }
-
-        /* Search Bar */
-        .search-container {
-            width: 100%;
-            background: var(--primary-gradient);
-            padding: 10px 20px;
-            position: relative; 
-            z-index: 999;
-            display: flex;
-            justify-content: center;
-        }
-        .search-input-wrapper {
-            width: 100%;
-            max-width: 600px;
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-        .search-box {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: var(--radius-small);
-            border: none;
-            outline: none;
-            font-size: 16px;
-            padding-right: 40px;
-        }
-        .search-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0;
-            margin-left: 0;
-        }
-        .search-btn svg {
-            fill: var(--text-secondary);
-        }
-
-        /* Mobile Menu */
-        .mobile-menu {
-            position: fixed;
-            top: 0;
-            left: -250px;
-            width: 200px;
-            height: 100vh;
-            background: var(--primary-gradient);
-            transition: left 0.3s ease;
-            padding-top: 100px;
-            padding-bottom: 40px;
-            display: flex;
-            flex-direction: column;
-            padding-left: 20px;
-            z-index: 1002;
-        }
-        .mobile-menu.active { left: 0; }
-        .menu-item {
-            color: white;
-            text-decoration: none;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            font-size: 18px;
-        }
-
-        /* Categories Desktop */
-        .categories-bar {
-            display: none;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 10px 20px;
-            background: rgba(255,255,255,0.1);
-        }
-        .cat-item {
-            display: inline-block;
-            margin-right: 20px;
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        @media (min-width: 769px) {
-            .categories-bar { display: block; }
-            header { justify-content: center; }
-            .header-content { width: 100%; justify-content: space-between; }
-        }
-
-        /* Main Content Wrapper */
-        .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    margin-top: 60px; /* Это гарантированно отодвинет контент вниз */
-}
-
-        /* Featured Article (Main) */
-        .featured-article {
-            position: relative;
-            margin-bottom: 30px;
-            border-radius: var(--radius-small);
-            overflow: hidden;
-            background: white;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .featured-tag {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: #d9534f;
-            color: white;
-            padding: 5px 10px;
-            font-size: 14px;
-            font-weight: bold;
-            border-radius: 3px;
-            z-index: 10;
-        }
-        .feat-img-wrapper {
-            width: 100%;
-            height: 450px;
-            overflow: hidden;
-        }
-        .feat-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: var(--radius-small);
-        }
-        .feat-content {
-            padding: 20px;
-        }
-        .feat-title {
-            font-size: 32px;
-            font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 10px;
-        }
-        .feat-meta {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        /* Recent News Slider (Mobile) */
-        .recent-news-section {
-            margin-bottom: 30px;
-        }
-        .news-slider {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding-bottom: 10px;
-        }
-        .news-card-mini {
-            min-width: 220px;
-            height: 140px;
-            position: relative;
-            border-radius: var(--radius-card);
-            overflow: hidden;
-            cursor: pointer;
-        }
-        .mini-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .mini-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            padding: 15px;
-            color: white;
-        }
-        .mini-title {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        /* Content Grid / List */
-        .content-area {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 25px;
-        }
-        
-        .article-card {
-            background: white;
-            padding: 15px;
-            border-radius: var(--radius-card);
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-        @media (min-width: 769px) {
-            .content-area { grid-template-columns: repeat(4, 1fr); }
-            .article-card { flex-direction: row; }
-        }
-
-        .card-img-side {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: var(--radius-card);
-            margin-bottom: 15px;
-        }
-        @media (min-width: 769px) {
-            .card-img-side { width: 120px; height: 120px; margin-right: 20px; margin-bottom: 0; }
-        }
-
-        .card-text {
-            flex: 1;
-        }
-        .card-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        .card-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-            display: none;
-        }
-        @media (min-width: 769px) {
-            .card-desc { display: block; }
-        }
-        .card-meta {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        .updated-badge {
-            color: #d9534f;
-            font-weight: bold;
-            margin-right: 5px;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--primary-gradient);
-            color: white;
-            padding: 40px 20px 20px;
-            margin-top: 40px;
-        }
-        .footer-top {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-            gap: 15px;
-        }
-        .footer-logo {
-            height: 30px;
-            width: auto;
-        }
-        .copyright {
-            font-size: 14px;
-        }
-        .footer-links {
-            margin-top: 20px;
-        }
-        .section-title {
-            font-weight: 700;
-            margin-bottom: 10px;
-            font-size: 16px;
-        }
-        .social-links a {
-            color: white;
-            text-decoration: none;
-            margin-right: 15px;
-            font-weight: 500;
-        }
-
-        /* Utility */
-        .hidden-mobile { display: none; }
-        @media (min-width: 769px) {
-            .hidden-mobile { display: block; }
-        }
-        .mt-20 {
-            margin-top: 20px;
-        }
-        /* Отступ сверху, чтобы поиск встал ровно под фиксированной шапкой */
-.search-container {
-    margin-top: 80px; /* Высота твоей шапки (header { height: 80px; }) */
-}
-
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Разрешаем зум -->
+    <title>Ракурс | Новости</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Header -->
+    <!-- Шапка -->
     <header>
-        <div class="header-content">
-            <img src="images/logo.png" alt="Logo" class="logo-img">
-            <div class="site-title">Ракурс NEWS</div>
+        <div class="logo-container">
+            <!-- Заглушка логотипа -->
+            <img src="https://via.placeholder.com/50?text=LOGO" alt="Logo" class="logo-img">
+            <span class="logo-text">РАКУРС NEWS</span>
         </div>
-
-        <button class="burger-btn" onclick="toggleMenu()">
-            <span class="burger-line"></span>
-            <span class="burger-line"></span>
-            <span class="burger-line"></span>
-        </button>
+        
+        <div class="burger-btn" id="burgerBtn">
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+            <div class="burger-line"></div>
+        </div>
     </header>
 
-    <!-- Categories (Desktop) -->
-    <nav class="categories-bar hidden-mobile">
-        <a href="politics.html" class="cat-item">Политика</a>
-        <a href="geopolitics.html" class="cat-item">Геополитика</a>
-        <a href="economy.html" class="cat-item">Экономика</a>
-        <a href="society.html" class="cat-item">Общество</a>
-        <a href="technology.html" class="cat-item">Технологии</a>
-        <a href="culture.html" class="cat-item">Культура</a>
+    <!-- Мобильная панель -->
+    <nav class="mobile-panel" id="mobilePanel">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="https://rakurs-news.github.io" class="nav-link">Главная</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">СВО</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Армия</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Государство</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Политика</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Геополитика</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Мир</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Криминал</a></li>
+        </ul>
     </nav>
 
-    <!-- Search Bar -->
-    <div class="search-container">
-        <div class="search-input-wrapper">
-            <input type="text" id="searchInput" class="search-box" placeholder="Поиск новостей...">
-            <button class="search-btn" onclick="performSearch()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                </svg>
-            </button>
-        </div>
+    <!-- Поиск -->
+    <div class="search-wrapper">
+        <input type="text" class="search-box" id="searchInput" placeholder="Поиск по заголовкам...">
+        <button class="search-btn" id="searchBtn">&#128269;</button>
     </div>
-
-    <!-- Mobile Menu -->
-    <nav class="mobile-menu" id="mobileMenu">
-        <a href="index.html" class="menu-item">Главная</a>
-        <a href="politics.html" class="menu-item">Политика</a>
-        <a href="geopolitics.html" class="menu-item">Геополитика</a>
-        <a href="crime.html" class="menu-item">Криминал</a>
-        <a href="society.html" class="menu-item">Общество</a>
-        <a href="about.html" class="menu-item">О нас</a>
-    </nav>
 
     <main class="container">
         
-        <!-- === ГЛАВНАЯ НОВОСТЬ (ЗАКРЕПЛЕННАЯ) === -->
-        <a href="article.html?id=1" class="featured-article mt-20" style="text-decoration: none; color: inherit;">
-            <span class="featured-tag">Главное</span>
-            <div class="feat-img-wrapper">
-                <img src="images/IMG_20260817_221223_008.jpg" alt="Стрельба в Дагестане" class="feat-img">
+        <!-- ГЛАВНАЯ НОВОСТЬ (Вручную в HTML) -->
+        <article class="hero-card">
+            <img src="https://via.placeholder.com/800x600?text=Main+Headline" alt="Главная новость" class="hero-img">
+            <div class="hero-info">
+                <span class="hero-meta">Армия • 25.10.2023 10:00</span>
+                <h2 class="hero-title">Крупные учения флота начались в Балтийском море</h2>
+                <p class="hero-desc">В маневрах задействовано более 50 кораблей и 10 тысяч военнослужащих. Отрабатывается сценарий защиты морских границ.</p>
+                <!-- Кнопка действия опциональна, можно убрать -->
             </div>
-            <div class="feat-content">
-                <h1 class="feat-title">Стрельба в Дагестане</h1>
-                <div class="feat-meta">
-                    Опубликовано: 17 Августа 2026 | Обновлено: 17 Августа 2026, 23:55
-                </div>
-            </div>
-        </a>
+        </article>
 
-        <!-- Recent News Slider -->
-        <section class="recent-news-section">
-            <div class="news-slider" id="slider-container">
-                <!-- Заглушка удалена, контент будет вставлен JS -->
-            </div>
+        <!-- ЛЕНТА НОВОСТЕЙ (Генерируется JS) -->
+        <section id="newsFeed" class="news-grid">
+            <!-- Сюда JS вставит карточки -->
         </section>
 
-        <!-- Main Content Area -->
-        <section class="content-area">
-            <!-- Сюда JS будет вставлять остальные статьи -->
-            <p id="loading-msg" style="text-align: center; padding: 40px; color: #888;">Загрузка новостей...</p>
-        </section>
     </main>
 
     <footer>
-        <div class="footer-top">
-            <img src="/images/logo.png" alt="Footer Logo" class="footer-logo">
-            <div class="copyright">© Ракурс NEWS</div>
-        </div>
-        <div class="footer-links">
-            <div class="section-title">Контакты</div>
-            <p><a href="mailto:contact@rakurs-news.com" style="color:white; text-decoration:none;">contact@rakurs-news.com</a></p>
-            <p style="color:#ccc;">Адрес: г. Москва, ул. 5-я ул. Ямского Поля, 19–21, стр. 1</p>
-            
-            <div class="section-title" style="margin-top:20px;">Наши социальные сети</div>
-            <div class="social-links">
-                <a href="https://t.me/RAKURS_NEWS_RU" style="text-decoration:none;">Телеграм</a>
-                <a href="https://vk.ru/rakurs_news" style="text-decoration:none;">Вконтакте</a>
-            </div>
-        </div>
+        <p>&copy; 2023 Ракурс. Все права защищены.</p>
     </footer>
 
     <script>
-document.addEventListener('DOMContentLoaded', async () => {
-    const contentArea = document.querySelector('.content-area');
-    const sliderContainer = document.getElementById('slider-container');
-    const searchInput = document.getElementById('searchInput');
-    const loadingMsg = document.getElementById('loading-msg');
-
-    function showError(msg) {
-        if (contentArea) {
-            contentArea.innerHTML = `<div style="padding:20px; background:#ffebeb; color:#c62828; border-radius:8px; text-align:center; font-family:sans-serif;">
-                <strong>ОШИБКА:</strong><br>${msg}
-            </div>`;
-        }
-        if(loadingMsg) loadingMsg.style.display = 'none';
-    }
-
-    let allNews = [];
-
-    try {
-        // 1. Забираем файл
-        const response = await fetch('news.json');
-        if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
-        
-        // 2. Парсим JSON
-        const data = await response.json();
-
-        // 3. ГЛАВНОЕ: Твой JSON имеет структуру { "news": [...] }, поэтому берем data.news
-        if (!data || !Array.isArray(data.news)) {
-            throw new Error('В файле news.json нет массива новостей. Проверь структуру: должно быть поле "news".');
+        // 1. Загрузка данных
+        async function loadNews() {
+            try {
+                const response = await fetch('news.json');
+                const data = await response.json();
+                renderNews(data);
+            } catch (error) {
+                console.error('Ошибка загрузки новостей:', error);
+                document.getElementById('newsFeed').innerHTML = '<p style="color:white;">Новости временно недоступны</p>';
+            }
         }
 
-        allNews = data.news;
-
-    } catch (e) {
-        console.error(e);
-        showError(e.message);
-        return;
-    }
-
-    function renderSlider(items) {
-        if (!sliderContainer) return;
-        sliderContainer.innerHTML = '';
-        const toShow = items.slice(0, 5);
-        
-        if (toShow.length === 0) {
-            sliderContainer.innerHTML = '<p style="color:#999; text-align:center;">Нет новостей</p>';
-            return;
-        }
-
-        toShow.forEach(news => {
-            const card = document.createElement('a');
-            card.href = news.url || '#';
-            card.className = 'news-card-mini';
-            card.style.cssText = "text-decoration:none; color:inherit; display:block;";
+        // 2. Рендер карточек (Лента)
+        function renderNews(articles) {
+            const feed = document.getElementById('newsFeed');
+            // Сортировка: сначала новые (по ID или дате, если есть)
+            articles.sort((a, b) => parseInt(b.id) - parseInt(a.id)); 
             
-            const imgSrc = news.imageUrl || 'https://via.placeholder.com/220x140?text=No+Image';
+            feed.innerHTML = '';
+            articles.forEach(article => {
+                const card = document.createElement('article');
+                card.className = 'news-card';
+                card.onclick = () => window.location.href = article.url; // Переход по клику на карточку
 
-            card.innerHTML = `
-                <img src="${imgSrc}" alt="${news.title}" class="mini-img">
-                <div class="mini-overlay">
-                    <div class="mini-title">${news.title}</div>
-                </div>
-            `;
-            sliderContainer.appendChild(card);
-        });
-    }
-
-    function renderNews(items) {
-        contentArea.innerHTML = '';
-        
-        if (items.length === 0) {
-            contentArea.innerHTML = '<p style="text-align:center; color:#888;">По запросу ничего не найдено</p>';
-            return;
+                card.innerHTML = `
+                    <img src="${article.image}" alt="${article.title}" class="card-img-small">
+                    <h3 class="card-title">${article.title}</h3>
+                    <div class="card-meta">
+                        <span>${article.category}</span> • <span>${article.date}</span>
+                    </div>
+                `;
+                feed.appendChild(card);
+            });
         }
 
-        items.forEach(news => {
-            const card = document.createElement('a');
-            card.href = news.url || '#';
-            card.className = 'article-card';
-            card.style.cssText = "text-decoration:none; color:inherit; display:block;";
+        // 3. Логика поиска
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
 
-            const img = news.imageUrl || 'https://via.placeholder.com/120x120?text=No+Img';
+        function performSearch() {
+            const query = searchInput.value.toLowerCase();
+            if (!query) {
+                loadNews(); // Если поле пустое, показать все новости
+                return;
+            }
 
-            card.innerHTML = `
-                <img src="${img}" alt="${news.title}" class="card-img-side">
-                <div class="card-text">
-                    <h3 class="card-title">${news.title}</h3>
-                    <p class="card-desc">${news.description || ''}</p>
-                    <div class="card-meta">
-                        <span>Опубликовано: ${news.publishDate || 'Дата неизвестна'}</span>
-                    </div>
-                </div>
-            `;
-            contentArea.appendChild(card);
+            fetch('news.json')
+                .then(response => response.json())
+                .then(data => {
+                    const filtered = data.filter(article =>
+                        article.title.toLowerCase().includes(query)
+                    );
+                    renderNews(filtered);
+                })
+                .catch(error => console.error('Ошибка поиска:', error));
+        }
+
+        searchBtn.addEventListener('click', performSearch);
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') performSearch();
         });
-    }
 
-    function filterNews(query) {
-        const q = query.toLowerCase();
-        const filtered = allNews.filter(n => 
-            (n.title || '').toLowerCase().includes(q) || 
-            (n.description || '').toLowerCase().includes(q)
-        );
-        renderNews(filtered);
-        renderSlider(filtered);
-    }
+        // 4. Логика мобильного меню
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mobilePanel = document.getElementById('mobilePanel');
+        let isMenuOpen = false;
 
-    if (searchInput) {
-        searchInput.addEventListener('input', e => filterNews(e.target.value));
-    }
+        burgerBtn.addEventListener('click', () => {
+            isMenuOpen = !isMenuOpen;
+            if (isMenuOpen) {
+                mobilePanel.classList.add('active');
+            } else {
+                mobilePanel.classList.remove('active');
+            }
+        });
 
-    renderNews(allNews);
-    renderSlider(allNews);
-
-    if (loadingMsg) loadingMsg.style.display = 'none';
-});
-
-function toggleMenu() {
-    const menu = document.getElementById('mobileMenu');
-    if(menu) menu.classList.toggle('active');
-}
-
-window.onclick = function(event) {
-    const menu = document.getElementById('mobileMenu');
-    if (menu && event.target.closest('.burger-btn') === null && event.target !== menu && menu.classList.contains('active')) {
-        menu.classList.remove('active');
-    }
-}
-</script>
+        // Запуск при загрузке
+        loadNews();
+    </script>
 </body>
 </html>
