@@ -4,35 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Подключение шрифтов для профессионального вида -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&family=PT+Serif:ital,wght@0,400;0,700&display=swap" rel="stylesheet">
 
-    <!-- ИСПРАВЛЕНО: правильный тип для favicon -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <!-- Meta для SEO -->
     <title>Ракурс NEWS | Экспертный разбор новостей простым языком</title>
     <meta name="description" content="Не просто новости, а их разбор: Ракурс NEWS показывает, что стоит за заголовками. Геополитика, СВО, экономика и политика — простыми словами, с фактами и логикой.">
     <meta name="keywords" content="новости, аналитика, разбор новостей, Ракурс, политика, СВО, армия">
     <meta name="robots" content="index, follow">
     
-    <!-- Open Graph для соцсетей -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Ракурс NEWS — Экспертный разбор новостей">
     <meta property="og:description" content="Профессиональный взгляд на официальные новости. Простой язык, глубокий анализ.">
     <meta property="og:url" content="https://example.com">
-    <!-- В идеале замени эту заглушку на реальную картинку 1200x630 -->
     <meta property="og:image" content="https://via.placeholder.com/1200x630/2c3e50/fff?text=Rakurs+NEWS">
     <meta property="og:site_name" content="Ракурс NEWS">
 
-    <!-- Подключение стилей и скриптов -->
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 
     <style>
-        /* --- Стили кнопки "Наверх" и анимации --- */
         #scrollTopBtn {
             position: fixed;
             bottom: 30px;
@@ -108,25 +101,23 @@
             }
         }
 
-        /* --- Новые стили для картинок соцсетей --- */
         .social-item {
             display: flex;
-            align-items: center; /* Центрирует иконку и текст по вертикали */
-            gap: 8px;            /* Расстояние между картинкой и текстом */
+            align-items: center;
+            gap: 8px;
             cursor: pointer;
         }
 
         .social-icon-img {
-            width: 24px;         /* Фиксированный размер иконки */
+            width: 24px;
             height: 24px;
-            object-fit: contain; /* Чтобы картинка не искажалась */
-            display: block;      /* Убирает лишние отступы у строчных элементов */
+            object-fit: contain;
+            display: block;
         }
     </style>
 </head>
 <body>
 
-    <!-- Шапка сайта -->
     <header class="site-header">
         <div class="header-container">
             <div class="logo-wrapper">
@@ -150,7 +141,6 @@
         </div>
     </header>
 
-    <!-- Мобильное меню -->
     <nav class="mobile-menu">
         <ul class="menu-list">
             <li><a href="svo.html" class="menu-link">СВО</a></li>
@@ -164,37 +154,30 @@
         </ul>
     </nav>
 
-    <!-- ГЛАВНАЯ ВЫДЕЛЕННАЯ НОВОСТЬ (Hero Banner) -->
-    <!-- Добавлен сразу после меню и перед основным контентом -->
     <section class="hero-banner">
         <article class="hero-card">
             <div class="hero-image-wrapper">
-                <!-- Замени src на реальную картинку главной новости или оставь заглушку -->
                 <img src="/images/IMG_20260819_191652_590.jpg" alt="Главная новость" class="hero-image">
             </div>
             <div class="hero-body">
                 <span class="card-category" style="background:#ef4444">Политика</span>
                 <h1 class="hero-title">ВВП и нацпроекты: итоги заседания Совета при Путине</h1>
                 <p class="hero-subtitle">Заседание Совета по стратегическому развитию: приоритеты, поддержка регионов и задачи по технологиям.</p>
-                <a href="news/itogi-zasedaniya-putina.html" class="hero-btn">Подробнее</a>
+                <a href="/news/itogi-zasedaniya-putina.html" class="hero-btn">Подробнее</a>
             </div>
         </article>
     </section>
-    <!-- Конец Hero Banner -->
 
-    <!-- Основной контент -->
     <main class="content-area">
         <div id="news-container" class="news-grid">
             <!-- Карточки будут добавлены через JS -->
         </div>
         
-        <!-- Кнопка пагинации -->
         <button id="loadMoreBtn" class="load-more-btn" style="display: none;">Еще новости</button>
 
         <div id="loader" class="loader">Загрузка...</div>
     </main>
 
-    <!-- Футер -->
     <footer class="site-footer">
         <div class="footer-content">
             <p class="copyright">© 2026 Ракурс NEWS. Все права защищены</p>
@@ -215,7 +198,6 @@
         </div>
     </footer>
 
-    <!-- Кнопка "Наверх" -->
     <button id="scrollTopBtn" class="scroll-top-btn" aria-label="Наверх">
         <span class="pulse-ring"></span>
         <span class="pulse-ring"></span>
