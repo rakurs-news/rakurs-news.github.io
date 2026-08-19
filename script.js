@@ -112,15 +112,11 @@ document.addEventListener('DOMContentLoaded', () => {
             ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>`
             : '';
 
-        // --- ИСПРАВЛЕНИЕ ЗДЕСЬ ---
-        // В JSON уже есть полный путь (начинается с /), поэтому НЕ добавляем префикс "news/"
-        let targetUrl = item.url || '#';
-        
-        // Если вдруг в будущем попадется ссылка без слэша, добавим её вручную, но для твоего JSON это не сработает
-        if (targetUrl && !targetUrl.startsWith('/') && !targetUrl.startsWith('http')) {
-            targetUrl = `/news/${targetUrl}`;
-        }
-        // -------------------------
+        // --- ГЛАВНОЕ ИСПРАВЛЕНИЕ ---
+        // В JSON уже есть полный путь (начинается с /), поэтому ничего не добавляем.
+        // Если url нет — ставим заглушку #
+        const targetUrl = item.url ? item.url : '#';
+        // ---------------------------
 
         card.innerHTML = `
             ${imageBlock}
@@ -143,8 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     checkPaginationVisibility(filteredNews.length);
 }
-
-
 
 
     // ---------------------------------------------------------
