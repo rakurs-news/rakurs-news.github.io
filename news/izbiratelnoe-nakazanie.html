@@ -100,15 +100,13 @@
         }
 
         .article-meta {
-            font-size: 14px;
-            color: #64748b;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-/* Отступ 10px между автором и описанием */
-.meta-with-top-margin {
-    margin-top: 10px;
+    font-size: 14px;
+    color: #64748b;
+    font-weight: bold;
+    /* Убираем лишние 15px снизу, чтобы не конфликтовало */
+    margin: 0; 
+    /* Добавляем отступ СВЕРХУ, чтобы он был между описанием и автором */
+    margin-top: 10px; 
 }
 
 /* Если ты хочешь оставить старый порядок (Описание → Автор), используй это вместо выше: */
