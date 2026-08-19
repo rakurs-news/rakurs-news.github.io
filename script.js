@@ -132,6 +132,9 @@ function checkPaginationVisibility() {
     } else if (currentFileName === 'crime.html') {
         totalCount = allNews.filter(i => i.category === 'Криминал').length;
     }
+    else if (currentFileName === 'society.html') {
+        totalCount = allNews.filter(i => i.category === 'Общество').length;
+    }
 
     // Показываем кнопку, если есть еще новости
     if (currentPage * itemsPerPage < totalCount) {
