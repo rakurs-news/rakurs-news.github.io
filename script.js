@@ -1,6 +1,7 @@
 const newsContainer = document.getElementById('news-container');
 const searchInput = document.getElementById('searchInput');
 const loader = document.getElementById('loader');
+const loadMoreBtn = document.getElementById('loadMoreBtn');
 const burgerBtn = document.querySelector('.burger-btn');
 const mobileMenu = document.querySelector('.mobile-menu');
 
@@ -58,6 +59,7 @@ function renderNews() {
     if (pageItems.length === 0 && currentPage === 0) {
         loader.style.display = 'none';
         newsContainer.innerHTML = '<p style="padding: 20px; color: #64748b;">Новостей по этой категории пока нет.</p>';
+        loadMoreBtn.style.display = 'none';
         return;
     }
 
@@ -104,58 +106,60 @@ function renderNews() {
 
     currentPage++;
     isLoading = false;
-    checkLoaderVisibility();
-} // <--- ВОТ ЭТА СКОБКА БЫЛА ПОТЕРЯНА!
-
-
-// ---------------------------------------------------------
-// 3. БЕСКОНЕЧНАЯ ЛЕНТА (ПОДГРУЗКА)
-// ---------------------------------------------------------
-function checkLoaderVisibility() {
-    const lastNewsCard = document.querySelector('.news-card:last-child');
-    if (!lastNewsCard) return;
-
-    const options = { root: null, rootMargin: '0px', threshold: 0.1 };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting && !isLoading) {
-                const currentFileName = window.location.pathname.split('/').pop();
-                let totalCount = allNews.length;
-
-                // Повторяем логику фильтрации, чтобы узнать общее количество новостей в категории
-                if (currentFileName === 'svo.html') {
-                    totalCount = allNews.filter(i => i.category === 'СВО').length;
-                } else if (currentFileName === 'army.html') {
-                    totalCount = allNews.filter(i => i.category === 'Армия').length;
-                } else if (currentFileName === 'state.html') {
-                    totalCount = allNews.filter(i => i.category === 'Государство').length;
-                } else if (currentFileName === 'politics.html') {
-                    totalCount = allNews.filter(i => i.category === 'Политика').length;
-                } else if (currentFileName === 'geopolitics.html') {
-                    totalCount = allNews.filter(i => i.category === 'Геополитика').length;
-                } else if (currentFileName === 'world.html') {
-                    totalCount = allNews.filter(i => i.category === 'Мир').length;
-                } else if (currentFileName === 'crime.html') {
-                    totalCount = allNews.filter(i => i.category === 'Криминал').length;
-                }
-
-                if (currentPage * itemsPerPage < totalCount) {
-                    loader.style.display = 'block';
-                    isLoading = true;
-                    setTimeout(() => renderNews(), 500);
-                } else {
-                    loader.style.display = 'none';
-                }
-            }
-        });
-    }, options);
-
-    observer.observe(lastNewsCard);
+    checkPaginationVisibility();
 }
 
 // ---------------------------------------------------------
-// 4. ПОИСК (ПО ТЕКСТУ)
+// 3. ЛОГИКА КНОПКИ "ЕЩЕ НОВОСТИ"
+// ---------------------------------------------------------
+function checkPaginationVisibility() {
+    const currentFileName = window.location.pathname.split('/').pop();
+    let totalCount = allNews.length;
+
+    // Повторяем логику фильтрации, чтобы узнать общее количество новостей в категории
+    if (currentFileName === 'svo.html') {
+        totalCount = allNews.filter(i => i.category === 'СВО').length;
+    } else if (currentFileName === 'army.html') {
+        totalCount = allNews.filter(i => i.category === 'Армия').length;
+    } else if (currentFileName === 'state.html') {
+        totalCount = allNews.filter(i => i.category === 'Государство').length;
+    } else if (currentFileName === 'politics.html') {
+        totalCount = allNews.filter(i => i.category === 'Политика').length;
+    } else if (currentFileName === 'geopolitics.html') {
+        totalCount = allNews.filter(i => i.category === 'Геополитика').length;
+    } else if (currentFileName === 'world.html') {
+        totalCount = allNews.filter(i => i.category === 'Мир').length;
+    } else if (currentFileName === 'crime.html') {
+        totalCount = allNews.filter(i => i.category === 'Криминал').length;
+    }
+
+    // Показываем кнопку, если есть еще новости
+    if (currentPage * itemsPerPage < totalCount) {
+        loadMoreBtn.style.display = 'flex';
+    } else {
+        loadMoreBtn.style.display = 'none';
+    }
+}
+
+// ---------------------------------------------------------
+// 4. ОБРАБОТЧИК КНОПКИ "ЕЩЕ НОВОСТИ"
+// ---------------------------------------------------------
+if (loadMoreBtn) {
+    loadMoreBtn.addEventListener('click', () => {
+        if (!isLoading) {
+            isLoading = true;
+            loadMoreBtn.textContent = 'Загрузка...';
+            setTimeout(() => {
+                renderNews();
+                loadMoreBtn.textContent = 'Еще новости';
+                isLoading = false;
+            }, 300);
+        }
+    });
+}
+
+// ---------------------------------------------------------
+// 5. ПОИСК (ПО ТЕКСТУ)
 // ---------------------------------------------------------
 if (searchInput) {
     searchInput.addEventListener('input', (e) => {
@@ -178,7 +182,7 @@ if (searchInput) {
 }
 
 // ---------------------------------------------------------
-// 5. МОБИЛЬНОЕ МЕНЮ
+// 6. МОБИЛЬНОЕ МЕНЮ
 // ---------------------------------------------------------
 if (burgerBtn && mobileMenu) {
     burgerBtn.addEventListener('click', () => {
@@ -197,7 +201,7 @@ if (burgerBtn && mobileMenu) {
 }
 
 // ---------------------------------------------------------
-// 6. КНОПКА "НАВЕРХ"
+// 7. КНОПКА "НАВЕРХ"
 // ---------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
