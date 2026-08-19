@@ -1,5 +1,14 @@
 [
   {
+    "id": 7,
+    "category": "Политика",
+    "title": "Павел Дуров появился в ВКонтакте",
+    "description": "Посты Дурова во «ВКонтакте» продержались минуты — в этом и есть главный намёк.",
+    "image": "images/2024-08-26T111140Z_1232961750_RC2MN9A4HKFF_RTRMADP_3_FRANCE-SECURITY-RUSSIA-TELEGRAM-pic_32ratio_900x600-900x600-8100.jpg",
+    "date": "2026-08-19T14:00:00",
+    "url": "/news/durov-poyavilsya-v-vkontakte.html"
+  },
+  {
     "id": 6,
     "category": "Геополитика",
     "title": "АЭС для Мьянмы: экспорт атома как жест дружбы",
