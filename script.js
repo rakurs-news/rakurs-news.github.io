@@ -53,12 +53,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-// ---------------------------------------------------------
+    // ---------------------------------------------------------
     // 3. РЕНДЕР НОВОСТЕЙ (ОБНОВЛЕННАЯ ВЕРСИЯ)
     // ---------------------------------------------------------
-        function renderNews(append = false) {
+    function renderNews(append = false) {
         const start = currentPage * itemsPerPage;
-        
         const currentFileName = window.location.pathname.split('/').pop();
         let filteredNews = allNews;
 
@@ -113,12 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>`
                 : '';
 
-            // ГЛАВНОЕ ИСПРАВЛЕНИЕ:
-            // 1. Ссылка строится жестко: news/ + url из JSON.
-            // 2. В HTML карточки НЕТ обработчика клика (addEventListener удален).
-            // 3. Кнопка - это обычный тег <a>, браузер сам обработает переход.
-            
-            const articleUrl = `news/${item.url}`; 
+            // Ссылка формируется: news/ + имя файла из JSON
+            const targetUrl = `news/${item.url}`;
 
             card.innerHTML = `
                 ${imageBlock}
@@ -130,13 +125,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     <h3 class="card-title">${item.title}</h3>
                     <p class="card-description">${item.description ? item.description.substring(0, 120) + (item.description.length > 120 ? '...' : '') : ''}</p>
                     
-                    <!-- Кнопка теперь просто ссылка, никаких JS событий на ней -->
-                    <a href="${articleUrl}" class="read-btn-custom" target="_self">Читать далее</a>
+                    <!-- Кнопка "Читать далее" -->
+                    <a href="${targetUrl}" class="read-btn-custom">Читать далее</a>
                 </div>`;
 
-            // ЗДЕСЬ БЫЛ КЛИК ПО КАРТОЧКЕ - Я ЕГО УДАЛИЛА. 
-            // НИКАКИХ card.addEventListener('click', ...) больше нет.
-
+            // Клик по всей карточке убран. Ничего не вешаем на card.
+            // Переход осуществляется только через стандартный тег <a>, 
+            // который браузер обрабатывает автоматически.
+            
             newsContainer.appendChild(card);
         });
 
@@ -144,6 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         checkPaginationVisibility(filteredNews.length);
     }
+
 
 
     // ---------------------------------------------------------
