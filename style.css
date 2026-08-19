@@ -6,12 +6,9 @@
 }
 
 body {
-    font-family: 'Arial', 'Helvetica Neue', 'Roboto', sans-serif; /* Жирный шрифт без засечек */
-    background-color: #f4f4f4;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    font-family: 'Manrope', sans-serif; /* Чистый, современный гротеск */
+    background-color: #f3f4f6;
+    color: #111827; /* Почти черный, а не серый #333 */
 }
 
 a { text-decoration: none; color: inherit; }
@@ -205,17 +202,18 @@ ul { list-style: none; }
 }
 
 .card-title {
-    font-size: 20px;
-    font-weight: 900;
-    color: #1e1e1e;
-    margin-bottom: 8px;
-    line-height: 1.3;
+    /* Используем жирный Manrope для заголовков */
+    font-weight: 800; 
+    line-height: 1.2;
+    margin-bottom: 10px;
+    -webkit-font-smoothing: antialiased;
 }
 
+/* Для лидов (вводных абзацев) можно использовать PT Serif, если хочешь "газетный" стиль */
 .card-description {
-    font-size: 14px;
-    color: #475569;
-    line-height: 1.5;
+    font-size: 15px; /* Чуть крупнее, чем 14px */
+    line-height: 1.6;
+    color: #374151;
 }
 
 /* Адаптив для десктопа */
@@ -398,4 +396,115 @@ ul { list-style: none; }
 
 .load-more-btn:active {
     transform: translateY(0);
+}
+
+.news-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #e5e7eb; /* Тонкая рамка вместо тени для строгости */
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: #9ca3af;
+}
+
+/* Затемнение картинки при наведении */
+.news-card .card-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.news-card:hover .card-image-wrapper::after {
+    opacity: 1;
+}
+
+.read-more-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1e293b;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+.read-more-link:hover { color: #ef4444; text-decoration-thickness: 2px; }
+
+.hero-banner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10px;
+}
+
+.hero-card {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Картинка слева, текст справа */
+    gap: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.hero-image-wrapper {
+    height: 350px;
+    overflow: hidden;
+}
+
+.hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.hero-card:hover .hero-image {
+    transform: scale(1.05);
+}
+
+.hero-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.hero-title {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 16px;
+    color: #0f172a;
+}
+
+.hero-subtitle {
+    font-size: 17px;
+    color: #475569;
+    margin-bottom: 24px;
+    line-height: 1.5;
+}
+
+.hero-btn {
+    align-self: flex-start;
+    padding: 12px 24px;
+    background-color: #1e293b;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: background 0.2s;
+}
+
+.hero-btn:hover { background-color: #334155; }
+
+@media (max-width: 768px) {
+    .hero-card { grid-template-columns: 1fr; }
+    .hero-image-wrapper { height: 250px; }
 }

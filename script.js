@@ -86,14 +86,21 @@ function renderNews() {
             : '';
 
         card.innerHTML = `
-            ${imageBlock}
-            <div class="card-body">
-                <span class="card-category">${item.category}</span>
-                <span class="card-date">${formattedDate}</span>
-                <h3 class="card-title">${item.title}</h3>
-                <p class="card-description">${item.description}</p>
-            </div>
-        `;
+    ${imageBlock}
+    <div class="card-body">
+        <span class="card-category">${item.category}</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <span class="card-date">${formattedDate}</span>
+            <!-- Опционально: счетчик просмотров или иконка -->
+        </div>
+        <h3 class="card-title">${item.title}</h3>
+        <!-- Лид-абзац (берем первые 120 символов описания) -->
+        <p class="card-description">${item.description ? item.description.substring(0, 120) + (item.description.length > 120 ? '...' : '') : ''}</p>
+        
+        <!-- Кнопка действия (опционально) -->
+        <a href="${item.url}" class="read-more-link">Читать далее &rarr;</a>
+    </div>
+`;
         
         card.addEventListener('click', () => {
             if (item.url) {
