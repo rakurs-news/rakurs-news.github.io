@@ -335,3 +335,24 @@ ul { list-style: none; }
 .news-card.has-no-image .card-body {
     padding-top: 15px;
 }
+
+/* Стили для картинок соцсетей */
+.social-item {
+    display: flex;
+    align-items: center;       /* Центрирует иконку и текст по вертикали */
+    gap: 10px;                 /* Расстояние между картинкой и текстом */
+    color: #cbd5e1;            /* Цвет текста */
+}
+
+.social-icon-img {
+    width: 24px;               /* Фиксированный размер */
+    height: 24px;
+    object-fit: contain;       /* Чтобы картинка не сплющилась */
+    display: block;            /* Убирает лишние отступы снизу */
+    flex-shrink: 0;            /* Запрещает картинке сжиматься */
+}
+
+/* При наведении меняем цвет текста, картинки сами по себе цветные */
+.social-item:hover span {
+    color: #fff;
+}
