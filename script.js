@@ -12,7 +12,7 @@ let isLoading = false;
 
 async function loadNews() {
     try {
-        const response = await fetch('news.json');
+        const response = await fetch('/news.json'); // <-- слэш спереди
         if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
         
         allNews = await response.json();
