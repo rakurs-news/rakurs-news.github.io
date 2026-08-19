@@ -48,7 +48,7 @@ ul { list-style: none; }
 }
 
 .logo-img {
-    height: 40px; /* Фиксируем высоту лого */
+    height: 50px; /* Фиксируем высоту лого */
     width: auto;
 }
 
