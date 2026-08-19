@@ -10,9 +10,12 @@ let currentPage = 0;
 const itemsPerPage = 10;
 let isLoading = false;
 
+// ---------------------------------------------------------
+// 1. ЗАГРУЗКА ДАННЫХ
+// ---------------------------------------------------------
 async function loadNews() {
     try {
-        const response = await fetch('/news.json'); // <-- слэш спереди
+        const response = await fetch('news.json');
         if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
         
         allNews = await response.json();
@@ -24,6 +27,9 @@ async function loadNews() {
     }
 }
 
+// ---------------------------------------------------------
+// 2. РЕНДЕР И ФИЛЬТРАЦИЯ (С КАРТИНКАМИ)
+// ---------------------------------------------------------
 function renderNews() {
     const start = currentPage * itemsPerPage;
     const end = start + itemsPerPage;
@@ -31,15 +37,22 @@ function renderNews() {
     const currentFileName = window.location.pathname.split('/').pop();
     let filteredNews = allNews;
 
-    // Фильтрация по категориям (оставляем как было)
-    if (currentFileName === 'svo.html') filteredNews = allNews.filter(item => item.category === 'СВО');
-    else if (currentFileName === 'army.html') filteredNews = allNews.filter(item => item.category === 'Армия');
-    else if (currentFileName === 'state.html') filteredNews = allNews.filter(item => item.category === 'Государство');
-    else if (currentFileName === 'politics.html') filteredNews = allNews.filter(item => item.category === 'Политика');
-    else if (currentFileName === 'geopolitics.html') filteredNews = allNews.filter(item => item.category === 'Геополитика');
-    else if (currentFileName === 'world.html') filteredNews = allNews.filter(item => item.category === 'Мир');
-    else if (currentFileName === 'crime.html') filteredNews = allNews.filter(item => item.category === 'Криминал');
-    else if (currentFileName === 'society.html') filteredNews = allNews.filter(item => item.category === 'Общество');
+    // Фильтрация по категориям
+    if (currentFileName === 'svo.html') {
+        filteredNews = allNews.filter(item => item.category === 'СВО');
+    } else if (currentFileName === 'army.html') {
+        filteredNews = allNews.filter(item => item.category === 'Армия');
+    } else if (currentFileName === 'state.html') {
+        filteredNews = allNews.filter(item => item.category === 'Государство');
+    } else if (currentFileName === 'politics.html') {
+        filteredNews = allNews.filter(item => item.category === 'Политика');
+    } else if (currentFileName === 'geopolitics.html') {
+        filteredNews = allNews.filter(item => item.category === 'Геополитика');
+    } else if (currentFileName === 'world.html') {
+        filteredNews = allNews.filter(item => item.category === 'Мир');
+    } else if (currentFileName === 'crime.html') {
+        filteredNews = allNews.filter(item => item.category === 'Криминал');
+    }
 
     const pageItems = filteredNews.slice(start, end);
 
@@ -56,21 +69,16 @@ function renderNews() {
         card.style.animationDelay = `${index * 0.1}s`;
 
         const hasImage = item.image && item.image.trim() !== '';
-        if (!hasImage) card.classList.add('has-no-image');
+        if (!hasImage) {
+            card.classList.add('has-no-image');
+        }
         
         const dateObj = new Date(item.date);
-        const formattedDate = dateObj.toLocaleString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+        const formattedDate = dateObj.toLocaleString('ru-RU', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
 
-        // ГЛАВНОЕ ИСПРАВЛЕНИЕ: Ссылка теперь ТОЛЬКО здесь, внутри кнопки.
-        // Если URL нет, показываем предупреждение красным цветом.
-        let linkHtml = '';
-        if (item.url && item.url.trim() !== '') {
-            linkHtml = `<a href="${item.url}" class="read-more-link">Читать далее</a>`;
-        } else {
-            linkHtml = `<span style="color:red; font-size:12px; display:block; margin-top:10px;">⚠️ Ошибка: нет ссылки в news.json</span>`;
-            console.warn('Нет URL для новости:', item.title);
-        }
-
+        // Блок с картинкой
         const imageBlock = hasImage
             ? `<div class="card-image-wrapper">
                  <img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy">
@@ -83,13 +91,23 @@ function renderNews() {
         <span class="card-category">${item.category}</span>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <span class="card-date">${formattedDate}</span>
+            <!-- Опционально: счетчик просмотров или иконка -->
         </div>
         <h3 class="card-title">${item.title}</h3>
+        <!-- Лид-абзац (берем первые 120 символов описания) -->
         <p class="card-description">${item.description ? item.description.substring(0, 120) + (item.description.length > 120 ? '...' : '') : ''}</p>
-        ${linkHtml}
+        
+        <!-- Кнопка действия (опционально) -->
+        <a href="${item.url}" class="read-more-link">Читать далее &rarr;</a>
     </div>
 `;
         
+        card.addEventListener('click', () => {
+            if (item.url) {
+                window.location.href = item.url;
+            }
+        });
+
         newsContainer.appendChild(card);
     });
 
@@ -98,11 +116,14 @@ function renderNews() {
     checkPaginationVisibility();
 }
 
-
+// ---------------------------------------------------------
+// 3. ЛОГИКА КНОПКИ "ЕЩЕ НОВОСТИ"
+// ---------------------------------------------------------
 function checkPaginationVisibility() {
     const currentFileName = window.location.pathname.split('/').pop();
     let totalCount = allNews.length;
 
+    // Повторяем логику фильтрации, чтобы узнать общее количество новостей в категории
     if (currentFileName === 'svo.html') {
         totalCount = allNews.filter(i => i.category === 'СВО').length;
     } else if (currentFileName === 'army.html') {
@@ -122,6 +143,7 @@ function checkPaginationVisibility() {
         totalCount = allNews.filter(i => i.category === 'Общество').length;
     }
 
+    // Показываем кнопку, если есть еще новости
     if (currentPage * itemsPerPage < totalCount) {
         loadMoreBtn.style.display = 'flex';
     } else {
@@ -129,6 +151,9 @@ function checkPaginationVisibility() {
     }
 }
 
+// ---------------------------------------------------------
+// 4. ОБРАБОТЧИК КНОПКИ "ЕЩЕ НОВОСТИ"
+// ---------------------------------------------------------
 if (loadMoreBtn) {
     loadMoreBtn.addEventListener('click', () => {
         if (!isLoading) {
@@ -143,6 +168,9 @@ if (loadMoreBtn) {
     });
 }
 
+// ---------------------------------------------------------
+// 5. ПОИСК (ПО ТЕКСТУ)
+// ---------------------------------------------------------
 if (searchInput) {
     searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
@@ -155,7 +183,7 @@ if (searchInput) {
             if (query.length >= 3 && (title.includes(query) || desc.includes(query))) {
                 card.style.display = 'block';
             } else if (query.length < 3) {
-                card.style.display = 'block';
+                card.style.display = 'block'; // Если пусто или мало букв — показываем всё
             } else {
                 card.style.display = 'none';
             }
@@ -163,6 +191,9 @@ if (searchInput) {
     });
 }
 
+// ---------------------------------------------------------
+// 6. МОБИЛЬНОЕ МЕНЮ
+// ---------------------------------------------------------
 if (burgerBtn && mobileMenu) {
     burgerBtn.addEventListener('click', () => {
         mobileMenu.classList.toggle('active');
@@ -179,6 +210,9 @@ if (burgerBtn && mobileMenu) {
     });
 }
 
+// ---------------------------------------------------------
+// 7. КНОПКА "НАВЕРХ"
+// ---------------------------------------------------------
 document.addEventListener('DOMContentLoaded', () => {
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     if (!scrollTopBtn) return;
@@ -197,4 +231,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// ЗАПУСК
 loadNews();
