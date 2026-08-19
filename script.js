@@ -36,7 +36,7 @@ function renderNews() {
     const currentFileName = window.location.pathname.split('/').pop();
     let filteredNews = allNews;
 
-    // Фильтрация по категориям в зависимости от имени файла
+    // Фильтрация по категориям
     if (currentFileName === 'svo.html') {
         filteredNews = allNews.filter(item => item.category === 'СВО');
     } else if (currentFileName === 'army.html') {
@@ -53,8 +53,6 @@ function renderNews() {
         filteredNews = allNews.filter(item => item.category === 'Криминал');
     }
 
-    console.log(`📄 Страница: ${currentFileName} | Показано: ${filteredNews.length} новостей`);
-
     const pageItems = filteredNews.slice(start, end);
 
     if (pageItems.length === 0 && currentPage === 0) {
@@ -68,7 +66,6 @@ function renderNews() {
         card.className = 'news-card';
         card.style.animationDelay = `${index * 0.1}s`;
 
-        // Проверка на наличие картинки
         const hasImage = item.image && item.image.trim() !== '';
         if (!hasImage) {
             card.classList.add('has-no-image');
@@ -79,7 +76,7 @@ function renderNews() {
             day: 'numeric', month: 'long', year: 'numeric'
         });
 
-        // Формируем блок с картинкой (если есть)
+        // Блок с картинкой
         const imageBlock = hasImage
             ? `<div class="card-image-wrapper">
                  <img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy">
@@ -89,18 +86,16 @@ function renderNews() {
         card.innerHTML = `
             ${imageBlock}
             <div class="card-body">
+                <span class="card-category">${item.category}</span>
                 <span class="card-date">${formattedDate}</span>
                 <h3 class="card-title">${item.title}</h3>
                 <p class="card-description">${item.description}</p>
             </div>
         `;
         
-        // Переход по ссылке при клике
         card.addEventListener('click', () => {
             if (item.url) {
                 window.location.href = item.url;
-            } else {
-                console.warn('У новости нет ссылки:', item.title);
             }
         });
 
@@ -110,7 +105,8 @@ function renderNews() {
     currentPage++;
     isLoading = false;
     checkLoaderVisibility();
-}
+} // <--- ВОТ ЭТА СКОБКА БЫЛА ПОТЕРЯНА!
+
 
 // ---------------------------------------------------------
 // 3. БЕСКОНЕЧНАЯ ЛЕНТА (ПОДГРУЗКА)

@@ -356,3 +356,20 @@ ul { list-style: none; }
 .social-item:hover span {
     color: #fff;
 }
+
+/* Стили для категории */
+.card-category {
+    background-color: #1e293b; /* Темно-синий фон */
+    color: #fff;               /* Белый текст */
+    padding: 4px 12px;          /* Отступы внутри */
+    border-radius: 20px;       /* Закругление */
+    font-size: 12px;           /* Размер шрифта */
+    font-weight: 700;          /* Жирный */
+    text-transform: uppercase; /* Все буквы заглавные */
+    letter-spacing: 0.5px;     /* Разрядка букв */
+    display: inline-block;     /* Чтобы padding работал */
+    margin-bottom: 8px;        /* Отступ от даты */
+}
+
+/* Опционально: разные цвета для разных категорий (если захочешь потом) */
+/* .card-category[data-cat="СВО"] { background-color: #ef4444; } */
