@@ -53,17 +53,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ---------------------------------------------------------
-    // 3. РЕНДЕР НОВОСТЕЙ
+// ---------------------------------------------------------
+    // 3. РЕНДЕР НОВОСТЕЙ (ОБНОВЛЕННАЯ ВЕРСИЯ)
     // ---------------------------------------------------------
     function renderNews(append = false) {
         const start = currentPage * itemsPerPage;
         
-        // Получаем имя текущей страницы для фильтрации (например, svo.html)
+        // Получаем имя текущей страницы для фильтрации
         const currentFileName = window.location.pathname.split('/').pop();
         let filteredNews = allNews;
 
-        // Фильтрация по категориям (ОБНОВЛЕНО: добавлен society.html, которого не было в первой отрисовке)
         switch (currentFileName) {
             case 'svo.html': filteredNews = allNews.filter(item => item.category === 'СВО'); break;
             case 'army.html': filteredNews = allNews.filter(item => item.category === 'Армия'); break;
@@ -74,22 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'crime.html': filteredNews = allNews.filter(item => item.category === 'Криминал'); break;
             case 'society.html': filteredNews = allNews.filter(item => item.category === 'Общество'); break;
             default: 
-                // Если страница не совпадает ни с одной категорией, показываем всё или можно вернуть пусто
-                // filteredNews = []; 
                 break;
         }
 
         const pageItems = filteredNews.slice(start, start + itemsPerPage);
 
-        // ЛОГИКА ОЧИСТКИ
         if (!append) {
-            // Если это ПЕРВАЯ загрузка - очищаем контейнер полностью
             newsContainer.innerHTML = '';
-            currentPage = 0; // Сбрасываем страницу на 0
+            currentPage = 0;
         } 
-        // Если append === true (кнопка "Еще"), мы НЕ очищаем, а добавляем в конец
 
-        // Проверка на пустоту (только для первой загрузки)
         if (pageItems.length === 0 && !append) {
             newsContainer.innerHTML = '<p style="padding: 20px; color: #64748b;">Новостей по этой категории пока нет.</p>';
             if(loadMoreBtn) loadMoreBtn.style.display = 'none';
@@ -99,8 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         pageItems.forEach((item, index) => {
             const card = document.createElement('article');
             card.className = 'news-card';
-            // Анимация: если мы догружаем, анимация может выглядеть странно. 
-            // Для простоты оставляем, но можно убрать для append=true
+            
             if(!append) card.style.animationDelay = `${index * 0.1}s`;
 
             const hasImage = item.image && item.image.trim() !== '';
@@ -124,6 +116,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>`
                 : '';
 
+            // ИЗМЕНЕНИЕ: Убран onclick из самой карточки. Добавлена кнопка внутри body.
+            // Ссылка формируется как news/{url} (если в JSON url=article1.html, то будет news/article1.html)
+            const articleUrl = `news/${item.url}`; 
+
             card.innerHTML = `
                 ${imageBlock}
                 <div class="card-body">
@@ -133,19 +129,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <h3 class="card-title">${item.title}</h3>
                     <p class="card-description">${item.description ? item.description.substring(0, 120) + (item.description.length > 120 ? '...' : '') : ''}</p>
-                    <a href="${item.url}" class="read-more-link">Читать далее &rarr;</a>
+                    
+                    <!-- НОВАЯ КНОПКА "ЧИТАТЬ ДАЛЕЕ" -->
+                    <a href="${articleUrl}" class="read-btn-custom" aria-label="Читать статью">Читать далее</a>
                 </div>`;
-            
-            card.addEventListener('click', () => {
-                if (item.url) {
-                    window.location.href = item.url;
-                }
-            });
+
+            // Клик по всей карточке удален (строка с addEventListener удалена)
 
             newsContainer.appendChild(card);
         });
 
-        // Увеличиваем счетчик страницы ТОЛЬКО если мы не сбрасывали его выше
         if (!append) currentPage++;
         
         checkPaginationVisibility(filteredNews.length);

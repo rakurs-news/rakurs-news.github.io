@@ -369,9 +369,6 @@ ul { list-style: none; }
     margin-bottom: 8px;        /* Отступ от даты */
 }
 
-/* Опционально: разные цвета для разных категорий (если захочешь потом) */
-/* .card-category[data-cat="СВО"] { background-color: #ef4444; } */
-
 .load-more-btn {
     display: flex;
     justify-content: center;
@@ -507,4 +504,35 @@ ul { list-style: none; }
 @media (max-width: 768px) {
     .hero-card { grid-template-columns: 1fr; }
     .hero-image-wrapper { height: 250px; }
+}
+
+/* Стили для новой кнопки "Читать далее" */
+.read-btn-custom {
+    display: inline-block;
+    margin-top: 15px; /* Отступ сверху от текста */
+    margin-left: 0;    /* Прижимаем влево */
+    padding: 6px 14px; /* Компактный размер */
+    background-color: #1e293b; /* Цвет шапки (второй цвет градиента) */
+    color: #fff;       /* Белый текст */
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.read-btn-custom:hover {
+    background-color: #0f172a; /* Темнее при наведении (первый цвет градиента шапки) */
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Адаптив: на мобильных кнопка может выглядеть слишком мелко, можно чуть увеличить шрифт */
+@media (max-width: 768px) {
+    .read-btn-custom {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
 }
