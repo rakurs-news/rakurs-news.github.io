@@ -482,3 +482,31 @@ ul { list-style: none; }
     background-color: #334155;
     transform: translateY(-1px);
 }
+
+/* Стили для карточки: убираем любые намёки на клик */
+.news-card {
+    cursor: default !important; /* Принудительно обычный курсор */
+    pointer-events: auto;        /* Карточка сама по себе не кликабельна */
+}
+
+/* Сама кнопка "Читать далее" — стиль как у Hero, но компактнее */
+.read-more-link {
+    display: inline-block;
+    padding: 8px 16px;           /* Компактная высота */
+    background-color: #1e293b;   /* Цвет как у hero-btn */
+    color: #ffffff !important;   /* Белый текст */
+    text-decoration: none;        /* Без подчеркивания */
+    font-weight: 600;
+    font-size: 13px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    line-height: 1;
+    margin-top: 12px;            /* Отступ снизу */
+    z-index: 10;                 /* Чтобы точно была поверх всего */
+    position: relative;          /* Для z-index */
+}
+
+.read-more-link:hover {
+    background-color: #334155;
+    transform: translateY(-1px);
+}

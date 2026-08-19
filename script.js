@@ -31,21 +31,15 @@ function renderNews() {
     const currentFileName = window.location.pathname.split('/').pop();
     let filteredNews = allNews;
 
-    if (currentFileName === 'svo.html') {
-        filteredNews = allNews.filter(item => item.category === 'СВО');
-    } else if (currentFileName === 'army.html') {
-        filteredNews = allNews.filter(item => item.category === 'Армия');
-    } else if (currentFileName === 'state.html') {
-        filteredNews = allNews.filter(item => item.category === 'Государство');
-    } else if (currentFileName === 'politics.html') {
-        filteredNews = allNews.filter(item => item.category === 'Политика');
-    } else if (currentFileName === 'geopolitics.html') {
-        filteredNews = allNews.filter(item => item.category === 'Геополитика');
-    } else if (currentFileName === 'world.html') {
-        filteredNews = allNews.filter(item => item.category === 'Мир');
-    } else if (currentFileName === 'crime.html') {
-        filteredNews = allNews.filter(item => item.category === 'Криминал');
-    }
+    // Фильтрация по категориям (оставляем как было)
+    if (currentFileName === 'svo.html') filteredNews = allNews.filter(item => item.category === 'СВО');
+    else if (currentFileName === 'army.html') filteredNews = allNews.filter(item => item.category === 'Армия');
+    else if (currentFileName === 'state.html') filteredNews = allNews.filter(item => item.category === 'Государство');
+    else if (currentFileName === 'politics.html') filteredNews = allNews.filter(item => item.category === 'Политика');
+    else if (currentFileName === 'geopolitics.html') filteredNews = allNews.filter(item => item.category === 'Геополитика');
+    else if (currentFileName === 'world.html') filteredNews = allNews.filter(item => item.category === 'Мир');
+    else if (currentFileName === 'crime.html') filteredNews = allNews.filter(item => item.category === 'Криминал');
+    else if (currentFileName === 'society.html') filteredNews = allNews.filter(item => item.category === 'Общество');
 
     const pageItems = filteredNews.slice(start, end);
 
@@ -62,14 +56,20 @@ function renderNews() {
         card.style.animationDelay = `${index * 0.1}s`;
 
         const hasImage = item.image && item.image.trim() !== '';
-        if (!hasImage) {
-            card.classList.add('has-no-image');
-        }
+        if (!hasImage) card.classList.add('has-no-image');
         
         const dateObj = new Date(item.date);
-        const formattedDate = dateObj.toLocaleString('ru-RU', {
-            day: 'numeric', month: 'long', year: 'numeric'
-        });
+        const formattedDate = dateObj.toLocaleString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+
+        // ГЛАВНОЕ ИСПРАВЛЕНИЕ: Ссылка теперь ТОЛЬКО здесь, внутри кнопки.
+        // Если URL нет, показываем предупреждение красным цветом.
+        let linkHtml = '';
+        if (item.url && item.url.trim() !== '') {
+            linkHtml = `<a href="${item.url}" class="read-more-link">Читать далее</a>`;
+        } else {
+            linkHtml = `<span style="color:red; font-size:12px; display:block; margin-top:10px;">⚠️ Ошибка: нет ссылки в news.json</span>`;
+            console.warn('Нет URL для новости:', item.title);
+        }
 
         const imageBlock = hasImage
             ? `<div class="card-image-wrapper">
@@ -86,11 +86,10 @@ function renderNews() {
         </div>
         <h3 class="card-title">${item.title}</h3>
         <p class="card-description">${item.description ? item.description.substring(0, 120) + (item.description.length > 120 ? '...' : '') : ''}</p>
-        <a href="${item.url}" class="read-more-link">Читать далее</a>
+        ${linkHtml}
     </div>
 `;
         
-        // Убран обработчик клика по карточке — переход только по кнопке
         newsContainer.appendChild(card);
     });
 
@@ -98,6 +97,7 @@ function renderNews() {
     isLoading = false;
     checkPaginationVisibility();
 }
+
 
 function checkPaginationVisibility() {
     const currentFileName = window.location.pathname.split('/').pop();
