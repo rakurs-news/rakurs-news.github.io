@@ -97,16 +97,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         let formattedDate = '';
-        try {
-            const dateObj = new Date(item.date);
-            if (!isNaN(dateObj.getTime())) {
-                formattedDate = dateObj.toLocaleString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            } else {
-                formattedDate = item.date || 'Дата не указана';
-            }
-        } catch (e) {
-            formattedDate = 'Дата не указана';
-        }
+try {
+    const dateObj = new Date(item.date);
+    if (!isNaN(dateObj.getTime())) {
+        // ИЗМЕНЕНИЕ ЗДЕСЬ: добавляем hour и minute
+        formattedDate = dateObj.toLocaleString('ru-RU', { 
+            day: 'numeric', 
+            month: 'long', 
+            year: 'numeric',
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    } else {
+        formattedDate = item.date || 'Дата не указана';
+    }
+} catch (e) {
+    formattedDate = 'Дата не указана';
+}
 
         const imageBlock = hasImage
             ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>`
