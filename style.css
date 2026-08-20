@@ -422,8 +422,8 @@ ul { list-style: none; }
 
 @media (max-width: 768px) {
     .read-btn-custom {
-        font-size: 14px;
-        padding: 10px 20px;
+        font-size: 12px;   /* Было 14px */
+        padding: 7px 14px;
     }
 }
 
@@ -515,7 +515,7 @@ ul { list-style: none; }
 .read-btn-custom {
     display: inline-block;
     margin-top: 15px;
-    padding: 8px 16px;
+    padding: 5px 10px;
     background-color: #1e293b;
     color: #fff;
     text-decoration: none;
@@ -536,7 +536,7 @@ ul { list-style: none; }
 
 @media (max-width: 768px) {
     .read-btn-custom {
-        font-size: 14px;
+        font-size: 11px;
         padding: 10px 20px;
     }
 }
