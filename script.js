@@ -116,6 +116,13 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderPagination(totalCount) {
         const totalPages = Math.ceil(totalCount / itemsPerPage);
         
+        // Если страниц всего 1 — вообще ничего не рисуем
+        if (totalPages <= 1) {
+            const container = document.getElementById('pagination-holder');
+            if (container) container.innerHTML = '';
+            return;
+        }
+
         let paginationContainer = document.getElementById('pagination-holder');
         if (!paginationContainer) {
             paginationContainer = document.createElement('div');
@@ -125,14 +132,57 @@ document.addEventListener('DOMContentLoaded', () => {
         paginationContainer.className = 'pagination';
         paginationContainer.innerHTML = '';
 
-        for (let i = 1; i <= totalPages; i++) {
+        // --- УМНАЯ ПАГИНАЦИЯ: показываем только нужные цифры и многоточия ---
+        const maxVisible = 5;
+        const pageLinks = [];
+
+        // 1. Всегда добавляем первую страницу
+        pageLinks.push(1);
+
+        // 2. Добавляем многоточие в начало, если текущая далеко от старта
+        if (currentPage > 3) {
+            pageLinks.push('...');
+        }
+
+        // 3. Добавляем диапазон страниц вокруг текущей
+        const start = Math.max(2, currentPage - Math.floor(maxVisible / 2));
+        const end = Math.min(totalPages - 1, currentPage + Math.floor(maxVisible / 2));
+
+        for (let i = start; i <= end; i++) {
+            pageLinks.push(i);
+        }
+
+        // 4. Добавляем многоточие в конец, если текущая далеко от финиша
+        if (currentPage < totalPages - 2) {
+            pageLinks.push('...');
+        }
+
+        // 5. Всегда добавляем последнюю страницу (если она не совпадает с тем, что уже добавили)
+        if (totalPages !== 1) {
+            if (pageLinks[pageLinks.length - 1] !== totalPages) {
+                pageLinks.push(totalPages);
+            }
+        }
+        // --------------------------------------------------------------------
+
+        // Теперь рисуем кнопки из нашего умного списка
+        pageLinks.forEach(pageNum => {
+            if (pageNum === '...') {
+                const span = document.createElement('span');
+                span.textContent = '…';
+                span.style.cursor = 'default';
+                span.style.color = '#94a3b8';
+                paginationContainer.appendChild(span);
+                return;
+            }
+
             const link = document.createElement('a');
-            link.href = `?page=${i}`;
-            link.textContent = i;
-            if (i === currentPage) link.classList.add('active');
+            link.href = `?page=${pageNum}`;
+            link.textContent = pageNum;
+            if (pageNum === currentPage) link.classList.add('active');
             
             paginationContainer.appendChild(link);
-        }
+        });
 
         // --- SEO: Генерация rel="prev" и rel="next" ---
         const head = document.querySelector('head');
