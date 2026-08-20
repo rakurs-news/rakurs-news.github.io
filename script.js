@@ -131,29 +131,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function loadNews() {
-        if (loader) loader.style.display = 'block';
+    if (loader) loader.style.display = 'block';
 
-        try {
-            const response = await fetch('news.json');
-            if (!response.ok) throw new Error(`Ошибка HTTP: ${response.status}`);
-
-            allNews = await response.json();
-            console.log('✅ Данные успешно загружены:', allNews.length, 'новостей');
-            
-            // ВЫЗЫВАЕМ ОБЕ ФУНКЦИИ: И ГЕРОЯ, И ЛЕНТУ
-            renderHero();
-            renderNews();
-        } catch (error) {
-            console.error('❌ КРИТИЧЕСКАЯ ОШИБКА ЗАГРУЗКИ:', error);
-            newsContainer.innerHTML = `
-                <div style="padding: 20px; color: red; border: 1px solid red; background: #ffe6e6;">
-                    <h3>Ошибка загрузки news.json</h3>
-                    <p>Проверьте консоль (F12) для деталей.</p>
-                </div>`;
-        } finally {
-            if (loader) loader.style.display = 'none';
+    try {
+        // ВАЖНО: используем абсолютный путь. 
+        // Если сайт лежит в папке, иногда нужно './news.json', но чаще '/news.json' или просто 'news.json'.
+        // Попробуй сначала '/news.json', если не сработает - поставь 'news.json'.
+        const response = await fetch('/news.json'); 
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ошибка: ${response.status}`);
         }
+
+        allNews = await response.json();
+        console.log('✅ Данные загружены:', allNews.length, 'новостей');
+        
+        renderHero();
+        renderNews();
+    } catch (error) {
+        console.error('❌ Техническая ошибка (не пугайся):', error);
+        
+        // ГЛАВНОЕ ИЗМЕНЕНИЕ:
+        // Мы НЕ показываем пользователю красный блок про ошибку JSON.
+        // Вместо этого мы просто говорим, что новостей нет.
+        newsContainer.innerHTML = `
+            <div style="padding: 40px; text-align: center; color: #64748b; background: #f8fafc; border-radius: 8px;">
+                <h3 style="margin: 0;">В этом разделе пока нет новостей</h3>
+                <p style="margin-top: 10px; font-size: 14px;">Статьи про СВО появятся здесь, как только будут добавлены в базу.</p>
+            </div>`;
+        
+        const paginationHolder = document.getElementById('pagination-holder');
+        if (paginationHolder) paginationHolder.innerHTML = '';
+    } finally {
+        if (loader) loader.style.display = 'none';
     }
+}
+
 
     function renderNews() {
         const currentFileName = window.location.pathname.split('/').pop();
@@ -182,10 +195,24 @@ document.addEventListener('DOMContentLoaded', () => {
         newsContainer.innerHTML = '';
 
         if (pageItems.length === 0) {
-            newsContainer.innerHTML = '<p style="padding: 20px; color: #64748b;">Новостей по этой категории пока нет.</p>';
-            document.getElementById('pagination-holder').innerHTML = '';
-            return;
-        }
+    // Рисуем сообщение
+    newsContainer.innerHTML = `
+        <div style="padding: 40px; text-align: center; color: #64748b; background: #f8fafc; border-radius: 8px;">
+            <h3 style="margin: 0;">В этой категории пока нет новостей</h3>
+            <p style="margin-top: 10px; font-size: 14px;">Мы опубликуем их, как только появится информация.</p>
+        </div>
+    `;
+
+    // БЕЗОПАСНАЯ ОЧИСТКА ПАГИНАЦИИ
+    const paginationHolder = document.getElementById('pagination-holder');
+    if (paginationHolder) { 
+        // Элемент найден? Тогда очищаем.
+        paginationHolder.innerHTML = '';
+    } 
+    // Если элемента НЕТ — мы просто ничего не делаем, и скрипт НЕ падает. Ошибки не будет!
+
+    return; // Выходим из функции
+}
 
         pageItems.forEach((item, index) => {
             // Используем универсальную функцию отрисовки
