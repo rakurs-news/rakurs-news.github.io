@@ -461,8 +461,10 @@ ul { list-style: none; }
 .hero-body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /* justify-content: center;  <-- УДАЛИТЬ эту строку */
+    padding: 15px;              <-- ЭТО ДАЁТ И СЛЕВА, И СНИЗУ ОДИНАКОВЫЙ ВОЗДУХ
 }
+
 
 .hero-title {
     font-size: 32px;
