@@ -1,24 +1,31 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ---------------------------------------------------------
-    // 1. ИНИЦИАЛИЗАЦИЯ ЭЛЕМЕНТОВ (с защитой от отсутствия)
-    // ---------------------------------------------------------
     const newsContainer = document.getElementById('news-container');
     const searchInput = document.getElementById('searchInput');
     const loader = document.getElementById('loader');
-    const loadMoreBtn = document.getElementById('loadMoreBtn');
     const burgerBtn = document.querySelector('.burger-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
 
     if (!newsContainer) return;
 
     let allNews = [];
-    let currentPage = 0;
     const itemsPerPage = 10;
-    let isLoading = false;
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    let currentPage = parseInt(urlParams.get('page')) || 1;
 
-    // ---------------------------------------------------------
-    // 2. ЗАГРУЗКА ДАННЫХ
-    // ---------------------------------------------------------
+    function updateUrl(pageNum) {
+        const newParams = new URLSearchParams(window.location.search);
+        if (pageNum === 1) {
+            window.history.replaceState({}, '', window.location.pathname);
+        } else {
+            newParams.set('page', pageNum);
+            window.history.replaceState({}, '', `${window.location.pathname}?${newParams}`);
+        }
+        document.title = currentPage > 1 
+            ? `Ракурс NEWS | Страница ${currentPage} — Новости и аналитика` 
+            : 'Ракурс NEWS | Экспертный разбор новостей простым языком';
+    }
+
     async function loadNews() {
         if (loader) loader.style.display = 'block';
 
@@ -29,9 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allNews = await response.json();
             console.log('✅ Данные успешно загружены:', allNews.length, 'новостей');
             
-            // Сбрасываем страницу на 0 при полной перезагрузке данных
-            currentPage = 0;
-            renderNews(false); 
+            renderNews(); 
         } catch (error) {
             console.error('❌ КРИТИЧЕСКАЯ ОШИБКА ЗАГРУЗКИ:', error);
             newsContainer.innerHTML = `
@@ -44,10 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ---------------------------------------------------------
-    // 3. РЕНДЕР НОВОСТЕЙ
-    // ---------------------------------------------------------
-    function renderNews(append = false) {
+    function renderNews() {
         const currentFileName = window.location.pathname.split('/').pop();
         let filteredNews = allNews;
 
@@ -60,21 +62,22 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'world.html': filteredNews = allNews.filter(item => item.category === 'Мир'); break;
             case 'crime.html': filteredNews = allNews.filter(item => item.category === 'Криминал'); break;
             case 'society.html': filteredNews = allNews.filter(item => item.category === 'Общество'); break;
+            default: 
+                if (currentFileName === '' || currentFileName === 'index.html') {
+                    filteredNews = allNews; 
+                }
+                break;
         }
 
-        // Расчет диапазона ТОЛЬКО для текущей страницы
-        const start = currentPage * itemsPerPage;
-        const pageItems = filteredNews.slice(start, start + itemsPerPage);
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const pageItems = filteredNews.slice(startIndex, endIndex);
 
-        if (!append) {
-            newsContainer.innerHTML = '';
-        } 
+        newsContainer.innerHTML = '';
 
         if (pageItems.length === 0) {
-            if (!append) {
-                newsContainer.innerHTML = '<p style="padding: 20px; color: #64748b;">Новостей по этой категории пока нет.</p>';
-                if(loadMoreBtn) loadMoreBtn.style.display = 'none';
-            }
+            newsContainer.innerHTML = '<p style="padding: 20px; color: #64748b;">Новостей по этой категории пока нет.</p>';
+            document.getElementById('pagination-holder').innerHTML = '';
             return;
         }
 
@@ -82,154 +85,107 @@ document.addEventListener('DOMContentLoaded', () => {
             const card = document.createElement('article');
             card.className = 'news-card';
             
-            if(!append) card.style.animationDelay = `${index * 0.1}s`;
-
             const hasImage = item.image && item.image.trim() !== '';
-            if (!hasImage) card.classList.add('has-no-image');
-            
             let formattedDate = '';
-            try {
+            if(item.date) {
                 const dateObj = new Date(item.date);
                 if (!isNaN(dateObj.getTime())) {
-                    formattedDate = dateObj.toLocaleString('ru-RU', { 
-                        day: 'numeric', 
-                        month: 'long', 
-                        year: 'numeric',
-                        hour: '2-digit', 
-                        minute: '2-digit' 
-                    });
+                    formattedDate = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
                 } else {
-                    formattedDate = item.date || 'Дата не указана';
+                    formattedDate = item.date;
                 }
-            } catch (e) {
-                formattedDate = 'Дата не указана';
             }
 
-            const imageBlock = hasImage
-                ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>`
-                : '';
-
-            const targetUrl = item.url ? item.url : '#';
-
             card.innerHTML = `
-                ${imageBlock}
-                <div class="card-body">
-                    <span class="card-category">${item.category}</span>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-                        <span class="card-date">${formattedDate}</span>
+                <a href="${item.url}" class="news-card-link" aria-label="Перейти к статье: ${item.title.replace(/"/g, '&quot;')}">
+                    ${hasImage ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>` : ''}
+                    <div class="card-body">
+                        <span class="card-category">${item.category}</span>
+                        ${formattedDate ? `<span class="card-date">${formattedDate}</span>` : ''}
+                        <h3 class="card-title">${item.title}</h3>
+                        ${item.description ? `<p class="card-description">${item.description.substring(0, 120)}${item.description.length > 120 ? '...' : ''}</p>` : ''}
                     </div>
-                    <h3 class="card-title">${item.title}</h3>
-                    <p class="card-description">${item.description ? item.description.substring(0, 120) + (item.description.length > 120 ? '...' : '') : ''}</p>
-                    <a href="${targetUrl}" class="read-btn-custom">Читать далее</a>
-                </div>`;
-
+                </a>`;
+            
             newsContainer.appendChild(card);
         });
 
-        checkPaginationVisibility(filteredNews.length);
+        renderPagination(filteredNews.length);
     }
 
-    // ---------------------------------------------------------
-    // 4. ПРОВЕРКА КНОПКИ "ЕЩЕ"
-    // ---------------------------------------------------------
-    function checkPaginationVisibility(totalCount) {
-        if (!loadMoreBtn) return;
-
-        // Индекс начала СЛЕДУЮЩЕЙ страницы
-        const nextStartIndex = (currentPage + 1) * itemsPerPage;
-
-        if (nextStartIndex < totalCount) {
-            loadMoreBtn.style.display = 'flex';
-        } else {
-            loadMoreBtn.style.display = 'none';
+    function renderPagination(totalCount) {
+        const totalPages = Math.ceil(totalCount / itemsPerPage);
+        
+        let paginationContainer = document.getElementById('pagination-holder');
+        if (!paginationContainer) {
+            paginationContainer = document.createElement('div');
+            paginationContainer.id = 'pagination-holder';
+            document.querySelector('.content-area').appendChild(paginationContainer);
         }
-    }
+        paginationContainer.className = 'pagination';
+        paginationContainer.innerHTML = '';
 
-    // ---------------------------------------------------------
-    // 5. ОБРАБОТЧИК КНОПКИ "ЕЩЕ НОВОСТИ"
-    // ---------------------------------------------------------
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', () => {
-            if (!isLoading) {
-                isLoading = true;
-                loadMoreBtn.textContent = 'Загрузка...';
-                
-                setTimeout(() => {
-                    // ГЛАВНОЕ ИСПРАВЛЕНИЕ: увеличиваем страницу ПЕРЕД рендером
-                    currentPage++;
-                    
-                    renderNews(true); 
-                    loadMoreBtn.textContent = 'Еще новости';
-                    isLoading = false;
-                }, 300); 
-            }
-        });
-    }
-
-    // ---------------------------------------------------------
-    // 6. ПОИСК (ПО ТЕКСТУ)
-    // ---------------------------------------------------------
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const cards = document.querySelectorAll('.news-card');
+        for (let i = 1; i <= totalPages; i++) {
+            const link = document.createElement('a');
+            link.href = `?page=${i}`;
+            link.textContent = i;
+            if (i === currentPage) link.classList.add('active');
             
-            cards.forEach(card => {
-                const title = card.querySelector('.card-title')?.textContent.toLowerCase() || '';
-                const desc = card.querySelector('.card-description')?.textContent.toLowerCase() || '';
-                
-                const matches = query.length >= 3 && (title.includes(query) || desc.includes(query));
-                
-                if (matches || query.length < 3) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            if(loadMoreBtn) loadMoreBtn.style.display = 'none';
-        });
+            paginationContainer.appendChild(link);
+        }
+
+        // --- SEO: Генерация rel="prev" и rel="next" ---
+        const head = document.querySelector('head');
+        head.querySelectorAll('link[rel="prev"], link[rel="next"]').forEach(el => el.remove());
+
+        if (currentPage > 1) {
+            const prevLink = document.createElement('link');
+            prevLink.rel = 'prev';
+            const prevHref = (currentPage - 1 === 1) 
+                ? window.location.pathname 
+                : `${window.location.pathname}?page=${currentPage - 1}`;
+            prevLink.href = prevHref;
+            head.appendChild(prevLink);
+        }
+
+        if (currentPage < totalPages) {
+            const nextLink = document.createElement('link');
+            nextLink.rel = 'next';
+            nextLink.href = `${window.location.pathname}?page=${currentPage + 1}`;
+            head.appendChild(nextLink);
+        }
+        // ---------------------------------------------
     }
 
-    // ---------------------------------------------------------
-    // 7. МОБИЛЬНОЕ МЕНЮ
-    // ---------------------------------------------------------
+    document.addEventListener('click', (e) => {
+        const targetLink = e.target.closest('.pagination a');
+        if (targetLink) {
+            e.preventDefault();
+            const page = parseInt(targetLink.getAttribute('href').split('=').pop());
+            currentPage = page;
+            updateUrl(page);
+            renderNews();
+        }
+    });
+
     if (burgerBtn && mobileMenu) {
         burgerBtn.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
-            const spans = burgerBtn.querySelectorAll('span');
-            spans.forEach(span => 
-                span.style.backgroundColor = mobileMenu.classList.contains('active') ? '#ff0000' : '#fff'
-            );
-        });
-
-        document.addEventListener('click', (e) => {
-            if (mobileMenu.classList.contains('active') && !mobileMenu.contains(e.target) && !burgerBtn.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-                const spans = burgerBtn.querySelectorAll('span');
-                spans.forEach(span => span.style.backgroundColor = '#fff');
-            }
-        });
-    }
-
-    // ---------------------------------------------------------
-    // 8. КНОПКА "НАВЕРХ"
-    // ---------------------------------------------------------
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    if (scrollTopBtn) {
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 300) {
-                scrollTopBtn.classList.add('visible');
+            const isActive = mobileMenu.classList.contains('active');
+            burgerBtn.setAttribute('aria-expanded', isActive);
+            if (isActive) {
+                document.body.style.overflow = 'hidden';
             } else {
-                scrollTopBtn.classList.remove('visible');
+                document.body.style.overflow = '';
             }
-        });
-
-        scrollTopBtn.addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            scrollTopBtn.classList.remove('visible');
         });
     }
 
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+        });
+    }
+    
     loadNews();
 });

@@ -542,3 +542,23 @@ ul { list-style: none; }
         padding: 10px 20px;
     }
 }
+
+.social-item a {
+  display: flex;              /* Включаем Flexbox для ссылки */
+  align-items: center;        /* Выравниваем иконку и текст по вертикали */
+  text-decoration: none;      /* Убираем подчёркивание ссылки */
+  color: inherit;             /* Наследуем цвет текста родителя */
+}
+
+.social-icon-img {
+  width: 24px;                /* Подставь свой размер иконки */
+  height: 24px;
+  object-fit: contain;
+  margin-right: 8px;          /* Отступ между иконкой и текстом */
+  display: block;             /* Убирает лишние отступы снизу у картинки */
+}
+
+.social-item span {
+  font-size: 14px;            /* Или свой размер шрифта */
+  line-height: 1.2;
+}

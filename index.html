@@ -114,6 +114,40 @@
             object-fit: contain;
             display: block;
         }
+        
+        /* Стили для пагинации */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 40px 0;
+    flex-wrap: wrap;
+}
+
+.pagination a {
+    padding: 8px 14px;
+    border: 1px solid #e2e8f0;
+    color: #475569;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.pagination a:hover {
+    background-color: #1e293b; /* Цвет как в шапке */
+    color: white;
+    border-color: #1e293b;
+}
+
+/* Активная страница теперь тоже в цвете шапки, а не красная */
+.pagination a.active {
+    background-color: #1e293b; 
+    color: white;
+    border-color: #1e293b;
+    font-weight: 600;
+}
+
     </style>
 </head>
 <body>
@@ -122,6 +156,7 @@
         <div class="header-container">
             <div class="logo-wrapper">
                 <img src="images/logo.png" alt="Логотип Ракурс NEWS" class="logo-img">
+                <span class="site-title">Ракурс NEWS</span>
             </div>
 
             <div class="search-wrapper">
@@ -175,6 +210,8 @@
         <button id="loadMoreBtn" class="load-more-btn" style="display: none;">Еще новости</button>
 
         <div id="loader" class="loader">Загрузка...</div>
+        <!-- Блок для кнопок пагинации -->
+<div id="pagination-holder"></div>
     </main>
 
     <footer class="site-footer">
