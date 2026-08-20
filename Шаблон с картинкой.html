@@ -2,505 +2,361 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ЗАГОЛОВОК — Ракурс NEWS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Open Graph (Facebook, VK, Telegram, WhatsApp) -->
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://rakurs-news.github.io/news/ССЫЛКА СТАТЬЯ.html"> 
+    <!-- Meta для SEO -->
+    <title>ЗАГОЛОВОК</title>
+    <meta name="description" content="ОПИСАНИЕ.">
+    <meta name="keywords" content="новости, аналитика, разбор новостей, Ракурс NEWS, политика, геополитика, криминал, Россия, СВО, армия, общество, регионы">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="website">
     <meta property="og:title" content="ЗАГОЛОВОК">
     <meta property="og:description" content="ОПИСАНИЕ">
-    <meta property="og:image" content="https://rakurs-news.github.io/image/КАРТИНКА СИАТЬИ.jpg"> 
+    <meta property="og:url" content="https://rakurs-news.github.io/news/НАЗВАНИЕ СТАТЬИ">
+    <meta property="og:image" content="images/ССЫЛКА ФОТО">
     <meta property="og:site_name" content="Ракурс NEWS">
-    <link rel="canonical" href="https://rakurs-news.github.io/news/НАЗВАНИЕ СТАТЬИ.html">
-    <meta name="robots" content="index, follow">
 
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #111111;
-            --header-bg: #f8f9fa;
-            --border-color: #e2e2e2;
-            --accent-color: #d32f2f;
-            --hover-color: #f5f5f5;
-            --font-main: 'Georgia', 'Times New Roman', serif;
+        /* --- Сброс и Базовые стили --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
-        [data-theme="dark"] {
-            --bg-color: #121212;
-            --text-color: #e0e0e0;
-            --header-bg: #1e1e1e;
-            --border-color: #333333;
-            --accent-color: #ef5350;
-            --hover-color: #2b2b2b;
+        body {
+            font-family: 'Arial', 'Helvetica Neue', 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            font-family: var(--font-main); 
-            line-height: 1.7; 
-            overflow-x: hidden; 
-        }
-        a { text-decoration: none; color: inherit; transition: color 0.2s; }
+        a { text-decoration: none; color: inherit; }
         ul { list-style: none; }
 
-        /* Header & Nav */
-        header { background-color: var(--header-bg); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 1000; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
-        .header-inner { display: flex; justify-content: space-between; align-items: center; height: 60px; }
-        .logo { font-size: 24px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color); }
-        
-        .theme-toggle { cursor: pointer; padding: 5px 10px; background: transparent; border: 1px solid var(--border-color); color: var(--text-color); font-size: 14px; }
-        .header-actions { display: flex; align-items: center; gap: 10px; }
-
-        /* --- BURGER MENU STYLES (ИДЕНТИЧНО ГЛАВНОЙ) --- */
-        .burger { display: block; cursor: pointer; }
-        .burger span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background-color: var(--text-color);
-            margin: 5px 0;
-            transition: all 0.3s;
-        }
-
-        /* --- MOBILE SIDEBAR NAVIGATION (ИДЕНТИЧНО ГЛАВНОЙ) --- */
-        .mobile-nav {
-            position: fixed;
-            top: 60px;
-            left: -280px; /* Скрыто слева */
-            width: 280px;
-            height: calc(100vh - 60px);
-            background-color: var(--header-bg);
-            border-right: 1px solid var(--border-color);
-            transition: left 0.3s ease;
-            padding-top: 20px;
-            flex-direction: column;
-            z-index: 2000;
-        }
-        .mobile-nav.active { left: 0; } /* Класс для открытия */
-
-        .mobile-nav-scroll {
-            overflow-y: auto;
-            max-height: calc(100vh - 80px);
-            padding: 0 10px;
-        }
-        
-        /* Стилизация скроллбара */
-        .mobile-nav-scroll::-webkit-scrollbar { width: 6px; }
-        .mobile-nav-scroll::-webkit-scrollbar-track { background: transparent; }
-        .mobile-nav-scroll::-webkit-scrollbar-thumb { background-color: var(--border-color); border-radius: 20px; }
-
-        /* Двухколоночный макет для мобильного меню */
-        .mobile-cols { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        .col-1, .col-2 { flex: 1; padding-right: 15px; padding-left: 15px; }
-        .col-divider { width: 1px; height: 100%; background-color: var(--border-color); margin: 10px 0; }
-        .col-title {
-            font-size: 14px; text-transform: uppercase; letter-spacing: 1px;
-            color: var(--accent-color); margin-bottom: 15px;
-            border-bottom: 2px solid var(--accent-color); display: inline-block; padding-bottom: 5px;
-        }
-
-        .nav-item {
-            display: block; padding: 12px 0; border-bottom: none;
-            font-size: 18px; color: var(--text-color); transition: color 0.2s;
-        }
-        .nav-item:hover { color: var(--accent-color); padding-left: 5px; }
-
-        /* Список категорий в мобильном меню */
-        .categories-list { list-style: none; margin: 0; padding: 0; }
-        .categories-list li { padding: 12px 0; border-bottom: 1px solid var(--border-color); }
-        .categories-list li:last-child { border-bottom: none; }
-        .categories-list a { font-size: 18px; color: var(--text-color); display: block; transition: color 0.2s; }
-        .categories-list a:hover { color: var(--accent-color); }
-
-        /* --- СТИЛИ ДЛЯ СТАТЬИ (ОСТАВЛЕНЫ ТВОИ) --- */
-        .main-content { padding: 40px 0; } 
-
-        .article-header {
-            margin-bottom: 40px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 20px;
-            position: static !important;
-            background-color: transparent;
-        }
-
-        .article-title-big {
-            font-size: 2.8rem;
-            line-height: 1.1;
-            margin-bottom: 15px;
-            color: var(--text-color);
-            position: static !important;
-        }
-        .article-subtitle {
-            font-size: 1.2rem;
-            color: #666;
-            font-weight: normal;
-            letter-spacing: 0.5px;
-            position: static !important;
-        }
-
-        .article-hero-img {
+        /* --- Шапка --- */
+        .site-header {
             width: 100%;
-            height: auto;
-            max-height: 500px;
-            object-fit: cover;
-            display: block;
-            border-radius: 4px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-
-        .article-body { font-size: 1.05rem; }
-        .article-body p { margin-bottom: 1.5rem; }
-        .article-body ul, .article-body ol { margin-bottom: 1.5rem; padding-left: 1.5rem; }
-        .article-body li { margin-bottom: 0.6rem; }
-        .article-body strong { color: var(--accent-color); font-weight: 700; }
-
-        .article-section-title {
-            font-size: 1.1rem;
-            margin-top: 30px;
-            margin-bottom: 15px;
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
-            color: var(--text-color);
-            position: static !important;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 30px 0;
-            font-size: 0.9rem;
-            background: var(--header-bg);
-            display: block;
-            overflow-x: auto;
-        }
-
-        table thead, table tbody, table tr {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
-        }
-
-        th, td {
-            border: 1px solid var(--border-color);
-            padding: 12px;
-            text-align: left;
-            word-wrap: break-word;
-            vertical-align: top;
-        }
-
-        th {
-            background: #f0f0f0;
-            color: var(--text-color);
+            height: 70px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
             position: sticky;
             top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .highlight-box {
-            background: var(--hover-color);
-            border-left: 5px solid var(--accent-color);
-            padding: 20px;
-            margin: 30px 0;
-            font-style: italic;
-            color: #444;
-        }
-
-        footer {
-            background-color: var(--header-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 40px 0;
-            margin-top: 60px;
-        }
-        .footer-content { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-        .footer-col h4 { font-size: 18px; margin-bottom: 15px; color: var(--text-color); }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col a { color: #555; }
-        .footer-col a:hover { color: var(--accent-color); }
-
-        /* Автор и подписи */
-        .author-block {
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .site-title {
+            font-weight: 900;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* Стили для страницы статьи */
+        .article-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .article-header {
             margin-bottom: 20px;
         }
 
-        .author-photo-link {
-            display: block;
-            width: 32px;
-            height: 32px;
-        }
-
-        .author-photo {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-            display: block;
-        }
-
-        .author-name {
-            font-size: 0.85rem;       
-            font-weight: 400;        
-            color: #666;              
+        .article-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1e1e1e;
             line-height: 1.2;
+            margin-bottom: 10px;
         }
 
-        .article-end-line {
-            height: 1px;
-            background-color: var(--border-color);
-            border: none;
-            margin: 40px 0 0 0;
+        .article-meta {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: bold;
+    /* Убираем лишние 15px снизу, чтобы не конфликтовало */
+    margin: 0; 
+    /* Добавляем отступ СВЕРХУ, чтобы он был между описанием и автором */
+    margin-top: 30px; 
+}
+
+        .article-image-wrapper {
+            position: relative;
+            /* ИЗМЕНЕНИЕ 1: Отступ 30px снизу картинки (между фото и текстом статьи) */
+            margin-bottom: 30px; 
+        }
+
+        .article-img {
             width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
         }
 
-        figure {
-            margin: 0;
-            margin-bottom: 35px;
-        }
-
-        figcaption {
+        .image-caption {
+            font-size: 13px;
+            color: #475569;
             text-align: left;
-            font-size: 0.9rem;
-            color: #666;
-            margin-top: 5px;
-            line-height: 1.2;
+            /* ИЗМЕНЕНИЕ 2: Отступ 30px сверху подписи (между фото и описанием фото) */
+            margin-top: 5px; 
         }
 
-        /* Ссылки в статье */
-        .article-body a {
-            color: var(--accent-color);
-            text-decoration: underline;
-            opacity: 0.95;
+        .article-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
         }
 
-        .article-body a:hover {
-            opacity: 1;
-            text-shadow: 0 0 4px rgba(211, 47, 47, 0.4);
+        /* Стили цитаты */
+        .styled-quote {
+            background-color: #eef2f7;
+            border-left: 5px solid #1e293b;
+            padding: 15px 20px;
+            margin: 25px 0;
+            position: relative;
+            border-radius: 0 4px 4px 0;
         }
 
-        /* --- RESPONSIVE DESIGN (ИДЕНТИЧНО ГЛАВНОЙ) --- */
-        @media (max-width: 768px) {
-            .articles-grid { grid-template-columns: 1fr; gap: 20px; }
-            .burger { display: block; }
-            .mobile-nav { display: block !important; } 
-            
-            .article-title-big { font-size: 2rem; }
-            
-            .footer-content {
-                flex-direction: column;
-                gap: 30px;
-                align-items: flex-start;
-            }
-            
-            .col-divider { display: none; }
+        .styled-quote::before {
+            content: "«";
+            font-size: 48px;
+            color: rgba(30, 41, 59, 0.15);
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            font-family: serif;
         }
 
-        @media (min-width: 769px) {
-            .burger { display: none !important; }
-            .mobile-nav { display: none !important; }
+        .styled-quote::after {
+            content: "»";
+            font-size: 48px;
+            color: rgba(30, 41, 59, 0.15);
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+            font-family: serif;
         }
 
-        @media (max-width: 400px) {
-            .mobile-cols { flex-direction: column; }
-            .col-1, .col-2 { width: 100%; padding: 0; margin-bottom: 20px; }
-            .col-divider { display: none; }
+        .styled-quote blockquote {
+            margin: 0;
+            font-style: italic;
+            color: #1e1e1e;
+            font-size: 18px;
+        }
+
+        /* Разделительная линия и кнопка */
+        .divider-line {
+            width: 100%;
+            height: 2px;
+            background-color: #1e293b; /* цвет шапки */
+            margin: 10px 0;
+        }
+
+        .back-to-home-btn {
+            display: inline-block;
+            background-color: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 3px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home-btn:hover {
+            background-color: #334155;
+        }
+
+        /* Футер */
+        .site-footer {
+            background-color: #0f172a;
+            color: #fff;
+            padding: 30px 10px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .copyright {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .socials-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .socials-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .social-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.social-icon-img {
+    width: 20px;          /* <-- Меняй это число (16, 20, 24) */
+    height: 20px;         /* <-- Высота должна быть такой же, как ширина */
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;       /* Запрещает картинке сжиматься сильнее заданного размера */
+}
+
+        .social-item:hover .social-icon,
+        .social-item:hover span {
+            color: #fff;
         }
         
-        h2, h3 {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-}
-h2 {
-  position: relative;           /* Важно: чтобы позиционировать линию относительно заголовка */
-  padding-left: 15px;           /* Отступ слева, чтобы текст не наезжал на линию */
-  margin-bottom: 10px;          /* Немного воздуха снизу */
+        .social-item a {
+  display: flex;              /* Включаем Flexbox для ссылки */
+  align-items: center;        /* Выравниваем иконку и текст по вертикали */
+  text-decoration: none;      /* Убираем подчёркивание ссылки */
+  color: inherit;             /* Наследуем цвет текста родителя */
 }
 
-h2::before {
-  content: "";                  /* Обязательно: без этого псевдоэлемент не отобразится */
-  position: absolute;           /* Вырываем из потока и ставим точно слева */
-  left: 0;                      /* Прижимаем к левому краю h2 */
-  top: 0;                       /* Выравниваем по верху заголовка */
-  bottom: 0;                    /* Растягиваем до низа заголовка */
-  width: 4px;                   /* Толщина полосы */
-  background-color: #d32f2f;    /* Твой акцентный цвет (замени на нужный) */
-}
-/* Принудительно добавляем большой отступ снизу для списка категорий */
-.categories-list, .category-list {
-    padding-bottom: 100px !important;
-    margin-bottom: 0 !important;
+.social-icon-img {
+  width: 24px;                /* Подставь свой размер иконки */
+  height: 24px;
+  object-fit: contain;
+  margin-right: 8px;          /* Отступ между иконкой и текстом */
+  display: block;             /* Убирает лишние отступы снизу у картинки */
 }
 
-/* Если у тебя есть обертка для скролла, тоже страхуем её */
-.mobile-nav-scroll {
-    padding-bottom: 120px !important; /* Делаем запас с головой */
+.social-item span {
+  font-size: 14px;            /* Или свой размер шрифта */
+  line-height: 1.2;
 }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="container header-inner">
-            <a href="index.html" class="logo">Ракурс NEWS</a>
-            <div class="header-actions">
-                <button class="theme-toggle" id="themeToggle">🌙 Темная</button>
-                
-                <!-- Иконка бургер меню -->
-                <div class="burger" id="burger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+        
+            <!-- Логотип -->
+            <div class="logo-wrapper">
+                <img src="/images/logo.png" alt="Ракурс NEWS" class="logo-img">
+                <span class="site-title">Ракурс NEWS</span>
             </div>
         </div>
     </header>
 
-    <!-- Мобильная панель навигации (ИДЕНТИЧНА ГЛАВНОЙ) -->
-    <nav class="mobile-nav" id="mobileNav">
-        <div class="mobile-nav-scroll">
-            <div class="mobile-cols">
-                <div class="col-1">
-                    <h3 class="col-title">Основные разделы</h3>
-                    
-                    <a href="https://rakurs-news.github.io" class="nav-item">Главная</a>
-                    <a href="politics.html" class="nav-item">Политика</a>
-                    <a href="geopolitics.html" class="nav-item">Геополитика</a>
-                    <a href="society.html" class="nav-item">Общество</a>
-                    <a href="crime.html" class="nav-item">Криминал</a>
-                    <a href="corruption.html" class="nav-item">Коррупция</a>
-                    <a href="migration.html" class="nav-item">Мигранты</a>
-                    <a href="state.html" class="nav-item">Государство</a>
-                    <a href="army.html" class="nav-item">Армия</a>
-                    <a href="svo.html" class="nav-item">СВО</a>
-                    <a href="stars.html" class="nav-item">Звезды</a>
-                    <a href="sport.html" class="nav-item">Спорт</a>
-                    <a href="archive.html" class="nav-item">Архив</a>
-                </div>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <main class="main-content">
-        <div class="container">
+    <!-- Основной контент статьи -->
+    <main class="article-container">
+        <article>
             <header class="article-header">
-                <h1 class="article-title-big">ЗАГОЛОВОК</h1>
-                <p class="article-subtitle">ПОДЗАГОЛОВОК</p>
-            </header>
-            <div class="author-block">
-                <a href="https://t.me/RAKURS_NEWS_RU" class="author-photo-link" target="_blank" rel="noopener noreferrer">
-                    <img src="/image/my_photo.jpg" alt="Дмитрий Мусиенко" class="author-photo">
-                </a>
-                <span class="author-name">Дмитрий Мусиенко</span>
-            </div>
-            <figure>
-                <img src="/image/СЫЛКА НА ФОТО СТАТЬИ" alt="ОПИСАНИЕ ФОТО" class="article-hero-img">
-                <figcaption>ПОДПИСЬ К ФОТО</figcaption>
-            </figure>
-
-            <div class="article-body">
-                <p>ТЕКСТ СТАТЬИ</p>
+                <h1 class="article-title">ЗАГОЛОВОК</h1>
                 
-                <hr class="article-end-line">
+                <p class="article-description">
+                ОПИСАНИЕ СТАТЬИ
+            </p>
 
+                <div class="article-meta">
+                    👤 Дмитрий Мусиенко | 19 Августа 2026
+                </div>
+            </header>
+
+            <div class="article-image-wrapper">
+                <img src="/images/ССЫЛКА ФОТО" alt="НАЗВАНИЕ ФОТО" class="article-img">
+                <p class="image-caption">ОПИСАНИЕ ПОД ФОТО</p>
             </div>
-        </div>
+
+            <div class="article-content">
+                <p>
+                    ПЕРВЫЙ АБЗАЦ
+                </p>
+                <p>
+                    ВТОРОЙ АБЗАЦ
+                </p>
+                
+                <div class="styled-quote">
+                    <blockquote>
+                        ЦИТАТА (ЕСЛИ ЕСТЬ)
+                    </blockquote>
+                </div>
+
+                <p>
+                    ТРЕТИЙ АБЗАЦ
+                </p>
+            </div>
+
+            <div class="divider-line"></div>
+            <div style="position: relative; height: 100px;"> <!-- контейнер для привязки -->
+                <a href="https://rakurs-news.github.io" class="back-to-home-btn" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);">На Главную</a>
+            </div>
+        </article>
     </main>
-    <footer>
-        <div class="container footer-content">
-            <div class="footer-col">
-                <h4>Ракурс NEWS</h4>
-                <p>Экспертный взгляд на главные события дня. Без кликбейта, только факты и аналитика.</p>
-            </div>
-            <div class="footer-col">
-                <h4>Разделы</h4>
-                <ul>
-                    <li><a href="politics.html">Политика</a></li>
-                    <li><a href="geopolitics.html">Геополитика</a></li>
-                    <li><a href="society.html">Общество</a></li>
-                    <li><a href="crime.html">Криминал</a></li>
-                    <li><a href="corruption.html">Коррупция</a></li>
-                    <li><a href="migration.html">Мигранты</a></li>
-                    <li><a href="state.html">Государство</a></li>
-                    <li><a href="army.html">Армия</a></li>
-                    <li><a href="svo.html">СВО</a></li>
-                    <li><a href="stars.html">Звёзды</a></li>
-                    <li><a href="sport.html">Спорт</a></li>
-                    <li><a href="archive.html">Архив</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Контакты</h4>
-                <ul>
-                    <li><a href="mailto:rakurs-news@mail.ru">rakurs-news@mail.ru</a></li>                    
-                    <li><h4>Наши соцсети</h4></li>
-                    <li><a href="https://t.me/RAKURS_NEWS_RU">Телеграм</a></li>
-                    <li><a href="https://vk.ru/rakurs_news">ВКонтакте</a></li>
-                    <li>Россия, Москва</li>
-                </ul>
+
+    <!-- Футер -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Ракурс NEWS. Все права защищены</p>
+            
+            <div class="socials-section">
+                <p class="socials-title">Наши соцсети</p>
+                
+                <div class="social-item">
+    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" rel="noopener noreferrer">
+        <!-- Замени 'images/icon-telegram.png' на путь к своей картинке -->
+        <img src="/images/telegram.png" alt="Телеграм" class="social-icon-img">
+        <span>Телеграм</span>
+    </a>
+</div>
+
+<div class="social-item">
+    <a href="https://vk.ru/rakurs_news" target="_blank" rel="noopener noreferrer">
+        <!-- Замени 'images/icon-vk.png' на путь к своей картинке -->
+        <img src="/images/vk.png" alt="ВКонтакте" class="social-icon-img">
+        <span>ВКонтакте</span>
+    </a>
+</div>
             </div>
         </div>
     </footer>
-    <script>
-        const themeToggle = document.getElementById('themeToggle');
-        const body = document.body;
-        const burger = document.getElementById('burger');
-        const mobileNav = document.getElementById('mobileNav');
 
-        if (themeToggle) {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                body.setAttribute('data-theme', 'dark');
-                themeToggle.textContent = '☀️';
-            } else {
-                body.removeAttribute('data-theme');
-                themeToggle.textContent = '🌙';
-            }
-            themeToggle.addEventListener('click', () => {
-                if (body.getAttribute('data-theme') === 'dark') {
-                    body.removeAttribute('data-theme');
-                    localStorage.setItem('theme', 'light');
-                    themeToggle.textContent = '🌙';
-                } else {
-                    body.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                    themeToggle.textContent = '☀️';
-                }
-            });
-        }
-
-        if (burger && mobileNav) {
-            burger.addEventListener('click', () => mobileNav.classList.toggle('active'));
-            document.querySelectorAll('.nav-item, .categories-list a').forEach(item => {
-                item.addEventListener('click', () => mobileNav.classList.remove('active'));
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const articleBody = document.querySelector('.article-body');
-            
-            if (articleBody) {
-                articleBody.addEventListener('copy', (event) => {
-                    const selection = window.getSelection();
-                    let textToCopy = selection.toString();
-
-                    if (!textToCopy) return;
-
-                    const disclaimer = 
-                        '\n\n---\nТекст скопирован из сайта «Ракурс NEWS».\n' +
-                        'Если вы берете текст из сайта, упоминайте наш сайт в вашей статье.\n' +
-                        'Источник: https://rakurs-news.github.io';
-
-                    event.clipboardData.setData('text/plain', textToCopy + disclaimer);
-                    event.preventDefault();
-                });
-            }
-        });
-    </script>
 </body>
 </html>
