@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const loader = document.getElementById('loader');
     const burgerBtn = document.querySelector('.burger-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const scrollTopBtn = document.getElementById('scrollTopBtn'); // Кнопка "Наверх"
 
     if (!newsContainer) return;
 
@@ -12,6 +13,40 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const urlParams = new URLSearchParams(window.location.search);
     let currentPage = parseInt(urlParams.get('page')) || 1;
+
+    // --- НОВАЯ ФУНКЦИЯ: Универсальная отрисовка одной карточки ---
+    function renderCard(item) {
+        const card = document.createElement('article');
+        card.className = 'news-card';
+        
+        const hasImage = item.image && item.image.trim() !== '';
+        let formattedDate = '';
+        if(item.date) {
+            const dateObj = new Date(item.date);
+            if (!isNaN(dateObj.getTime())) {
+                formattedDate = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            } else {
+                formattedDate = item.date;
+            }
+        }
+
+        // Экранируем кавычки в заголовке для атрибута aria-label
+        const safeTitle = item.title.replace(/"/g, '&quot;');
+
+        card.innerHTML = `
+            <a href="${item.url}" class="news-card-link" aria-label="Перейти к статье: ${safeTitle}">
+                ${hasImage ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>` : ''}
+                <div class="card-body">
+                    <span class="card-category">${item.category}</span>
+                    ${formattedDate ? `<span class="card-date">${formattedDate}</span>` : ''}
+                    <h3 class="card-title">${item.title}</h3>
+                    ${item.description ? `<p class="card-description">${item.description.substring(0, 120)}${item.description.length > 120 ? '...' : ''}</p>` : ''}
+                </div>
+            </a>`;
+        
+        return card;
+    }
+    // -------------------------------------------------------------
 
     function updateUrl(pageNum) {
         const newParams = new URLSearchParams(window.location.search);
@@ -82,31 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         pageItems.forEach((item, index) => {
-            const card = document.createElement('article');
-            card.className = 'news-card';
-            
-            const hasImage = item.image && item.image.trim() !== '';
-            let formattedDate = '';
-            if(item.date) {
-                const dateObj = new Date(item.date);
-                if (!isNaN(dateObj.getTime())) {
-                    formattedDate = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-                } else {
-                    formattedDate = item.date;
-                }
-            }
-
-            card.innerHTML = `
-                <a href="${item.url}" class="news-card-link" aria-label="Перейти к статье: ${item.title.replace(/"/g, '&quot;')}">
-                    ${hasImage ? `<div class="card-image-wrapper"><img src="${item.image}" alt="${item.title}" class="card-image" loading="lazy"></div>` : ''}
-                    <div class="card-body">
-                        <span class="card-category">${item.category}</span>
-                        ${formattedDate ? `<span class="card-date">${formattedDate}</span>` : ''}
-                        <h3 class="card-title">${item.title}</h3>
-                        ${item.description ? `<p class="card-description">${item.description.substring(0, 120)}${item.description.length > 120 ? '...' : ''}</p>` : ''}
-                    </div>
-                </a>`;
-            
+            // Используем универсальную функцию отрисовки
+            const card = renderCard(item);
             newsContainer.appendChild(card);
         });
 
@@ -116,7 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderPagination(totalCount) {
         const totalPages = Math.ceil(totalCount / itemsPerPage);
         
-        // Если страниц всего 1 — вообще ничего не рисуем
         if (totalPages <= 1) {
             const container = document.getElementById('pagination-holder');
             if (container) container.innerHTML = '';
@@ -132,19 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
         paginationContainer.className = 'pagination';
         paginationContainer.innerHTML = '';
 
-        // --- УМНАЯ ПАГИНАЦИЯ: показываем только нужные цифры и многоточия ---
         const maxVisible = 5;
         const pageLinks = [];
 
-        // 1. Всегда добавляем первую страницу
         pageLinks.push(1);
 
-        // 2. Добавляем многоточие в начало, если текущая далеко от старта
         if (currentPage > 3) {
             pageLinks.push('...');
         }
 
-        // 3. Добавляем диапазон страниц вокруг текущей
         const start = Math.max(2, currentPage - Math.floor(maxVisible / 2));
         const end = Math.min(totalPages - 1, currentPage + Math.floor(maxVisible / 2));
 
@@ -152,20 +159,16 @@ document.addEventListener('DOMContentLoaded', () => {
             pageLinks.push(i);
         }
 
-        // 4. Добавляем многоточие в конец, если текущая далеко от финиша
         if (currentPage < totalPages - 2) {
             pageLinks.push('...');
         }
 
-        // 5. Всегда добавляем последнюю страницу (если она не совпадает с тем, что уже добавили)
         if (totalPages !== 1) {
             if (pageLinks[pageLinks.length - 1] !== totalPages) {
                 pageLinks.push(totalPages);
             }
         }
-        // --------------------------------------------------------------------
 
-        // Теперь рисуем кнопки из нашего умного списка
         pageLinks.forEach(pageNum => {
             if (pageNum === '...') {
                 const span = document.createElement('span');
@@ -184,7 +187,6 @@ document.addEventListener('DOMContentLoaded', () => {
             paginationContainer.appendChild(link);
         });
 
-        // --- SEO: Генерация rel="prev" и rel="next" ---
         const head = document.querySelector('head');
         head.querySelectorAll('link[rel="prev"], link[rel="next"]').forEach(el => el.remove());
 
@@ -204,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
             nextLink.href = `${window.location.pathname}?page=${currentPage + 1}`;
             head.appendChild(nextLink);
         }
-        // ---------------------------------------------
     }
 
     document.addEventListener('click', (e) => {
@@ -231,11 +232,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- ВСТАВЛЕННЫЙ БЛОК ПОИСКА ---
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
+            const query = e.target.value.toLowerCase().trim();
+            
+            // Если поле пустое, сбрасываем на обычную логику (пагинацию)
+            if (!query) {
+                renderNews(); 
+                return;
+            }
+
+            // Фильтруем ВСЕ новости по заголовку и описанию
+            const filtered = allNews.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                (item.description && item.description.toLowerCase().includes(query))
+            );
+
+            newsContainer.innerHTML = '';
+            
+            if (filtered.length === 0) {
+                newsContainer.innerHTML = '<p style="padding:20px; color:#64748b;">Ничего не найдено по запросу</p>';
+                document.getElementById('pagination-holder').innerHTML = '';
+                return;
+            }
+
+            filtered.forEach((item) => {
+                // Используем ту же универсальную функцию отрисовки
+                const card = renderCard(item);
+                newsContainer.appendChild(card);
+            });
+
+            // При поиске пагинацию скрываем, чтобы видеть все результаты сразу
+            document.getElementById('pagination-holder').innerHTML = ''; 
         });
     }
-    
+    // --------------------------------
+
+    // --- ДОБАВЛЕНО: Логика кнопки "Наверх" ---
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+    // -----------------------------------------
+
     loadNews();
 });
