@@ -48,6 +48,75 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // -------------------------------------------------------------
 
+    // --- ФУНКЦИЯ: Отрисовка Hero-баннера ---
+    function renderHero() {
+        const heroContainer = document.querySelector('.hero-banner .hero-card');
+        if (!heroContainer || allNews.length === 0) return;
+
+        // Ищем статью с флагом isHero: true
+        const heroItem = allNews.find(item => item.isHero === true);
+
+        if (heroItem) {
+            const hasImage = heroItem.image && heroItem.image.trim() !== '';
+            let formattedDate = '';
+            
+            if (heroItem.date) {
+                const dateObj = new Date(heroItem.date);
+                if (!isNaN(dateObj.getTime())) {
+                    formattedDate = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+                } else {
+                    formattedDate = heroItem.date;
+                }
+            }
+
+            const safeTitle = heroItem.title.replace(/"/g, '&quot;');
+
+            heroContainer.innerHTML = `
+                <div class="hero-image-wrapper">
+                    ${hasImage ? `<img src="${heroItem.image}" alt="${heroItem.title}" class="hero-image" loading="lazy">` : ''}
+                </div>
+                <div class="hero-body">
+                    <span class="card-category" style="background:#ef4444; color:#fff;">${heroItem.category}</span>
+                    <h1 class="hero-title">${heroItem.title}</h1>
+                    ${formattedDate ? `<p class="hero-date">${formattedDate}</p>` : ''}
+                    ${heroItem.description ? `<p class="hero-subtitle">${heroItem.description}</p>` : ''}
+                    <a href="${heroItem.url}" class="hero-btn">Подробнее</a>
+                </div>`;
+        } else {
+            // Если ни одна статья не помечена как Hero, берем самую свежую (первую в массиве)
+            const latestItem = allNews[0];
+            if (latestItem) {
+                 const hasImage = latestItem.image && latestItem.image.trim() !== '';
+                 let formattedDate = '';
+                 if (latestItem.date) {
+                    const dateObj = new Date(latestItem.date);
+                    if (!isNaN(dateObj.getTime())) {
+                        formattedDate = dateObj.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+                    } else {
+                        formattedDate = latestItem.date;
+                    }
+                }
+                
+                const safeTitle = latestItem.title.replace(/"/g, '&quot;');
+
+                heroContainer.innerHTML = `
+                    <div class="hero-image-wrapper">
+                        ${hasImage ? `<img src="${latestItem.image}" alt="${latestItem.title}" class="hero-image" loading="lazy">` : ''}
+                    </div>
+                    <div class="hero-body">
+                        <span class="card-category" style="background:#ef4444; color:#fff;">${latestItem.category}</span>
+                        <h1 class="hero-title">${latestItem.title}</h1>
+                        ${formattedDate ? `<p class="hero-date">${formattedDate}</p>` : ''}
+                        ${latestItem.description ? `<p class="hero-subtitle">${latestItem.description}</p>` : ''}
+                        <a href="${latestItem.url}" class="hero-btn">Подробнее</a>
+                    </div>`;
+            } else {
+                heroContainer.innerHTML = '<p style="padding:20px; color:#64748b;">Нет новостей для главного баннера</p>';
+            }
+        }
+    }
+    // -----------------------------------------
+
     function updateUrl(pageNum) {
         const newParams = new URLSearchParams(window.location.search);
         if (pageNum === 1) {
@@ -71,7 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
             allNews = await response.json();
             console.log('✅ Данные успешно загружены:', allNews.length, 'новостей');
             
-            renderNews(); 
+            // ВЫЗЫВАЕМ ОБЕ ФУНКЦИИ: И ГЕРОЯ, И ЛЕНТУ
+            renderHero();
+            renderNews();
         } catch (error) {
             console.error('❌ КРИТИЧЕСКАЯ ОШИБКА ЗАГРУЗКИ:', error);
             newsContainer.innerHTML = `

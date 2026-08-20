@@ -6,7 +6,8 @@
     "description": "Эпидрасследования в Петербурге: почему «единичные случаи» сальмонеллеза возвращают нас к майским проверкам.",
     "image": "images/shutterstock_1214256346-pic_32ratio_900x600-900x600-77971.jpg",
     "date": "2026-08-20T10:30:00",
-    "url": "/news/salmanolez-v-detskih-sadah-peterburga.html"
+    "url": "/news/salmanolez-v-detskih-sadah-peterburga.html",
+    "isHero": true
   },
   {
     "id": 10,
@@ -15,7 +16,8 @@
     "description": "В Екатеринбурге на улице Цвиллинга обнаружен погибший. Следствие проводит проверку обстоятельств инцидента.",
     "image": "images/35114dbd13862341810aed5db53f675b.jpg",
     "date": "2026-08-20T10:00:00",
-    "url": "/news/trup-mujchini-v-ekaterenburge.html"
+    "url": "/news/trup-mujchini-v-ekaterenburge.html",
+    "isHero": false
   },
   {
     "id": 9,
@@ -24,7 +26,8 @@
     "description": "Армия Израиля признала расстрел семьи Хинд Раджаб. Разбираем, что стоит за запоздалым «уголовным расследованием».",
     "image": "images/530a21d844df7c7fb2375654ca2e7fdd.jpg",
     "date": "2026-08-20T09:30:00",
-    "url": "/news/prestuplenie-cahal.html"
+    "url": "/news/prestuplenie-cahal.html",
+    "isHero": false
   },
   {
     "id": 8,
@@ -33,7 +36,8 @@
     "description": "Депутаты предлагают привлекать частные клиники к реабилитации ветеранов СВО через систему ОМС.",
     "image": "images/RIA_8502203-pic_32ratio_900x600-900x600-70545.jpg",
     "date": "2026-08-20T08:20:00",
-    "url": "/news/pomosh-veteranam-svo.html"
+    "url": "/news/pomosh-veteranam-svo.html",
+    "isHero": false
   },
   {
     "id": 7,
@@ -42,7 +46,8 @@
     "description": "Посты Дурова во «ВКонтакте» продержались минуты — в этом и есть главный намёк.",
     "image": "images/2024-08-26T111140Z_1232961750_RC2MN9A4HKFF_RTRMADP_3_FRANCE-SECURITY-RUSSIA-TELEGRAM-pic_32ratio_900x600-900x600-8100.jpg",
     "date": "2026-08-19T14:00:00",
-    "url": "/news/durov-poyavilsya-v-vkontakte.html"
+    "url": "/news/durov-poyavilsya-v-vkontakte.html",
+    "isHero": false
   },
   {
     "id": 6,
@@ -51,7 +56,8 @@
     "description": "Россия построит АЭС в Мьянме",
     "image": "images/IMG_20260819_132655.jpg",
     "date": "2026-08-19T13:30:00",
-    "url": "/news/atomnie-stancii-myanme.html"
+    "url": "/news/atomnie-stancii-myanme.html",
+    "isHero": false
   },
   {
     "id": 5,
@@ -60,7 +66,8 @@
     "description": "В деле об изготовлении порно в Перми кроется не только криминал, но и провал технологий безопасности.",
     "image": "images/RIA_8910648-pic_32ratio_900x600-900x600-56483.jpg",
     "date": "2026-08-19T13:00:00",
-    "url": "/news/snimala-detskoe-porno.html"
+    "url": "/news/snimala-detskoe-porno.html",
+    "isHero": false
   },
   {
     "id": 4,
@@ -69,7 +76,8 @@
     "description": "Эксперты прогнозируют обесточивание Украины спецдронами. Истинная цель — не только подстанции, но и полная зависимость энергосистемы от импорта.",
     "image": "images/2024-02-07T111125Z_2075675487_RC25X5A23Q5Y_RTRMADP_3_UKRAINE-CRISIS-ATTACK-KYIV-pic_32ratio_900x600-900x600-52480.jpg",
     "date": "2026-08-19T12:40:00",
-    "url": "/news/energeticheskaya-voyna.html"
+    "url": "/news/energeticheskaya-voyna.html",
+    "isHero": false
   },
   {
     "id": 3,
@@ -78,7 +86,8 @@
     "description": "СМИ трубят о гиперзвуке, но истинная суть новинки — в переходе на миниатюрные ракеты «Гвоздь».",
     "image": "images/upload-photo_2026-08-19_09.50-pic_32ratio_900x600-900x600-52515.jpg",
     "date": "2026-08-19T10:55:00",
-    "url": "/news/armiya-poluchila-novie-panciri.html"
+    "url": "/news/armiya-poluchila-novie-panciri.html",
+    "isHero": false
   },
   {
     "id": 2,
@@ -87,7 +96,8 @@
     "description": "В Петербурге оштрафовали иностранца на 4000 рублей за видео атаки дронов.",
     "image": "images/IMG_20260819_091040_402.jpg",
     "date": "2026-08-19T09:15:00",
-    "url": "/news/izbiratelnoe-nakazanie.html"
+    "url": "/news/izbiratelnoe-nakazanie.html",
+    "isHero": false
   },
   {
     "id": 1,
@@ -96,6 +106,7 @@
     "description": "Андрея Клепача уволили из ВЭБ.РФ за неудобные прогнозы.",
     "image": "images/IMG_20260819_000241_675.jpg",
     "date": "2026-08-19T00:10:00",
-    "url": "/news/krasivie-otcheti.html"
+    "url": "/news/krasivie-otcheti.html",
+    "isHero": false
   }
 ]
