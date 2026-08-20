@@ -360,4 +360,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // -----------------------------------------
 
     loadNews();
+    // --- ДОБАВЛЕНО: Автозакрытие мобильного меню при клике на ссылку ---
+    if (mobileMenu) {
+        const menuLinks = mobileMenu.querySelectorAll('.menu-link');
+        
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                // Убираем класс active у меню
+                mobileMenu.classList.remove('active');
+                
+                // Возвращаем прокрутку страницы, если она была заблокирована
+                document.body.style.overflow = '';
+                
+                // Сбрасываем aria-атрибут кнопки бургера
+                if (burgerBtn) {
+                    burgerBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    }
 });
