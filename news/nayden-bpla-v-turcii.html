@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta для SEO -->
+    <title>Найден БПЛА на побережье Стамбула: хроника событий</title>
+    <meta name="description" content="В районе Арнавуткёй найден очередной беспилотник. Разбираемся, что известно об инциденте и участившихся находках..">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Найден БПЛА на побережье Стамбула: хроника событий">
+    <meta property="og:description" content="В районе Арнавуткёй найден очередной беспилотник. Разбираемся, что известно об инциденте и участившихся находках.">
+    <meta property="og:url" content="https://rakurs-news.github.io/news/nayden-bpla-v-turcii.html">
+    <meta property="og:image" content="https://rakurs-news.github.io/images/upload-2026-06-29T195014Z_843492065_RC2V3MAA6J4X_RTRMADP_3_TURKEY-MOON-pic_32ratio_900x600-900x600-46478.jpg">
+    <meta property="og:site_name" content="Ракурс NEWS">
+
+    <style>
+        /* --- Сброс и Базовые стили --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica Neue', 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- Шапка --- */
+        .site-header {
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .site-title {
+            font-weight: 900;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* Стили для страницы статьи */
+        .article-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .article-header {
+            margin-bottom: 20px;
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1e1e1e;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: bold;
+            margin: 0; 
+            margin-top: 30px; 
+        }
+
+        /* НОВЫЙ КОНТЕЙНЕР ДЛЯ ВЫРАВНИВАНИЯ ПО КРАЯМ */
+        .meta-flex-wrapper {
+            display: flex;
+            justify-content: space-between; /* Распределяет элементы по краям */
+            align-items: center;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .reading-time-block,
+        .publish-time-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .clock-icon {
+            width: 20px;
+            height: 20px;
+            fill: #0f172a;
+            stroke: #0f172a;
+            stroke-width: 2px;
+        }
+
+        .article-image-wrapper {
+            position: relative;
+            margin-bottom: 30px; 
+        }
+
+        .article-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .image-caption {
+            font-size: 13px;
+            color: #475569;
+            text-align: left;
+            margin-top: 5px; 
+        }
+
+        .article-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+
+        /* --- СТИЛИ ЦИТАТЫ (ОБНОВЛЕННЫЕ) --- */
+        .styled-quote {
+            background-color: #eef2f7;
+            padding: 15px 20px;
+            margin: 25px 0;
+            position: relative;
+            border-radius: 0 4px 4px 0;
+            overflow: visible;
+        }
+
+        .styled-quote::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 4px 0 0 4px;
+            z-index: 1;
+        }
+
+        .styled-quote blockquote {
+            position: relative;
+            z-index: 2;
+            padding-left: 12px;
+            margin: 0;
+            font-style: italic;
+            color: #1e1e1e;
+            font-size: 18px;
+        }
+
+        h3 {
+            position: relative;
+            padding-left: 15px;
+            line-height: 1.3;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 4px 0 0 4px;
+        }
+
+        /* Разделительная линия и кнопка */
+        .divider-line {
+            width: 100%;
+            height: 2px;
+            background-color: #1e293b;
+            margin: 15px 0;
+        }
+
+        .back-to-home-wrapper {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-to-home-btn {
+            display: inline-block;
+            background-color: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 3px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home-btn:hover {
+            background-color: #334155;
+        }
+
+        /* Футер */
+        .site-footer {
+            background-color: #0f172a;
+            color: #fff;
+            padding: 30px 10px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .copyright {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .socials-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .socials-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .social-icon-img {
+            width: 24px;                
+            height: 24px;
+            object-fit: contain;
+            margin-right: 8px;          
+            display: block;             
+            flex-shrink: 0;       
+        }
+
+        .social-item:hover .social-icon,
+        .social-item:hover span {
+            color: #fff;
+        }
+        
+        .social-item a {
+            display: flex;              
+            align-items: center;        
+            text-decoration: none;      
+            color: inherit;             
+        }
+
+        .social-item span {
+            font-size: 14px;            
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+        
+            <!-- Логотип -->
+            <div class="logo-wrapper">
+                <img src="/images/logo.png" alt="Ракурс NEWS" class="logo-img">
+                <span class="site-title">Ракурс NEWS</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Основной контент статьи -->
+    <main class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">Найден БПЛА на побережье Стамбула: хроника событий</h1>
+                
+                <p class="article-description">
+                В районе Арнавуткёй найден очередной беспилотник. Разбираемся, что известно об инциденте и участившихся находках.
+            </p>
+
+                <div class="article-meta">
+                    👤 Дмитрий Мусиенко
+                </div>
+
+                <!-- ОБЕРТКА ДЛЯ ВЫРАВНИВАНИЯ -->
+                <div class="meta-flex-wrapper">
+                    <!-- Время на чтение (слева) -->
+                    <div id="reading-time" class="reading-time-block" style="display: none;">
+                        <svg class="clock-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <line x1="12" y1="12" x2="12" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            <line x1="12" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        <span id="reading-time-text"></span>
+                    </div>
+
+                    <!-- Время публикации (справа) -->
+                    <!-- data-published хранит дату в формате ISO (YYYY-MM-DDTHH:mm:ss) -->
+                    <div id="publish-time" class="publish-time-block" style="display: none;">
+                        <svg class="clock-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L12 12 16 14l0 0M21 15h-2v4H5v-4H3v2a2 2 0 002 2h14a2 2 0 002-2v-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span id="publish-time-text"></span>
+                    </div>
+                </div>
+            </header>
+
+            <div class="article-image-wrapper">
+                <img src="/images/upload-2026-06-29T195014Z_843492065_RC2V3MAA6J4X_RTRMADP_3_TURKEY-MOON-pic_32ratio_900x600-900x600-46478.jpg" alt="бпла нашли в Турции" class="article-img">
+                <p class="image-caption">© Reuters</p>
+            </div>
+
+            <div class="article-content">
+            
+                <p>
+                    На побережье Черного моря в стамбульском районе Арнавуткёй был обнаружен беспилотный летательный аппарат. Как передает агентство IHA, на место происшествия оперативно прибыли спасатели — сигнал поступил от местных рыбаков. Для обеспечения безопасности были вызваны саперы военно-морских сил, так как возникло опасение, что устройство может содержать взрывчатку. Итогом «обследования» дрона стало решение военных подорвать его на месте в качестве меры предосторожности.
+                </p>
+                <p>
+                    Примечательно, что турецкое побережье в последнее время превратилось в своеобразную «зону отчуждения» для летающих объектов. Инциденты следуют один за другим: 15 августа издание Haberler сообщало об обнаружении конструкций, напоминающих БПЛА, в том же Арнавуткёе. 8 августа неизвестный беспилотный летательный аппарат нашли в море в 500 метрах от берега провинции Сакарья, а в июле в районе Карабурун были найдены обломки дрона-камикадзе.
+                </p>
+
+                <p>
+                    Официальные отчеты традиционно сдержанны, однако за формулировкой «в последнее время неоднократно находили обломки» скрывается очевидный тренд, который ведомства предпочитают не детализировать. Поразительно, с какой методичностью море возвращает на берег объекты, чье происхождение и цели остаются за скобками пресс-релизов. Мы наблюдаем классический случай, когда отсутствие официальных подробностей порождает бесконечное пространство для догадок, в то время как военные просто «принимают меры предосторожности», превращая каждый такой эпизод в эффектное пиротехническое шоу. Остается лишь гадать, сколько еще подобных «находок» скрывает Черное море и насколько долго удастся сохранять столь спокойный тон повествования об этих регулярных визитах незваных гостей.
+                </p>
+            </div>
+            <div class="divider-line"></div>
+<div style="position: relative; height: 60px;">
+    <a href="https://rakurs-news.github.io" class="back-to-home-btn" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);">На Главную</a>
+</div>
+        </article>
+    </main>
+    <!-- Футер -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Ракурс NEWS. Все права защищены</p>
+            
+            <div class="socials-section">
+                <p class="socials-title">Наши соцсети</p>
+                
+                <div class="social-item">
+    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" rel="noopener noreferrer">
+        <img src="/images/telegram.png" alt="Телеграм" class="social-icon-img">
+        <span>Телеграм</span>
+    </a>
+</div>
+
+<div class="social-item">
+    <a href="https://vk.ru/rakurs_news" target="_blank" rel="noopener noreferrer">
+        <img src="/images/vk.png" alt="ВКонтакте" class="social-icon-img">
+        <span>ВКонтакте</span>
+    </a>
+</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const content = document.querySelector('.article-content');
+            const readingTimeBlock = document.getElementById('reading-time');
+            const readingTimeText = document.getElementById('reading-time-text');
+            
+            // Элементы времени публикации
+            const publishTimeBlock = document.getElementById('publish-time');
+            const publishTimeText = document.getElementById('publish-time-text');
+
+            // --- ЛОГИКА ВРЕМЕНИ НА ЧТЕНИЕ ---
+            if (content && readingTimeBlock) {
+                const text = content.innerText;
+                const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+                const minutes = Math.ceil(wordCount / 200);
+
+readingTimeBlock.style.display = 'flex';
+readingTimeText.textContent = `${minutes} мин`;
+
+// --- ЛОГИКА ВРЕМЕНИ ПУБЛИКАЦИИ ИЗ news.json ---
+fetch('news.json')
+    .then(response => {
+        if (!response.ok) throw new Error('Ошибка загрузки news.json');
+        return response.json();
+    })
+    .then(data => {
+        // Получаем текущий путь страницы (например, "/news/general-fsb-pokonchil-s-soboy.html")
+        const currentPath = window.location.pathname;
+        
+        // Ищем новость в JSON по полю url
+        const articleData = data.find(item => item.url === currentPath);
+
+        let publishDateStr;
+        
+        if (articleData && articleData.date) {
+            publishDateStr = articleData.date; // Формат из JSON: YYYY-MM-DDTHH:mm:ss
+        } else {
+            // Фолбэк, если совпадение не найдено (например, для тестов)
+            console.warn('Новость не найдена в news.json, используется текущая дата');
+            publishDateStr = new Date().toISOString();
+        }
+
+        const publishDate = new Date(publishDateStr);
+        const options = { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        };
+        const formattedDate = publishDate.toLocaleString('ru-RU', options);
+        
+        publishTimeBlock.style.display = 'flex';
+        publishTimeText.textContent = formattedDate;
+    })
+    .catch(error => {
+        console.error('Ошибка при получении даты:', error);
+        // Если JSON не загрузился, показываем текущую дату
+        const fallbackDate = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        publishTimeBlock.style.display = 'flex';
+        publishTimeText.textContent = fallbackDate.toLocaleDateString('ru-RU', options);
+    });
+});
+</script>
+</body>
+</html>
