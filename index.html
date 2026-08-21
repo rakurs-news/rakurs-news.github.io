@@ -147,6 +147,92 @@
     font-weight: 600;
 }
 
+/* Стили для секции "Коротко" */
+.brief-news-section {
+    padding: 60px 0;
+    background-color: #ffffff; /* Или #f8fafc если хочешь легкий фон */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.brief-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.brief-card {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.brief-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+    border-color: #cbd5e1;
+}
+
+.brief-category {
+    font-family: 'Manrope', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 16px;
+    display: inline-block;
+}
+
+.brief-title {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.4;
+    margin: 0 0 12px 0;
+}
+
+.brief-text {
+    font-family: 'PT Serif', serif;
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1; /* Чтобы текст прижимался вверх, а пустота была внизу */
+}
+
+/* Адаптив для мобильных */
+@media (max-width: 600px) {
+    .section-title {
+        font-size: 28px;
+    }
+    
+    .brief-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -198,7 +284,54 @@
                 <a href="/news/itogi-zasedaniya-putina.html" class="hero-btn">Подробнее</a>
             </div>
         </article>
-    </section>
+
+<!-- Блок "Коротко" -->
+<section class="brief-news-section">
+    <div class="container">
+        <h2 class="section-title">Коротко | 21 августа</h2>
+        
+        <div class="brief-grid">
+        
+        <!-- Карточка 5 -->
+            <article class="brief-card">
+                <span class="brief-category" style="background-color: #ef4444;">Армия</span>
+                <h3 class="brief-title">Баллистические ракеты от КНР</h3>
+                <p class="brief-text">Россия впервые получила более тяжелые северокорейские баллистические ракеты Hwasong-11C (KN-30). Северная Корея заявляет, что KN-30 может нести боевую часть массой до 2,5 тонны и поражать цели на расстоянии 600–900 км
+
+Группа из примерно 90 северокорейских специалистов была передислоцирована в Воронежскую область России для обслуживания  установок</p>
+            </article>
+        
+        <!-- Карточка 4 -->
+            <article class="brief-card">
+                <span class="brief-category" style="background-color: #ef4444;">Происшествие</span>
+                <h3 class="brief-title">21 августа, Пермь</h3>
+                <p class="brief-text">В Перми дроны атаковали один из крупнейших НПЗ</p>
+            </article>
+        
+        <!-- Карточка 3 -->
+            <article class="brief-card">
+                <span class="brief-category" style="background-color: #ef4444;">СВО</span>
+                <h3 class="brief-title">БПЛА</h3>
+                <p class="brief-text">ПВО за ночь сбила 325 украинских БПЛА над Россией, сообщило Минобороны.</p>
+            </article>
+        
+        <!-- Карточка 2 -->
+            <article class="brief-card">
+                <span class="brief-category" style="background-color: #ef4444;">Происшествие</span>
+                <h3 class="brief-title">21 августа, Крым</h3>
+                <p class="brief-text">❗️Два человека погибли, еще четверо, включая ребенка, получили травмы в результате атаки ВСУ на Крым — власти</p>
+            </article>
+        
+            <!-- Карточка 1 -->
+            <article class="brief-card">
+                <span class="brief-category" style="background-color: #ef4444;">Политика</span>
+                <h3 class="brief-title">О мобилизации в России</h3>
+                <p class="brief-text">«России не нужна массовая мобилизация, она не планируется и не ожидается», – заявил постпред РФ при ООН Небензя</p>
+            </article>
+            </article>
+        </div>
+    </div>
+</section>
 
     <main class="content-area">
         <div id="news-container" class="news-grid">
