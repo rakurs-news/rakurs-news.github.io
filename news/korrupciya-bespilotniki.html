@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Meta для SEO -->
+    <title>Почему аресты производителей дронов стали системной проблемой?</title>
+    <meta name="description" content="Что стоит за уголовными делами в сфере производства БПЛА и куда исчезают миллиарды бюджетных денег..">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Почему аресты производителей дронов стали системной проблемой?">
+    <meta property="og:description" content="Что стоит за уголовными делами в сфере производства БПЛА и куда исчезают миллиарды бюджетных денег.">
+    <meta property="og:url" content="https://rakurs-news.github.io/news/korrupciya-bespilotniki.html">
+    <meta property="og:image" content="https://rakurs-news.github.io/images/ССЫЛКА ФОТО">
+    <meta property="og:site_name" content="Ракурс NEWS">
+
+    <style>
+        /* --- Сброс и Базовые стили --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', 'Helvetica Neue', 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+
+        /* --- Шапка --- */
+        .site-header {
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 40px;
+            width: auto;
+        }
+
+        .site-title {
+            font-weight: 900;
+            font-size: 24px;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        /* Стили для страницы статьи */
+        .article-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .article-header {
+            margin-bottom: 20px;
+        }
+
+        .article-title {
+            font-size: 32px;
+            font-weight: 900;
+            color: #1e1e1e;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .article-meta {
+            font-size: 14px;
+            color: #64748b;
+            font-weight: bold;
+            margin: 0; 
+            margin-top: 30px; 
+        }
+
+        .reading-time-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            color: #64748b;
+        }
+
+        .clock-icon {
+            width: 20px;
+            height: 20px;
+            fill: #0f172a;
+            stroke: #0f172a;
+            stroke-width: 2px;
+        }
+
+        .article-image-wrapper {
+            position: relative;
+            margin-bottom: 30px; 
+        }
+
+        .article-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .image-caption {
+            font-size: 13px;
+            color: #475569;
+            text-align: left;
+            margin-top: 5px; 
+        }
+
+        .article-content p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        /* --- СТИЛИ ЦИТАТЫ (ОБНОВЛЕННЫЕ) --- */
+        .styled-quote {
+            background-color: #eef2f7;
+            /* border-left удален, теперь полосу делает псевдоэлемент */
+            padding: 15px 20px;
+            margin: 25px 0;
+            position: relative;
+            border-radius: 0 4px 4px 0;
+            overflow: visible; /* Важно, чтобы кавычки могли вылезать за границы */
+        }
+
+        /* Вертикальная полоса (как у h3) */
+        .styled-quote::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0; /* Магия: растягивает полосу на всю высоту контента */
+            width: 4px; /* Толщина как у цитаты */
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%); /* Цвет шапки */
+            border-radius: 4px 0 0 4px;
+            z-index: 1;
+        }
+
+        /* Текст цитаты должен быть поверх полосы */
+        .styled-quote blockquote {
+            position: relative;
+            z-index: 2;
+            padding-left: 12px; /* Отступ от полосы */
+            margin: 0;
+            font-style: italic;
+            color: #1e1e1e;
+            font-size: 18px;
+        }
+
+        .styled-quote::after {
+            content: '« »';
+            font-size: 48px;
+            color: rgba(30, 41, 59, 0.15);
+            font-family: serif;
+            position: absolute;
+            display: flex;
+            justify-content: space-between;
+            width: calc(100% + 10px); 
+            pointer-events: none;
+            top: -10px;
+            left: -5px; 
+            right: -5px;
+            line-height: 1;
+            z-index: 3;
+        }
+              
+        .styled-quote::after {
+content: ''; 
+            position: absolute;
+            z-index: 3;
+        }
+
+        .styled-quote::before { 
+        }
+        
+        .styled-quote::after {
+            content: "«";
+            font-size: 48px;
+            color: rgba(30, 41, 59, 0.15);
+            font-family: serif;
+            position: absolute;
+            top: -10px;
+            left: 10px;
+            z-index: 3;
+        }
+
+        .styled-quote blockquote::after {
+            content: "»";
+            font-size: 48px;
+            color: rgba(30, 41, 59, 0.15);
+            font-family: serif;
+            position: absolute;
+            bottom: -10px;
+            right: 10px;
+            z-index: 3;
+        }
+
+        h3 {
+            position: relative;
+            padding-left: 15px;
+            line-height: 1.3;
+        }
+
+        h3::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(30deg, #0f172a 0%, #1e293b 100%);
+            border-radius: 4px 0 0 4px;
+        }
+
+        /* Разделительная линия и кнопка */
+        .divider-line {
+            width: 100%;
+            height: 2px;
+            background-color: #1e293b;
+            margin: 10px 0;
+        }
+
+        .back-to-home-btn {
+            display: inline-block;
+            background-color: #1e293b;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 3px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-home-btn:hover {
+            background-color: #334155;
+        }
+
+        /* Футер */
+        .site-footer {
+            background-color: #0f172a;
+            color: #fff;
+            padding: 30px 10px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 0 10px;
+        }
+
+        .copyright {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .socials-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .socials-title {
+            font-weight: bold;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .social-icon-img {
+            width: 24px;                
+            height: 24px;
+            object-fit: contain;
+            margin-right: 8px;          
+            display: block;             
+            flex-shrink: 0;       
+        }
+
+        .social-item:hover .social-icon,
+        .social-item:hover span {
+            color: #fff;
+        }
+        
+        .social-item a {
+            display: flex;              
+            align-items: center;        
+            text-decoration: none;      
+            color: inherit;             
+        }
+
+        .social-item span {
+            font-size: 14px;            
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка сайта -->
+    <header class="site-header">
+        <div class="header-container">
+        
+            <!-- Логотип -->
+            <div class="logo-wrapper">
+                <img src="/images/logo.png" alt="Ракурс NEWS" class="logo-img">
+                <span class="site-title">Ракурс NEWS</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">Почему аресты производителей дронов стали системной проблемой?</h1>
+                
+                <p class="article-description">
+                Что стоит за уголовными делами в сфере производства БПЛА и куда исчезают миллиарды бюджетных денег.
+            </p>
+
+                <div class="article-meta">
+                    👤 Дмитрий Мусиенко
+                </div>
+                <div id="reading-time" class="reading-time-block" style="display: none;">
+                    <svg class="clock-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="12" x2="12" y2="7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        <line x1="12" y1="12" x2="16" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    <span id="reading-time-text"></span>
+                </div>
+            </header>
+
+            <div class="article-image-wrapper">
+                <img src="/images/IMG_20260825_105402.jpg" alt="НАЗВАНИЕ ФОТО" class="article-img">
+                <p class="image-caption">коррупция в Минобороны России</p>
+            </div>
+
+            <div class="article-content">
+                <p>
+                    Очередной скандал в оборонке: глава центра «ТулаДрон» Евгений Григорьев отправился в СИЗО. Его обвиняют в крупном мошенничестве. На проект, запущенный в рамках нацпроекта по беспилотникам, ушел целый миллиард, 700 миллионов из которого — государственные средства. И вот результат: вместо масштабирования технологий — уголовное дело.
+                </p>
+                <p>
+                    Случай с «ТулаДроном» не выглядит единичным проколом. Ранее под прицел силовиков попали топ-менеджеры «Эфко». Сценарий похож: следствие полагает, что под видом «отечественной разработки» поставлялись китайские дроны, а ценник на них накручивали на 566,6%.
+                </p>
+                
+                <p>
+                <h3>Возникает закономерный вопрос: как система контроля пропускает такие схемы?</h3>
+                </p>               
+
+                <p>
+                    Во-первых, налицо проблема «отчетной лихорадки». Когда сверху требуют быстрых результатов в рамках нацпроектов, соблазн выдать чужое за свое (или просто «освоить» бюджет) становится колоссальным. Легче купить готовое в Китае, переклеить шильдик и отчитаться об успехах, чем выстраивать реальный цикл производства с нуля.
+                </p>
+                
+                <p>
+                    Во-вторых, возникает недоверие к самому процессу госзакупок в оборонной сфере. Если цена завышается в разы, значит, либо проверка качества отсутствует напрочь, либо в цепочке есть люди, закрывающие на это глаза за процент.
+                </p>
+                
+                <p>
+                    Мы наблюдаем опасный тренд: вместо технологического суверенитета мы часто получаем лишь «бумажный». Аресты — это следствие, но они не решают проблему отсутствия реальной экспертизы при приемке таких проектов. Пока приоритетом остается «освоение» средств ради отчета, а не создание конкурентоспособного продукта, подобные новости будут приходить регулярно.
+                </p>
+                
+                <p>
+                    Вопрос лишь в том, станет ли это уроком для тех, кто распределяет следующие миллиарды? Или мы просто увидим новую ротацию лиц, готовых «эффективно» осваивать бюджет?
+                </p>
+            </div>
+
+            <div class="divider-line"></div>
+            <div style="position: relative; height: 100px;">
+                <a href="https://rakurs-news.github.io" class="back-to-home-btn" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%);">На Главную</a>
+            </div>
+        </article>
+    </main>
+
+    <!-- Футер -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p class="copyright">© 2026 Ракурс NEWS. Все права защищены</p>
+            
+            <div class="socials-section">
+                <p class="socials-title">Наши соцсети</p>
+                
+                <div class="social-item">
+    <a href="https://t.me/RAKURS_NEWS_RU" target="_blank" rel="noopener noreferrer">
+        <img src="/images/telegram.png" alt="Телеграм" class="social-icon-img">
+        <span>Телеграм</span>
+    </a>
+</div>
+
+<div class="social-item">
+    <a href="https://vk.ru/rakurs_news" target="_blank" rel="noopener noreferrer">
+        <img src="/images/vk.png" alt="ВКонтакте" class="social-icon-img">
+        <span>ВКонтакте</span>
+    </a>
+</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const content = document.querySelector('.article-content');
+            const readingTimeBlock = document.getElementById('reading-time');
+            const readingTimeText = document.getElementById('reading-time-text');
+            
+            if (content && readingTimeBlock) {
+                const text = content.innerText;
+                const wordCount = text.trim().split(/\s+/).filter(word => word.length > 0).length;
+                const minutes = Math.ceil(wordCount / 200);
+                
+                readingTimeBlock.style.display = 'flex';
+                readingTimeText.textContent = `${minutes} мин`;
+            }
+        });
+    </script>
+</body>
+</html>
