@@ -1,5 +1,15 @@
 [
   {
+    "id": 19,
+    "category": "Криминал",
+    "title": "Почему аресты производителей дронов стали системной проблемой?",
+    "description": "Что стоит за уголовными делами в сфере производства БПЛА и куда исчезают миллиарды бюджетных денег.",
+    "image": "images/IMG_20260825_105402.jpg",
+    "date": "2026-08-25T11:15:00",
+    "url": "/news/korrupciya-bespilotniki.html",
+    "isHero": true
+  },
+  {
     "id": 18,
     "category": "Геополитика",
     "title": "Пашинян и российские ж/д: разрыв связей или уступка Западу?",
@@ -27,7 +37,7 @@
     "image": "images/IMG_20260821_103931.png",
     "date": "2026-08-21T10:45:00",
     "url": "/news/general-fsb-pokonchil-s-soboy.html",
-    "isHero": true
+    "isHero": false
   },
   {
     "id": 15,
