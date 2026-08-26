@@ -7,7 +7,7 @@
     "image": "images/IMG_20260826_104729_847.jpg",
     "date": "2026-08-26T10:55:00",
     "url": "/news/rossiya-vtoroy-nomer.html",
-    "isHero": false
+    "isHero": true
   },
   {
     "id": 20,
@@ -27,7 +27,7 @@
     "image": "images/IMG_20260825_105402.jpg",
     "date": "2026-08-25T11:15:00",
     "url": "/news/korrupciya-bespilotniki.html",
-    "isHero": true
+    "isHero": false
   },
   {
     "id": 18,
