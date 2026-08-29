@@ -66,7 +66,7 @@ ul { list-style: none; }
 .search-input {
     width: 100%;
     padding: 8px 15px 8px 40px;
-    border-radius: 5px;
+    border-radius: 3px;
     border: none;
     outline: none;
     background: rgba(255,255,255,0.2);
