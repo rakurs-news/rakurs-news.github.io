@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ракурс News — актаульные новости России и мира</title>
+  <meta name="yandex-verification" content="24490a2d3a27686f" />
+  <meta name="description" content="Ракурс News – актуальные новости России и мира">
+  <meta name="keywords" content="В России, В мире, экономика, спорт, культура, армия, происшествия, криминал, общество">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rakurs-news.github.io/">
+  <link rel="alternate" type="application/rss+xml" title="Ракурс News — RSS" href="https://rakurs-news.github.io/rss.xml">
+  <meta property="og:title" content="Ракурс News - Актуальные новости России и мира>
+  <meta property="og:description" content="Актуальные новости России и мира">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rakurs-news.github.io/">
+  <meta property="og:image" content="https://rakurs-news.github.io/img/og-cover.jpg">
+  <meta property="og:site_name" content="Ракурс News">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Ракурс News - Актуальные новости России и мира">
+  <meta name="twitter:description" content="Актуальные нновости России и мира">
+  <meta name="twitter:image" content="https://rakurs-news.github.io/img/og-cover.jpg">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Ракурс News",
+    "url": "https://rakurs-news.github.io/",
+    "description": "Актуальные новости России и мира",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://rakurs-news.github.io/search?q={query}",
+      "query-input": "required name=query"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Ракурс News",
+    "url": "https://rakurs-news.github.io/",
+    "logo": "https://rakurs-news.github.io/img/logo.png"
+  }
+  </script>
+  <link rel="icon" type="image/svg+xml" href="img/logo.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="https://rakurs-news.github.io/" class="logo" aria-label="Ракурс News - Актуальные новости России и мира">
+  <img src="img/logo.png" alt="Ракурс News" width="1076" height="283">
+</a>
+      <nav class="nav" id="desktopNav">
+        <a href="https://rakurs-news.github.io" class="active" data-cat="all">Все</a>
+        <a href="inrussia.tml" data-cat="В России">В России</a>
+        <a href="inworld.html" data-cat="В мире">В мире</a>
+        <a href="economics.html" data-cat="Экономика">Экономика</a>
+        <a href="sport.html" data-cat="Спорт">Спорт</a>
+        <a href="culture.html" data-cat="Культура">Гаджеты</a>
+        <a href="army.html" data-cat="Армия">Армия</a>
+      </nav>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" placeholder="Поиск..." id="searchInput">
+      </div>
+      <button class="burger" id="burger" aria-label="Меню">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="active" data-cat="all" href="https://rakurs-news.github.io/">Все</a>
+    <a href="inrussia.html" data-cat="В России">В России</a>
+    <a href="inworld.html" data-cat="В мире">В мире</a>
+    <a href="economics.html" data-cat="Экономика">Экономика</a>
+    <a href="sport.html" data-cat="Спорт">Спорт</a>
+    <a href="culture.html" data-cat="Культура">Культура</a>
+    <a href="army.html" data-cat="Армия">Армия</a>
+    <div class="mobile-search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Поиск новостей..." id="mobileSearchInput">
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="heroSection"></section>
+
+  <!-- NEWS GRID -->
+  <section class="section">
+    <h1 class="section-title" id="gridTitle">Все новости</h1>
+    <div class="grid" id="newsGrid"></div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="inrussia.html">В России</a>
+      <a href="inworld.html">В мире</a>
+      <a href="economics.html">Экономика</a>
+      <a href="sport.html">Спорт</a>
+      <a href="culture.html">Культура</a>
+      <a href="army.html">Армия</a>
+    </div>
+    <p>Ракурс News &copy; 2026 — Актуальные новости России и мира</p>
+  </footer>
+
+  <script src="news-data.js"></script>
+  <script>
+    // ===== ГЛАВНАЯ СТРАНИЦА — ЛОГИКА =====
+    document.addEventListener('DOMContentLoaded', () => {
+      const heroSection = document.getElementById('heroSection');
+      const grid = document.getElementById('newsGrid');
+      const gridTitle = document.getElementById('gridTitle');
+      const burger = document.getElementById('burger');
+      const mobileMenu = document.getElementById('mobileMenu');
+      let currentCat = 'all';
+
+      // ===== РЕНДЕР HERO =====
+      function renderHero() {
+        const sorted = sortByDate(news);
+        const main = sorted[0];
+        const sideCats = ['Армия', 'Экономика', 'Спорт'];
+        const sideCards = sideCats
+          .map(c => sorted.find(n => n.cat === c))
+          .filter(Boolean)
+          .slice(0, 3);
+
+        let sideHtml = '';
+        sideCards.forEach(n => {
+          const img = n.img;
+          sideHtml += `
+            <a class="hero-side-card" href="${n.link}">
+              <span class="badge">${n.cat}</span>
+              <img src="${img}" alt="${n.title}">
+              <div class="overlay"></div>
+              <div class="text"><h3>${n.title}</h3></div>
+            </a>`;
+        });
+
+        heroSection.innerHTML = `
+          <a class="hero-main" href="${main.link}">
+            <span class="hero-badge">${main.cat}</span>
+            <img src="${main.img}" alt="${main.title}">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+              <h2>${main.title}</h2>
+              <p>${main.excerpt}</p>
+            </div>
+          </a>
+          <div class="hero-side">${sideHtml}</div>`;
+      }
+
+      // ===== РЕНДЕР СЕТКИ =====
+      function renderGrid(cat, query) {
+        currentCat = cat;
+        let filtered = getNewsByCat(cat);
+
+        if (query) {
+          const q = query.toLowerCase();
+          filtered = filtered.filter(n =>
+            n.title.toLowerCase().includes(q) || n.excerpt.toLowerCase().includes(q)
+          );
+        }
+
+        // === ГЛАВНОЕ ИЗМЕНЕНИЕ ===
+        // Если мы на главной (cat === 'all'), показываем только топ-10
+        if (cat === 'all') {
+          filtered = filtered.slice(0, 10);
+        }
+        // =========================
+
+        grid.innerHTML = '';
+        if (filtered.length === 0) {
+          grid.innerHTML = '<div class="empty-state"><p>Новостей пока нет, но они скоро появятся.</p></div>';
+          return;
+        }
+
+        filtered.forEach((n, i) => {
+          const card = document.createElement('a');
+          card.className = 'card';
+          card.href = n.link;
+          card.style.animationDelay = (i * 0.06) + 's';
+          card.innerHTML = `
+            <div class="card-img">
+              <span class="card-badge">${n.cat}</span>
+              <img src="${n.img}" alt="${n.title}" loading="lazy">
+            </div>
+            <div class="card-body">
+              <h3>${n.title}</h3>
+              <p>${n.excerpt}</p>
+              <div class="card-meta"><span>${n.date}</span></div>
+            </div>`;
+          grid.appendChild(card);
+        });
+
+        gridTitle.textContent = cat && cat !== 'all' ? cat : 'Все новости';
+      }
+
+      renderHero();
+      renderGrid('all');
+
+      // ===== БУРГЕР =====
+      function closeMobileMenu() {
+        burger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      }
+      burger.addEventListener('click', () => {
+        if (burger.classList.contains('open')) closeMobileMenu();
+        else { burger.classList.add('open'); mobileMenu.classList.add('open'); }
+      });
+      document.addEventListener('click', (e) => {
+        if (!burger.contains(e.target) && !mobileMenu.contains(e.target)) closeMobileMenu();
+      });
+
+      // ===== НАВИГАЦИЯ (категории через href) =====
+      document.querySelectorAll('.nav a, .mobile-menu a').forEach(a => {
+        a.addEventListener('click', (e) => {
+          if (a.hasAttribute('href') && a.dataset.cat !== 'all' && a.dataset.cat !== currentCat) {
+            return;
+          }
+          if (a.dataset.cat === 'all') {
+            e.preventDefault();
+            renderGrid('all');
+            document.querySelectorAll('.nav a, .mobile-menu a').forEach(x => x.classList.remove('active'));
+            a.classList.add('active');
+            closeMobileMenu();
+            window.scrollTo({ top: document.querySelector('.section').offsetTop - 80, behavior: 'smooth' });
+          }
+        });
+      });
+
+      // ===== ПОИСК =====
+      const searchInput = document.getElementById('searchInput');
+      const mobileSearchInput = document.getElementById('mobileSearchInput');
+      searchInput.addEventListener('input', () => renderGrid(currentCat, searchInput.value));
+      mobileSearchInput.addEventListener('input', () => renderGrid(currentCat, mobileSearchInput.value));
+    });
+  </script>
+</body>
+</html>
