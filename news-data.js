@@ -1,4 +1,12 @@
 const news = [
+    {
+    cat:'В России',
+    title:'Атака БПЛА на логистический центр Ozon в Омске: хроника событий',
+    excerpt:'Беспилотник ударил по логистическому центру Ozon в Омске. ',
+    img:'/img/shutterstock_1702050574-pic_32ratio_900x600-900x600-38835.jpg',
+    date:'',
+    link:'news/ataka-bpla-na-logisticheskiy-tsentr-ozon-v-omske.html'
+  },
   {
     cat:'В мире',
     title:'Как Starlink стал рычагом внешней политики США',
