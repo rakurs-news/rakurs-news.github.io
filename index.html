@@ -402,7 +402,7 @@
   <!-- БЕГУЩАЯ СТРОКА -->
   <div class="ticker">
     <div class="ticker-track" id="tickerTrack">
-      <span class="ticker-label">Срочно</span>
+      <span class="ticker-label">Главное</span>
     </div>
   </div>
 
@@ -557,7 +557,7 @@
         if (typeof news === 'undefined' || !news.length) return;
         const items = news.slice(0, 6).map(n =>
           `<a class="ticker-item" href="${n.link}">${n.title}</a>`).join('');
-        const label = '<span class="ticker-label">Срочно</span>';
+        const label = '<span class="ticker-label">Главное</span>';
         // дублируем блок для бесшовной прокрутки
         tickerTrack.innerHTML = label + items + items;
       }
