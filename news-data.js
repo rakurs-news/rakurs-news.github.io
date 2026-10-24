@@ -1,11 +1,11 @@
 const news = [
   {
     cat:'Армия',
-    title:'Режим тишины в Алёшках (Херсонской области)',
-    excerpt:'В Алешках на несколько дней введут «режим тишины»',
-    img:'img/IMG_20261024_073039_426.jpg',
-    date:'24 октября 2026, 08:09',
-    link:'news/peremirie-v-aleschkah.html'
+    title:'Славянск и Краматорск: кольцо почти сомкнуто',
+    excerpt:'По оценке эксперта, операция на направлении может завершиться до Нового года.',
+    img:'img/IMG_20261024_141113_291.jpg',
+    date:'24 октября 2026, 14:05',
+    link:'news/slavyansk-kramatorsk-okruzhenie-pochti-zaversheno.html'
   },
 ];
 
