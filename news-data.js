@@ -4,7 +4,7 @@ const news = [
     title:'Атака БПЛА на логистический центр Ozon в Омске: хроника событий',
     excerpt:'Беспилотник ударил по логистическому центру Ozon в Омске. ',
     img:'/img/shutterstock_1702050574-pic_32ratio_900x600-900x600-38835.jpg',
-    date:'',
+    date:'24 октября 2026, 19:12',
     link:'news/ataka-bpla-na-logisticheskiy-tsentr-ozon-v-omske.html'
   },
   {
