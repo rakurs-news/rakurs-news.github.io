@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /tmp/
+Disallow: /dist/
+Disallow: *.map$
+Disallow: *.log$
+Disallow: *.bak$
+
+# Закрываем от индексации папки с ассетами, если там есть черновики или дубли
+Disallow: /drafts/
+Disallow: /backups/
