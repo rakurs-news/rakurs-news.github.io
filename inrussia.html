@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новости России: политика, экономика, регионы от Ракурс News</title>
+  <meta name="description" content="Главные новости России: политика, экономика, происшествия, регионы. Аналитика и оперативные сводки от Ракурс News.">
+  <meta name="keywords" content="новости россии, политика, экономика, регионы, сводки, происшествия">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="/inrussia.html">
+  <link rel="alternate" type="application/rss+xml" title="Ракурс News — RSS" href="/rss.xml">
+  <meta property="og:title" content="Ракурс News — Новости России: политика и экономика">
+  <meta property="og:description" content="Актуальные новости России: главные события дня, аналитика и региональные сводки.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/inrussia.html">
+  <meta property="og:image" content="/img/og-cover.jpg">
+  <meta property="og:site_name" content="Ракурс News">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Россия: главные новости и аналитика от Ракурс News">
+  <meta name="twitter:description" content="Политика, экономика и главные события в России. Оперативные сводки и аналитика.">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Россия — Ракурс News",
+      "description": "Новости России: политика, экономика, общество и регионы.",
+      "url": "/inrussia.html",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Ракурс News",
+        "url": "/"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Главная", "item": "/" },
+          { "@type": "ListItem", "position": 2, "name": "В России", "item": "/inrussia.html" }
+        ]
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">Ракурс<span>News</span></a>
+      <nav class="nav" id="desktopNav">
+        <a href="index.html" data-cat="all">Все</a>
+        <a href="inrussia.html" data-cat="В России" class="active">В России</a>
+        <a href="inworld.html" data-cat="В мире">В мире</a>
+        <a href="economics.html" data-cat="Экономика">Экономика</a>
+        <a href="sport.html" data-cat="Спорт">Спорт</a>
+        <a href="culture.html" data-cat="Культура">Культура</a>
+        <a href="army.html" data-cat="Армия">Армия</a>
+      </nav>
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" class="search-input" placeholder="Поиск..." id="searchInput">
+      </div>
+      <button class="burger" id="burger" aria-label="Меню">
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+        <span class="burger-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" data-cat="all">Все</a>
+    <a href="inrussia.html" data-cat="В России" class="active">В России</a>
+    <a href="inworld.html" data-cat="В мире">В мире</a>
+    <a href="economics.html" data-cat="Экономика">Экономика</a>
+    <a href="sport.html" data-cat="Спорт">Спорт</a>
+    <a href="culture.html" data-cat="Культура">Культура</a>
+    <a href="army.html" data-cat="Армия">Армия</a>
+    <div class="mobile-search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Поиск новостей..." id="mobileSearchInput">
+    </div>
+  </div>
+
+  <nav class="breadcrumbs">
+    <a href="index.html">Главная</a>
+    <span>/</span>
+    <span>В России</span>
+  </nav>
+
+  <section class="section">
+    <h1 class="section-title" id="gridTitle">В России</h1>
+    <div class="grid" id="newsGrid"></div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="inrussia.html">В России</a>
+      <a href="inworld.html">В мире</a>
+      <a href="economics.html">Экономика</a>
+      <a href="sport.html">Спорт</a>
+      <a href="culture.html">Культура</a>
+      <a href="army.html">Армия</a>
+    </div>
+    <p>Ракурс News &copy; 2026 — новости технологий. Все права защищены.</p>
+  </footer>
+
+  <script>window.PAGE_CATEGORY = 'В России';</script>
+  <script src="news-data.js"></script>
+  <script src="category.js"></script>
+</body>
+</html>

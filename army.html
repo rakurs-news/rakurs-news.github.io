@@ -3,43 +3,61 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Исправлено: актуальное название -->
   <title>Армия и оборона: главные новости, техника, аналитика от Ракурс News</title>
-  <meta name="description" content="   ">
+  
+  <!-- Исправлено: добавлен нормальный текст описания -->
+  <meta name="description" content="Новости армии и обороны: техника, учения, стратегия. Актуальные сводки и аналитика от Ракурс News.">
   <meta name="keywords" content="армия, новости, сво, оборона, министерство обороны, сводки, военная техника">
   <meta name="robots" content="index, follow">
-  <meta name="yandex-verification" content="ВАШ_КОД_ВЕРИФИКАЦИИ_YANDEX" />
-  <link rel="canonical" href="https://rakurs-news.github.io/army.html">
-  <link rel="alternate" type="application/rss+xml" title="Ракурс News — RSS" href="https://rakurs-news.example/rss.xml">
+  
+  <!-- Убрал заглушку с кодом верификации. Если нужен позже — добавь эту строку обратно -->
+  <!-- <meta name="yandex-verification" content="ТВОЙ_КОД" /> -->
+
+  <!-- Canonical: относительный путь лучше для GitHub Pages, но можно и полный -->
+  <link rel="canonical" href="/army.html">
+  
+  <!-- RSS: ссылка исправлена на заглушку, если фида нет — лучше удалить эту строку совсем -->
+  <link rel="alternate" type="application/rss+xml" title="Ракурс News — RSS" href="/rss.xml">
+
+  <!-- Open Graph (для соцсетей) -->
   <meta property="og:title" content="Ракурс News — Армия и оборона: главные новости, техника, аналитика">
-  <meta property="og:description" content="og:description" content="Новости армии и обороны: техника, учения, стратегия. Актуальные сводки и аналитика от Ракурс News.">
+  <meta property="og:description" content="Новости армии и обороны: техника, учения, стратегия. Актуальные сводки и аналитика от Ракурс News.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rakurs-news.github.io/army.html">
-  <meta property="og:image" content="https://rakurs-news.github.io/img/og-cover.jpg">
-  <meta property="og:site_name" content="Cyber">
+  <meta property="og:url" content="/army.html">
+  <!-- Важно: картинка должна реально существовать в папке img, иначе соцсеть подтянет случайную -->
+  <meta property="og:image" content="/img/og-cover.jpg">
+  <meta property="og:site_name" content="Ракурс News">
+
+  <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Армия: главные новости, техника и аналитика от Ракурс News">
   <meta name="twitter:description" content="новости, техника, тактика и ключевые события военной сферы.">
+
+  <!-- Schema.org (структурированные данные для поисковиков) -->
   <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  "name": "Армия — Ракурс News",
-  "description": "Армия: новости, техника, тактика и ключевые события военной сферы. Держим руку на пульсе обороны и безопасности страны",
-  "url": "https://rakurs-news.github.io/army.html",
-  "isPartOf": {
-    "@type": "WebSite",
-    "name": "Cyber",
-    "url": "https://rakurs-news.github.io/"
-  },
-  "breadcrumb": {
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://rakurs-news.github.io/" },
-      { "@type": "ListItem", "position": 2, "name": "Армия", "item": "https://rakurs-news.github.io/army.html" }
-    ]
-  }
-}
-</script>
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Армия — Ракурс News",
+      "description": "Армия: новости, техника, тактика и ключевые события военной сферы.",
+      "url": "/army.html",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Ракурс News",
+        "url": "/"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Главная", "item": "/" },
+          { "@type": "ListItem", "position": 2, "name": "Армия", "item": "/army.html" }
+        ]
+      }
+    }
+  </script>
+
+  <!-- Стили: относительный путь -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -49,13 +67,14 @@
     <div class="header-inner">
       <a href="index.html" class="logo">Ракурс<span>News</span></a>
       <nav class="nav" id="desktopNav">
-        <a href="https://rakurs-news.github.io/" data-cat="all">Все</a>
-        <a href="inrussia.html" data-cat="В России" class="active">В России</a>
+        <a href="index.html" data-cat="all">Все</a>
+        <a href="inrussia.html" data-cat="В России">В России</a>
         <a href="inworld.html" data-cat="В мире">В мире</a>
         <a href="economics.html" data-cat="Экономика">Экономика</a>
         <a href="sport.html" data-cat="Спорт">Спорт</a>
         <a href="culture.html" data-cat="Культура">Культура</a>
-        <a href="army.html" data-cat="Армия">Армия</a>
+        <!-- Добавлен класс active, чтобы подсветить текущий раздел -->
+        <a href="army.html" data-cat="Армия" class="active">Армия</a>
       </nav>
       <div class="search-wrap">
         <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
@@ -71,33 +90,34 @@
 
   <!-- MOBILE MENU -->
   <div class="mobile-menu" id="mobileMenu">
-    <a href="https://rakurs-news.github.io/" data-cat="all">Все</a>
-    <a href="inrussia.html" data-cat="В России" class="active">В России</a>
+    <a href="index.html" data-cat="all">Все</a>
+    <a href="inrussia.html" data-cat="В России">В России</a>
     <a href="inworld.html" data-cat="В мире">В мире</a>
     <a href="economics.html" data-cat="Экономика">Экономика</a>
     <a href="sport.html" data-cat="Спорт">Спорт</a>
     <a href="culture.html" data-cat="Культура">Культура</a>
-    <a href="army.html" data-cat="Армия">Армия</a>
+    <a href="army.html" data-cat="Армия" class="active">Армия</a>
     <div class="mobile-search">
       <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       <input type="text" placeholder="Поиск новостей..." id="mobileSearchInput">
     </div>
   </div>
 
-  <!-- BREADCRUMBS -->
+  <!-- BREADCRUMBS (ИСПРАВЛЕНО: относительные ссылки) -->
   <nav class="breadcrumbs">
-    <a href="https://cybernews-ru.github.io/">Главная</a>
+    <a href="index.html">Главная</a>
     <span>/</span>
     <span>Армия</span>
   </nav>
 
   <!-- NEWS GRID -->
   <section class="section">
-    <h1 class="section-title" id="gridTitle">Армия</h1>
+    <h1 class="section-title" id="gridTitle">Армия и оборона</h1>
+    <!-- Сюда JS будет подгружать карточки новостей из news-data.js -->
     <div class="grid" id="newsGrid"></div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (ИСПРАВЛЕНО: опечатка Newd -> News, год актуальный) -->
   <footer class="footer">
     <div class="footer-links">
       <a href="inrussia.html">В России</a>
@@ -107,10 +127,14 @@
       <a href="culture.html">Культура</a>
       <a href="army.html">Армия</a>
     </div>
-    <p>Ракурс Newd &copy; 2026 — новости технологий. Все права защищены.</p>
+    <p>Ракурс News &copy; 2026 — новости технологий. Все права защищены.</p>
   </footer>
 
-  <script>window.PAGE_CATEGORY = 'Армия';</script>
+  <!-- Переменные и скрипты -->
+  <script>
+    window.PAGE_CATEGORY = 'Армия';
+  </script>
+  <!-- Пути относительные, файлы должны лежать в корне рядом с army.html -->
   <script src="news-data.js"></script>
   <script src="category.js"></script>
 </body>
