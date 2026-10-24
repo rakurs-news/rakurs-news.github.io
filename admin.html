@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка Ракурс News</title>
+  <style>
+    :root {
+      --bg: #0d0d0f; --bg-card: #1a1a1e; --text: #e8e8ec;
+      --accent: #2d7eff; --border: #2a2a30; --radius: 14px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif;
+      margin: 0; padding: 20px; max-width: 640px; margin: 0 auto; line-height: 1.5;
+    }
+    h1 { text-align: center; font-size: 22px; margin-bottom: 6px; }
+    .subtitle { text-align: center; color: #6a6a72; font-size: 13px; margin-bottom: 24px; }
+    .form-group { margin-bottom: 14px; }
+    label { display: block; margin-bottom: 5px; color: #8a8a92; font-size: 13px; }
+    input, select, textarea {
+      width: 100%; background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px; color: white; font-family: inherit; font-size: 16px;
+    }
+    textarea { resize: vertical; }
+    #content { height: 200px; }
+    .toolbar { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .toolbar button {
+      background: var(--bg-card); border: 1px solid var(--border); color: var(--text);
+      padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 14px;
+    }
+    .toolbar button:hover { border-color: var(--accent); }
+    .btn-copy {
+      width: 100%; padding: 14px; background: var(--accent); color: white;
+      border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 16px;
+      margin-top: 10px;
+    }
+    .btn-copy:hover { background: #1a6ce8; }
+    .section-title { margin-top: 28px; font-size: 16px; color: var(--accent); margin-bottom: 8px; }
+    .code-block {
+      background: #0a0e1a; border: 1px solid #1a2a3a; border-radius: 8px;
+      padding: 14px; font-family: 'Courier New', monospace; font-size: 12px;
+      color: #6a8acf; white-space: pre-wrap; word-break: break-all; max-height: 300px; overflow-y: auto;
+      margin-bottom: 8px;
+    }
+    .hint { color: #6a6a72; font-size: 12px; margin-bottom: 20px; }
+    .readtime {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 8px; padding: 10px 14px; color: var(--accent);
+      font-size: 14px; font-weight: 700; margin-bottom: 14px;
+    }
+    .modal-bg {
+      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
+    }
+    .modal {
+      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+      padding: 20px; max-width: 90%; width: 400px;
+    }
+    .modal h3 { margin: 0 0 12px 0; }
+    .modal input { margin-bottom: 10px; width: 100%; }
+    .modal-actions { display: flex; gap: 8px; }
+    .modal-actions button {
+      flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;
+    }
+    .btn-ok { background: var(--accent); color: white; }
+    .btn-cancel { background: #333; color: #aaa; }
+  </style>
+</head>
+<body>
+  <h1>Админка Ракурс News</h1>
+  <p class="subtitle">Генератор SEO-статей (HTML + карточка)</p>
+
+  <div class="form-group">
+    <label>ИМЯ ФАЙЛА</label>
+    <input type="text" id="filename" placeholder="Имя статьи без.html" oninput="updateOutput()">
+  </div>
+
+  <div class="form-group">
+    <label>ЗАГОЛОВОК СТАТЬИ</label>
+    <input type="text" id="title" placeholder="Заголовок" oninput="updateOutput()">
+  </div>
+
+  <div class="form-group">
+    <label>КАТЕГОРИЯ</label>
+    <select id="cat" oninput="updateOutput()">
+      <option value="В России">В России</option>
+      <option value="В мире">В мире</option>
+      <option value="Экономика">Экономика</option>
+      <option value="Спорт">Спорт</option>
+      <option value="Культура">Культура</option>
+      <option value="Армия">Армия</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>ГЛАВНОЕ ФОТО СТАТЬИ</label>
+    <input type="text" id="img" placeholder="img/photo.jpg" oninput="updateOutput()">
+    <p class="hint" style="margin-top: 5px;">Путь к фото относительно корня сайта. Например: <b>img/photo.jpg</b></p>
+  </div>
+
+  <div class="form-group">
+    <label>ОПИСАНИЕ</label>
+    <textarea id="excerpt" rows="3" placeholder="Подзаголовок" oninput="updateOutput()"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>ТЕКСТ СТАТЬИ (поддерживается Markdown)</label>
+    <div class="toolbar">
+      <button onclick="wrapText('**','**')" type="button">Жирный</button>
+      <button onclick="addPrefix('## ')" type="button">Заголовок</button>
+      <button onclick="addPrefix('- ')" type="button">Список</button>
+      <button onclick="addPrefix('> ')" type="button">Цитата</button>
+      <button onclick="insertImage()" type="button">Фото в тексте</button>
+    </div>
+    <textarea id="content" placeholder="ТЕКСТ СТАТЬИ" oninput="updateOutput()"></textarea>
+  </div>
+
+  <div class="form-group" style="display:none;">
+    <label>Дата публикации</label>
+    <input type="text" id="date" oninput="updateOutput()">
+  </div>
+
+  <input type="hidden" id="author" value="Дмитрий Мусиенко">
+
+  <div class="readtime" id="readtime">⏱ 1 мин чтения</div>
+
+  <div class="section-title">📋 Шаг 1: Заполнить все поля</div>
+  <p class="hint">Скопировать код HTML-кода, и вставить в чистый лист статьи</p>
+  <div class="code-block" id="htmlOutput"></div>
+  <button class="btn-copy" onclick="copyHtml()">Скопировать HTML-файл</button>
+
+  <div class="section-title">📋 Шаг 2: Скопировать код, и вставить первым в списке в news-data.js</div>
+  <p class="hint">Вставь этот код в массив <b>news</b> в файле news-data.js</p>
+  <div class="code-block" id="jsOutput"></div>
+  <button class="btn-copy" onclick="copyJs()">Скопировать JS-карточку</button>
+
+  <div class="modal-bg" id="imgModal">
+    <div class="modal">
+      <h3>Вставить фото в текст</h3>
+      <input type="text" id="imgUrl" placeholder="/img/photo.jpg">
+      <input type="text" id="imgAlt" placeholder="Опиши фото">
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+        <button class="btn-ok" onclick="confirmImage()">Вставить</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const ARTICLE_CSS = `/* ===== Ракурс News — ОБЩИЕ СТИЛИ ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+:root {
+  --bg: #0d0d0f;
+  --bg-card: #1a1a1e;
+  --bg-card-hover: #232328;
+  --text: #e8e8ec;
+  --text-dim: #8a8a92;
+  --accent: #2d7eff;
+  --accent-hover: #1a6ce8;
+  --border: #2a2a30;
+  --radius: 14px;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 15, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+}
+.header-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: auto;
+}
+
+.logo img {
+  display: block;
+  max-height: 40px; /* Ограничиваем высоту под шапку (как на твоем скриншоте) */
+  width: auto;      /* Ширина подстроится сама, сохраняя пропорции */
+  object-fit: contain;
+}
+
+.breadcrumbs {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 24px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-dim);
+}
+.breadcrumbs a { color: var(--accent); transition: opacity 0.2s; }
+.breadcrumbs a:hover { opacity: 0.8; }
+.breadcrumbs span { color: var(--text-dim); }
+
+.article {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 24px 40px;
+}
+.article-header { margin-bottom: 28px; }
+.article-badge {
+  display: inline-block;
+  background: rgba(45, 126, 255, 0.9);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.article-title {
+  font-weight: 900;
+  font-size: 36px;
+  line-height: 1.2;
+  margin-bottom: 14px;
+  color: #fff;
+}
+.article-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-dim);
+  flex-wrap: wrap;
+}
+.article-dot { color: var(--border); }
+.article-cover {
+  margin-bottom: 32px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+.article-cover img {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  display: block;
+}
+.article-body { font-size: 17px; line-height: 1.75; color: var(--text); }
+.article-body h2 {
+  font-weight: 900;
+  font-size: 24px;
+  margin: 32px 0 14px;
+  color: #fff;
+}
+.article-body h3 {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 24px 0 12px;
+  color: #fff;
+}
+.article-body p { margin-bottom: 18px; }
+.article-body strong { color: #fff; font-weight: 700; }
+.article-body a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+.article-body a:hover { color: var(--accent-hover); }
+.article-body img { max-width: 100%; border-radius: 10px; margin: 16px 0; }
+.article-body figure { margin: 20px 0; }
+.article-body figcaption { text-align: center; color: var(--text-dim); font-size: 14px; margin-top: 10px; }
+.article-body ul { margin: 12px 0 16px 20px; }
+.article-body li { margin-bottom: 6px; }
+.article-body code { background: var(--bg-card); padding: 2px 6px; border-radius: 4px; font-size: 15px; }
+.article-body blockquote {
+  border-left: 4px solid var(--accent);
+  background: var(--bg-card);
+  padding: 20px 24px;
+  border-radius: 0 12px 12px 0;
+  margin: 28px 0;
+  font-size: 18px;
+  font-style: italic;
+  color: #c8c8cc;
+}
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 24px; text-align: center;
+  color: var(--text-dim); font-size: 14px;
+  max-width: 1400px; margin: 40px auto 0;
+}
+.footer a { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .article { padding: 0 16px 32px; }
+  .article-title { font-size: 26px; }
+  .article-body { font-size: 16px; }
+  .article-body h2 { font-size: 21px; }
+  .article-body h3 { font-size: 18px; }
+}
+@media (max-width: 480px) {
+  .article-title { font-size: 22px; }
+  .article-badge { font-size: 12px; }
+  .article-meta { font-size: 13px; gap: 6px; }
+}`;
+
+    const translitMap = {
+      'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ё':'e','ж':'zh','з':'z','и':'i','й':'y',
+      'к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u','ф':'f',
+      'х':'h','ц':'ts','ч':'ch','ш':'sh','щ':'sch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya',
+      ' ':'-','_':'-','«':'','»':'','"':'',"\'":'',':':'',',':'','.':'-','!':'','?':'','(':'',
+      ')':'','/':'-'
+    };
+    function translit(str) {
+      return str.toLowerCase().split('').map(c => translitMap[c] !== undefined ? translitMap[c] : c).join('')
+        .replace(/-+/g,'-').replace(/^-|-$/g,'');
+    }
+
+    function mdToHtml(md) {
+      if (!md) return '';
+      let lines = md.split('\n');
+      let html = '';
+      let inList = false;
+      for (let i = 0; i < lines.length; i++) {
+        let line = lines[i];
+        if (line.trim() === '') { if (inList) { html += '</ul>\n'; inList = false; } continue; }
+        if (line.startsWith('### ')) { if(inList){html+='</ul>\n';inList=false;} html += '<h3>' + inline(line.slice(4)) + '</h3>\n'; continue; }
+        if (line.startsWith('## ')) { if(inList){html+='</ul>\n';inList=false;} html += '<h2>' + inline(line.slice(3)) + '</h2>\n'; continue; }
+        if (line.startsWith('# ')) { if(inList){html+='</ul>\n';inList=false;} html += '<h1>' + inline(line.slice(2)) + '</h1>\n'; continue; }
+        if (line.startsWith('> ')) { if(inList){html+='</ul>\n';inList=false;} html += '<blockquote>' + inline(line.slice(2)) + '</blockquote>\n'; continue; }
+        let imgMatch = line.match(/^!\[(.*?)\]\((.*?)\)$/);
+        if (imgMatch) { if(inList){html+='</ul>\n';inList=false;} html += '<figure><img src="' + imgMatch[2] + '" alt="' + imgMatch[1] + '"><figcaption>' + imgMatch[1] + '</figcaption></figure>\n'; continue; }
+        if (line.startsWith('- ') || line.startsWith('* ')) { if(!inList){html+='<ul>\n';inList=true;} html += '<li>' + inline(line.slice(2)) + '</li>\n'; continue; }
+        if(inList){html+='</ul>\n';inList=false;}
+        html += '<p>' + inline(line) + '</p>\n';
+      }
+      if (inList) html += '</ul>\n';
+      return html;
+    }
+
+    function inline(text) {
+      return text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1</em>')
+        .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
+        .replace(/`(.+?)`/g, '<code>$1</code>');
+    }
+
+    function esc(s) {
+      if (!s) return '';
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function jsonEsc(s) {
+      if (!s) return '';
+      return s.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n');
+    }
+
+    function readingTime(text) {
+      if (!text || !text.trim()) return 1;
+      const words = text.trim().split(/\s+/).filter(w => w.length > 0).length;
+      return Math.max(1, Math.ceil(words / 250));
+    }
+
+    function setDefaultDate() {
+      const months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+      const now = new Date();
+      const day = now.getDate();
+      const month = months[now.getMonth()];
+      const year = now.getFullYear();
+      const h = String(now.getHours()).padStart(2,'0');
+      const m = String(now.getMinutes()).padStart(2,'0');
+      document.getElementById('date').value = day + ' ' + month + ' ' + year + ', ' + h + ':' + m;
+    }
+
+    function updateOutput() {
+      const filename = (document.getElementById('filename').value || 'article').trim();
+      const title = document.getElementById('title').value || '';
+      const cat = document.getElementById('cat').value;
+      const date = document.getElementById('date').value || '';
+      const author = document.getElementById('author').value || 'Дмитрий Мусиенко';
+      const img = document.getElementById('img').value || '';
+      const excerpt = document.getElementById('excerpt').value || '';
+      const content = document.getElementById('content').value || '';
+      const slug = translit(filename);
+
+      const rt = readingTime(content);
+      document.getElementById('readtime').textContent = '\u23F1 ' + rt + ' мин чтения';
+
+      const articleHtml = mdToHtml(content);
+      const baseUrl = 'https://rakurs-news.github.io';
+      const articleUrl = baseUrl + '/news/' + slug + '.html';
+
+      const htmlFile = '<!DOCTYPE html>\n<html lang="ru">\n<head>\n'
+        + '  <meta charset="UTF-8">\n'
+        + '  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n'
+        + '  <title>' + esc(title) + ' — Ракурс News</title>\n'
+        + '  <meta name="description" content="' + esc(excerpt) + '">\n'
+        + '  <meta name="author" content="' + esc(author) + '">\n'
+        + '  <meta property="og:type" content="article">\n'
+        + '  <meta property="og:title" content="' + esc(title) + '">\n'
+        + '  <meta property="og:description" content="' + esc(excerpt) + '">\n'
+        + '  <meta property="og:image" content="' + baseUrl + '/' + img + '">\n'
+        + '  <meta property="og:url" content="' + articleUrl + '">\n'
+        + '  <meta name="twitter:card" content="summary_large_image">\n'
+        + '  <meta name="twitter:title" content="' + esc(title) + '">\n'
+        + '  <meta name="twitter:description" content="' + esc(excerpt) + '">\n'
+        + '  <meta name="twitter:image" content="' + baseUrl + '/' + img + '">\n'
+        + '  <link rel="canonical" href="' + articleUrl + '">\n'
+        + '  <link rel="preconnect" href="https://fonts.googleapis.com">\n'
+        + '  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">\n'
+        + '  <script type="application/ld+json">\n'
+        + '  {\n'
+        + '    "@context": "https://schema.org",\n'
+        + '    "@type": "Article",\n'
+        + '    "headline": "' + jsonEsc(title) + '",\n'
+        + '    "description": "' + jsonEsc(excerpt) + '",\n'
+        + '    "image": ["' + baseUrl + '/' + img + '"],\n'
+        + '    "datePublished": "' + jsonEsc(date) + '",\n'
+        + '    "author": { "@type": "Person", "name": "' + jsonEsc(author) + '" },\n'
+        + '    "publisher": { "@type": "Organization", "name": "Ракурс News" },\n'
+        + '    "mainEntityOfPage": "' + articleUrl + '"\n'
+        + '  }\n'
+        + '<\/script>\n'
+        + '  <style>\n'
+        + ARTICLE_CSS + '\n'
+        + '  <\/style>\n'
+        + '</head>\n'
+        + '<body>\n'
+        + '  <header class="header">\n'
+        + '    <div class="header-inner">\n'
+        + '      <a href="' + baseUrl + '" class="logo" aria-label="Ракурс News — Актуальные новости России">\n'
++ '        <img src="/img/logo.png" alt="Ракурс News Logo" width="100" height="30">\n'
++ '      </a>\n'
+        + '    </div>\n'
+        + '  </header>\n'
+        + '  <div class="breadcrumbs">\n'
+        + '    <a href="' + baseUrl + '">Главная</a>\n'
+        + '    <span>/</span>\n'
+        + '    <span>' + esc(cat) + '</span>\n'
+        + '  </div>\n'
+        + '  <article class="article">\n'
+        + '    <div class="article-header">\n'
+        + '      <div class="article-badge">' + esc(cat) + '</div>\n'
+        + '      <h1 class="article-title">' + esc(title) + '</h1>\n'
+        + '      <div class="article-meta">\n'
+        + '        \uD83D\uDC64 ' + esc(author) + '\n'
+        + '        <span class="article-dot">·</span>\n'
+        + '        \u23F1 ' + rt + ' мин чтения\n'
+        + '        <span class="article-dot">·</span>\n'
+        + '        ' + esc(date) + '\n'
+        + '      </div>\n'
+        + '    </div>\n'
+        + '    <div class="article-cover">\n'
+        + '      <img src="' + img + '" alt="' + esc(title) + '">\n'
+        + '    </div>\n'
+        + '    <div class="article-body">\n'
+        + articleHtml
+        + '    </div>\n'
+        + '  </article>\n'
+        + '  <footer class="footer">\n'
+        + '    © 2026 Ракурс News — Актуальные новости России и мира\n'
+        + '  </footer>\n'
+        + '</body>\n'
+        + '</html>';
+
+      document.getElementById('htmlOutput').textContent = htmlFile;
+
+      const jsCard = '  {\n'
+        + "    cat:'" + cat + "',\n"
+        + "    title:'" + title.replace(/'/g, "\\'") + "',\n"
+        + "    excerpt:'" + excerpt.replace(/'/g, "\\'") + "',\n"
+        + "    img:'" + img + "',\n"
+        + "    date:'" + date + "',\n"
+        + "    link:'news/" + slug + ".html'\n"
+        + '  },';
+
+      document.getElementById('jsOutput').textContent = jsCard;
+    }
+
+    function copyHtml() {
+      const text = document.getElementById('htmlOutput').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const old = btn.textContent;
+        btn.textContent = '✓ Скопировано!';
+        setTimeout(() => { btn.textContent = old; }, 2000);
+      });
+    }
+
+    function copyJs() {
+      const text = document.getElementById('jsOutput').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target;
+        const old = btn.textContent;
+        btn.textContent = '✓ Скопировано!';
+        setTimeout(() => { btn.textContent = old; }, 2000);
+      });
+    }
+
+    function wrapText(before, after) {
+      const ta = document.getElementById('content');
+      const start = ta.selectionStart;
+      const end = ta.selectionEnd;
+      const text = ta.value.substring(start, end);
+      ta.value = ta.value.substring(0, start) + before + text + after + ta.value.substring(end);
+      ta.focus();
+      ta.setSelectionRange(start + before.length, end + before.length);
+      updateOutput();
+    }
+
+    function addPrefix(prefix) {
+      const ta = document.getElementById('content');
+      const start = ta.selectionStart;
+      const lineStart = ta.value.lastIndexOf('\n', start - 1) + 1;
+      ta.value = ta.value.substring(0, lineStart) + prefix + ta.value.substring(lineStart);
+      ta.focus();
+      ta.setSelectionRange(start + prefix.length, start + prefix.length);
+      updateOutput();
+    }
+
+    function insertImage() {
+      document.getElementById('imgModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('imgModal').style.display = 'none';
+    }
+
+    function confirmImage() {
+      const url = document.getElementById('imgUrl').value;
+      const alt = document.getElementById('imgAlt').value;
+      if (!url) return;
+      const ta = document.getElementById('content');
+      const pos = ta.selectionStart;
+      const imgMd = '![' + (alt || '') + '](' + url + ')';
+      ta.value = ta.value.substring(0, pos) + imgMd + ta.value.substring(pos);
+      document.getElementById('imgUrl').value = '';
+      document.getElementById('imgAlt').value = '';
+      closeModal();
+      updateOutput();
+    }
+
+    setDefaultDate();
+    document.getElementById('author').value = 'Дмитрий Мусиенко';
+    updateOutput();
+  </script>
+</body>
+</html>
