@@ -95,7 +95,7 @@
 
   <div class="form-group">
     <label>ГЛАВНОЕ ФОТО СТАТЬИ</label>
-    <input type="text" id="img" placeholder="img/photo.jpg" oninput="updateOutput()">
+    <input type="text" id="img" placeholder="/img/photo.jpg" oninput="updateOutput()">
     <p class="hint" style="margin-top: 5px;">Путь к фото относительно корня сайта. Например: <b>img/photo.jpg</b></p>
   </div>
 
@@ -552,22 +552,38 @@ img { display: block; max-width: 100%; }
     }
 
     function confirmImage() {
-      const url = document.getElementById('imgUrl').value;
-      const alt = document.getElementById('imgAlt').value;
-      if (!url) return;
-      const ta = document.getElementById('content');
-      const pos = ta.selectionStart;
-      const imgMd = '![' + (alt || '') + '](' + url + ')';
-      ta.value = ta.value.substring(0, pos) + imgMd + ta.value.substring(pos);
-      document.getElementById('imgUrl').value = '';
-      document.getElementById('imgAlt').value = '';
-      closeModal();
-      updateOutput();
-    }
+  const urlInput = document.getElementById('imgUrl');
+  const altInput = document.getElementById('imgAlt');
+  const ta = document.getElementById('content');
+  
+  let url = urlInput.value.trim();
+  const alt = altInput.value.trim();
 
-    setDefaultDate();
-    document.getElementById('author').value = 'Дмитрий Мусиенко';
-    updateOutput();
+  // ГЛАВНОЕ ИЗМЕНЕНИЕ: Приводим путь к нужному формату
+  if (!url) return;
+
+  // Если пользователь ввёл просто имя файла (photo.jpg) или путь без начального слэша (img/photo.jpg),
+  // добавляем начальный слэш, чтобы получилось /img/... или /photo.jpg
+  if (!url.startsWith('/')) {
+    // Если в пути уже есть папка (например, img/photo.jpg), просто добавляем слэш в начало
+    if (url.includes('/')) {
+      url = '/' + url;
+    } else {
+      // Если это просто имя файла, считаем, что он лежит в папке img
+      url = '/img/' + url;
+    }
+  }
+
+  const pos = ta.selectionStart;
+  const imgMd = '![' + (alt || '') + '](' + url + ')';
+  
+  ta.value = ta.value.substring(0, pos) + imgMd + ta.value.substring(pos);
+  
+  urlInput.value = '';
+  altInput.value = '';
+  closeModal();
+  updateOutput();
+}
   </script>
 </body>
 </html>
