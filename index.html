@@ -402,6 +402,52 @@
       .row-body h3 { font-size: 17px; }
       .feed-title { font-size: 21px; }
     }
+    
+    /* ===== КУРСЫ ВАЛЮТ ЦБ ===== */
+.rates-wrap {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 16px 20px;
+}
+.rates {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  background: var(--bg-row);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  padding: 12px 18px;
+}
+.rates-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.rates-items {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.rate-item {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--text);
+}
+.rate-item .cur {
+  color: var(--text-dim);
+  margin-right: 8px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.rate-item .up { color: #4caf50; }
+.rate-item .down { color: #ef5350; }
+.rates.hidden { display: none; }
+
   </style>
 </head>
 <body>
@@ -451,6 +497,15 @@
     <!-- Сигнальный блок для ленивой подгрузки -->
     <div class="sentinel" id="sentinel">Загружаем ещё</div>
   </main>
+  
+  <!-- КУРСЫ ВАЛЮТ ЦБ РФ -->
+<div class="rates-wrap">
+  <div class="rates" id="ratesBlock">
+    <span class="rates-label">Курсы ЦБ РФ</span>
+    <div class="rates-items" id="ratesItems"></div>
+  </div>
+</div>
+
 
   <!-- ФУТЕР -->
   <footer class="footer">
@@ -604,6 +659,40 @@
       renderTicker();
       setCat('all');
     });
+
+  // ===== КУРСЫ ВАЛЮТ ЦБ РФ (cbr-xml-daily.ru) =====
+  (function () {
+    const block = document.getElementById('ratesBlock');
+    const items = document.getElementById('ratesItems');
+    if (!block || !items) return;
+
+    fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+      .then(r => r.json())
+      .then(data => {
+        const format = v => v.toFixed(2).replace('.', ',');
+        const trend = (cur, prev) => {
+          const diff = cur - prev;
+          const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : '';
+          const arrow = diff > 0 ? ' &#9650;' : diff < 0 ? ' &#9660;' : '';
+          return '<span class="' + cls + '">' + (diff > 0 ? '+' : '') + format(diff) + arrow + '</span>';
+        };
+        const mk = (code, name) => {
+          const v = data.Valute[code];
+          if (!v) return '';
+          return '<span class="rate-item"><span class="cur">' + name + '</span>' +
+            format(v.Value / v.Nominal) + ' ' + trend(v.Value, v.Previous) + '</span>';
+        };
+        items.innerHTML =
+          mk('USD', 'Доллар') +
+          mk('EUR', 'Евро') +
+          mk('CNY', 'Юань');
+        const d = new Date(data.Date);
+        document.querySelector('.rates-label').textContent =
+          'Курсы ЦБ РФ · ' + d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+      })
+      .catch(() => block.classList.add('hidden'));
+  })();
+
   </script>
 </body>
 </html>
