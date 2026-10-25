@@ -366,6 +366,23 @@
     }
     .footer-links a:hover { color: var(--accent); }
 
+    /* ===== ПОЛИТИКА В ФУТЕРЕ ===== */
+    .footer-policy-divider {
+      border: 0;
+      border-top: 1px solid var(--accent);
+      max-width: 900px;
+      margin: 0 auto 14px;
+    }
+    .footer-policy {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-dim);
+    }
+    .footer-policy p { margin-bottom: 8px; }
+    .footer-policy p:last-child { margin-bottom: 0; }
+
     /* ===== АДАПТИВ ===== */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
@@ -446,6 +463,10 @@
       <a href="#" data-cat="Армия">Армия</a>
     </div>
     <p>Ракурс News &copy; 2026 — Актуальные новости России и мира</p>
+    <hr class="footer-policy-divider">
+    <div class="footer-policy">
+      <p><h3>Экстремистские и террористические организации, запрещенные в Российской Федерации:</h3>«Правый сектор», «Украинская повстанческая армия» (УПА), «ИГИЛ», «Джабхат Фатх аш-Шам» (бывшая «Джабхат ан-Нусра», «Джебхат ан-Нусра»), Национал-Большевистская партия (НБП), «Аль-Каида», «УНА-УНСО», «Талибан», «Меджлис крымско-татарского народа», «Свидетели Иеговы», «Мизантропик Дивижн», «Братство» Корчинского, «Артподготовка», «Тризуб им. Степана Бандеры», «НСО», «Славянский союз», «Формат-18», «Хизб ут-Тахрир», «Арестантское уголовное единство» (АУЕ).</p>
+    </div>
   </footer>
 
   <script src="news-data.js"></script>
