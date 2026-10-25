@@ -403,39 +403,45 @@
       .feed-title { font-size: 21px; }
     }
     
-    /* ===== КУРСЫ ВАЛЮТ ЦБ ===== */
-.rates-wrap {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 16px 20px;
+/* ===== КУРСЫ ВАЛЮТ ЦБ ===== */
+.rates-bar {
+  position: sticky;
+  top: 60px;
+  z-index: 195;
+  background: var(--bg-row);
+  border-bottom: 1px solid var(--line);
 }
-.rates {
+.rates-inner {
+  max-width: 1160px;   /* ← отступы по краям. Если основной контент 1240px — поставь 1240px */
+  margin: 0 auto;
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   gap: 22px;
-  flex-wrap: wrap;
-  background: var(--bg-row);
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  padding: 12px 18px;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.rates-inner::-webkit-scrollbar { display: none; }
 .rates-label {
   font-family: var(--mono);
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: var(--text-dim);
+  color: var(--accent);
+  font-weight: 700;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 .rates-items {
   display: flex;
-  gap: 24px;
-  flex-wrap: wrap;
+  gap: 28px;
+  flex-wrap: nowrap;
 }
 .rate-item {
   font-family: var(--mono);
   font-size: 14px;
   color: var(--text);
+  white-space: nowrap;
 }
 .rate-item .cur {
   color: var(--text-dim);
@@ -446,7 +452,7 @@
 }
 .rate-item .up { color: #4caf50; }
 .rate-item .down { color: #ef5350; }
-.rates.hidden { display: none; }
+.rates-bar.hidden { display: none; }
 
   </style>
 </head>
@@ -462,6 +468,14 @@
       <div class="header-clock" id="clock">--:--:-- МСК</div>
     </div>
   </header>
+
+<!-- КУРСЫ ВАЛЮТ ЦБ РФ (закреплённый) -->
+  <div class="rates-bar" id="ratesBlock">
+    <div class="rates-inner">
+      <span class="rates-label">Курсы ЦБ РФ</span>
+      <div class="rates-items" id="ratesItems"></div>
+    </div>
+  </div>
 
   <!-- БЕГУЩАЯ СТРОКА -->
   <div class="ticker">
@@ -497,15 +511,6 @@
     <!-- Сигнальный блок для ленивой подгрузки -->
     <div class="sentinel" id="sentinel">Загружаем ещё</div>
   </main>
-  
-  <!-- КУРСЫ ВАЛЮТ ЦБ РФ -->
-<div class="rates-wrap">
-  <div class="rates" id="ratesBlock">
-    <span class="rates-label">Курсы ЦБ РФ</span>
-    <div class="rates-items" id="ratesItems"></div>
-  </div>
-</div>
-
 
   <!-- ФУТЕР -->
   <footer class="footer">
@@ -692,7 +697,6 @@
       })
       .catch(() => block.classList.add('hidden'));
   })();
-
   </script>
 </body>
 </html>
