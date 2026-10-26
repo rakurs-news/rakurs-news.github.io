@@ -138,15 +138,16 @@
     }
     .nav::-webkit-scrollbar { display: none; }
     .nav a {
-      padding: 12px 18px;
-      font-weight: 700;
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-      border-right: 1px solid var(--line);
-      transition: background 0.15s, color 0.15s;
-    }
+  padding: 12px 18px;
+  font-weight: 700;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  border-right: 1px solid var(--line);
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
     .nav a:first-child { border-left: 1px solid var(--line); }
     .nav a:hover { color: var(--text); background: var(--bg-row); }
     .nav a.active { color: #fff; background: var(--accent); }
