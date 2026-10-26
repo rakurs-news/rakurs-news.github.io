@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head><meta charset="utf-8"><title>Генератор sitemap</title></head>
+<body>
+  <button id="gen" style="padding:12px 20px">Скачать sitemap.xml</button>
+  <script src="news-data.js"></script>
+  <script>
+    document.getElementById('gen').addEventListener('click', () => {
+      const base = 'https://rakurs-news.github.io/';
+      const pages = ['', 'v-rossii.html', 'v-mire.html', 'ekonomika.html',
+                     'sport.html', 'kultura.html', 'armiya.html'];
+      const urls = pages.map(p => '  <url><loc>' + base + p + '</loc></url>');
+      (typeof news !== 'undefined' ? news : []).forEach(n => {
+        const link = n.link.startsWith('http') ? n.link : base + n.link;
+        urls.push('  <url><loc>' + link + '</loc></url>');
+      });
+      const xml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+        urls.join('\n') + '\n</urlset>';
+      const blob = new Blob([xml], { type: 'application/xml' }); // без BOM по определению
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'sitemap.xml';
+      a.click();
+    });
+  </script>
+</body>
+</html>
