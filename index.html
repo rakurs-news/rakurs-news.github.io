@@ -503,13 +503,13 @@
   <!-- НАВИГАЦИЯ -->
   <nav class="nav-bar">
     <div class="nav" id="nav">
-      <a href="#" class="active" data-cat="all">Все</a>
-      <a href="#" data-cat="В России">В России</a>
-      <a href="#" data-cat="В мире">В мире</a>
-      <a href="#" data-cat="Экономика">Экономика</a>
-      <a href="#" data-cat="Спорт">Спорт</a>
-      <a href="#" data-cat="Культура">Культура</a>
-      <a href="#" data-cat="Армия">Армия</a>
+      <a href="index.html" class="active">Все</a>
+      <a href="v-rossii.html">В России</a>
+      <a href="v-mire.html">В мире</a>
+      <a href="ekonomika.html">Экономика</a>
+      <a href="sport.html">Спорт</a>
+      <a href="kultura.html">Культура</a>
+      <a href="armiya.html">Армия</a>
     </div>
   </nav>
 
@@ -531,12 +531,12 @@
   <!-- ФУТЕР -->
   <footer class="footer">
     <div class="footer-links">
-      <a href="#" data-cat="В России">В России</a>
-      <a href="#" data-cat="В мире">В мире</a>
-      <a href="#" data-cat="Экономика">Экономика</a>
-      <a href="#" data-cat="Спорт">Спорт</a>
-      <a href="#" data-cat="Культура">Культура</a>
-      <a href="#" data-cat="Армия">Армия</a>
+      <a href="v-rossii.html">В России</a>
+      <a href="v-mire.html">В мире</a>
+      <a href="ekonomika.html">Экономика</a>
+      <a href="sport.html">Спорт</a>
+      <a href="kultura.html">Культура</a>
+      <a href="armiya.html">Армия</a>
     </div>
     <p>Ракурс News &copy; 2026 — Актуальные новости России и мира</p>
     <hr class="footer-policy-divider">
@@ -638,17 +638,6 @@
         loadMore();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
-
-      // ===== НАВИГАЦИЯ =====
-      document.querySelectorAll('.nav a, .footer-links a').forEach(a => {
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          const cat = a.dataset.cat;
-          document.querySelectorAll('.nav a').forEach(x =>
-            x.classList.toggle('active', x.dataset.cat === cat));
-          setCat(cat);
-        });
-      });
 
       // ===== БЕГУЩАЯ СТРОКА: заголовки 6 свежих новостей =====
       function renderTicker() {
