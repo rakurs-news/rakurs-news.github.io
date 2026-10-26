@@ -469,7 +469,38 @@
   }
 }
 
-
+/* ===== КНОПКА НАВЕРХ ===== */
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 300;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg-raised);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity .25s, transform .25s, visibility .25s, background .15s, color .15s;
+}
+.to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.to-top:hover {
+  background: var(--accent);
+  color: #fff;
+}
   </style>
 </head>
 <body>
@@ -545,6 +576,7 @@
     </div>
   </footer>
 
+<button class="to-top" id="toTop" aria-label="Наверх">&#8593;</button>
   <script src="news-data.js"></script>
   <script>
     // ===== ЛОГИКА ГЛАВНОЙ СТРАНИЦЫ =====
@@ -702,6 +734,17 @@
       })
       .catch(() => block.classList.add('hidden'));
   })();
+  // ===== КНОПКА НАВЕРХ =====
+(function () {
+  const btn = document.getElementById('toTop');
+  if (!btn) return;
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
   </script>
 </body>
 </html>
