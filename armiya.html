@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Новости армии сегодня — сводки и вооружение | Ракурс News</title>
+  <meta name="yandex-verification" content="8e3a5a0a7520b3b8" />
+  <meta name="description" content="Новости армии и обороны сегодня: сводки СВО, новые вооружения, учения и военная техника. Армия России — на Ракурс News.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://rakurs-news.github.io/armiya.html">
+  <link rel="alternate" type="application/rss+xml" title="Ракурс News — RSS" href="https://rakurs-news.github.io/rss.xml">
+  <link rel="icon" href="img/logo.png">
+  <meta property="og:site_name" content="Ракурс News">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Новости армии сегодня — сводки и вооружение | Ракурс News">
+  <meta property="og:description" content="Новости армии и обороны сегодня: сводки СВО, новые вооружения, учения и военная техника. Армия России — на Ракурс News.">
+  <meta property="og:url" content="https://rakurs-news.github.io/armiya.html">
+  <meta property="og:image" content="https://rakurs-news.github.io/img/og-cover.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Ракурс News",
+    "url": "https://rakurs-news.github.io/"
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=PT+Sans:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Ракурс News — ленточный агентский стиль ===== */
+    :root {
+      --bg: #17191e;
+      --bg-row: #1d2027;
+      --bg-raised: #22262e;
+      --text: #e6e7ea;
+      --text-dim: #8f929c;
+      --accent: #d63a2f;          /* красный агентский */
+      --accent-soft: rgba(214, 58, 47, 0.12);
+      --line: #2c3038;
+      --serif: 'PT Serif', Georgia, serif;
+      --sans: 'PT Sans', Arial, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.55;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; }
+
+    /* ===== ШАПКА 60px ===== */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: 60px;
+      width: 100%;
+      background: var(--bg);
+      border-bottom: 3px solid var(--accent);
+    }
+    .header-inner {
+      max-width: 1160px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+    .logo { display: flex; align-items: center; }
+    .logo img { max-height: 36px; width: auto; }
+    .brand {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 21px;
+      letter-spacing: 0.02em;
+      white-space: nowrap;
+    }
+    .brand em { font-style: normal; color: var(--accent); }
+    .header-clock {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--text-dim);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== КУРСЫ ВАЛЮТ ЦБ ===== */
+    .rates-bar {
+      position: sticky;
+      top: 60px;
+      z-index: 195;
+      background: var(--bg-row);
+      border-bottom: 1px solid var(--line);
+    }
+    .rates-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .rates-inner::-webkit-scrollbar { display: none; }
+    .rates-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .rates-items {
+      display: flex;
+      gap: 28px;
+      flex-wrap: nowrap;
+    }
+    .rate-item {
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--text);
+      white-space: nowrap;
+      animation: rateIn .5s ease-out both;
+    }
+    .rate-item:nth-child(2) { animation-delay: .12s; }
+    .rate-item:nth-child(3) { animation-delay: .24s; }
+    @keyframes rateIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .rate-item .cur {
+      color: var(--text-dim);
+      margin-right: 8px;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .rate-item .up { color: #4caf50; }
+    .rate-item .down { color: #ef5350; }
+    .rates-bar.hidden { display: none; }
+
+    /* ===== БЕГУЩАЯ СТРОКА ===== */
+    .ticker {
+      border-bottom: 1px solid var(--line);
+      background: var(--bg-row);
+      overflow: hidden;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+    .ticker-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 40px;
+      padding: 9px 0 9px 16px;
+      animation: tick 60s linear infinite;
+    }
+    .ticker:hover .ticker-track { animation-play-state: paused; }
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .ticker-label {
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 3px 8px;
+    }
+    .ticker-item { color: var(--text-dim); }
+    .ticker-item:hover { color: var(--text); }
+
+    /* ===== НАВИГАЦИЯ ===== */
+    .nav-bar {
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 16px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .nav::-webkit-scrollbar { display: none; }
+    .nav a {
+      padding: 12px 18px;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      border-right: 1px solid var(--line);
+      transition: background 0.15s, color 0.15s;
+    }
+    .nav a:first-child { border-left: 1px solid var(--line); }
+    .nav a:hover { color: var(--text); background: var(--bg-row); }
+    .nav a.active { color: #fff; background: var(--accent); }
+
+    /* ===== КОНТЕНТ ===== */
+    .main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 28px 16px 60px;
+    }
+
+    /* ===== HERO — главная новость раздела ===== */
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--accent);
+      margin-bottom: 36px;
+      background: var(--bg-row);
+    }
+    .hero-text {
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .hero-plaque {
+      align-self: flex-start;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      margin-bottom: 18px;
+    }
+    .hero-cat {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 10px;
+    }
+    .hero-text h2 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 34px;
+      line-height: 1.18;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+    .hero-text p {
+      color: var(--text-dim);
+      font-size: 16px;
+      margin-bottom: 18px;
+      max-width: 460px;
+    }
+    .hero-meta {
+      margin-top: auto;
+      display: flex;
+      gap: 14px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .hero-meta .author { color: var(--text); }
+    .hero-img { position: relative; min-height: 320px; overflow: hidden; }
+    .hero-img img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-img::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(23,25,30,0.9) 0%, rgba(23,25,30,0) 45%);
+    }
+
+    /* ===== ЛЕНТА НОВОСТЕЙ ===== */
+    .feed-head {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 4px;
+    }
+    .feed-title {
+      font-family: var(--serif);
+      font-size: 26px;
+      color: #fff;
+    }
+    .feed-count {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+    }
+    .feed {
+      border-top: 1px solid var(--line);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 92px 1fr 220px;
+      gap: 20px;
+      padding: 18px 4px;
+      border-bottom: 1px solid var(--line);
+      transition: background 0.15s;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: rowIn 0.4s ease forwards;
+    }
+    @keyframes rowIn { to { opacity: 1; transform: translateY(0); } }
+    .row:hover { background: var(--bg-row); }
+    .row-time {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      padding-top: 4px;
+      white-space: nowrap;
+    }
+    .row-time span { display: block; color: var(--text-dim); }
+    .row-body h3 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 20px;
+      line-height: 1.3;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .row:hover .row-body h3 { color: var(--accent); }
+    .row-body p {
+      color: var(--text-dim);
+      font-size: 14px;
+      max-width: 640px;
+    }
+    .row-meta {
+      margin-top: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .row-meta .cat {
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-right: 10px;
+    }
+    .row-img {
+      overflow: hidden;
+      border-left: 3px solid var(--accent-soft);
+    }
+    .row-img img {
+      width: 100%;
+      height: 118px;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+    .row:hover .row-img img { transform: scale(1.05); }
+
+    .empty {
+      padding: 40px 4px;
+      color: var(--text-dim);
+      font-family: var(--mono);
+      font-size: 13px;
+    }
+
+    /* ===== ПОДГРУЗКА ===== */
+    .sentinel {
+      padding: 28px 0;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    .sentinel.done { display: none; }
+    .sentinel::after {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 24px;
+      margin: 12px auto 0;
+      border: 2px solid var(--line);
+      border-top-color: var(--accent);
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== ФУТЕР ===== */
+    .footer {
+      border-top: 3px solid var(--accent);
+      background: var(--bg-row);
+      padding: 30px 16px;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      margin-bottom: 12px;
+    }
+    .footer-links a {
+      font-weight: 700;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .footer-links a:hover { color: var(--accent); }
+
+    .footer-policy-divider {
+      border: 0;
+      border-top: 1px solid var(--accent);
+      max-width: 900px;
+      margin: 0 auto 14px;
+    }
+    .footer-policy {
+      max-width: 760px;
+      margin: 0 auto;
+      font-size: 11px;
+      line-height: 1.5;
+      color: var(--text-dim);
+    }
+    .footer-policy h3 { margin-bottom: 8px; }
+    .footer-policy p { margin-bottom: 8px; }
+    .footer-policy p:last-child { margin-bottom: 0; }
+
+    /* ===== АДАПТИВ ===== */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-img { min-height: 240px; order: -1; }
+      .hero-img::after { background: linear-gradient(0deg, rgba(23,25,30,0.95) 0%, rgba(23,25,30,0) 60%); }
+      .row { grid-template-columns: 64px 1fr; }
+      .row-img { display: none; }
+    }
+    @media (max-width: 640px) {
+      .brand { font-size: 16px; }
+      .logo img { max-height: 28px; }
+      .header-clock { font-size: 11px; }
+      .hero-text { padding: 20px 16px; }
+      .hero-text h2 { font-size: 23px; }
+      .row { grid-template-columns: 1fr; gap: 8px; padding: 14px 2px; }
+      .row-time { padding: 0; display: inline; }
+      .row-body h3 { font-size: 17px; }
+      .feed-title { font-size: 21px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ШАПКА -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="/" class="logo" aria-label="Ракурс News — на главную">
+        <img src="img/logo.png" alt="Ракурс News">
+      </a>
+      <div class="brand">РАКУРС <em>NEWS</em></div>
+      <div class="header-clock" id="clock">--:--:-- МСК</div>
+    </div>
+  </header>
+
+  <!-- КУРСЫ ВАЛЮТ ЦБ РФ (закреплённый) -->
+  <div class="rates-bar" id="ratesBlock">
+    <div class="rates-inner">
+      <span class="rates-label">Курсы ЦБ РФ</span>
+      <div class="rates-items" id="ratesItems"></div>
+    </div>
+  </div>
+
+  <!-- БЕГУЩАЯ СТРОКА -->
+  <div class="ticker">
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-label">Главное</span>
+    </div>
+  </div>
+
+  <!-- НАВИГАЦИЯ -->
+  <nav class="nav-bar">
+    <div class="nav" id="nav">
+      <a href="index.html">Все</a>
+      <a href="v-rossii.html">В России</a>
+      <a href="v-mire.html">В мире</a>
+      <a href="ekonomika.html">Экономика</a>
+      <a href="sport.html">Спорт</a>
+      <a href="kultura.html">Культура</a>
+      <a href="armiya.html" class="active">Армия</a>
+    </div>
+  </nav>
+
+  <main class="main">
+    <!-- HERO: главная новость раздела -->
+    <section class="hero" id="hero"></section>
+
+    <div class="feed-head">
+      <h1 class="feed-title">Армия</h1>
+      <span class="feed-count" id="feedCount"></span>
+    </div>
+
+    <div class="feed" id="newsGrid"></div>
+
+    <!-- Сигнальный блок для ленивой подгрузки -->
+    <div class="sentinel" id="sentinel">Загружаем ещё</div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="v-rossii.html">В России</a>
+      <a href="v-mire.html">В мире</a>
+      <a href="ekonomika.html">Экономика</a>
+      <a href="sport.html">Спорт</a>
+      <a href="kultura.html">Культура</a>
+      <a href="armiya.html">Армия</a>
+    </div>
+    <p>Ракурс News &copy; 2026 — Актуальные новости России и мира</p>
+    <hr class="footer-policy-divider">
+    <div class="footer-policy">
+      <h3>Экстремистские и террористические организации, запрещенные в Российской Федерации:</h3>
+      <p>«Правый сектор», «Украинская повстанческая армия» (УПА), «ИГИЛ», «Джабхат Фатх аш-Шам» (бывшая «Джабхат ан-Нусра», «Джебхат ан-Нусра»), Национал-Большевистская партия (НБП), «Аль-Каида», «УНА-УНСО», «Талибан», «Меджлис крымско-татарского народа», «Свидетели Иеговы», «Мизантропик Дивижн», «Братство» Корчинского, «Артподготовка», «Тризуб им. Степана Бандеры», «НСО», «Славянский союз», «Формат-18», «Хизб ут-Тахрир», «Арестантское уголовное единство» (АУЕ).</p>
+    </div>
+  </footer>
+
+  <script src="news-data.js"></script>
+  <script>
+    // ===== ЛОГИКА СТРАНИЦЫ РАЗДЕЛА «АРМИЯ» =====
+    document.addEventListener('DOMContentLoaded', () => {
+      const CAT = 'Армия';
+
+      const heroEl = document.getElementById('hero');
+      const grid = document.getElementById('newsGrid');
+      const feedCount = document.getElementById('feedCount');
+      const sentinel = document.getElementById('sentinel');
+      const tickerTrack = document.getElementById('tickerTrack');
+
+      const PAGE_SIZE = 10;
+      let pool = [];
+      let shown = 0;
+
+      // ===== HERO: показываем только новость своего раздела =====
+      function renderHero() {
+        if (typeof hero === 'undefined' || !hero || !hero.title || hero.cat !== CAT) {
+          heroEl.style.display = 'none';
+          return;
+        }
+        heroEl.innerHTML = `
+          <div class="hero-text">
+            <span class="hero-plaque">Главное</span>
+            <div class="hero-cat">${hero.cat || ''}</div>
+            <h2>${hero.title}</h2>
+            <p>${hero.excerpt || ''}</p>
+            <div class="hero-meta">
+              <span>${hero.date || ''}</span>
+              <span class="author">${hero.author || ''}</span>
+            </div>
+          </div>
+          <a class="hero-img" href="${hero.link || '#'}">
+            <img src="${hero.img}" alt="${hero.title}" loading="eager">
+          </a>`;
+      }
+
+      // ===== СТРОКА ЛЕНТЫ =====
+      function rowHTML(n) {
+        const time = (n.date || '').split(',').pop().trim();
+        const dayPart = (n.date || '').split(',')[0] || '';
+        return `
+          <a class="row" href="${n.link}">
+            <div class="row-time">
+              ${time || '&mdash;'}
+              <span>${dayPart}</span>
+            </div>
+            <div class="row-body">
+              <h3>${n.title}</h3>
+              <p>${n.excerpt || ''}</p>
+              <div class="row-meta">
+                <span class="cat">${n.cat}</span>
+                <span>${n.author || ''}</span>
+              </div>
+            </div>
+            <div class="row-img">
+              <img src="${n.img}" alt="${n.title}" loading="lazy">
+            </div>
+          </a>`;
+      }
+
+      // ===== ПОРЦИЯ НОВОСТЕЙ =====
+      function loadMore() {
+        if (shown >= pool.length) {
+          sentinel.classList.add('done');
+          return;
+        }
+        const chunk = pool.slice(shown, shown + PAGE_SIZE);
+        chunk.forEach((n, i) => {
+          const wrap = document.createElement('div');
+          wrap.innerHTML = rowHTML(n);
+          const row = wrap.firstElementChild;
+          row.style.animationDelay = (i * 0.05) + 's';
+          grid.appendChild(row);
+        });
+        shown += chunk.length;
+        feedCount.textContent = shown + ' из ' + pool.length;
+        sentinel.classList.toggle('done', shown >= pool.length);
+      }
+
+      // ===== НАЧАЛЬНАЯ ЗАГРУЗКА ЛЕНТЫ =====
+      pool = getNewsByCat(CAT);
+      loadMore();
+
+      // ===== БЕГУЩАЯ СТРОКА: заголовки 6 свежих новостей =====
+      function renderTicker() {
+        if (typeof news === 'undefined' || !news.length) return;
+        const items = news.slice(0, 6).map(n =>
+          `<a class="ticker-item" href="${n.link}">${n.title}</a>`).join('');
+        const label = '<span class="ticker-label">Главное</span>';
+        tickerTrack.innerHTML = label + items + items;
+      }
+
+      // ===== ЧАСЫ В ШАПКЕ =====
+      function tickClock() {
+        const d = new Date();
+        const p = x => String(x).padStart(2, '0');
+        document.getElementById('clock').textContent =
+          p(d.getHours()) + ':' + p(d.getMinutes()) + ':' + p(d.getSeconds()) + ' МСК';
+      }
+      tickClock();
+      setInterval(tickClock, 1000);
+
+      // ===== ЛЕНИВАЯ ПОДГРУЗКА =====
+      const io = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) loadMore();
+      }, { rootMargin: '500px 0px' });
+      io.observe(sentinel);
+
+      renderHero();
+      renderTicker();
+    });
+
+  // ===== КУРСЫ ВАЛЮТ ЦБ РФ (cbr-xml-daily.ru) =====
+  (function () {
+    const block = document.getElementById('ratesBlock');
+    const items = document.getElementById('ratesItems');
+    if (!block || !items) return;
+
+    fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+      .then(r => r.json())
+      .then(data => {
+        const format = v => v.toFixed(2).replace('.', ',');
+        const trend = (cur, prev) => {
+          const diff = cur - prev;
+          const cls = diff > 0 ? 'up' : diff < 0 ? 'down' : '';
+          const arrow = diff > 0 ? ' &#9650;' : diff < 0 ? ' &#9660;' : '';
+          return '<span class="' + cls + '">' + (diff > 0 ? '+' : '') + format(diff) + arrow + '</span>';
+        };
+        const mk = (code, name) => {
+          const v = data.Valute[code];
+          if (!v) return '';
+          return '<span class="rate-item"><span class="cur">' + name + '</span>' +
+            format(v.Value / v.Nominal) + ' ' + trend(v.Value, v.Previous) + '</span>';
+        };
+        items.innerHTML =
+          mk('USD', 'Доллар') +
+          mk('EUR', 'Евро') +
+          mk('CNY', 'Юань');
+        const d = new Date(data.Date);
+        document.querySelector('.rates-label').textContent =
+          'Курсы ЦБ РФ · ' + d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit' });
+      })
+      .catch(() => block.classList.add('hidden'));
+  })();
+  </script>
+</body>
+</html>
