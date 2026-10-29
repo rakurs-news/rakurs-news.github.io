@@ -537,6 +537,10 @@
   }
 }
 
+.hero-card {
+  display: contents;
+}
+
   </style>
 </head>
 <body>
@@ -638,18 +642,20 @@
           return;
         }
         heroEl.innerHTML = `
-          <div class="hero-text">
-            <span class="hero-plaque">Главное</span>
-            <div class="hero-cat">${heroNews.cat || ''}</div>
-            <h2>${heroNews.title}</h2>
-            <p>${heroNews.excerpt || ''}</p>
-            <div class="hero-meta">
-              <span>${heroNews.date || ''}</span>
-              <span class="author">${heroNews.author || ''}</span>
+          <a class="hero-card" href="${heroNews.link || '#'}">
+            <div class="hero-text">
+              <span class="hero-plaque">Главное</span>
+              <div class="hero-cat">${heroNews.cat || ''}</div>
+              <h2>${heroNews.title}</h2>
+              <p>${heroNews.excerpt || ''}</p>
+              <div class="hero-meta">
+                <span>${heroNews.date || ''}</span>
+                <span class="author">${heroNews.author || ''}</span>
+              </div>
             </div>
-          </div>
-          <a class="hero-img" href="${heroNews.link || '#'}">
-            <img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">
+            <div class="hero-img">
+              <img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">
+            </div>
           </a>`;
       }
 
