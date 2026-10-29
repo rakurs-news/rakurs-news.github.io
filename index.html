@@ -541,6 +541,32 @@
   display: contents;
 }
 
+/* ===== КОМПАКТНАЯ ЗОНА ЛЕНТЫ (ПК) ===== */
+@media (min-width: 901px) {
+  .feed .row:nth-child(n+7) {
+    grid-column: 1 / -1;
+    grid-template-columns: 110px 1fr;
+    grid-template-areas: "time body";
+    align-items: baseline;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+  }
+  .feed .row:nth-child(n+7) .row-img {
+    display: none;
+  }
+  .feed .row:nth-child(n+7) .row-time {
+    padding: 0;
+  }
+  .feed .row:nth-child(n+7) .row-body {
+    padding: 0;
+  }
+  .feed .row:nth-child(n+7) .row-body p {
+    display: none;
+  }
+}
+
   </style>
 </head>
 <body>
