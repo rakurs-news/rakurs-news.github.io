@@ -502,6 +502,41 @@
   background: var(--accent);
   color: #fff;
 }
+
+/* ===== ЛЕНТА КАРТОЧКАМИ НА ПК ===== */
+@media (min-width: 901px) {
+  .feed {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    border-top: none;
+  }
+  .row {
+    grid-template-columns: 1fr;
+    grid-template-areas: "img" "time" "body";
+    border: 1px solid var(--line);
+    background: var(--bg-row);
+    padding: 0;
+    overflow: hidden;
+  }
+  .row-time {
+    grid-area: time;
+    padding: 14px 16px 0;
+  }
+  .row-body {
+    grid-area: body;
+    padding: 4px 16px 16px;
+  }
+  .row-img {
+    grid-area: img;
+    border-left: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .row-img img {
+    height: 150px;
+  }
+}
+
   </style>
 </head>
 <body>
