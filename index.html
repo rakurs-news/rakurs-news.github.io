@@ -581,6 +581,7 @@
   </nav>
 
   <main class="main">
+  
     <!-- HERO: главная новость дня (блок hero из news-data.js) -->
     <section class="hero" id="hero"></section>
 
@@ -631,23 +632,24 @@
 
       // ===== HERO =====
       function renderHero() {
-        if (typeof hero === 'undefined' || !hero || !hero.title) {
+        const heroNews = (typeof news !== 'undefined') ? news.find(n => n.hero) : null;
+        if (!heroNews) {
           heroEl.style.display = 'none';
           return;
         }
         heroEl.innerHTML = `
           <div class="hero-text">
             <span class="hero-plaque">Главное</span>
-            <div class="hero-cat">${hero.cat || ''}</div>
-            <h2>${hero.title}</h2>
-            <p>${hero.excerpt || ''}</p>
+            <div class="hero-cat">${heroNews.cat || ''}</div>
+            <h2>${heroNews.title}</h2>
+            <p>${heroNews.excerpt || ''}</p>
             <div class="hero-meta">
-              <span>${hero.date || ''}</span>
-              <span class="author">${hero.author || ''}</span>
+              <span>${heroNews.date || ''}</span>
+              <span class="author">${heroNews.author || ''}</span>
             </div>
           </div>
-          <a class="hero-img" href="${hero.link || '#'}">
-            <img src="${hero.img}" alt="${hero.title}" loading="eager">
+          <a class="hero-img" href="${heroNews.link || '#'}">
+            <img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">
           </a>`;
       }
 
@@ -698,7 +700,7 @@
       // ===== СМЕНА КАТЕГОРИИ =====
       function setCat(cat) {
         currentCat = cat;
-        pool = (cat === 'all') ? news.slice() : news.filter(n => n.cat === cat);
+        pool = news.filter(n => (cat === 'all' || n.cat === cat) && !n.hero);
         grid.innerHTML = '';
         shown = 0;
         sentinel.classList.remove('done');
