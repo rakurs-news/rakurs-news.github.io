@@ -1,2 +1,1 @@
-var posts = [
-];
+posts-data.js
