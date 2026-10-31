@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админка Ракурс News — короткие посты</title>
+  <style>
+    body { background:#0d0d0f; color:#e8e8ec; font-family:'Inter',-apple-system,sans-serif; margin:0; padding:20px; max-width:640px; margin:0 auto; line-height:1.5; }
+    h1 { text-align:center; font-size:22px; margin-bottom:6px; }
+    .subtitle { text-align:center; color:#6a6a72; font-size:13px; margin-bottom:24px; }
+    label { display:block; margin:14px 0 5px; color:#8a8a92; font-size:13px; }
+    textarea { width:100%; background:#1a1a1e; border:1px solid #2a2a30; border-radius:8px; padding:12px; color:#fff; font-family:inherit; font-size:16px; box-sizing:border-box; resize:vertical; }
+    #ptext { height:140px; }
+    #pimgs { height:100px; font-size:14px; }
+    #pvid { height:80px; font-size:13px; }
+    .time { background:#1a1a1e; border:1px solid #2a2a30; border-radius:8px; padding:10px 14px; color:#2d7eff; font-size:14px; font-weight:700; margin-top:14px; }
+    .code-block { background:#0a0e1a; border:1px solid #1a2a3a; border-radius:8px; padding:14px; font-family:'Courier New',monospace; font-size:12px; color:#6a8acf; white-space:pre-wrap; word-break:break-all; max-height:260px; overflow-y:auto; margin:10px 0 8px; }
+    .hint { color:#6a6a72; font-size:12px; }
+    .btn-copy { width:100%; padding:14px; background:#2d7eff; color:#fff; border:none; border-radius:8px; font-weight:700; font-size:16px; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <h1>Короткий пост</h1>
+  <p class="subtitle">Генератор постов для раздела «Коротко»</p>
+
+  <label>ТЕКСТ ПОСТА</label>
+  <textarea id="ptext" placeholder="Что случилось... Пустая строка = новый абзац"></textarea>
+
+  <label>ФОТО — ссылки, по одной в строке</label>
+  <textarea id="pimgs" placeholder="/img/posts/foto1.jpg&#10;/img/posts/foto2.jpg"></textarea>
+
+  <label>ВИДЕО VK — код встраивания или ссылка плеера</label>
+  <textarea id="pvid" placeholder="<iframe src=&quot;https://vk.com/video_ext.php?...&quot; ...></iframe>"></textarea>
+  <p class="hint">В VK: открой ролик → «Поделиться» → «Код для вставки» → скопируй сюда целиком. Видео нет — оставь поле пустым.</p>
+
+  <div class="time" id="outTime"></div>
+  <div class="code-block" id="out"></div>
+  <button class="btn-copy" onclick="copyOut()">Скопировать карточку</button>
+
+<script>
+function jsEsc(s) {
+  if (!s) return '';
+  return s.replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n');
+}
+function normImg(p) {
+  p = (p || '').trim();
+  if (!p) return '';
+  if (/^https?:\/\//i.test(p) || p.startsWith('/')) return p;
+  return '/img/posts/' + p;   // фото постов по умолчанию кладём в img/posts/
+}
+function extractVideo(raw) {
+  raw = (raw || '').trim();
+  if (!raw) return '';
+  var m = raw.match(/src=["']([^"']+)["']/i);   // вытащить src из iframe
+  var url = m ? m[1] : raw;
+  if (url.startsWith('//')) url = 'https:' + url;
+  return url;
+}
+function nowTime() {
+  var months = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+  var d = new Date();
+  return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear() + ', ' +
+    String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+function updateOut() {
+  var text = document.getElementById('ptext').value.trim();
+  var photos = document.getElementById('pimgs').value.split('\n')
+    .map(normImg).filter(function (p) { return p; });
+  var video = extractVideo(document.getElementById('pvid').value);
+  var t = nowTime();
+  document.getElementById('outTime').textContent = '🕒 ' + t;
+  document.getElementById('out').textContent =
+    '  {\n' +
+    "    time:'" + jsEsc(t) + "',\n" +
+    "    text:'" + jsEsc(text) + "',\n" +
+    "    photos:[" + photos.map(function (p) { return "'" + jsEsc(p) + "'"; }).join(',') + "],\n" +
+    "    video:'" + jsEsc(video) + "'\n" +
+    '  },';
+}
+document.getElementById('ptext').addEventListener('input', updateOut);
+document.getElementById('pimgs').addEventListener('input', updateOut);
+document.getElementById('pvid').addEventListener('input', updateOut);
+updateOut();
+
+function copyOut() {
+  navigator.clipboard.writeText(document.getElementById('out').textContent).then(function () {
+    var b = document.querySelector('.btn-copy');
+    var old = b.textContent;
+    b.textContent = '✓ Скопировано!';
+    setTimeout(function () { b.textContent = old; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
