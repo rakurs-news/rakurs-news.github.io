@@ -96,7 +96,7 @@
   <div class="form-group">
     <label>ГЛАВНОЕ ФОТО СТАТЬИ</label>
     <input type="text" id="img" placeholder="Вставить ссылку фото" oninput="updateOutput()">
-    <p class="hint" style="margin-top: 5px;">Путь к фото относительно корня сайта. Например: <b>/img/photo.jpg</b></p>
+    <p class="hint" style="margin-top: 5px;">Путь к фото. <b>img/photo.jpg</b></p>
   </div>
 
   <div class="form-group">
@@ -234,8 +234,22 @@ img { display: block; max-width: 100%; height: auto; }
   .brand { font-size: 16px; }
   .logo img { max-height: 28px; }
   .header-clock { font-size: 11px; }
-}`;
+}
 
+/* ===== РУБРИКИ ЦВЕТОМ ===== */
+.c-ru { color:#d63a2f !important; }
+.c-world { color:#2f86d6 !important; }
+.c-econ { color:#d9a12b !important; }
+.c-sport { color:#3aa35c !important; }
+.c-cult { color:#9b59d0 !important; }
+.c-army { color:#8a9444 !important; }
+
+.b-cat.c-ru    { background:#d63a2f !important; color:#fff !important; }
+.b-cat.c-world { background:#2f86d6 !important; color:#fff !important; }
+.b-cat.c-econ  { background:#d9a12b !important; color:#111 !important; }
+.b-cat.c-sport { background:#3aa35c !important; color:#fff !important; }
+.b-cat.c-cult  { background:#9b59d0 !important; color:#fff !important; }
+.b-cat.c-army  { background:#8a9444 !important; color:#fff !important; }`;
 // Скрипт «Читайте также» — вставляется в каждую сгенерированную статью
 const RELATED_JS = `
     document.addEventListener('DOMContentLoaded', function () {
@@ -277,6 +291,16 @@ const CAT_LINKS = {
   'Культура':'kultura.html',
   'Армия':'armiya.html'
 };
+// Классы цветов для плашек рубрик
+const CAT_CLASSES = {
+  'В России':'c-ru',
+  'В мире':'c-world',
+  'Экономика':'c-econ',
+  'Спорт':'c-sport',
+  'Культура':'c-cult',
+  'Армия':'c-army'
+};
+
 
 function mdToHtml(md) {
   if (!md) return '';
@@ -449,7 +473,7 @@ function updateOutput() {
     + '  </div>\n'
     + '  <article class="article">\n'
     + '    <div class="article-header">\n'
-    + '      <div class="article-badge">' + esc(cat) + '</div>\n'
+    + '      <div class="article-badge b-cat ' + (CAT_CLASSES[cat] || '') + '">' + esc(cat) + '</div>\n'
     + '      <h1 class="article-title">' + esc(title) + '</h1>\n'
     + '      <div class="article-meta">\n'
     + '        👤 ' + esc(author) + '\n'
