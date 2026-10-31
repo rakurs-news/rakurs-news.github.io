@@ -25,7 +25,7 @@ const news = [
     excerpt:'Мальчика протащило 15 метров; у него тяжёлые травмы, он в больнице.',
     img:'/img/upload-kur-pic_32ratio_900x600-900x600-63206.jpg',
     date:'31 октября 2026, 13:35',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/kurier-sbil-rebenka-v-peterburge.html'
   },
