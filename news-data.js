@@ -1,4 +1,14 @@
 const news = [
+  {
+    cat:'В России',
+    title:'Курьер на мопеде сбил ребёнка в Петербурге  ',
+    excerpt:'Мальчика протащило 15 метров; у него тяжёлые травмы, он в больнице.',
+    img:'/img/upload-kur-pic_32ratio_900x600-900x600-63206.jpg',
+    date:'31 октября 2026, 13:35',
+    live: true,
+    author:'Дмитрий Мусиенко',
+    link:'news/kurier-sbil-rebenka-v-peterburge.html'
+  },
     {
     cat:'В мире',
     hero: true,
