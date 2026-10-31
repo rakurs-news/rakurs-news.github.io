@@ -45,6 +45,7 @@ const news = [
     excerpt:'Семь грузовых вагонов сошли с рельсов и загорелись в Свердловской области. На перегоне работают 250 специалистов.',
     img:'/img/2126962438_0_0_1917_1079_1280x0_80_0_0_ab9c5bbd66b71b4cc163da43eae1fe67.jpg.webp',
     date:'26 октября 2026, 10:54',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/ural-priostanovil-dvizhenie-poezdov-posle-shoda-vagonov.html'
   },
