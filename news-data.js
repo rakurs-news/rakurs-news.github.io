@@ -5,6 +5,7 @@ const news = [
     excerpt:'Политолог Перенджиев — о рисках «эффекта домино» для Европы и протестах в Варшаве.',
     img:'/img/5-pic_32ratio_900x600-900x600-45273.jpg',
     date:'31 октября 2026, 15:33',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/krizis-v-polshe-riski-dlya-es.html'
   },
