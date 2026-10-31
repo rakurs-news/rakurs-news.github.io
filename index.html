@@ -670,7 +670,13 @@
   70%  { box-shadow: 0 0 0 8px rgba(214,58,47,0); }
   100% { box-shadow: 0 0 0 0 rgba(214,58,47,0); }
 }
-
+/* ===== РУБРИКИ ЦВЕТОМ ===== */
+.c-ru { color: #d63a2f; }
+.c-world { color: #2f86d6; }
+.c-econ { color: #d9a12b; }
+.c-sport { color: #3aa35c; }
+.c-cult { color: #9b59d0; }
+.c-army { color: #8a9444; }
   </style>
 </head>
 <body>
@@ -812,6 +818,7 @@
       }
 
       // ===== ВРЕМЯ: разбор даты и относительное время =====
+      const CATCLS = { 'В России':'c-ru', 'В мире':'c-world', 'Экономика':'c-econ', 'Спорт':'c-sport', 'Культура':'c-cult', 'Армия':'c-army' };
       const MONTHS = { 'января':0,'февраля':1,'марта':2,'апреля':3,'мая':4,'июня':5,'июля':6,'августа':7,'сентября':8,'октября':9,'ноября':10,'декабря':11 };
       const SHORT = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
       const p2 = x => String(x).padStart(2, '0');
@@ -869,7 +876,8 @@
               <p>${n.excerpt || ''}</p>
               <div class="row-meta">
                 ${live}
-                <span class="cat">${n.cat}</span>
+                <span class="cat ${CATCLS[n.cat] || ''}">${n.cat}</span>
+
                 <span>${n.author || ''}</span>
               </div>
             </div>
