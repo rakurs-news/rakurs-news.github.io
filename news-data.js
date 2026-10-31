@@ -5,7 +5,7 @@ const news = [
     excerpt:'Хищник попал в объектив в октябре 2025; мина похожа на ТМ‑62.',
     img:'/img/rakurs-news-medved-i-mina.jpg',
     date:'31 октября 2026, 19:55',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/medved-s-minoy-v-zubah.html'
   },
@@ -35,7 +35,7 @@ const news = [
     excerpt:'Поражены цеха «Протона»; эксперт прогнозирует спад атак по тыловым российским регионам.',
     img:'/img/AddText_10-31-04.43.47.jpg',
     date:'31 октября 2026, 16:46',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/udar-po-proizvodstvu-bpla-v-harkove.html'
   },
@@ -45,7 +45,7 @@ const news = [
     excerpt:'Политолог Перенджиев — о рисках «эффекта домино» для Европы и протестах в Варшаве.',
     img:'/img/5-pic_32ratio_900x600-900x600-45273.jpg',
     date:'31 октября 2026, 15:33',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/krizis-v-polshe-riski-dlya-es.html'
   },
@@ -55,7 +55,7 @@ const news = [
     excerpt:'Замена ламп на LED экономит до 40% расходов; семья может сберечь 1–1,5 тыс. рублей в год.',
     img:'/img/RIAN_5683800.HR-pic905-895x505-29694.jpg',
     date:'31 октября 2026, 14:13',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/kak-snizit-platu-za-svet.html'
   },
@@ -76,7 +76,7 @@ const news = [
     excerpt:'Ракеты PAC‑3 поступят не раньше 2030; сделка на $2,1 млрд финансируется союзниками.',
     img:'/img/AP26191286257668-pic_32ratio_900x600-900x600-37760.jpg',
     date:'31 октября 2026, 12:33',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/postavki-raket-patriot-dlya-vsu.html'
   },
