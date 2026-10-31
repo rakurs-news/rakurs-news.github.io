@@ -6,6 +6,7 @@ const news = [
     excerpt:'Ракеты PAC‑3 поступят не раньше 2030; сделка на $2,1 млрд финансируется союзниками.',
     img:'/img/AP26191286257668-pic_32ratio_900x600-900x600-37760.jpg',
     date:'31 октября 2026, 12:33',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/postavki-raket-patriot-dlya-vsu.html'
   },

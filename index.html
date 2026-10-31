@@ -645,6 +645,32 @@
   .header-right { gap: 8px; }
   .search-btn { width: 34px; height: 34px; }
 }
+/* ===== LIVE ===== */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-right: 10px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: livePulse 1.6s ease-out infinite;
+}
+@keyframes livePulse {
+  0%   { box-shadow: 0 0 0 0 rgba(214,58,47,.5); }
+  70%  { box-shadow: 0 0 0 8px rgba(214,58,47,0); }
+  100% { box-shadow: 0 0 0 0 rgba(214,58,47,0); }
+}
+
   </style>
 </head>
 <body>
@@ -785,21 +811,64 @@
           </a>`;
       }
 
+      // ===== ВРЕМЯ: разбор даты и относительное время =====
+      const MONTHS = { 'января':0,'февраля':1,'марта':2,'апреля':3,'мая':4,'июня':5,'июля':6,'августа':7,'сентября':8,'октября':9,'ноября':10,'декабря':11 };
+      const SHORT = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
+      const p2 = x => String(x).padStart(2, '0');
+
+      function parseDate(s) {
+        if (!s) return null;
+        const m = s.match(/(\d{1,2})\s+([а-яё]+)\s+(\d{4}),?\s*(\d{1,2}):(\d{2})/i);
+        if (!m) return null;
+        const mon = MONTHS[m[2].toLowerCase()];
+        if (mon === undefined) return null;
+        return new Date(+m[3], mon, +m[1], +m[4], +m[5]);
+      }
+
+      function relTime(s) {
+        const d = parseDate(s);
+        if (!d) return s || '';
+        const diff = Math.floor((Date.now() - d.getTime()) / 60000);
+        if (diff < 1) return 'только что';
+        if (diff < 60) return diff + ' мин назад';
+        if (diff < 1440) {
+          const h = Math.floor(diff / 60);
+          return h + ' ' + (h === 1 ? 'час назад' : h < 5 ? 'часа назад' : 'часов назад');
+        }
+        return s; // старше суток — оставляем дату как есть
+      }
+
+      function timeParts(s) {
+        const d = parseDate(s);
+        if (!d) {
+          return { main: (s || '').split(',').pop().trim() || '—', sub: (s || '').split(',')[0] || '' };
+        }
+        const rel = relTime(s);
+        if (rel !== s) {
+          // свежая новость: «5 мин назад», а под ней точное время
+          return { main: rel, sub: p2(d.getHours()) + ':' + p2(d.getMinutes()) };
+        }
+        // старше суток: точное время, а под ним короткая дата
+        return { main: p2(d.getHours()) + ':' + p2(d.getMinutes()), sub: d.getDate() + ' ' + SHORT[d.getMonth()] };
+      }
+
       // ===== СТРОКА ЛЕНТЫ =====
       function rowHTML(n) {
-        // Короткое время из даты вида "24 октября 2026, 20:30"
-        const time = (n.date || '').split(',').pop().trim();
-        const dayPart = (n.date || '').split(',')[0] || '';
+        const t = timeParts(n.date);
+        const live = n.live
+          ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>'
+          : '';
         return `
           <a class="row" href="${n.link}">
             <div class="row-time">
-              ${time || '&mdash;'}
-              <span>${dayPart}</span>
+              ${t.main}
+              <span>${t.sub}</span>
             </div>
             <div class="row-body">
               <h3>${n.title}</h3>
               <p>${n.excerpt || ''}</p>
               <div class="row-meta">
+                ${live}
                 <span class="cat">${n.cat}</span>
                 <span>${n.author || ''}</span>
               </div>
@@ -870,6 +939,16 @@
       renderHero();
       renderTicker();
       setCat('all');
+      // Обновляем время в ленте раз в минуту
+      setInterval(() => {
+        document.querySelectorAll('#newsGrid .row').forEach(row => {
+          const n = news.find(x => x.link === row.getAttribute('href'));
+          if (!n) return;
+          const t = timeParts(n.date);
+          const timeEl = row.querySelector('.row-time');
+          if (timeEl) timeEl.innerHTML = t.main + '<span>' + t.sub + '</span>';
+        });
+      }, 60000);
     });
 
   // ===== КУРСЫ ВАЛЮТ ЦБ РФ (cbr-xml-daily.ru) =====
