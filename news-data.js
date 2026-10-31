@@ -5,6 +5,7 @@ const news = [
     excerpt:'Хищник попал в объектив в октябре 2025; мина похожа на ТМ‑62.',
     img:'/img/rakurs-news-medved-i-mina.jpg',
     date:'31 октября 2026, 19:55',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/medved-s-minoy-v-zubah.html'
   },
