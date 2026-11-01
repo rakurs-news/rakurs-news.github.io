@@ -5,6 +5,7 @@ const news = [
     excerpt:'Глава евродипломатии Кая Каллас выступила против участия Владимира Путина в декабрьском саммите G20 во Флориде. Об этом она сообщила в интервью Bloomberg TV.',
     img:'/img/IMG_20261101_103302.jpg',
     date:'1 ноября 2026, 10:36',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/kalas-protiv-uchastiya-putina-v-g20.html'
   },
