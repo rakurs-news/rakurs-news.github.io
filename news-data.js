@@ -5,6 +5,7 @@ const news = [
     excerpt:'Узнайте, какие ошибки совершают водители и как их избежать, чтобы ваш автомобиль служил верой и правдой даже в лютые морозы.',
     img:'/img/0b6bfce501350ed48229501cbb811d09.webp',
     date:'1 ноября 2026, 16:54',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/avto-sovety-v-moroz.html'
   },
@@ -87,7 +88,7 @@ const news = [
     excerpt:'Глава евродипломатии Кая Каллас выступила против участия Владимира Путина в декабрьском саммите G20 во Флориде. Об этом она сообщила в интервью Bloomberg TV.',
     img:'/img/IMG_20261101_103302.jpg',
     date:'1 ноября 2026, 10:36',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/kalas-protiv-uchastiya-putina-v-g20.html'
   },
