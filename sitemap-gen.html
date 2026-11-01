@@ -34,7 +34,7 @@
     document.getElementById('gen').addEventListener('click', () => {
       const base = 'https://rakurs-news.github.io/';
       const pages = ['', 'v-rossii.html', 'v-mire.html', 'ekonomika.html',
-                     'sport.html', 'kultura.html', 'armiya.html'];
+                     'sport.html', 'kultura.html', 'armiya.html', 'zapreshchennye-organizacii-v-rossii.html'];
       const urls = pages.map(p => '  <url><loc>' + base + p + '</loc></url>');
       (typeof news !== 'undefined' ? news : []).forEach(n => {
         const link = n.link.startsWith('http') ? n.link : base + n.link;
