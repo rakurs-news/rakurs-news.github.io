@@ -1,4 +1,13 @@
 const news = [
+    {
+    cat:'В мире',
+    title:'Сестра Линдси Грэма — об «одержимости» сенатора санкциями',
+    excerpt:'От 100% пошлин до 500% — сестра рассказала о позиции Грэма и разговоре с Трампом.',
+    img:'/img/IMG_20261101_144735.jpg',
+    date:'1 ноября 2026, 14:48',
+    author:'Дмитрий Мусиенко',
+    link:'news/sestra-gryema-o-ego-odolezhimosti-sankciyami.html'
+  },
   {
     cat:'В России',
     hero: true,
