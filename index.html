@@ -699,6 +699,39 @@
       letter-spacing: 0px;
       transform: scaleY(1.2);
     }
+    /* ===== ВОЗРАСТНАЯ ВСПЛЫВАШКА ===== */
+    .age-panel {
+      position: fixed;
+      top: 63px;
+      left: 0; right: 0;
+      z-index: 210;
+      background: var(--bg-row);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 14px 34px rgba(0,0,0,.5);
+      display: none;
+    }
+    .age-panel.open { display: block; animation: searchIn .18s ease; }
+    .age-inner {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      background: var(--bg);
+      border-left: 3px solid var(--accent);
+    }
+    .age-title {
+      font-family: var(--mono);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .age-inner p {
+      color: var(--text-dim);
+      font-size: 14px;
+      line-height: 1.5;
+    }
 
   </style>
 </head>
@@ -712,7 +745,7 @@
       </a>
       <div class="brand">РАКУРС <em>NEWS</em></div>
       <div class="header-right">
-          <div class="search-btn age-badge"><span>16+</span></div>
+          <div class="search-btn age-badge" id="ageBadge"><span>16+</span></div>
 
         <button class="search-btn" id="searchBtn" aria-label="Поиск по сайту">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -738,7 +771,13 @@
       <div class="search-results" id="searchResults"></div>
     </div>
   </div>
-
+<!-- ВОЗРАСТНОЕ УВЕДОМЛЕНИЕ -->
+  <div class="age-panel" id="agePanel">
+    <div class="age-inner">
+      <div class="age-title">Возрастное ограничение 16+</div>
+      <p>Сайт содержит материалы, предназначенные для лиц старше 16 лет. Продолжая пользоваться сайтом, вы подтверждаете, что достигли этого возраста.</p>
+    </div>
+  </div>
 <!-- КУРСЫ ВАЛЮТ ЦБ РФ (закреплённый) -->
   <div class="rates-bar" id="ratesBlock">
     <div class="rates-inner">
@@ -1136,6 +1175,21 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
     document.addEventListener('click', e => {
       if (panel.classList.contains('open') && !panel.contains(e.target) && !btn.contains(e.target)) close();
+    });
+  })();
+  // ===== ВОЗРАСТНАЯ ВСПЛЫВАШКА =====
+  (function () {
+    const badge = document.getElementById('ageBadge');
+    const panel = document.getElementById('agePanel');
+    if (!badge || !panel) return;
+    badge.addEventListener('click', () => panel.classList.toggle('open'));
+    document.addEventListener('click', e => {
+      if (panel.classList.contains('open') && !panel.contains(e.target) && !badge.contains(e.target)) {
+        panel.classList.remove('open');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') panel.classList.remove('open');
     });
   })();
   </script>
