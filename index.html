@@ -731,6 +731,57 @@
       font-size: 14px;
       line-height: 1.5;
     }
+/* ===== ПОСТЫ РЕДАКЦИИ ===== */
+.posts-section { max-width: 1160px; margin: 0 0 36px; }
+.posts-head-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 2px solid var(--accent); padding-bottom: 10px; margin-bottom: 6px;
+}
+.posts-head-row h2 { font-family: var(--serif); font-size: 26px; color: #fff; margin: 0; }
+.posts-all-link {
+  font-family: var(--mono); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .08em;
+  color: var(--accent); text-decoration: none;
+}
+.posts-all-link:hover { color: #fff; }
+
+/* разделитель даты — как в телеграме, но просторнее */
+.post-date-divider { display: flex; align-items: center; gap: 16px; margin: 34px 0 30px; }
+.post-date-divider::before, .post-date-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
+.post-date-divider span {
+  background: var(--bg-raised); border: 1px solid var(--line); border-radius: 20px;
+  padding: 7px 20px; font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--accent); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
+}
+.posts-section .post-date-divider:first-child { margin-top: 18px; }
+
+.post-card {
+  background: var(--bg-row); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent-soft);
+  padding: 18px 22px; margin-bottom: 30px;
+}
+.post-meta {
+  font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 8px;
+}
+.post-meta .post-time { color: var(--accent); font-weight: 700; }
+.post-card h3 {
+  font-family: var(--serif); font-size: 20px; color: #fff; margin: 0 0 10px; line-height: 1.3;
+}
+.post-body { font-size: 15px; line-height: 1.6; color: var(--text); }
+.post-body p { margin: 0 0 10px; }
+.post-body b, .post-body strong { color: #fff; }
+.post-body a { color: var(--accent); text-decoration: underline; }
+.post-body blockquote {
+  border-left: 3px solid var(--accent); background: var(--bg);
+  margin: 10px 0; padding: 8px 16px; color: var(--text-dim); font-style: italic;
+}
+.post-body u { text-decoration-color: var(--accent); }
+@media (max-width: 640px) {
+  .post-card { padding: 14px 14px; margin-bottom: 22px; }
+  .post-date-divider { margin: 24px 0 20px; }
+}
 
   </style>
 </head>
@@ -796,6 +847,7 @@
   <nav class="nav-bar">
     <div class="nav" id="nav">
       <a href="index.html" class="active">Все</a>
+      <a href="posts.html">Посты</a>
       <a href="v-rossii.html">В России</a>
       <a href="v-mire.html">В мире</a>
       <a href="ekonomika.html">Экономика</a>
@@ -809,6 +861,15 @@
   
     <!-- HERO: главная новость дня (блок hero из news-data.js) -->
     <section class="hero" id="hero"></section>
+
+    <!-- ПОСТЫ РЕДАКЦИИ: последние 3 -->
+    <section class="posts-section" id="posts-section" style="display:none">
+      <div class="posts-head-row">
+        <h2>Посты редакции</h2>
+        <a class="posts-all-link" href="posts.html">Все посты &rarr;</a>
+      </div>
+      <div id="latest-posts"></div>
+    </section>
 
     <div class="feed-head">
       <h1 class="feed-title" id="gridTitle">Лента новостей</h1>

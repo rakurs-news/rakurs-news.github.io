@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Посты редакции — Ракурс News</title>
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://rakurs-news.github.io/posts.html">
+<link rel="icon" href="img/logo.png">
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=PT+Sans:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #17191e;
+  --bg-row: #1d2027;
+  --bg-raised: #22262e;
+  --text: #e6e7ea;
+  --text-dim: #8f929c;
+  --accent: #d63a2f;
+  --accent-soft: rgba(214, 58, 47, 0.12);
+  --line: #2c3038;
+  --serif: 'PT Serif', Georgia, serif;
+  --sans: 'PT Sans', Arial, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); line-height: 1.55; }
+a { color: inherit; text-decoration: none; }
+
+.header {
+  position: sticky; top: 0; z-index: 200;
+  height: 60px; background: var(--bg); border-bottom: 3px solid var(--accent);
+}
+.header-inner {
+  max-width: 1160px; height: 100%; margin: 0 auto; padding: 0 16px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo img { max-height: 36px; width: auto; }
+.brand {
+  font-family: var(--serif); font-weight: 700; font-size: 21px;
+  letter-spacing: .02em; color: #fff;
+}
+.brand em { font-style: normal; color: var(--accent); }
+.p-back {
+  font-family: var(--mono); font-size: 12px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--text-dim);
+}
+.p-back:hover { color: var(--accent); }
+
+.main { max-width: 760px; margin: 0 auto; padding: 28px 16px 60px; }
+.posts-head-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  border-bottom: 2px solid var(--accent); padding-bottom: 10px;
+}
+.posts-head-row h2 { font-family: var(--serif); font-size: 26px; color: #fff; }
+
+.post-date-divider { display: flex; align-items: center; gap: 16px; margin: 38px 0 30px; }
+.post-date-divider::before, .post-date-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--line);
+}
+.post-date-divider span {
+  background: var(--bg-raised); border: 1px solid var(--line); border-radius: 20px;
+  padding: 7px 20px; font-family: var(--mono); font-size: 12px; font-weight: 700;
+  color: var(--accent); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap;
+}
+.post-date-divider:first-child { margin-top: 24px; }
+
+.post-card {
+  background: var(--bg-row); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent-soft);
+  padding: 18px 22px; margin-bottom: 30px;
+}
+.post-meta { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
+.post-meta .post-time { color: var(--accent); font-weight: 700; }
+.post-card h3 { font-family: var(--serif); font-size: 20px; color: #fff; margin: 0 0 10px; line-height: 1.3; }
+.post-body { font-size: 15px; line-height: 1.6; color: var(--text); }
+.post-body p { margin: 0 0 10px; }
+.post-body b, .post-body strong { color: #fff; }
+.post-body a { color: var(--accent); text-decoration: underline; }
+.post-body blockquote {
+  border-left: 3px solid var(--accent); background: var(--bg);
+  margin: 10px 0; padding: 8px 16px; color: var(--text-dim); font-style: italic;
+}
+.post-body u { text-decoration-color: var(--accent); }
+.p-empty { color: var(--text-dim); font-family: var(--mono); font-size: 13px; padding: 30px 0; }
+@media (max-width: 640px) {
+  .brand { font-size: 16px; }
+  .logo img { max-height: 28px; }
+  .post-card { padding: 14px; margin-bottom: 22px; }
+  .post-date-divider { margin: 26px 0 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="logo"><img src="img/logo.png" alt="Ракурс News"></a>
+    <a class="brand" href="index.html">РАКУРС <em>NEWS</em></a>
+    <a class="p-back" href="index.html">&larr; Все новости</a>
+  </div>
+</header>
+
+<main class="main">
+  <div class="posts-head-row"><h2>Посты редакции</h2></div>
+  <div id="posts-list"></div>
+</main>
+
+<script src="posts-data.js"></script>
+<script>
+(function () {
+  var list = document.getElementById('posts-list');
+  if (typeof POSTS === 'undefined' || !POSTS.length) {
+    list.innerHTML = '<p class="p-empty">Постов пока нет.</p>';
+    return;
+  }
+  var lastDate = null, html = '';
+  POSTS.forEach(function (p) {
+    if (p.date !== lastDate) {
+      html += '<div class="post-date-divider"><span>' + p.date + '</span></div>';
+      lastDate = p.date;
+    }
+    html += '<article class="post-card">' +
+      '<div class="post-meta"><span class="post-time">' + p.time + ' МСК</span></div>' +
+      '<h3>' + p.title + '</h3>' +
+      '<div class="post-body">' + p.text + '</div>' +
+      '</article>';
+  });
+  list.innerHTML = html;
+})();
+</script>
+
+</body>
+</html>
