@@ -68,7 +68,10 @@ a { color: inherit; text-decoration: none; }
   background: var(--bg-row); border: 1px solid var(--line);
   border-left: 3px solid var(--accent-soft);
   padding: 18px 22px; margin-bottom: 30px;
+  opacity: 0; transform: translateY(10px);
+  animation: postIn .4s ease forwards;
 }
+@keyframes postIn { to { opacity: 1; transform: translateY(0); } }
 .post-meta { font-family: var(--mono); font-size: 12px; color: var(--text-dim); margin-bottom: 8px; }
 .post-meta .post-time { color: var(--accent); font-weight: 700; }
 .post-card h3 { font-family: var(--serif); font-size: 20px; color: #fff; margin: 0 0 10px; line-height: 1.3; }
@@ -82,6 +85,52 @@ a { color: inherit; text-decoration: none; }
 }
 .post-body u { text-decoration-color: var(--accent); }
 .p-empty { color: var(--text-dim); font-family: var(--mono); font-size: 13px; padding: 30px 0; }
+
+/* ===== ПОДГРУЗКА ===== */
+.sentinel {
+  padding: 28px 0;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+.sentinel.done { display: none; }
+.sentinel::after {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 12px auto 0;
+  border: 2px solid var(--line);
+  border-top-color: var(--accent);
+  animation: spin .9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ===== КНОПКА НАВЕРХ ===== */
+.to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 300;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--bg-raised);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transform: translateY(12px);
+  transition: opacity .25s, transform .25s, visibility .25s, background .15s, color .15s;
+}
+.to-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.to-top:hover { background: var(--accent); color: #fff; }
+
 @media (max-width: 640px) {
   .brand { font-size: 16px; }
   .logo img { max-height: 28px; }
@@ -103,29 +152,69 @@ a { color: inherit; text-decoration: none; }
 <main class="main">
   <div class="posts-head-row"><h2>Посты редакции</h2></div>
   <div id="posts-list"></div>
+  <div class="sentinel" id="sentinel">Загружаем ещё</div>
 </main>
+
+<button class="to-top" id="toTop" aria-label="Наверх">&#8593;</button>
 
 <script src="posts-data.js"></script>
 <script>
 (function () {
   var list = document.getElementById('posts-list');
+  var sentinel = document.getElementById('sentinel');
+
   if (typeof POSTS === 'undefined' || !POSTS.length) {
     list.innerHTML = '<p class="p-empty">Постов пока нет.</p>';
+    sentinel.classList.add('done');
     return;
   }
-  var lastDate = null, html = '';
-  POSTS.forEach(function (p) {
-    if (p.date !== lastDate) {
-      html += '<div class="post-date-divider"><span>' + p.date + '</span></div>';
-      lastDate = p.date;
-    }
-    html += '<article class="post-card">' +
+
+  var PAGE_SIZE = 10;   // сколько постов показывать за раз
+  var shown = 0;
+  var lastDate = null;  // помним дату и между порциями — разделители не задвоятся
+
+  function postHTML(p) {
+    return '<article class="post-card">' +
       '<div class="post-meta"><span class="post-time">' + p.time + ' МСК</span></div>' +
       '<h3>' + p.title + '</h3>' +
       '<div class="post-body">' + p.text + '</div>' +
       '</article>';
+  }
+
+  function loadMore() {
+    if (shown >= POSTS.length) {
+      sentinel.classList.add('done');
+      return;
+    }
+    var chunk = POSTS.slice(shown, shown + PAGE_SIZE);
+    var html = '';
+    chunk.forEach(function (p) {
+      if (p.date !== lastDate) {
+        html += '<div class="post-date-divider"><span>' + p.date + '</span></div>';
+        lastDate = p.date;
+      }
+      html += postHTML(p);
+    });
+    list.insertAdjacentHTML('beforeend', html);
+    shown += chunk.length;
+    sentinel.classList.toggle('done', shown >= POSTS.length);
+  }
+
+  var io = new IntersectionObserver(function (entries) {
+    if (entries[0].isIntersecting) loadMore();
+  }, { rootMargin: '500px 0px' });
+  io.observe(sentinel);
+
+  loadMore();
+
+  // ===== КНОПКА НАВЕРХ =====
+  var btn = document.getElementById('toTop');
+  window.addEventListener('scroll', function () {
+    btn.classList.toggle('visible', window.scrollY > 600);
+  }, { passive: true });
+  btn.addEventListener('click', function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-  list.innerHTML = html;
 })();
 </script>
 
