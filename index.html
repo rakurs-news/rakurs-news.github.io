@@ -782,7 +782,57 @@
   .post-card { padding: 14px 14px; margin-bottom: 22px; }
   .post-date-divider { margin: 24px 0 20px; }
 }
+/* ===== ПОГОДА ===== */
+.weather-bar { background: var(--bg-row); border-bottom: 1px solid var(--line); }
+.weather-inner {
+  max-width: 1160px; margin: 0 auto; padding: 8px 16px;
+  display: flex; align-items: center; gap: 18px;
+  overflow-x: auto; scrollbar-width: none;
+}
+.weather-inner::-webkit-scrollbar { display: none; }
+.weather-label {
+  font-family: var(--mono); font-size: 11px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .1em;
+  color: var(--accent); white-space: nowrap; flex-shrink: 0;
+}
+.weather-city-btn {
+  font-family: var(--mono); font-size: 13px; color: var(--text-dim);
+  background: transparent; border: none; padding: 0; cursor: pointer;
+  white-space: nowrap; flex-shrink: 0; transition: color .15s;
+}
+.weather-city-btn:hover { color: var(--accent); }
+.weather-items { display: flex; gap: 24px; flex-wrap: nowrap; }
+.weather-item { font-family: var(--mono); font-size: 14px; color: var(--text); white-space: nowrap; animation: rateIn .5s ease-out both; }
+.weather-item .w-ico { font-size: 15px; margin-right: 4px; }
+.weather-item .w-desc { color: var(--text-dim); font-size: 12px; margin-right: 8px; }
+.weather-item .w-temp { font-weight: 700; color: #fff; }
+.weather-item .w-wind { color: var(--text-dim); font-size: 12px; margin-left: 8px; }
+.weather-bar.hidden { display: none; }
 
+/* панель выбора города */
+.weather-panel {
+  position: fixed; top: 63px; left: 0; right: 0; z-index: 210;
+  background: var(--bg-row); border-bottom: 1px solid var(--line);
+  box-shadow: 0 14px 34px rgba(0,0,0,.5); display: none;
+}
+.weather-panel.open { display: block; animation: searchIn .18s ease; }
+.weather-panel-inner {
+  max-width: 1160px; margin: 0 auto; padding: 14px 16px;
+  background: var(--bg); border-left: 3px solid var(--accent);
+}
+.weather-panel-title {
+  font-family: var(--mono); color: var(--accent); font-size: 11px;
+  font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 10px;
+}
+.weather-city-list { display: flex; flex-wrap: wrap; gap: 8px; }
+.weather-city-pick {
+  font-family: var(--mono); font-size: 13px; color: var(--text);
+  background: var(--bg-row); border: 1px solid var(--line);
+  padding: 7px 14px; cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.weather-city-pick:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+@media (max-width: 640px) { .weather-panel { top: 60px; } }
   </style>
 </head>
 <body>
@@ -835,7 +885,22 @@
       <div class="rates-items" id="ratesItems"></div>
     </div>
   </div>
+<!-- ПОГОДА (автоопределение города) -->
+<div class="weather-bar" id="weatherBlock">
+  <div class="weather-inner">
+    <span class="weather-label">Погода</span>
+    <button class="weather-city-btn" id="weatherCityBtn" title="Выбрать город">…</button>
+    <div class="weather-items" id="weatherItems"></div>
+  </div>
+</div>
 
+<!-- ПАНЕЛЬ ВЫБОРА ГОРОДА -->
+<div class="weather-panel" id="weatherPanel">
+  <div class="weather-panel-inner">
+    <div class="weather-panel-title">Выберите город</div>
+    <div class="weather-city-list" id="weatherCityList"></div>
+  </div>
+</div>
   <!-- БЕГУЩАЯ СТРОКА -->
   <div class="ticker">
     <div class="ticker-track" id="tickerTrack">
@@ -1252,6 +1317,114 @@
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') panel.classList.remove('open');
     });
+  })();
+
+  // ===== ПОГОДА (автоопределение по IP) =====
+  (function () {
+    const DEFAULT_CITY = { n: 'Ростов-на-Дону', lat: 47.23, lon: 39.75 };
+    const QUICK_CITIES = [
+      { n: 'Ростов-на-Дону', lat: 47.23, lon: 39.75 },
+      { n: 'Таганрог', lat: 47.21, lon: 38.93 },
+      { n: 'Шахты', lat: 47.71, lon: 40.21 },
+      { n: 'Новочеркасск', lat: 47.42, lon: 40.09 },
+      { n: 'Волгодонск', lat: 47.51, lon: 42.15 },
+      { n: 'Донецк', lat: 48.01, lon: 37.80 },
+      { n: 'Луганск', lat: 48.57, lon: 39.31 },
+      { n: 'Краснодар', lat: 45.03, lon: 38.98 },
+      { n: 'Москва', lat: 55.75, lon: 37.62 },
+      { n: 'Санкт-Петербург', lat: 59.94, lon: 30.31 },
+      { n: 'Сочи', lat: 43.58, lon: 39.72 },
+      { n: 'Новороссийск', lat: 44.72, lon: 37.77 }
+    ];
+
+    const block = document.getElementById('weatherBlock');
+    const cityBtn = document.getElementById('weatherCityBtn');
+    const items = document.getElementById('weatherItems');
+    const panel = document.getElementById('weatherPanel');
+    const list = document.getElementById('weatherCityList');
+    if (!block || !cityBtn || !items || !panel || !list) return;
+
+    const WMO = {
+      0: ['Ясно', '☀️'], 1: ['Преимущественно ясно', '🌤️'], 2: ['Переменная облачность', '⛅'],
+      3: ['Пасмурно', '☁️'], 45: ['Туман', '🌫️'], 48: ['Изморозь', '🌫️'],
+      51: ['Морось', '🌦️'], 53: ['Морось', '🌦️'], 55: ['Морось', '🌧️'],
+      56: ['Ледяная морось', '🌧️'], 57: ['Ледяная морось', '🌧️'],
+      61: ['Небольшой дождь', '🌦️'], 63: ['Дождь', '🌧️'], 65: ['Сильный дождь', '🌧️'],
+      66: ['Ледяной дождь', '🌧️'], 67: ['Ледяной дождь', '🌧️'],
+      71: ['Небольшой снег', '🌨️'], 73: ['Снег', '🌨️'], 75: ['Сильный снег', '❄️'],
+      77: ['Снежные зёрна', '❄️'], 80: ['Ливень', '🌦️'], 81: ['Ливень', '🌧️'],
+      82: ['Сильный ливень', '⛈️'], 85: ['Снегопад', '🌨️'], 86: ['Снегопад', '❄️'],
+      95: ['Гроза', '⛈️'], 96: ['Гроза с градом', '⛈️'], 99: ['Гроза с градом', '⛈️']
+    };
+    const DIRS = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
+
+    function getCity() {
+      try {
+        const saved = localStorage.getItem('weatherCity');
+        if (saved) {
+          const c = JSON.parse(saved);
+          if (c && typeof c.lat === 'number') return Promise.resolve(c);
+        }
+      } catch (e) {}
+      return fetch('https://ipwho.is/')
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.success !== false && typeof d.latitude === 'number') {
+            return { n: d.city || d.region || DEFAULT_CITY.n, lat: d.latitude, lon: d.longitude };
+          }
+          return DEFAULT_CITY;
+        })
+        .catch(() => DEFAULT_CITY);
+    }
+
+    function loadWeather(city) {
+      cityBtn.textContent = '📍 ' + city.n;
+      items.innerHTML = '<span class="weather-item"><span class="w-desc">определяем погоду…</span></span>';
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=' + city.lat +
+            '&longitude=' + city.lon +
+            '&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m' +
+            '&wind_speed_unit=ms&timezone=auto')
+        .then(r => r.json())
+        .then(d => {
+          const c = d.current;
+          if (!c || c.temperature_2m == null) throw new Error('нет данных');
+          const w = WMO[c.weather_code] || ['—', '🌡️'];
+          const dir = DIRS[Math.round(((c.wind_direction_10m || 0) % 360) / 45) % 8];
+          items.innerHTML =
+            '<span class="weather-item"><span class="w-ico">' + w[1] + '</span>' +
+            '<span class="w-desc">' + w[0] + '</span>' +
+            '<span class="w-temp">' + (c.temperature_2m > 0 ? '+' : '') + Math.round(c.temperature_2m) + '°C</span>' +
+            '<span class="w-wind">ветер ' + (c.wind_speed_10m || 0).toFixed(1) + ' м/с ' + dir + '</span></span>';
+        })
+        .catch(() => block.classList.add('hidden'));
+    }
+
+    // панель выбора города
+    list.innerHTML = QUICK_CITIES.map((c, i) =>
+      '<button class="weather-city-pick" data-i="' + i + '">' + c.n + '</button>').join('');
+
+    cityBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      panel.classList.toggle('open');
+    });
+    list.addEventListener('click', e => {
+      const b = e.target.closest('.weather-city-pick');
+      if (!b) return;
+      const c = QUICK_CITIES[+b.dataset.i];
+      try { localStorage.setItem('weatherCity', JSON.stringify(c)); } catch (err) {}
+      panel.classList.remove('open');
+      loadWeather(c);
+    });
+    document.addEventListener('click', e => {
+      if (panel.classList.contains('open') && !panel.contains(e.target) && !cityBtn.contains(e.target)) {
+        panel.classList.remove('open');
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') panel.classList.remove('open');
+    });
+
+    getCity().then(loadWeather);
   })();
   </script>
 </body>
