@@ -1319,7 +1319,7 @@
     });
   })();
 
-  // ===== ПОГОДА (автоопределение по IP) =====
+  // ===== ПОГОДА (мгновенный показ + автоопределение в фоне) =====
   (function () {
     const DEFAULT_CITY = { n: 'Ростов-на-Дону', lat: 47.23, lon: 39.75 };
     const QUICK_CITIES = [
@@ -1342,7 +1342,11 @@
     const items = document.getElementById('weatherItems');
     const panel = document.getElementById('weatherPanel');
     const list = document.getElementById('weatherCityList');
-    if (!block || !cityBtn || !items || !panel || !list) return;
+    const sInput = document.getElementById('weatherSearchInput');
+    const sFound = document.getElementById('weatherFound');
+    if (!block || !cityBtn || !items || !panel || !list || !sInput || !sFound) return;
+
+    let userPicked = false;
 
     const WMO = {
       0: ['Ясно', '☀️'], 1: ['Преимущественно ясно', '🌤️'], 2: ['Переменная облачность', '⛅'],
@@ -1358,62 +1362,119 @@
     };
     const DIRS = ['С', 'СВ', 'В', 'ЮВ', 'Ю', 'ЮЗ', 'З', 'СЗ'];
 
-    function getCity() {
-      try {
-        const saved = localStorage.getItem('weatherCity');
-        if (saved) {
-          const c = JSON.parse(saved);
-          if (c && typeof c.lat === 'number') return Promise.resolve(c);
-        }
-      } catch (e) {}
-      return fetch('https://ipwho.is/')
-        .then(r => r.json())
-        .then(d => {
-          if (d && d.success !== false && typeof d.latitude === 'number') {
-            return { n: d.city || d.region || DEFAULT_CITY.n, lat: d.latitude, lon: d.longitude };
-          }
-          return DEFAULT_CITY;
-        })
-        .catch(() => DEFAULT_CITY);
+    function paint(c) {
+      const w = WMO[c.weather_code] || ['—', '🌡️'];
+      const dir = DIRS[Math.round(((c.wind_direction_10m || 0) % 360) / 45) % 8];
+      items.innerHTML =
+        '<span class="weather-item"><span class="w-ico">' + w[1] + '</span>' +
+        '<span class="w-desc">' + w[0] + '</span>' +
+        '<span class="w-temp">' + (c.temperature_2m > 0 ? '+' : '') + Math.round(c.temperature_2m) + '°C</span>' +
+        '<span class="w-wind">ветер ' + (c.wind_speed_10m || 0).toFixed(1) + ' м/с ' + dir + '</span></span>';
     }
 
-    function loadWeather(city) {
-      cityBtn.textContent = '📍 ' + city.n;
-      items.innerHTML = '<span class="weather-item"><span class="w-desc">определяем погоду…</span></span>';
-      fetch('https://api.open-meteo.com/v1/forecast?latitude=' + city.lat +
+    function fetchWeather(city) {
+      return fetch('https://api.open-meteo.com/v1/forecast?latitude=' + city.lat +
             '&longitude=' + city.lon +
             '&current=temperature_2m,apparent_temperature,weather_code,wind_speed_10m,wind_direction_10m' +
             '&wind_speed_unit=ms&timezone=auto')
         .then(r => r.json())
         .then(d => {
-          const c = d.current;
-          if (!c || c.temperature_2m == null) throw new Error('нет данных');
-          const w = WMO[c.weather_code] || ['—', '🌡️'];
-          const dir = DIRS[Math.round(((c.wind_direction_10m || 0) % 360) / 45) % 8];
-          items.innerHTML =
-            '<span class="weather-item"><span class="w-ico">' + w[1] + '</span>' +
-            '<span class="w-desc">' + w[0] + '</span>' +
-            '<span class="w-temp">' + (c.temperature_2m > 0 ? '+' : '') + Math.round(c.temperature_2m) + '°C</span>' +
-            '<span class="w-wind">ветер ' + (c.wind_speed_10m || 0).toFixed(1) + ' м/с ' + dir + '</span></span>';
+          if (!d.current || d.current.temperature_2m == null) throw new Error('нет данных');
+          return d.current;
+        });
+    }
+
+    function loadWeather(city) {
+      cityBtn.textContent = '📍 ' + city.n;
+
+      // кэш: этот город показывали меньше 30 минут назад — мгновенно из памяти
+      try {
+        const cache = JSON.parse(localStorage.getItem('weatherCache') || 'null');
+        if (cache && cache.n === city.n && Date.now() - cache.ts < 30 * 60 * 1000) {
+          paint(cache.data);
+          return;
+        }
+      } catch (e) {}
+
+      items.innerHTML = '<span class="weather-item"><span class="w-desc">определяем погоду…</span></span>';
+      fetchWeather(city)
+        .then(c => {
+          paint(c);
+          try {
+            localStorage.setItem('weatherCache', JSON.stringify({ n: city.n, ts: Date.now(), data: c }));
+          } catch (e) {}
         })
         .catch(() => block.classList.add('hidden'));
     }
 
-    // панель выбора города
+    // IP с лимитом 2,5 секунды — не ответил, идём дальше без него
+    function fetchIP() {
+      return Promise.race([
+        fetch('https://ipwho.is/?lang=ru')
+          .then(r => r.json())
+          .then(d => {
+            if (d && d.success !== false && typeof d.latitude === 'number') {
+              return { n: d.city || d.region || DEFAULT_CITY.n, lat: d.latitude, lon: d.longitude };
+            }
+            return null;
+          })
+          .catch(() => null),
+        new Promise(res => setTimeout(() => res(null), 2500))
+      ]);
+    }
+
+    function pickCity(city) {
+      userPicked = true;
+      try { localStorage.setItem('weatherCity', JSON.stringify(city)); } catch (err) {}
+      panel.classList.remove('open');
+      loadWeather(city);
+    }
+
+    // быстрый список
     list.innerHTML = QUICK_CITIES.map((c, i) =>
       '<button class="weather-city-pick" data-i="' + i + '">' + c.n + '</button>').join('');
+    list.addEventListener('click', e => {
+      const b = e.target.closest('.weather-city-pick');
+      if (!b) return;
+      pickCity(QUICK_CITIES[+b.dataset.i]);
+    });
+
+    // поиск любого города мира через геокодер Open-Meteo
+    let sTimer = null;
+    sInput.addEventListener('input', () => {
+      clearTimeout(sTimer);
+      const q = sInput.value.trim();
+      if (q.length < 2) { sFound.innerHTML = ''; return; }
+      sTimer = setTimeout(() => {
+        fetch('https://geocoding-api.open-meteo.com/v1/search?name=' + encodeURIComponent(q) +
+              '&count=8&language=ru&format=json')
+          .then(r => r.json())
+          .then(d => {
+            const res = d.results || [];
+            sFound.innerHTML = res.length
+              ? res.map((g, i) =>
+                  '<button class="weather-found-item" data-i="' + i + '">' + g.name +
+                  '<span class="wf-region">' +
+                  (g.admin1 ? g.admin1 + ', ' : '') + (g.country || '') +
+                  '</span></button>').join('')
+              : '';
+            sFound._geo = res;
+          })
+          .catch(() => { sFound.innerHTML = ''; });
+      }, 300);
+    });
+    sFound.addEventListener('click', e => {
+      const b = e.target.closest('.weather-found-item');
+      if (!b || !sFound._geo) return;
+      const g = sFound._geo[+b.dataset.i];
+      if (!g) return;
+      pickCity({ n: g.name, lat: g.latitude, lon: g.longitude });
+    });
 
     cityBtn.addEventListener('click', e => {
       e.stopPropagation();
       panel.classList.toggle('open');
-    });
-    list.addEventListener('click', e => {
-      const b = e.target.closest('.weather-city-pick');
-      if (!b) return;
-      const c = QUICK_CITIES[+b.dataset.i];
-      try { localStorage.setItem('weatherCity', JSON.stringify(c)); } catch (err) {}
-      panel.classList.remove('open');
-      loadWeather(c);
+      if (panel.classList.contains('open')) { sInput.value = ''; sFound.innerHTML = ''; }
     });
     document.addEventListener('click', e => {
       if (panel.classList.contains('open') && !panel.contains(e.target) && !cityBtn.contains(e.target)) {
@@ -1424,7 +1485,21 @@
       if (e.key === 'Escape') panel.classList.remove('open');
     });
 
-    getCity().then(loadWeather);
+    // СТАРТ: погода рисуется сразу, город уточняется в фоне
+    (function init() {
+      let saved = null;
+      try {
+        const s = JSON.parse(localStorage.getItem('weatherCity') || 'null');
+        if (s && typeof s.lat === 'number') saved = s;
+      } catch (e) {}
+
+      loadWeather(saved || DEFAULT_CITY);
+      if (saved) return; // город уже выбран — автоопределение не нужно
+
+      fetchIP().then(ipCity => {
+        if (ipCity && !userPicked && ipCity.n !== DEFAULT_CITY.n) loadWeather(ipCity);
+      });
+    })();
   })();
   </script>
 </body>
