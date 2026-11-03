@@ -1,4 +1,14 @@
 const news = [
+{
+    cat:'В России',
+    title:'В Бурятии с начала года ликвидировали более 500 опасных медведей',
+    excerpt:'Служба природопользования сообщает: 507 хищников, представлявших угрозу, нейтрализованы.',
+    img:'/img/IMG_20261103_094455.jpg',
+    date:'3 ноября 2026, 09:46',
+    live: true,
+    author:'Дмитрий Мусиенко',
+    link:'news/burjatija-likvidirovano-bolee-500-medvedej.html'
+  },
   {
     cat:'В России',
     hero: true,
@@ -52,7 +62,7 @@ const news = [
     excerpt:'Семейную пару похитили на глазах у ребёнка, увезли на «Ладе Весте» и убили.',
     img:'/img/723b5d91547f8f6b1de5be36e53b9ce5.jpg',
     date:'1 ноября 2026, 18:08',
-    live: true,
+    live: false,
     author:'Дмитрий Мусиенко',
     link:'news/mnogodetnuyu-semiyu-pohitili-i-zhestoko-ubili-v-rostove.html'
   },
