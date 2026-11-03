@@ -5,6 +5,7 @@ const news = [
     excerpt:'Мужчина перевел деньги украинскому фонду, поддерживающему ВСУ.',
     img:'/img/1869375330_0_0_3072_1728_1280x0_80_0_0_99b07f214773a6d22fe1f1c2958c0035.jpg.webp',
     date:'3 ноября 2026, 12:25',
+    live: true,
     author:'Дмитрий Мусиенко',
     link:'news/novosibirsky-uchastnik-ukrainskogo-fonda-obvinen-v-gosizmene.html'
   },
