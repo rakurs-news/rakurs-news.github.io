@@ -1,4 +1,13 @@
 const news = [
+{
+    cat:'В мире',
+    title:'Писториус сомневается в успехе переговоров России, США и Украины',
+    excerpt:'Писториус сомневается в успехе переговоров России, США и Украины',
+    img:'/img/IMG_20261103_084111.jpg',
+    date:'3 ноября 2026, 08:45',
+    author:'Дмитрий Мусиенко',
+    link:'news/pistorius-somnevaetsya-v-uspehe-peregovorov-rossii-ssha-i-ukrainy.html'
+  },
     {
     cat:'В мире',
     title:'Sohu раскрыл причины отказа Китая от военного союза с Россией',
