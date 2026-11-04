@@ -381,10 +381,14 @@
     .footer-policy p:last-child { margin-bottom: 0; }
 
     /* ===== АДАПТИВ ===== */
-    @media (max-width: 900px) {
-      .row { grid-template-columns: 64px 1fr; }
-      .row-img { display: none; }
-    }
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-img { position: relative; min-height: 0; order: -1; }
+  .hero-img img { position: static; width: 100%; height: auto; object-fit: unset; }
+  .hero-img::after { display: none; }
+  .row { grid-template-columns: 64px 1fr; }
+  .row-img { display: none; }
+}
     @media (max-width: 640px) {
       .brand { font-size: 16px; }
       .logo img { max-height: 28px; }
