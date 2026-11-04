@@ -382,22 +382,19 @@ a { color: inherit; text-decoration: none; }
 
   // ===== ПЕРЕХОД К ПОСТУ ПО ССЫЛКЕ =====
   function scrollToHash() {
-    if (location.hash.indexOf('#post-') !== 0) return;
-    var el = document.getElementById(location.hash.slice(1));
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      return true;
-    }
-    return false;
-  }
-  if (location.hash.indexOf('#post-') === 0) {
-    (function tryFind() {
-      if (!scrollToHash() && shown < POSTS.length) {
-        loadMore();
-        setTimeout(tryFind, 150);
-      }
-    })();
-  }
+  const hash = decodeURIComponent(location.hash);
+  if (!hash.startsWith('#post-')) return false;
+  const target = document.querySelector(hash);
+  if (!target) return false;
+  // крутим к заголовку поста, а не к карточке целиком
+  const heading = target.querySelector('h3') || target;
+  const header = document.querySelector('.header');
+  const offset = (header ? header.offsetHeight : 0) + 12;
+  const top = heading.getBoundingClientRect().top + window.pageYOffset - offset;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+  target.classList.add('post-flash');
+  return true;
+}
 
   // ===== КНОПКА НАВЕРХ =====
   var btn = document.getElementById('toTop');
