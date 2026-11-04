@@ -66,7 +66,7 @@ a { color: inherit; text-decoration: none; }
 
 .post-card {
   background: var(--bg-row); border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
+  border-left: 3px solid var(--accent-soft);
   padding: 18px 22px; margin-bottom: 30px;
   opacity: 0; transform: translateY(10px);
   animation: postIn .4s ease forwards;
@@ -168,6 +168,29 @@ a { color: inherit; text-decoration: none; }
   white-space: nowrap;
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
+/* ===== ПОИСК ПО ПОСТАМ ===== */
+.rn-search { margin: 22px 0 6px; position: relative; }
+.rn-search input {
+  width: 100%;
+  background: var(--bg-row);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+  padding: 11px 14px 11px 38px;
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  outline: none;
+}
+.rn-search input:focus { border-color: var(--accent); }
+.rn-search::before {
+  content: '\1F50D';
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  opacity: .6;
+}
   </style>
   <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -195,6 +218,9 @@ a { color: inherit; text-decoration: none; }
 
 <main class="main">
   <div class="posts-head-row"><h2>Посты редакции</h2></div>
+  <div class="rn-search">
+    <input type="search" id="postSearch" placeholder="Поиск по постам..." autocomplete="off">
+  </div>
   <div id="posts-list"></div>
   <div class="sentinel" id="sentinel">Загружаем ещё</div>
 </main>
@@ -228,6 +254,7 @@ a { color: inherit; text-decoration: none; }
   }
 
   function loadMore() {
+    if (searchQuery) return;
     if (shown >= POSTS.length) {
       sentinel.classList.add('done');
       return;
@@ -245,6 +272,52 @@ a { color: inherit; text-decoration: none; }
     shown += chunk.length;
     sentinel.classList.toggle('done', shown >= POSTS.length);
   }
+  // ===== ПОИСК ПО ПОСТАМ =====
+  var searchBox = document.getElementById('postSearch');
+  var searchQuery = '';
+
+  function stripTags(s) {
+    return (s || '').replace(/<[^>]+>/g, ' ');
+  }
+
+  function renderSearch() {
+    var q = searchQuery.toLowerCase();
+    var matches = POSTS.filter(function (p) {
+      return ((p.title || '') + ' ' + stripTags(p.text)).toLowerCase().indexOf(q) !== -1;
+    });
+    var html = '';
+    var d = null;
+    if (!matches.length) {
+      html = '<p class="p-empty">По запросу «' + searchQuery + '» ничего не найдено.</p>';
+    } else {
+      matches.forEach(function (p) {
+        if (p.date !== d) {
+          html += '<div class="post-date-divider"><span>' + p.date + '</span></div>';
+          d = p.date;
+        }
+        html += postHTML(p);
+      });
+    }
+    list.innerHTML = html;
+    sentinel.classList.add('done');
+  }
+
+  var searchTimer = null;
+  searchBox.addEventListener('input', function () {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(function () {
+      searchQuery = searchBox.value.trim();
+      if (!searchQuery) {
+        list.innerHTML = '';
+        shown = 0;
+        lastDate = null;
+        sentinel.classList.remove('done');
+        loadMore();
+      } else {
+        renderSearch();
+      }
+    }, 200);
+  });
 
   var io = new IntersectionObserver(function (entries) {
     if (entries[0].isIntersecting) loadMore();
