@@ -676,6 +676,13 @@
 .c-sport { color: #3aa35c !important; }
 .c-cult { color: #9b59d0 !important; }
 .c-army { color: #8a9444 !important; }
+.c-incident { color: #e07b1f !important; }
+.c-society  { color: #2aa8a0 !important; }
+.c-science  { color: #5a6fe0 !important; }
+.c-tech     { color: #29b6d8 !important; }
+.c-show     { color: #e05a8a !important; }
+.c-auto     { color: #7f8c99 !important; }
+.c-health   { color: #8bc34a !important; }
 /* ===== ПЛАШКИ РУБРИК В ЛЕНТЕ ===== */
 .row-meta .cat {
   padding: 3px 9px !important;
@@ -689,6 +696,13 @@
 .row-meta .cat.c-sport { background: #3aa35c !important; color: #fff !important; }
 .row-meta .cat.c-cult  { background: #9b59d0 !important; color: #fff !important; }
 .row-meta .cat.c-army  { background: #8a9444 !important; color: #fff !important; }
+.row-meta .cat.c-incident { background: #e07b1f !important; color: #fff !important; }
+.row-meta .cat.c-society  { background: #2aa8a0 !important; color: #fff !important; }
+.row-meta .cat.c-science  { background: #5a6fe0 !important; color: #fff !important; }
+.row-meta .cat.c-tech     { background: #29b6d8 !important; color: #fff !important; }
+.row-meta .cat.c-show     { background: #e05a8a !important; color: #fff !important; }
+.row-meta .cat.c-auto     { background: #7f8c99 !important; color: #fff !important; }
+.row-meta .cat.c-health   { background: #8bc34a !important; color: #fff !important; }
 
     .age-badge span {
       font-family: var(--mono);
@@ -869,15 +883,22 @@
   <!-- НАВИГАЦИЯ -->
   <nav class="nav-bar">
     <div class="nav" id="nav">
-      <a href="index.html" class="active">Все</a>
-      <a href="posts.html">Посты</a>
-      <a href="v-rossii.html">В России</a>
-      <a href="v-mire.html">В мире</a>
-      <a href="ekonomika.html">Экономика</a>
-      <a href="sport.html">Спорт</a>
-      <a href="kultura.html">Культура</a>
-      <a href="armiya.html">Армия</a>
-    </div>
+  <a href="index.html">Все</a>
+  <a href="posts.html">Посты</a>
+  <a href="v-rossii.html">В России</a>
+  <a href="v-mire.html">В мире</a>
+  <a href="ekonomika.html">Экономика</a>
+  <a href="sport.html">Спорт</a>
+  <a href="kultura.html">Культура</a>
+  <a href="armiya.html">Армия</a>
+  <a href="proisshestviya.html">Происшествия</a>
+  <a href="obshestvo.html">Общество</a>
+  <a href="nauka.html">Наука</a>
+  <a href="tehnologii.html">Технологии</a>
+  <a href="shou-biznes.html">Шоу-бизнес</a>
+  <a href="avto.html">Авто</a>
+  <a href="zdorove.html">Здоровье</a>
+</div>
   </nav>
 
   <main class="main">
@@ -979,18 +1000,22 @@
 
   <!-- ФУТЕР -->
   <footer class="footer">
-    <div class="footer-links">
-      <a href="v-rossii.html">В России</a>
-      <a href="v-mire.html">В мире</a>
-      <a href="ekonomika.html">Экономика</a>
-      <a href="sport.html">Спорт</a>
-      <a href="kultura.html">Культура</a>
-      <a href="armiya.html">Армия</a>
-    </div>
-    <p>Ракурс News &copy; 2026 — Актуальные новости России и мира</p>
-    <hr class="footer-policy-divider">
-    <div class="footer-policy">
-    </div>
+    <<div class="footer-links">
+  <a href="v-rossii.html">В России</a>
+  <a href="v-mire.html">В мире</a>
+  <a href="ekonomika.html">Экономика</a>
+  <a href="sport.html">Спорт</a>
+  <a href="kultura.html">Культура</a>
+  <a href="armiya.html">Армия</a>
+  <a href="proisshestviya.html">Происшествия</a>
+  <a href="obshestvo.html">Общество</a>
+  <a href="nauka.html">Наука</a>
+  <a href="tehnologii.html">Технологии</a>
+  <a href="shou-biznes.html">Шоу-бизнес</a>
+  <a href="avto.html">Авто</a>
+  <a href="zdorove.html">Здоровье</a>
+  <a href="zapreshchennye-organizacii-v-rossii.html">Запрещённые организации</a>
+</div>
   </footer>
 
 <button class="to-top" id="toTop" aria-label="Наверх">&#8593;</button>
@@ -1037,7 +1062,7 @@
       }
 
       // ===== ВРЕМЯ: разбор даты и относительное время =====
-      const CATCLS = { 'В России':'c-ru', 'В мире':'c-world', 'Экономика':'c-econ', 'Спорт':'c-sport', 'Культура':'c-cult', 'Армия':'c-army' };
+      const CATCLS = { 'В России':'c-ru', 'В мире':'c-world', 'Экономика':'c-econ', 'Спорт':'c-sport', 'Культура':'c-cult', 'Армия':'c-army', 'Происшествия':'c-incident', 'Общество':'c-society', 'Наука':'c-science', 'Технологии':'c-tech', 'Шоу-бизнес':'c-show', 'Авто':'c-auto', 'Здоровье':'c-health' };
 
       const MONTHS = { 'января':0,'февраля':1,'марта':2,'апреля':3,'мая':4,'июня':5,'июля':6,'августа':7,'сентября':8,'октября':9,'ноября':10,'декабря':11 };
       const SHORT = ['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
