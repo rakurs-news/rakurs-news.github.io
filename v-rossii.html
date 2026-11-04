@@ -456,6 +456,41 @@
       .row-body h3 { font-size: 17px; }
       .feed-title { font-size: 21px; }
     }
+    /* ===== РУБРИКИ ЦВЕТОМ ===== */
+.c-ru { color: #d63a2f !important; }
+.c-world { color: #2f86d6 !important; }
+.c-econ { color: #d9a12b !important; }
+.c-sport { color: #3aa35c !important; }
+.c-cult { color: #9b59d0 !important; }
+.c-army { color: #8a9444 !important; }
+.c-incident { color: #e07b1f !important; }
+.c-society  { color: #2aa8a0 !important; }
+.c-science  { color: #5a6fe0 !important; }
+.c-tech     { color: #29b6d8 !important; }
+.c-show     { color: #e05a8a !important; }
+.c-auto     { color: #7f8c99 !important; }
+.c-health   { color: #8bc34a !important; }
+/* ===== ПЛАШКИ РУБРИК В ЛЕНТЕ ===== */
+.row-meta .cat {
+  padding: 3px 9px !important;
+  border-radius: 3px !important;
+  font-weight: 700 !important;
+  background: rgba(255,255,255,.07) !important;
+}
+.row-meta .cat.c-ru    { background: #d63a2f !important; color: #fff !important; }
+.row-meta .cat.c-world { background: #2f86d6 !important; color: #fff !important; }
+.row-meta .cat.c-econ  { background: #d9a12b !important; color: #111 !important; }
+.row-meta .cat.c-sport { background: #3aa35c !important; color: #fff !important; }
+.row-meta .cat.c-cult  { background: #9b59d0 !important; color: #fff !important; }
+.row-meta .cat.c-army  { background: #8a9444 !important; color: #fff !important; }
+.row-meta .cat.c-incident { background: #e07b1f !important; color: #fff !important; }
+.row-meta .cat.c-society  { background: #2aa8a0 !important; color: #fff !important; }
+.row-meta .cat.c-science  { background: #5a6fe0 !important; color: #fff !important; }
+.row-meta .cat.c-tech     { background: #29b6d8 !important; color: #fff !important; }
+.row-meta .cat.c-show     { background: #e05a8a !important; color: #fff !important; }
+.row-meta .cat.c-auto     { background: #7f8c99 !important; color: #fff !important; }
+.row-meta .cat.c-health   { background: #8bc34a !important; color: #fff !important; }
+
   </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -501,13 +536,21 @@
   <!-- НАВИГАЦИЯ -->
   <nav class="nav-bar">
     <div class="nav" id="nav">
-      <a href="index.html">Все</a>
-      <a href="v-rossii.html" class="active">В России</a>
-      <a href="v-mire.html">В мире</a>
-      <a href="ekonomika.html">Экономика</a>
-      <a href="sport.html">Спорт</a>
-      <a href="kultura.html">Культура</a>
-      <a href="armiya.html">Армия</a>
+    <a href="index.html">Все</a>
+<a href="posts.html">Посты</a>
+<a href="v-rossii.html" class="active">В России</a>
+<a href="v-mire.html">В мире</a>
+<a href="ekonomika.html">Экономика</a>
+<a href="sport.html">Спорт</a>
+<a href="kultura.html">Культура</a>
+<a href="armiya.html">Армия</a>
+<a href="proisshestviya.html">Происшествия</a>
+<a href="obshestvo.html">Общество</a>
+<a href="nauka.html">Наука</a>
+<a href="tehnologii.html">Технологии</a>
+<a href="shou-biznes.html">Шоу-бизнес</a>
+<a href="avto.html">Авто</a>
+<a href="zdorove.html">Здоровье</a>
     </div>
   </nav>
 
@@ -529,17 +572,22 @@
   <!-- ФУТЕР -->
   <footer class="footer">
     <div class="footer-links">
-      <a href="v-rossii.html">В России</a>
-      <a href="v-mire.html">В мире</a>
-      <a href="ekonomika.html">Экономика</a>
-      <a href="sport.html">Спорт</a>
-      <a href="kultura.html">Культура</a>
-      <a href="armiya.html">Армия</a>
-      <a href="zapreshchennye-organizacii-v-rossii.html">Запрещённые организации</a>
-    </div>
+  <a href="v-rossii.html">В России</a>
+  <a href="v-mire.html">В мире</a>
+  <a href="ekonomika.html">Экономика</a>
+  <a href="sport.html">Спорт</a>
+  <a href="kultura.html">Культура</a>
+  <a href="armiya.html">Армия</a>
+  <a href="proisshestviya.html">Происшествия</a>
+  <a href="obshestvo.html">Общество</a>
+  <a href="nauka.html">Наука</a>
+  <a href="tehnologii.html">Технологии</a>
+  <a href="shou-biznes.html">Шоу-бизнес</a>
+  <a href="avto.html">Авто</a>
+  <a href="zdorove.html">Здоровье</a>
+  <a href="zapreshchennye-organizacii-v-rossii.html">Запрещённые организации</a>
+</div>
     <p>Ракурс News &copy; 2026 — Актуальные новости России и мира</p>
-    
-    </div>
   </footer>
 
   <script src="news-data.js"></script>
