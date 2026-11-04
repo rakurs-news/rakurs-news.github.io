@@ -595,6 +595,7 @@
     // ===== ЛОГИКА СТРАНИЦЫ РАЗДЕЛА =====
     document.addEventListener('DOMContentLoaded', () => {
       const CAT = 'В России'; // ← единственное отличие от других разделов
+const CATCLS = { 'В России':'c-ru', 'В мире':'c-world', 'Экономика':'c-econ', 'Спорт':'c-sport', 'Культура':'c-cult', 'Армия':'c-army', 'Происшествия':'c-incident', 'Общество':'c-society', 'Наука':'c-science', 'Технологии':'c-tech', 'Шоу-бизнес':'c-show', 'Авто':'c-auto', 'Здоровье':'c-health' };
 
       const heroEl = document.getElementById('hero');
       const grid = document.getElementById('newsGrid');
@@ -644,8 +645,7 @@
               <h3>${n.title}</h3>
               <p>${n.excerpt || ''}</p>
               <div class="row-meta">
-                <span class="cat">${n.cat}</span>
-                <span>${n.author || ''}</span>
+                <span class="cat ${CATCLS[n.cat] || ''}">${n.cat}</span>
               </div>
             </div>
             <div class="row-img">
@@ -739,6 +739,13 @@
       })
       .catch(() => block.classList.add('hidden'));
   })();
+  // ===== АВТОПОДСВЕТКА АКТИВНОГО РАЗДЕЛА =====
+(function () {
+  var here = location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.nav a').forEach(function (a) {
+    if (a.getAttribute('href') === here) a.classList.add('active');
+  });
+})();
   </script>
 </body>
 </html>
