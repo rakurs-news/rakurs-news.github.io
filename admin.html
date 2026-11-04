@@ -1,151 +1,187 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Админка Ракурс News</title>
-  <style>
-    :root {
-      --bg: #0d0d0f; --bg-card: #1a1a1e; --text: #e8e8ec;
-      --accent: #2d7eff; --border: #2a2a30; --radius: 14px;
-    }
-    * { box-sizing: border-box; }
-    body {
-      background: var(--bg); color: var(--text); font-family: 'Inter', -apple-system, sans-serif;
-      margin: 0; padding: 20px; max-width: 640px; margin: 0 auto; line-height: 1.5;
-    }
-    h1 { text-align: center; font-size: 22px; margin-bottom: 6px; }
-    .subtitle { text-align: center; color: #6a6a72; font-size: 13px; margin-bottom: 24px; }
-    .form-group { margin-bottom: 14px; }
-    label { display: block; margin-bottom: 5px; color: #8a8a92; font-size: 13px; }
-    input, select, textarea {
-      width: 100%; background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 8px; padding: 12px; color: white; font-family: inherit; font-size: 16px;
-    }
-    textarea { resize: vertical; }
-    #content { height: 200px; }
-    .toolbar { display: flex; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
-    .toolbar button {
-      background: var(--bg-card); border: 1px solid var(--border); color: var(--text);
-      padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 14px;
-    }
-    .toolbar button:hover { border-color: var(--accent); }
-    .btn-copy {
-      width: 100%; padding: 14px; background: var(--accent); color: white;
-      border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size: 16px;
-      margin-top: 10px;
-    }
-    .btn-copy:hover { background: #1a6ce8; }
-    .section-title { margin-top: 28px; font-size: 16px; color: var(--accent); margin-bottom: 8px; }
-    .code-block {
-      background: #0a0e1a; border: 1px solid #1a2a3a; border-radius: 8px;
-      padding: 14px; font-family: 'Courier New', monospace; font-size: 12px;
-      color: #6a8acf; white-space: pre-wrap; word-break: break-all; max-height: 300px; overflow-y: auto;
-      margin-bottom: 8px;
-    }
-    .hint { color: #6a6a72; font-size: 12px; margin-bottom: 20px; }
-    .readtime {
-      background: var(--bg-card); border: 1px solid var(--border);
-      border-radius: 8px; padding: 10px 14px; color: var(--accent);
-      font-size: 14px; font-weight: 700; margin-bottom: 14px;
-    }
-    .modal-bg {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
-    }
-    .modal {
-      background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-      padding: 20px; max-width: 90%; width: 400px;
-    }
-    .modal h3 { margin: 0 0 12px 0; }
-    .modal input { margin-bottom: 10px; width: 100%; }
-    .modal-actions { display: flex; gap: 8px; }
-    .modal-actions button {
-      flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px;
-    }
-    .btn-ok { background: var(--accent); color: white; }
-    .btn-cancel { background: #333; color: #aaa; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Админка статей — Ракурс News</title>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@700&family=PT+Sans:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #17191e; --bg-row: #1d2027; --bg-raised: #22262e;
+  --text: #e6e7ea; --text-dim: #8f929c;
+  --accent: #d63a2f; --line: #2c3038;
+  --serif: 'PT Serif', Georgia, serif;
+  --sans: 'PT Sans', Arial, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--text); font-family: var(--sans); padding: 16px; max-width: 720px; margin: 0 auto; line-height: 1.5; }
+h1 { font-family: var(--serif); font-size: 24px; color: #fff; margin-bottom: 4px; }
+h1 em { font-style: normal; color: var(--accent); }
+.subtitle { font-family: var(--mono); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); margin-bottom: 20px; }
+.form-group { margin-bottom: 14px; }
+label { display: block; margin: 16px 0 6px; font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); }
+input, select, textarea {
+  width: 100%; background: var(--bg-row); border: 1px solid var(--line);
+  border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px 12px;
+  color: var(--text); font-family: var(--sans); font-size: 16px; outline: none;
+}
+input:focus, select:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; }
+#content { height: 220px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.toolbar button {
+  background: var(--bg-raised); color: var(--text); border: 1px solid var(--line);
+  border-radius: 4px; padding: 8px 14px; font-family: var(--sans); font-size: 14px; cursor: pointer;
+}
+.toolbar button:active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.hint { color: var(--text-dim); font-size: 12px; margin-top: 5px; }
+.hint b { color: var(--accent); }
+.readtime {
+  background: var(--bg-row); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 4px; padding: 10px 14px; color: var(--accent);
+  font-family: var(--mono); font-size: 13px; font-weight: 700; margin-bottom: 6px;
+}
+.section-title {
+  font-family: var(--serif); font-size: 19px; color: #fff;
+  margin-top: 28px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+}
+.section-title span { color: var(--accent); }
+.code-block {
+  background: #101216; border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 4px; padding: 12px; font-family: var(--mono); font-size: 12px;
+  color: #9ee493; white-space: pre-wrap; word-break: break-all;
+  max-height: 300px; overflow-y: auto; margin: 10px 0 8px;
+}
+.btn-copy {
+  width: 100%; padding: 12px; background: var(--accent); color: #fff;
+  border: none; border-radius: 4px; font-weight: 700; font-family: var(--sans);
+  font-size: 14px; text-transform: uppercase; letter-spacing: .06em; cursor: pointer;
+}
+.btn-copy:hover { background: #b52f26; }
+.modal-bg {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8); z-index: 100; justify-content: center; align-items: center;
+}
+.modal {
+  background: var(--bg-raised); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: 4px; padding: 20px; max-width: 90%; width: 400px;
+}
+.modal h3 { font-family: var(--serif); color: #fff; margin: 0 0 12px 0; }
+.modal input { margin-bottom: 10px; }
+.modal-actions { display: flex; gap: 8px; }
+.modal-actions button {
+  flex: 1; padding: 10px; border: none; border-radius: 4px; cursor: pointer;
+  font-family: var(--sans); font-size: 14px; font-weight: 700;
+}
+.btn-ok { background: var(--accent); color: #fff; }
+.btn-cancel { background: var(--bg-row); border: 1px solid var(--line) !important; color: var(--text-dim); }
+</style>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114055466', 'ym');
+
+    ym(114055466, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/114055466" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </head>
 <body>
-  <h1>Админка Ракурс News</h1>
-  <p class="subtitle">Генератор SEO-статей (HTML + карточка)</p>
 
-  <div class="form-group">
-    <label>ИМЯ ФАЙЛА</label>
-    <input type="text" id="filename" placeholder="Имя статьи без .html" oninput="updateOutput()">
+<h1>Статьи <em>редакции</em></h1>
+<p class="subtitle">Генератор SEO-статей · HTML + карточка</p>
+
+<div class="form-group">
+  <label>ИМЯ ФАЙЛА</label>
+  <input type="text" id="filename" placeholder="Имя статьи без .html" oninput="updateOutput()">
+</div>
+
+<div class="form-group">
+  <label>ЗАГОЛОВОК СТАТЬИ</label>
+  <input type="text" id="title" placeholder="Заголовок" oninput="updateOutput()">
+</div>
+
+<div class="form-group">
+  <label>КАТЕГОРИЯ</label>
+  <select id="cat" onchange="updateOutput()">
+    <option value="В России">В России</option>
+    <option value="В мире">В мире</option>
+    <option value="Экономика">Экономика</option>
+    <option value="Спорт">Спорт</option>
+    <option value="Культура">Культура</option>
+    <option value="Армия">Армия</option>
+    <option value="Происшествия">Происшествия</option>
+<option value="Общество">Общество</option>
+<option value="Наука">Наука</option>
+<option value="Технологии">Технологии</option>
+<option value="Шоу-бизнес">Шоу-бизнес</option>
+<option value="Авто">Авто</option>
+<option value="Здоровье">Здоровье</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>ГЛАВНОЕ ФОТО СТАТЬИ</label>
+  <input type="text" id="img" placeholder="Вставить ссылку фото" oninput="updateOutput()">
+  <p class="hint">Путь к фото. <b>img/photo.jpg</b></p>
+</div>
+
+<div class="form-group">
+  <label>ОПИСАНИЕ</label>
+  <textarea id="excerpt" rows="3" placeholder="Подзаголовок" oninput="updateOutput()"></textarea>
+</div>
+
+<div class="form-group">
+  <label>ТЕКСТ СТАТЬИ (ПОДДЕРЖИВАЕТСЯ MARKDOWN)</label>
+  <div class="toolbar">
+    <button onclick="wrapText('**','**')" type="button"><b>Ж</b> жирный</button>
+    <button onclick="wrapText('__','__')" type="button"><u>Ч</u> подчёркнутый</button>
+    <button onclick="addLink()" type="button">🔗 ссылка</button>
+    <button onclick="addPrefix('## ')" type="button">## заголовок</button>
+    <button onclick="addPrefix('### ')" type="button">### подзаголовок</button>
+    <button onclick="addPrefix('- ')" type="button">• список</button>
+    <button onclick="addPrefix('> ')" type="button">❝ цитата</button>
+    <button onclick="insertImage()" type="button">🖼 фото в тексте</button>
   </div>
+  <textarea id="content" placeholder="ТЕКСТ СТАТЬИ" oninput="updateOutput()"></textarea>
+</div>
 
-  <div class="form-group">
-    <label>ЗАГОЛОВОК СТАТЬИ</label>
-    <input type="text" id="title" placeholder="Заголовок" oninput="updateOutput()">
-  </div>
+<div class="form-group" style="display:none;">
+  <label>Дата публикации</label>
+  <input type="text" id="date" oninput="updateOutput()">
+</div>
 
-  <div class="form-group">
-    <label>КАТЕГОРИЯ</label>
-    <select id="cat" onchange="updateOutput()">
-      <option value="В России">В России</option>
-      <option value="В мире">В мире</option>
-      <option value="Экономика">Экономика</option>
-      <option value="Спорт">Спорт</option>
-      <option value="Культура">Культура</option>
-      <option value="Армия">Армия</option>
-    </select>
-  </div>
+<input type="hidden" id="author" value="Дмитрий Мусиенко">
 
-  <div class="form-group">
-    <label>ГЛАВНОЕ ФОТО СТАТЬИ</label>
-    <input type="text" id="img" placeholder="Вставить ссылку фото" oninput="updateOutput()">
-    <p class="hint" style="margin-top: 5px;">Путь к фото. <b>img/photo.jpg</b></p>
-  </div>
+<div class="readtime" id="readtime">⏱ 1 мин чтения</div>
 
-  <div class="form-group">
-    <label>ОПИСАНИЕ</label>
-    <textarea id="excerpt" rows="3" placeholder="Подзаголовок" oninput="updateOutput()"></textarea>
-  </div>
+<div class="section-title">Шаг 1 · <span>Скопировать HTML статьи</span></div>
+<p class="hint">Скопируй код ниже и вставь его в новый файл статьи</p>
+<div class="code-block" id="htmlOutput"></div>
+<button class="btn-copy" onclick="copyHtml(this)">Скопировать HTML-файл</button>
 
-  <div class="form-group">
-    <label>ТЕКСТ СТАТЬИ (поддерживается Markdown)</label>
-    <div class="toolbar">
-      <button onclick="wrapText('**','**')" type="button">Жирный</button>
-      <button onclick="addPrefix('## ')" type="button">Заголовок</button>
-      <button onclick="addPrefix('- ')" type="button">Список</button>
-      <button onclick="addPrefix('> ')" type="button">Цитата</button>
-      <button onclick="insertImage()" type="button">Фото в тексте</button>
+<div class="section-title">Шаг 2 · <span>Вставить карточку в news-data.js</span></div>
+<p class="hint">Вставь этот код первым элементом массива <b>news</b> в файле news-data.js</p>
+<div class="code-block" id="jsOutput"></div>
+<button class="btn-copy" onclick="copyJs(this)">Скопировать JS-карточку</button>
+
+<div class="modal-bg" id="imgModal">
+  <div class="modal">
+    <h3>Вставить фото в текст</h3>
+    <input type="text" id="imgUrl" placeholder="/img/photo.jpg">
+    <input type="text" id="imgAlt" placeholder="Опиши фото">
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Отмена</button>
+      <button class="btn-ok" onclick="confirmImage()">Вставить</button>
     </div>
-    <textarea id="content" placeholder="ТЕКСТ СТАТЬИ" oninput="updateOutput()"></textarea>
   </div>
-
-  <div class="form-group" style="display:none;">
-    <label>Дата публикации</label>
-    <input type="text" id="date" oninput="updateOutput()">
-  </div>
-
-  <input type="hidden" id="author" value="Дмитрий Мусиенко">
-
-  <div class="readtime" id="readtime">⏱ 1 мин чтения</div>
-
-  <div class="section-title">📋 Шаг 1: Скопировать HTML статьи</div>
-  <p class="hint">Скопируй код ниже и вставь его в новый файл статьи</p>
-  <div class="code-block" id="htmlOutput"></div>
-  <button class="btn-copy" onclick="copyHtml()">Скопировать HTML-файл</button>
-
-  <div class="section-title">📋 Шаг 2: Вставить карточку в news-data.js</div>
-  <p class="hint">Вставь этот код первым элементом массива <b>news</b> в файле news-data.js</p>
-  <div class="code-block" id="jsOutput"></div>
-  <button class="btn-copy" onclick="copyJs()">Скопировать JS-карточку</button>
-
-  <div class="modal-bg" id="imgModal">
-    <div class="modal">
-      <h3>Вставить фото в текст</h3>
-      <input type="text" id="imgUrl" placeholder="/img/photo.jpg">
-      <input type="text" id="imgAlt" placeholder="Опиши фото">
-      <div class="modal-actions">
-        <button class="btn-cancel" onclick="closeModal()">Отмена</button>
-        <button class="btn-ok" onclick="confirmImage()">Вставить</button>
-      </div>
-    </div>
-  </div>
+</div>
 
 <script>
 // Все закрывающие теги внутри этого скрипта собираются конкатенацией,
@@ -249,7 +285,22 @@ img { display: block; max-width: 100%; height: auto; }
 .b-cat.c-econ  { background:#d9a12b !important; color:#111 !important; }
 .b-cat.c-sport { background:#3aa35c !important; color:#fff !important; }
 .b-cat.c-cult  { background:#9b59d0 !important; color:#fff !important; }
-.b-cat.c-army  { background:#8a9444 !important; color:#fff !important; }`;
+.b-cat.c-army  { background:#8a9444 !important; color:#fff !important; }
+.b-cat.c-army  { background:#8a9444 !important; color:#fff !important; }
+.c-incident { color:#e07b1f !important; }
+.c-society  { color:#2aa8a0 !important; }
+.c-science  { color:#5a6fe0 !important; }
+.c-tech     { color:#29b6d8 !important; }
+.c-show     { color:#e05a8a !important; }
+.c-auto     { color:#7f8c99 !important; }
+.c-health   { color:#8bc34a !important; }
+.b-cat.c-incident { background:#e07b1f !important; color:#fff !important; }
+.b-cat.c-society  { background:#2aa8a0 !important; color:#fff !important; }
+.b-cat.c-science  { background:#5a6fe0 !important; color:#fff !important; }
+.b-cat.c-tech     { background:#29b6d8 !important; color:#fff !important; }
+.b-cat.c-show     { background:#e05a8a !important; color:#fff !important; }
+.b-cat.c-auto     { background:#7f8c99 !important; color:#fff !important; }
+.b-cat.c-health   { background:#8bc34a !important; color:#fff !important; }`; 
 // Скрипт «Читайте также» — вставляется в каждую сгенерированную статью
 const RELATED_JS = `
     document.addEventListener('DOMContentLoaded', function () {
@@ -289,7 +340,14 @@ const CAT_LINKS = {
   'Экономика':'ekonomika.html',
   'Спорт':'sport.html',
   'Культура':'kultura.html',
-  'Армия':'armiya.html'
+  'Армия':'armiya.html',
+  'Происшествия':'proisshestviya.html',
+  'Общество':'obshestvo.html',
+  'Наука':'nauka.html',
+  'Технологии':'tehnologii.html',
+  'Шоу-бизнес':'shou-biznes.html',
+  'Авто':'avto.html',
+  'Здоровье':'zdorove.html'
 };
 // Классы цветов для плашек рубрик
 const CAT_CLASSES = {
@@ -298,7 +356,14 @@ const CAT_CLASSES = {
   'Экономика':'c-econ',
   'Спорт':'c-sport',
   'Культура':'c-cult',
-  'Армия':'c-army'
+  'Армия':'c-army',
+  'Происшествия':'c-incident',
+  'Общество':'c-society',
+  'Наука':'c-science',
+  'Технологии':'c-tech',
+  'Шоу-бизнес':'c-show',
+  'Авто':'c-auto',
+  'Здоровье':'c-health'
 };
 
 
@@ -326,6 +391,7 @@ function mdToHtml(md) {
 function inline(text) {
   return text
     .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/__(.+?)__/g, '<u>$1</u>')
     .replace(/\*(.+?)\*/g, '<em>$1</em>')
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2">$1</a>')
     .replace(/`(.+?)`/g, '<code>$1</code>');
@@ -397,6 +463,11 @@ function absImg(img, baseUrl) {
   return baseUrl + img;
 }
 
+// Фикс прокрутки: запоминаем позицию страницы до обновления блоков кода
+// и возвращаем её обратно — клик по кнопке больше не уводит вниз.
+function saveScroll() { return window.scrollY || 0; }
+function restoreScroll(y) { window.scrollTo(0, y); }
+
 function updateOutput() {
   setDefaultDate();
   const filename = (document.getElementById('filename').value || 'article').trim();
@@ -453,6 +524,13 @@ function updateOutput() {
     + '  <style>\n'
     + ARTICLE_CSS + '\n'
     + '  ' + CL_STYLE + '\n'
+    + '  <!-- Yandex.Metrika counter -->\n'
+    + '  <script type="text/javascript">\n'
+    + "    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=114055466', 'ym');\n"
+    + "    ym(114055466, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:\"dataLayer\", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});\n"
+    + '  ' + CL_SCRIPT + '\n'
+    + '  <noscript><div><img src="https://mc.yandex.ru/watch/114055466" style="position:absolute; left:-9999px;" alt="" /></div></noscript>\n'
+    + '  <!-- /Yandex.Metrika counter -->\n'
     + '</head>\n'
     + '<body>\n'
     + '  <header class="header">\n'
@@ -499,7 +577,7 @@ function updateOutput() {
 + '<div id="rnProgressBar"></div>\n'
 + '<style>\n'
 + '  #rnProgressBar { position: fixed; top: 0; left: 0; height: 3px; width: 0%; background: #d63a2f; z-index: 99999; transition: width .1s linear; }\n'
-+ '</style>\n'
++ CL_STYLE + '\n'
 + '<script>\n'
 + '(function () {\n'
 + '  var bar = document.getElementById("rnProgressBar");\n'
@@ -514,7 +592,7 @@ function updateOutput() {
 + '  window.addEventListener("resize", rnUpdateBar);\n'
 + '  rnUpdateBar();\n'
 + '})();\n'
-+ '</scr' + 'ipt>\n'
++ CL_SCRIPT + '\n'
 + '    <a class="rn-share__btn" data-net="wa" href="#" target="_blank" rel="noopener" aria-label="Поделиться в WhatsApp"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.4A10 10 0 1 0 12 2zm5.3 13.9c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.2-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.1c0 .2.1.3 0 .5l-.4.6-.5.5c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.2.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.6.4 0 .1 0 .7-.2 1.1z"/></svg><span>WhatsApp</span></a>\n'
 + '    <button class="rn-share__btn rn-share__btn--copy" id="rnShareCopy" type="button" aria-label="Скопировать ссылку"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M16 1H4a2 2 0 0 0-2 2v14h2V3h12V1zm3 4H8a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2zm0 16H8V7h11v14z"/></svg><span>Ссылка</span></button>\n'
 + '  </div>\n'
@@ -532,7 +610,7 @@ function updateOutput() {
 + '  .rn-share__btn[data-net="wa"]:hover { color: #25D366; border-color: #25D366; }\n'
 + '  .rn-share__btn--copy:hover { color: #d63a2f; border-color: #d63a2f; }\n'
 + '  .rn-share__btn--copied { color: #4caf7d !important; border-color: #4caf7d !important; }\n'
-+ '</style>\n'
++ CL_STYLE + '\n'
 + '<script>\n'
 + '(function () {\n'
 + '  var url = location.href.split("#")[0];\n'
@@ -568,7 +646,7 @@ function updateOutput() {
 + '    });\n'
 + '  }\n'
 + '})();\n'
-+ '</scr' + 'ipt>\n'
++ CL_SCRIPT + '\n'
 
     + '  </article>\n'
     + '  <div class="related">\n'
@@ -606,28 +684,66 @@ function updateOutput() {
   document.getElementById('jsOutput').textContent = jsCard;
 }
 
-function copyHtml() {
-  const text = document.getElementById('htmlOutput').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target;
-    const old = btn.textContent;
-    btn.textContent = '✓ Скопировано!';
-    setTimeout(() => { btn.textContent = old; }, 2000);
-  });
+// Показать результат на кнопке
+function showCopied(btn, ok) {
+  const old = btn.textContent;
+  btn.textContent = ok ? '✓ Скопировано!' : 'Не удалось скопировать';
+  setTimeout(() => { btn.textContent = old; }, 2000);
 }
 
-function copyJs() {
+// Копирование с запасным механизмом на случай запрета буфера
+function copyText(text, ok, fail) {
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(ok, fail);
+  } else {
+    // старый способ: невидимое поле, выделение, копирование
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    let done = false;
+    try { done = document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done ? ok() : fail();
+  }
+}
+
+function copyHtml(btn) {
+  const text = document.getElementById('htmlOutput').textContent;
+  copyText(text,
+    () => showCopied(btn, true),
+    () => showCopied(btn, false));
+}
+
+function copyJs(btn) {
   const text = document.getElementById('jsOutput').textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    const btn = event.target;
-    const old = btn.textContent;
-    btn.textContent = '✓ Скопировано!';
-    setTimeout(() => { btn.textContent = old; }, 2000);
-  });
+  copyText(text,
+    () => showCopied(btn, true),
+    () => showCopied(btn, false));
+}
+
+function addLink() {
+  const ta = document.getElementById('content');
+  const sc = saveScroll();
+  const start = ta.selectionStart;
+  const end = ta.selectionEnd;
+  const sel = ta.value.substring(start, end);
+  const url = prompt('Адрес ссылки (с https://):', 'https://');
+  if (!url) { restoreScroll(sc); return; }
+  const text = sel || prompt('Текст ссылки:') || url;
+  const md = '[' + text + '](' + url + ')';
+  ta.value = ta.value.substring(0, start) + md + ta.value.substring(end);
+  ta.focus();
+  ta.setSelectionRange(start + md.length, start + md.length);
+  updateOutput();
+  restoreScroll(sc);
 }
 
 function wrapText(before, after) {
   const ta = document.getElementById('content');
+  const sc = saveScroll();
   const start = ta.selectionStart;
   const end = ta.selectionEnd;
   const text = ta.value.substring(start, end);
@@ -635,16 +751,19 @@ function wrapText(before, after) {
   ta.focus();
   ta.setSelectionRange(start + before.length, end + before.length);
   updateOutput();
+  restoreScroll(sc);
 }
 
 function addPrefix(prefix) {
   const ta = document.getElementById('content');
+  const sc = saveScroll();
   const start = ta.selectionStart;
   const lineStart = ta.value.lastIndexOf('\n', start - 1) + 1;
   ta.value = ta.value.substring(0, lineStart) + prefix + ta.value.substring(lineStart);
   ta.focus();
   ta.setSelectionRange(start + prefix.length, start + prefix.length);
   updateOutput();
+  restoreScroll(sc);
 }
 
 function insertImage() {
@@ -659,6 +778,7 @@ function confirmImage() {
   const urlInput = document.getElementById('imgUrl');
   const altInput = document.getElementById('imgAlt');
   const ta = document.getElementById('content');
+  const sc = saveScroll();
 
   let url = urlInput.value.trim();
   const alt = altInput.value.trim();
@@ -680,6 +800,7 @@ function confirmImage() {
   altInput.value = '';
   closeModal();
   updateOutput();
+  restoreScroll(sc);
 }
 
 setDefaultDate();
