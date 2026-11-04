@@ -191,6 +191,27 @@ a { color: inherit; text-decoration: none; }
   font-size: 15px;
   opacity: .6;
 }
+/* ===== ССЫЛКА НА ПОСТ (иконка-цепь) ===== */
+.post-share-row {
+  text-align: right;
+  margin-top: 12px;
+}
+.rn-share {
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  padding: 4px;
+}
+.rn-share svg {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+.rn-share:hover { opacity: .75; }
+
   </style>
   <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -246,10 +267,18 @@ a { color: inherit; text-decoration: none; }
   function postHTML(p) {
     var urgent = p.urgent ? '<span class="rn-urgent">Срочно</span>' : '';
     var h3class = p.urgent ? ' class="has-urgent"' : '';
-    return '<article class="post-card">' +
+    var share = '<button class="rn-share" data-id="' + p.id + '" title="Скопировать ссылку на пост" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;color:var(--accent);cursor:pointer;font-family:var(--mono);font-size:13px;padding:4px;">' +
+      '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="transform:rotate(-45deg);">' +
+      '<path d="M10.5 13.5a4.5 4.5 0 0 0 6.36 0l3-3a4.5 4.5 0 0 0-6.36-6.36l-1.5 1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' +
+      '<path d="M13.5 10.5a4.5 4.5 0 0 0-6.36 0l-3 3a4.5 4.5 0 0 0 6.36 6.36l1.5-1.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' +
+      '</svg>' +
+      '<span>Скопировать ссылку</span>' +
+      '</button>';
+    return '<article class="post-card" id="post-' + p.id + '">' +
       '<div class="post-meta"><span class="post-time">' + p.time + ' МСК</span></div>' +
       '<h3' + h3class + '>' + p.title + urgent + '</h3>' +
       '<div class="post-body">' + p.text + '</div>' +
+      '<div class="post-share-row" style="text-align:right;margin-top:12px;">' + share + '</div>' +
       '</article>';
   }
 
@@ -272,6 +301,7 @@ a { color: inherit; text-decoration: none; }
     shown += chunk.length;
     sentinel.classList.toggle('done', shown >= POSTS.length);
   }
+
   // ===== ПОИСК ПО ПОСТАМ =====
   var searchBox = document.getElementById('postSearch');
   var searchQuery = '';
@@ -326,6 +356,48 @@ a { color: inherit; text-decoration: none; }
 
   loadMore();
 
+  // ===== КОПИРОВАНИЕ ССЫЛКИ НА ПОСТ =====
+  list.addEventListener('click', function (e) {
+    var btn = e.target.closest ? e.target.closest('.rn-share') : null;
+    if (!btn) return;
+    var url = location.origin + location.pathname + '#post-' + btn.getAttribute('data-id');
+    function done() {
+      var old = btn.innerHTML;
+      btn.textContent = '\u2713 скопировано';
+      setTimeout(function () { btn.innerHTML = old; }, 1500);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(done);
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (err) {}
+      document.body.removeChild(ta);
+      done();
+    }
+  });
+
+  // ===== ПЕРЕХОД К ПОСТУ ПО ССЫЛКЕ =====
+  function scrollToHash() {
+    if (location.hash.indexOf('#post-') !== 0) return;
+    var el = document.getElementById(location.hash.slice(1));
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return true;
+    }
+    return false;
+  }
+  if (location.hash.indexOf('#post-') === 0) {
+    (function tryFind() {
+      if (!scrollToHash() && shown < POSTS.length) {
+        loadMore();
+        setTimeout(tryFind, 150);
+      }
+    })();
+  }
+
   // ===== КНОПКА НАВЕРХ =====
   var btn = document.getElementById('toTop');
   window.addEventListener('scroll', function () {
@@ -336,6 +408,5 @@ a { color: inherit; text-decoration: none; }
   });
 })();
 </script>
-
 </body>
 </html>
