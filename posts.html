@@ -381,20 +381,31 @@ a { color: inherit; text-decoration: none; }
   });
 
   // ===== ПЕРЕХОД К ПОСТУ ПО ССЫЛКЕ =====
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
   function scrollToHash() {
-  const hash = decodeURIComponent(location.hash);
-  if (!hash.startsWith('#post-')) return false;
-  const target = document.querySelector(hash);
-  if (!target) return false;
-  // крутим к заголовку поста, а не к карточке целиком
-  const heading = target.querySelector('h3') || target;
-  const header = document.querySelector('.header');
-  const offset = (header ? header.offsetHeight : 0) + 12;
-  const top = heading.getBoundingClientRect().top + window.pageYOffset - offset;
-  window.scrollTo({ top: top, behavior: 'smooth' });
-  target.classList.add('post-flash');
-  return true;
-}
+    var hash = decodeURIComponent(location.hash);
+    if (!hash.startsWith('#post-')) return false;
+    // если пост глубже первой порции — дотягиваем ленту, пока он не появится
+    var target = document.querySelector(hash);
+    var tries = 0;
+    while (!target && shown < POSTS.length && tries < 100) {
+      loadMore();
+      target = document.querySelector(hash);
+      tries++;
+    }
+    if (!target) return false;
+    // забираем якорь себе: браузер больше не скроллит к нему сам
+    history.replaceState(null, '', location.pathname + location.search);
+    var heading = target.querySelector('h3') || target;
+    var header = document.querySelector('.header');
+    var offset = (header ? header.offsetHeight : 0) + 12;
+    var top = heading.getBoundingClientRect().top + window.pageYOffset - offset;
+    window.scrollTo(0, top);
+    target.classList.add('post-flash');
+    return true;
+  }
+  scrollToHash();
 
   // ===== КНОПКА НАВЕРХ =====
   var btn = document.getElementById('toTop');
