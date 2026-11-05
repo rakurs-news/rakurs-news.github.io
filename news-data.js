@@ -1,4 +1,13 @@
 const news = [
+  {
+    cat:'Спорт',
+    title:'ООН: бойкот матчей РФ не признали дискриминацией',
+    excerpt:'УВКПЧ связало отказ от игр со свободой выражения мнения — детали и правовые нюансы.',
+    img:'/img/Rakurs-News_20261105_093822.jpg',
+    date:'5 ноября 2026, 09:40',
+    author:'Дмитрий Мусиенко',
+    link:'news/boykot-matchej-sbornoy-rf-hokkey-oon-ne-uvidela-diskriminacii.html'
+  },
 {
     cat:'Здоровье',
     title:'Оптимальное время сна для здоровья сердца',
