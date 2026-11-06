@@ -129,7 +129,13 @@ textarea { resize: vertical; }
 <div class="form-group">
   <label>ГЛАВНОЕ ФОТО СТАТЬИ</label>
   <input type="text" id="img" placeholder="Вставить ссылку фото" oninput="updateOutput()">
-  <p class="hint">Путь к фото. <b>img/photo.jpg</b></p>
+  <p class="hint">Путь к фото. <b>img/photo.jpg</b>. Оставь пустым — обложки не будет.</p>
+</div>
+
+<div class="form-group">
+  <label>ВИДЕО ИЗ ВКОНТАКТЕ (НЕОБЯЗАТЕЛЬНО)</label>
+  <input type="text" id="video" placeholder="Ссылка или код видео ВК" oninput="updateOutput()">
+  <p class="hint">Ссылка <b>vk.com/video-...</b> или готовый код встраивания из ВК. Пусто — плеера не будет.</p>
 </div>
 
 <div class="form-group">
@@ -156,9 +162,6 @@ textarea { resize: vertical; }
   <label>Дата публикации</label>
   <input type="text" id="date" oninput="updateOutput()">
 </div>
-
-<input type="hidden" id="author" value="Дмитрий Мусиенко">
-
 <div class="readtime" id="readtime">⏱ 1 мин чтения</div>
 
 <div class="section-title">Шаг 1 · <span>Скопировать HTML статьи</span></div>
@@ -300,7 +303,11 @@ img { display: block; max-width: 100%; height: auto; }
 .b-cat.c-tech     { background:#29b6d8 !important; color:#fff !important; }
 .b-cat.c-show     { background:#e05a8a !important; color:#fff !important; }
 .b-cat.c-auto     { background:#7f8c99 !important; color:#fff !important; }
-.b-cat.c-health   { background:#8bc34a !important; color:#fff !important; }`; 
+.b-cat.c-health   { background:#8bc34a !important; color:#fff !important; }
+
+/* ===== ВИДЕО ИЗ ВК ===== */
+.article-video { position:relative; width:100%; aspect-ratio:16/9; background:#000; border:1px solid #2c3038; border-left:3px solid #d63a2f; margin:0 0 28px; overflow:hidden; }
+.article-video iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }`;
 // Скрипт «Читайте также» — вставляется в каждую сгенерированную статью
 const RELATED_JS = `
     document.addEventListener('DOMContentLoaded', function () {
@@ -365,8 +372,22 @@ const CAT_CLASSES = {
   'Авто':'c-auto',
   'Здоровье':'c-health'
 };
-
-
+// Автор по умолчанию для каждой рубрики
+const CAT_AUTHORS = {
+  'В России':'Дмитрий Мусиенко',
+  'В мире':'Алексей Резаев',
+  'Экономика':'Татьяна Сергеева',
+  'Спорт':'Андрей Грунский',
+  'Культура':'Елена Соколенко',
+  'Армия':'Юлия Семенкова',
+  'Происшествия':'Николай Соколенко',
+  'Общество':'Ирина Мусиенко',
+  'Наука':'Анна Стремоухова',
+  'Технологии':'Игорь Тангрибердиев',
+  'Шоу-бизнес':'Елена Куриная',
+  'Авто':'Илья Жолобов',
+  'Здоровье':'Виктория Мусиенко'
+};
 function mdToHtml(md) {
   if (!md) return '';
   let lines = md.split('\n');
@@ -463,6 +484,22 @@ function absImg(img, baseUrl) {
   return baseUrl + img;
 }
 
+// Плеер для поля «ВИДЕО ИЗ ВКОНТАКТЕ»: принимает и ссылку, и готовый код встраивания
+function buildVideoBlock(v) {
+  if (!v) return '';
+  v = v.trim();
+  if (/<iframe/i.test(v)) {
+    return '<div class="article-video">' + v + '</div>\n';
+  }
+  const m = v.match(/(?:https?:\/\/)?(?:www\.)?(?:vk\.com|vkvideo\.ru)\/video(-?\d+)_(\d+)/);
+  if (!m) return '';
+  return '<div class="article-video">'
+    + '<iframe src="https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2"'
+    + ' loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"'
+    + ' allowfullscreen frameborder="0"></iframe>'
+    + '</div>\n';
+}
+
 // Фикс прокрутки: запоминаем позицию страницы до обновления блоков кода
 // и возвращаем её обратно — клик по кнопке больше не уводит вниз.
 function saveScroll() { return window.scrollY || 0; }
@@ -474,7 +511,7 @@ function updateOutput() {
   const title = clean(document.getElementById('title').value);
   const cat = document.getElementById('cat').value;
   const date = clean(document.getElementById('date').value);
-  const author = clean(document.getElementById('author').value) || 'Дмитрий Мусиенко';
+  const author = CAT_AUTHORS[cat] || 'Редакция Ракурс News';
   const img = normalizeImg(document.getElementById('img').value || '');
   const excerpt = clean(document.getElementById('excerpt').value);
   const content = document.getElementById('content').value || '';
@@ -484,10 +521,19 @@ function updateOutput() {
   document.getElementById('readtime').textContent = '⏱ ' + rt + ' мин чтения';
 
   const articleHtml = mdToHtml(content);
+  const videoBlock = buildVideoBlock(document.getElementById('video').value || '');
   const baseUrl = 'https://rakurs-news.github.io';
   const articleUrl = baseUrl + '/news/' + slug + '.html';
   const isoDate = toIsoDate(date);
   const catLink = CAT_LINKS[cat] || '';
+
+  // Обложка и мета-теги картинки — только если фото указано
+  const ogImg = absImg(img, baseUrl);
+  const coverBlock = img
+    ? '    <div class="article-cover">\n'
+      + '      <img src="' + img + '" alt="' + esc(title) + '">\n'
+      + '    </div>\n'
+    : '';
 
   const htmlFile = '<!DOCTYPE html>\n<html lang="ru">\n<head>\n'
     + '  <meta charset="UTF-8">\n'
@@ -498,12 +544,12 @@ function updateOutput() {
     + '  <meta property="og:type" content="article">\n'
     + '  <meta property="og:title" content="' + esc(title) + '">\n'
     + '  <meta property="og:description" content="' + esc(excerpt) + '">\n'
-    + '  <meta property="og:image" content="' + esc(absImg(img, baseUrl)) + '">\n'
+    + (ogImg ? '  <meta property="og:image" content="' + esc(ogImg) + '">\n' : '')
     + '  <meta property="og:url" content="' + articleUrl + '">\n'
     + '  <meta name="twitter:card" content="summary_large_image">\n'
     + '  <meta name="twitter:title" content="' + esc(title) + '">\n'
     + '  <meta name="twitter:description" content="' + esc(excerpt) + '">\n'
-    + '  <meta name="twitter:image" content="' + esc(absImg(img, baseUrl)) + '">\n'
+    + (ogImg ? '  <meta name="twitter:image" content="' + esc(ogImg) + '">\n' : '')
     + '  <link rel="canonical" href="' + articleUrl + '">\n'
     + '  <link rel="icon" href="/img/logo.png">\n'
     + '  <link rel="preconnect" href="https://fonts.googleapis.com">\n'
@@ -514,7 +560,7 @@ function updateOutput() {
     + '    "@type": "Article",\n'
     + '    "headline": "' + jsonEsc(title) + '",\n'
     + '    "description": "' + jsonEsc(excerpt) + '",\n'
-    + '    "image": ["' + absImg(img, baseUrl) + '"],\n'
+    + (ogImg ? '    "image": ["' + ogImg + '"],\n' : '')
     + '    "datePublished": "' + isoDate + '",\n'
     + '    "author": { "@type": "Person", "name": "' + jsonEsc(author) + '" },\n'
     + '    "publisher": { "@type": "Organization", "name": "Ракурс News" },\n'
@@ -561,9 +607,8 @@ function updateOutput() {
     + '        ' + esc(date) + '\n'
     + '      </div>\n'
     + '    </div>\n'
-    + '    <div class="article-cover">\n'
-    + '      <img src="' + img + '" alt="' + esc(title) + '">\n'
-    + '    </div>\n'
+    + coverBlock
+    + videoBlock
     + '    <div class="article-body">\n'
     + articleHtml
     + '    </div>\n'
