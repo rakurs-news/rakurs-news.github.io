@@ -1052,7 +1052,7 @@
           heroEl.style.display = 'none';
           return;
         }
-        heroEl.innerHTML = `
+              heroEl.innerHTML = `
           <a class="hero-card" href="${heroNews.link || '#'}">
             <div class="hero-media">
               <img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">
@@ -1062,7 +1062,8 @@
                 <div class="hero-cat">${heroNews.cat || ''}</div>
               </div>
               <div class="hero-overlay">
-              <h2>${heroNews.title}</h2>
+                <h2>${heroNews.title}</h2>
+              </div>
             </div>
             <div class="hero-sub">${heroNews.excerpt || ''}</div>
             <div class="hero-meta">
@@ -1070,6 +1071,7 @@
             </div>
           </a>`;
       }
+
 
       // ===== ВРЕМЯ: разбор даты и относительное время =====
       const CATCLS = { 'В России':'c-ru', 'В мире':'c-world', 'Экономика':'c-econ', 'Спорт':'c-sport', 'Культура':'c-cult', 'Армия':'c-army', 'Происшествия':'c-incident', 'Общество':'c-society', 'Наука':'c-science', 'Технологии':'c-tech', 'Шоу-бизнес':'c-show', 'Авто':'c-auto', 'Здоровье':'c-health' };
