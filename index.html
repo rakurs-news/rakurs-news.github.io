@@ -1196,7 +1196,10 @@
               </div>
             </div>
             <div class="row-img">
-              <img src="${n.img}" alt="${n.title}" loading="lazy">
+              ${n.img
+                ? `<img src="${n.img}" alt="${n.title}" loading="lazy">`
+                : (n.video ? '<div class="row-video-stub"><span class="row-play"></span></div>' : '')}
+              ${n.video && n.img ? '<span class="row-play"></span>' : ''}
             </div>
           </a>`;
       }
