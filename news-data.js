@@ -1,4 +1,14 @@
 const news = [
+{
+    cat:'В России',
+    title:'Пять лет за неудавшийся поджог: школьницу осудили в Красноярске',
+    excerpt:'15‑летняя девочка получила реальный срок за попытку поджечь железнодорожное оборудование по заданию из мессенджера.',
+    img:'/img/Rakurs-News_20261106_191045.webp',
+    video:'',
+    date:'6 ноября 2026, 19:13',
+    author:'Дмитрий Мусиенко',
+    link:'news/krasnoyarsk-shkolnitsa-osuzhdena-za-podzhog-zheleznodorozhnogo-oborudovaniya.html'
+  },
   {
     cat:'Происшествия',
     title:'Убийство младенца в Оренбурге: задержан отец',
