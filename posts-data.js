@@ -1,5 +1,14 @@
 const POSTS = [
     {
+        id: 28066,
+        date: "6 ноября 2026",
+        time: "15:48",
+        urgent: true,
+        title: "Три пассажира автобуса Воронеж – Луганск пострадали при атаке ВСУ",
+        img: "img/Rakurs-News_20261106_154720.webp",
+        text: `<div style="width:100%;aspect-ratio:3/2;overflow:hidden;background:#0d0e12;border:1px solid #2c3038;border-left:3px solid #d63a2f;margin:0 0 14px;"><img src="img/Rakurs-News_20261106_154720.webp" alt="Три пассажира автобуса Воронеж – Луганск пострадали при атаке ВСУ" style="width:100%;height:100%;object-fit:contain;display:block;"></div><p>Удар был нанесён в районе села Придорожное. По информации главы ЛНР, двоим пострадавшим оказана необходимая медпомощь — они направлены на амбулаторное лечение. Третий пассажир остаётся под наблюдением медиков.</p>`
+    },
+    {
         id: 38030,
         date: "6 ноября 2026",
         time: "12:18",
