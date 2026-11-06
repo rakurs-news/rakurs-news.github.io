@@ -1,5 +1,15 @@
 const news = [
   {
+    cat:'В России',
+    title:'Банда силовиков на Урале: торговля гражданством',
+    excerpt:'25‑летний замначальника миграционного отдела и сообщники — подозревают в легализации свыше 50 иностранцев.',
+    img:'/img/Rakurs-News_20261106_084832.webp',
+    date:'6 ноября 2026, 08:50',
+    live: true,
+    author:'Дмитрий Мусиенко',
+    link:'news/banda-silovikov-torgovala-grazhdanstvom-na-yuzhnom-urale.html'
+  },
+  {
     cat:'Общество',
     hero: true,
     title:'63,5 тысячи мигрантов выдворены из России',
