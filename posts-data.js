@@ -1,4 +1,13 @@
-const POSTS = [   
+const POSTS = [
+    {
+        id: 36354,
+        date: "6 ноября 2026",
+        time: "07:32",
+        urgent: false,
+        title: "Атака на Афипский",
+        img: "img/Rakurs-News_20261106_073102.jpg",
+        text: `<img src="img/Rakurs-News_20261106_073102.jpg" alt="Атака на Афипский" style="width:100%;aspect-ratio:3/2;object-fit:cover;display:block;border:1px solid #2c3038;border-left:3px solid #d63a2f;margin:0 0 12px;"><p>Краснодарский край снова под ударом. Сообщается, что ВСУ атаковали Афипский.</p>`
+    },
  {
         id: 70606,
         date: "6 ноября 2026",
