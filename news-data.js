@@ -1,4 +1,14 @@
 const news = [
+  {
+    cat:'В мире',
+    title:'НАТО: нет стопроцентной защиты от российских дронов и ракет',
+    excerpt:'Генерал альянса признал уязвимость перед масштабами и эффективностью российского вооружения',
+    img:'/img/Rakurs-News_20261106_140702.webp',
+    video:'',
+    date:'6 ноября 2026, 14:10',
+    author:'Алексей Резаев',
+    link:'news/nato-priznaet-otsutstvie-100-zaschity-ot-rossiiskih-dronov.html'
+  },
 {
     cat:'Происшествия',
     hero: true,
