@@ -1,4 +1,13 @@
 const POSTS = [
+{
+        id: 50527,
+        date: "6 ноября 2026",
+        time: "08:02",
+        urgent: false,
+        title: "Педо состав конгресса США",
+        img: "img/Rakurs-News_20261106_080050.jpg",
+        text: `<div style="width:100%;aspect-ratio:3/2;overflow:hidden;background:#0d0e12;border:1px solid #2c3038;border-left:3px solid #d63a2f;margin:0 0 14px;"><img src="img/Rakurs-News_20261106_080050.jpg" alt="Педо состав конгресса США" style="width:100%;height:100%;object-fit:contain;display:block;"></div>Новый состав Конгресса США станет рекордным по числу открытых ЛГБТ-представителей за всю историю страны.&nbsp;<p><br></p><p>Об этом сообщает Congressional Equality Caucus — объединение американских конгрессменов, выступающих за права ЛГБТ.</p><p><br></p><p><i>*Международное движение ЛГБТ признано экстремистским и запрещено в России</i></p><p><br></p>`
+    },
     {
         id: 46406,
         date: "6 ноября 2026",
