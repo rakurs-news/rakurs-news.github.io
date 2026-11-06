@@ -170,6 +170,12 @@
       position: relative;
       overflow: hidden;
     }
+        .hero-media:has(img) { min-height: 0; }
+    .hero-media:not(:has(img)) {
+      min-height: 180px;
+      background: linear-gradient(135deg, #22262e 0%, #17191e 100%);
+    }
+
     .hero-media img {
   width: 100%;
   height: 460px;
@@ -228,6 +234,39 @@
       font-size: 15px;
       line-height: 1.55;
       max-width: 640px;
+    }
+    .hero-video-stub {
+      position: absolute;
+      inset: 0;
+      min-height: 220px;
+      background: linear-gradient(135deg, #22262e 0%, #14161b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-ico {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--accent);
+      position: relative;
+      box-shadow: 0 6px 24px rgba(214,58,47,.4);
+    }
+    .play-ico::after {
+      content: '';
+      position: absolute;
+      left: 26px;
+      top: 19px;
+      border-style: solid;
+      border-width: 13px 0 13px 22px;
+      border-color: transparent transparent transparent #fff;
+    }
+    .hero-plaque--video {
+      background: #fff;
+      color: var(--accent);
+      top: 14px;
+      left: 14px;
+      right: auto;
     }
     .hero-meta {
       padding: 10px 28px;
@@ -1045,6 +1084,18 @@
       let pool = [];
       let shown = 0;
 
+// Плеер ВК для hero: ссылка vk.com/vk.ru/vkvideo.ru или готовый код iframe
+      function heroVideoBlock(v) {
+        if (!v) return '';
+        v = v.trim();
+        if (/<iframe/i.test(v)) return '<div class="hero-video">' + v + '</div>';
+        const m = v.match(/(?:https?:\/\/)?(?:www\.)?(?:vk\.com|vk\.ru|vkvideo\.ru)\/(?:video|clip)(-?\d+)_(\d+)/);
+        if (!m) return '';
+        return '<div class="hero-video">'
+          + '<iframe src="https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2"'
+          + ' loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"'
+          + ' allowfullscreen frameborder="0"></iframe></div>';
+      }
       // ===== HERO =====
       function renderHero() {
         const heroNews = (typeof news !== 'undefined') ? news.find(n => n.hero) : null;
@@ -1052,11 +1103,18 @@
           heroEl.style.display = 'none';
           return;
         }
-              heroEl.innerHTML = `
+        const hasVideo = !!heroNews.video;
+        const mediaBlock = heroNews.img
+          ? `<img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">`
+          : (hasVideo ? '<div class="hero-video-stub"><span class="play-ico"></span></div>' : '');
+        const videoPlaque = hasVideo && !heroNews.img
+          ? '<span class="hero-plaque hero-plaque--video">Видео</span>' : '';
+        heroEl.innerHTML = `
           <a class="hero-card" href="${heroNews.link || '#'}">
             <div class="hero-media">
-              <img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">
-              <div class="hero-shade"></div>
+                ${mediaBlock}
+                ${videoPlaque}
+                <div class="hero-shade"></div>
               <div class="hero-top">
                 <span class="hero-plaque">Главное</span>
                 <div class="hero-cat">${heroNews.cat || ''}</div>
