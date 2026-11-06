@@ -18,8 +18,12 @@ body { background: var(--bg); color: var(--text); font-family: var(--sans); padd
 h1 { font-family: var(--serif); font-size: 24px; color: #fff; margin-bottom: 4px; }
 h1 em { font-style: normal; color: var(--accent); }
 label { display: block; margin: 16px 0 6px; font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--text-dim); }
-#postTitle { width: 100%; background: var(--bg-row); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px 12px; color: var(--text); font-family: var(--sans); font-size: 16px; outline: none; }
-#postTitle:focus { border-color: var(--accent); }
+#postTitle, #postImg { width: 100%; background: var(--bg-row); border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 10px 12px; color: var(--text); font-family: var(--sans); font-size: 16px; outline: none; }
+#postTitle:focus, #postImg:focus { border-color: var(--accent); }
+.hint { color: var(--text-dim); font-size: 12px; margin-top: 5px; }
+.hint b { color: var(--accent); }
+#postImgPrev { display: none; margin-top: 8px; border: 1px solid var(--line); border-left: 3px solid var(--accent); overflow: hidden; background: #0d0e12; }
+#postImgPrev img { width: 100%; aspect-ratio: 3/2; object-fit: contain; display: block; }
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
 .toolbar button { background: var(--bg-raised); color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 8px 14px; font-family: var(--sans); font-size: 14px; cursor: pointer; }
 .toolbar button:active { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -33,8 +37,8 @@ label { display: block; margin: 16px 0 6px; font-family: var(--mono); font-size:
 .actions button:hover { background: #b52f26; }
 .actions .clear { background: var(--bg-raised); border: 1px solid var(--line); color: var(--text-dim); }
 #output { width: 100%; background: #101216; color: #9ee493; border: 1px solid var(--line); border-radius: 4px; padding: 12px; font-family: var(--mono); font-size: 12px; min-height: 150px; resize: vertical; }
-.hint { color: var(--text-dim); font-size: 13px; margin-top: 12px; line-height: 1.5; }
-.hint b { color: var(--accent); }
+.hint-long { color: var(--text-dim); font-size: 13px; margin-top: 12px; line-height: 1.5; }
+.hint-long b { color: var(--accent); }
 .rn-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-family: var(--mono); font-size: 12px; color: var(--text); cursor: pointer; }
 .rn-check input { width: 16px; height: 16px; accent-color: var(--accent); }
 </style>
@@ -46,6 +50,12 @@ label { display: block; margin: 16px 0 6px; font-family: var(--mono); font-size:
 <label for="postTitle">Заголовок поста</label>
 <input id="postTitle" placeholder="Например: Коротко о главном">
 <label class="rn-check"><input type="checkbox" id="postUrgent"> 🚨 Пометить как «Срочно»</label>
+
+<label for="postImg">Ссылка на фото (необязательно)</label>
+<input id="postImg" placeholder="photo.jpg или img/photo.jpg" oninput="updateImgPreview()">
+<p class="hint">Путь в репозитории. Можно вписать просто <b>photo.jpg</b> — папка <b>img/</b> добавится сама. Пусто — поста без фото.</p>
+<div id="postImgPrev"><img id="postImgEl" src="" alt=""></div>
+
 <label>Текст поста — выделяй слова и жми кнопки</label>
 <div class="toolbar">
     <button type="button" onclick="cmd('bold')"><b>Ж</b> жирный</button>
@@ -59,13 +69,13 @@ label { display: block; margin: 16px 0 6px; font-family: var(--mono); font-size:
 
 <div class="actions">
     <button type="button" onclick="gen()">Сгенерировать код</button>
-    <button type="button" class="clear" onclick="if(confirm('Очистить всё?')){editor.innerHTML='';postTitle.value='';output.value='';postUrgent.checked=false;}">Очистить</button>
+    <button type="button" class="clear" onclick="if(confirm('Очистить всё?')){editor.innerHTML='';postTitle.value='';output.value='';postUrgent.checked=false;postImg.value='';updateImgPreview();}">Очистить</button>
 </div>
 
 <label for="output">Код поста — он уже скопирован в буфер обмена</label>
 <textarea id="output" readonly></textarea>
 
-<p class="hint">Вставь код в файл posts-data.js сразу после строки <b>const POSTS = [</b> — свежие посты всегда сверху. Затем залей posts-data.js в репозиторий (карандаш → вставить → Commit). Всё, пост на сайте.</p>
+<p class="hint-long">Вставь код в файл posts-data.js сразу после строки <b>const POSTS = [</b> — свежие посты всегда сверху. Фото встанет вверху поста: рамка 3:2, сама картинка целиком, без обрезки. Если пропорция фото не 3:2 — сверху и снизу будут тёмные поля в цвет сайта.</p>
 
 <script>
 var ed = document.getElementById('editor'),
@@ -74,6 +84,38 @@ var ed = document.getElementById('editor'),
 document.execCommand('styleWithCSS', false, false);
 function cmd(c, v) { document.execCommand(c, false, v || null); ed.focus(); }
 function addLink() { var u = prompt('Адрес ссылки (с https://):', 'https://'); if (u) cmd('createLink', u); }
+
+// Приводит любой ввод к пути в репо: img/photo.jpg
+function normalizeImgPath(v) {
+    v = (v || '').trim();
+    if (!v) return '';
+    v = v.replace(/\\/g, '/');
+    // полный адрес — отрезаем домен, оставляем путь
+    var m = v.match(/^https?:\/\/[^\/]+\/(.*)$/i);
+    if (m) v = m[1];
+    v = v.replace(/^\/+/, ''); // ведущий слэш срезаем
+    if (!/^img\//i.test(v)) v = 'img/' + v.replace(/^img\/+/i, '');
+    v = v.replace(/\/{2,}/g, '/');
+    return v;
+}
+
+function updateImgPreview() {
+    var p = normalizeImgPath(document.getElementById('postImg').value);
+    var box = document.getElementById('postImgPrev');
+    var el = document.getElementById('postImgEl');
+    if (!p) { box.style.display = 'none'; el.src = ''; return; }
+    el.src = p;
+    box.style.display = 'block';
+}
+
+// Блок фото для поста: рамка 3:2, картинка целиком (contain), без обрезки
+function buildImgBlock(p, title) {
+    if (!p) return '';
+    return '<div style="width:100%;aspect-ratio:3/2;overflow:hidden;background:#0d0e12;border:1px solid #2c3038;border-left:3px solid #d63a2f;margin:0 0 14px;">' +
+        '<img src="' + p + '" alt="' + (title || '').replace(/"/g, '&quot;') + '" ' +
+        'style="width:100%;height:100%;object-fit:contain;display:block;"></div>';
+}
+
 function gen() {
     var title = ttl.value.trim(), html = ed.innerHTML.trim();
     if (!title) { alert('Впиши заголовок поста'); return; }
@@ -84,7 +126,10 @@ function gen() {
     var time = ('0' + d.getHours()).slice(-2) + ':' + ('0' + d.getMinutes()).slice(-2);
     html = html.replace(/<div>/g, '<p>').replace(/<\/div>/g, '</p>').replace(/`/g, '\\`').replace(/\$\{/g, '\\${');
     var urgent = document.getElementById('postUrgent').checked;
-    var code = '    {\n        id: ' + (Date.now() % 100000) + ',\n        date: "' + date + '",\n        time: "' + time + '",\n        urgent: ' + (urgent ? 'true' : 'false') + ',\n        title: "' + title.replace(/"/g, '\\"') + '",\n        text: `' + html + '`\n    },';
+    var img = normalizeImgPath(document.getElementById('postImg').value);
+    var imgBlock = buildImgBlock(img, title);
+    var text = imgBlock + html;
+    var code = '    {\n        id: ' + (Date.now() % 100000) + ',\n        date: "' + date + '",\n        time: "' + time + '",\n        urgent: ' + (urgent ? 'true' : 'false') + ',\n        title: "' + title.replace(/"/g, '\\"') + '",\n        img: "' + img + '",\n        text: `' + text + '`\n    },';
     out.value = code;
     out.select();
     try { document.execCommand('copy'); } catch (e) {}
