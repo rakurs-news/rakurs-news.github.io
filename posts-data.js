@@ -1,12 +1,12 @@
 const POSTS = [
     {
-        id: 36354,
+        id: 6103,
         date: "6 ноября 2026",
-        time: "07:32",
-        urgent: false,
+        time: "07:36",
+        urgent: true,
         title: "Атака на Афипский",
         img: "img/Rakurs-News_20261106_073102.jpg",
-        text: `<img src="img/Rakurs-News_20261106_073102.jpg" alt="Атака на Афипский" style="width:100%;aspect-ratio:3/2;object-fit:cover;display:block;border:1px solid #2c3038;border-left:3px solid #d63a2f;margin:0 0 12px;"><p>Краснодарский край снова под ударом. Сообщается, что ВСУ атаковали Афипский.</p>`
+        text: `<div style="width:100%;aspect-ratio:3/2;overflow:hidden;background:#0d0e12;border:1px solid #2c3038;border-left:3px solid #d63a2f;margin:0 0 14px;"><img src="img/Rakurs-News_20261106_073102.jpg" alt="Атака на Афипский" style="width:100%;height:100%;object-fit:contain;display:block;"></div><p>Краснодарский край снова под ударом. Сообщается, что ВСУ атаковали Афипский.</p>`
     },
  {
         id: 70606,
