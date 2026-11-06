@@ -222,8 +222,16 @@
       color: #fff;
       margin: 0;
     }
+        .hero-sub {
+      padding: 16px 28px 0;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.55;
+      max-width: 640px;
+    }
+
     .hero-meta {
-      padding: 14px 28px;
+      padding: 10px 28px;
       display: flex;
       gap: 14px;
       font-family: var(--mono);
@@ -1054,9 +1062,9 @@
                 <div class="hero-cat">${heroNews.cat || ''}</div>
               </div>
               <div class="hero-overlay">
-                <h2>${heroNews.title}</h2>
-              </div>
+              <h2>${heroNews.title}</h2>
             </div>
+            <div class="hero-sub">${heroNews.excerpt || ''}</div>
             <div class="hero-meta">
               <span>${heroNews.date || ''}</span>
             </div>
