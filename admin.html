@@ -305,6 +305,12 @@ img { display: block; max-width: 100%; height: auto; }
 .b-cat.c-auto     { background:#7f8c99 !important; color:#fff !important; }
 .b-cat.c-health   { background:#8bc34a !important; color:#fff !important; }
 
+
+/* ===== АВТОРЫ ===== */
+.author-photo { position:relative; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:#d9dce1; overflow:hidden; flex-shrink:0; }
+.author-photo svg { position:absolute; }
+.author-photo img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:50%; }
+
 /* ===== ВИДЕО ИЗ ВК ===== */
 .article-video { position:relative; width:100%; aspect-ratio:16/9; background:#000; border:1px solid #2c3038; border-left:3px solid #d63a2f; margin:0 0 28px; overflow:hidden; }
 .article-video iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }`;
@@ -388,6 +394,21 @@ const CAT_AUTHORS = {
   'Авто':'Илья Жолобов',
   'Здоровье':'Виктория Мусиенко'
 };
+const AUTHOR_PHOTOS = {
+  'Дмитрий Мусиенко':'/img/authors/musienko.jpg',
+  'Юлия Семененкова':'/img/authors/semenenkova.jpg',
+  'Алексей Резаев':'/img/authors/rezaev.jpg',
+  'Татьяна Сергеева':'/img/authors/sergeeva.jpg',
+  'Андрей Грунский':'/img/authors/grunskiy.jpg',
+  'Елена Соколенко':'/img/authors/e-sokolenko.jpg',
+  'Николай Соколенко':'/img/authors/n-sokolenko.jpg',
+  'Ирина Мусиенко':'/img/authors/i-musienko.jpg',
+  'Анна Стремоухова':'/img/authors/stremouhova.jpg',
+  'Игорь Тангрибердиев':'/img/authors/tangriberdiev.jpg',
+  'Елена Куриная':'/img/authors/kurinaya.jpg',
+  'Илья Жолобов':'/img/authors/zholobov.jpg',
+  'Виктория Мусиенко':'/img/authors/v-musienko.jpg'
+};
 function mdToHtml(md) {
   if (!md) return '';
   let lines = md.split('\n');
@@ -468,6 +489,17 @@ function toIsoDate(s) {
   return m[3] + '-' + p2(mon) + '-' + p2(+m[1]) + 'T' + p2(+m[4]) + ':' + m[5] + ':00+03:00';
 }
 
+// Блок автора: круглое фото слева от имени, если фото нет — серая иконка человека
+function authorMeta(author) {
+  const ph = AUTHOR_PHOTOS[author];
+  const imgTag = ph ? '<img src="' + ph + '" alt="' + esc(author) + '" onerror="this.remove()">' : '';
+  const stub = '<span class="author-photo">'
+    + '<svg viewBox="0 0 24 24" width="15" height="15" fill="#6a6f78" aria-hidden="true">'
+    + '<circle cx="12" cy="8.2" r="4.2"/>'
+    + '<path d="M3.6 21c.4-4.2 4-6.6 8.4-6.6s8 2.4 8.4 6.6z"/>'
+    + '</svg>' + imgTag + '</span>';
+  return '        ' + stub + '\n';
+}
 function normalizeImg(img) {
   if (!img) return '';
   img = img.trim();
@@ -512,6 +544,23 @@ function updateOutput() {
   const cat = document.getElementById('cat').value;
   const date = clean(document.getElementById('date').value);
   const author = CAT_AUTHORS[cat] || 'Редакция Ракурс News';
+  // Фото авторов для статей. Нет записи — будет серая иконка-заглушка
+const AUTHOR_PHOTOS = {
+  'Дмитрий Мусиенко':'/img/authors/musienko.jpg',
+  'Юлия Семененкова':'/img/authors/semenenkokova.jpg',
+  'Алексей Резаев':'/img/authors/rezaev.jpg',
+  'Татьяна Сергеева':'/img/authors/sergeeva.jpg',
+  'Андрей Грунский':'/img/authors/grunskiy.jpg',
+  'Елена Соколенко':'/img/authors/e-sokolenko.jpg',
+  'Николай Соколенко':'/img/authors/n-sokolenko.jpg',
+  'Ирина Мусиенко':'/img/authors/i-musienko.jpg',
+  'Анна Стремоухова':'/img/authors/stremouhova.jpg',
+  'Игорь Тангрибердиев':'/img/authors/tangriberdiev.jpg',
+  'Елена Куриная':'/img/authors/kurinaya.jpg',
+  'Илья Жолобов':'/img/authors/zholobov.jpg',
+  'Виктория Мусиенко':'/img/authors/v-musienko.jpg'
+};
+
   const img = normalizeImg(document.getElementById('img').value || '');
   const excerpt = clean(document.getElementById('excerpt').value);
   const content = document.getElementById('content').value || '';
@@ -600,7 +649,8 @@ function updateOutput() {
     + '      <div class="article-badge b-cat ' + (CAT_CLASSES[cat] || '') + '">' + esc(cat) + '</div>\n'
     + '      <h1 class="article-title">' + esc(title) + '</h1>\n'
     + '      <div class="article-meta">\n'
-    + '        👤 ' + esc(author) + '\n'
+    + authorMeta(author)
+    + '        ' + esc(author) + '\n'
     + '        <span class="article-dot">·</span>\n'
     + '        ⏱ ' + rt + ' мин чтения\n'
     + '        <span class="article-dot">·</span>\n'
@@ -721,6 +771,7 @@ function updateOutput() {
     + "    title:'" + jsEsc(title) + "',\n"
     + "    excerpt:'" + jsEsc(excerpt) + "',\n"
     + "    img:'" + img + "',\n"
+    + "    video:'" + jsEsc(document.getElementById('video').value || '') + "',\n"
     + "    date:'" + date + "',\n"
     + "    author:'" + jsEsc(author) + "',\n"
     + "    link:'news/" + slug + ".html'\n"

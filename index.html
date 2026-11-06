@@ -345,6 +345,7 @@
       margin-right: 10px;
     }
     .row-img {
+      position: relative;
       overflow: hidden;
       border-left: 3px solid var(--accent-soft);
     }
@@ -355,7 +356,32 @@
       transition: transform 0.3s;
     }
     .row:hover .row-img img { transform: scale(1.05); }
-
+.row-video-stub {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: linear-gradient(135deg, #22262e 0%, #14161b 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .row-play {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(214,58,47,.92);
+    }
+    .row-play::after {
+      content: '';
+      position: absolute;
+      left: 14px;
+      top: 10px;
+      border-style: solid;
+      border-width: 7px 0 7px 11px;
+      border-color: transparent transparent transparent #fff;
+    }
     .empty {
       padding: 40px 4px;
       color: var(--text-dim);
