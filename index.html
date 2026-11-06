@@ -454,6 +454,14 @@
     .footer-policy p:last-child { margin-bottom: 0; }
 
     /* ===== АДАПТИВ ===== */
+    /* ===== УЗКИЕ ОКНА И ДЕСКТОП-РЕЖИМ НА ТЕЛЕФОНЕ ===== */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .feed { grid-template-columns: 1fr; }
+  .hero-media:not(:has(img)) { min-height: 280px; }
+  .hero-video-stub { min-height: 280px; padding-bottom: 46px; }
+  .hero-media img { height: 300px; }
+  .hero-overlay h2 { font-size: 26px; padding-right: 90px; }
+}
 @media (max-width: 900px) {
   .row { grid-template-columns: 64px 1fr; }
   .row-img { display: none; }
