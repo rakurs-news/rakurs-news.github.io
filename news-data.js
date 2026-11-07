@@ -1,4 +1,14 @@
 const news = [
+{
+    cat:'В мире',
+    title:'Финляндия думает о противотанковых рвах на границе с Россией',
+    excerpt:'Инженерные заграждения в финском климате: плюсы и риски.',
+    img:'/img/Rakurs-News_20261107_115507.webp',
+    video:'',
+    date:'7 ноября 2026, 11:58',
+    author:'Алексей Резаев',
+    link:'news/finlyandiya-izuchaet-protivotankovye-rvy-na-granice-s-rf.html'
+  },
   {
     cat:'Общество',
     title:'В Приморье задержан отец, насиловавший дочь с четырёх лет',
