@@ -1,4 +1,15 @@
 const news = [
+  {
+    cat:'Культура',
+    title:'Ушла из жизни Лидия Федосеева‑Шукшина',
+    excerpt:'Легенда советского кино: 88 лет яркой судьбы.',
+    img:'/img/Rakurs-News_20261107_120806.webp',
+    video:'',
+    date:'7 ноября 2026, 12:09',
+    live: true,
+    author:'Елена Соколенко',
+    link:'news/lidiya-fedoseeva-shukshina-ushla-iz-zhizni.html'
+  },
 {
     cat:'В мире',
     title:'Финляндия думает о противотанковых рвах на границе с Россией',
