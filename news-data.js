@@ -1,4 +1,14 @@
 const news = [
+  {
+    cat:'Происшествия',
+    title:'На Урале фуру разорвало в массовом ДТП',
+    excerpt:'Кадры с места аварии: последствия удара, который не оставил шансов.',
+    img:'/img/Rakurs-News_20261108_110208.webp',
+    video:'',
+    date:'8 ноября 2026, 11:04',
+    author:'Николай Соколенко',
+    link:'news/fura-razorvana-v-dtp-na-urale.html'
+  },
 {
     cat:'Армия',
     hero: true,
