@@ -1285,25 +1285,36 @@
 
            // ===== СТРОКА ЛЕНТЫ =====
       function rowHTML(n) {
+        const CAT_COLORS = {
+          'В России':'#d63a2f', 'В мире':'#2f86d6', 'Экономика':'#d9a12b',
+          'Спорт':'#3aa35c', 'Культура':'#9b59d0', 'Армия':'#8a9444',
+          'Происшествия':'#e07b1f', 'Общество':'#2aa8a0', 'Наука':'#5a6fe0',
+          'Технологии':'#29b6d8', 'Шоу-бизнес':'#e05a8a', 'Авто':'#7f8c99',
+          'Здоровье':'#8bc34a'
+        };
+        const badgeStyle = ' style="background:' + (CAT_COLORS[n.cat] || '#17191e') + ';color:#fff"';
         const live = n.live
           ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>'
           : '';
-        const badgeCls = CATCLS[n.cat] || '';
         let media = '';
         if (n.img) {
           media = `<div class="row-media">
             <img src="${n.img}" alt="${n.title}" loading="lazy">
-            <span class="cat-badge ${badgeCls}">${n.cat}</span>
+            <span class="cat-badge"${badgeStyle}>${n.cat}</span>
             <div class="row-overlay"><h3>${n.title}</h3></div>
           </div>`;
         } else if (n.video) {
-          media = `<div class="row-media">
-            <div class="row-video-stub"><span class="row-play"></span></div>
-            <span class="cat-badge ${badgeCls}">${n.cat}</span>
-            <div class="row-overlay"><h3>${n.title}</h3></div>
-          </div>`;
+          const vm = n.video.match(/(?:vk\.com|vk\.ru|vkvideo\.ru)\/(?:video|clip)(-?\d+)_(\d+)/);
+          media = vm
+            ? `<div class="row-media">
+                <iframe src="https://vk.com/video_ext.php?oid=${vm[1]}&id=${vm[2]}&hd=2" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen frameborder="0"></iframe>
+                <span class="cat-badge"${badgeStyle}>${n.cat}</span>
+                <div class="row-overlay"><h3>${n.title}</h3></div>
+              </div>`
+            : `<span class="cat-badge cat-badge--text"${badgeStyle}>${n.cat}</span>
+               <h3 class="row-title-plain">${n.title}</h3>`;
         } else {
-          media = `<span class="cat-badge cat-badge--text ${badgeCls}">${n.cat}</span>
+          media = `<span class="cat-badge cat-badge--text"${badgeStyle}>${n.cat}</span>
             <h3 class="row-title-plain">${n.title}</h3>`;
         }
         return `
