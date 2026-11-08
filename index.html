@@ -1180,50 +1180,71 @@
     .banned-card { grid-template-columns: 1fr; padding: 20px; }
     .banned-title { font-size: 20px; }
   }
-  /* ===== ФИШКА: НОВОЕ С ПОСЛЕДНЕГО ВИЗИТА ===== */
-    .visit-banner {
-      display: none;
-      align-items: center;
-      gap: 12px;
-      background: var(--bg-row);
-      border: 1px solid var(--line);
-      border-left: 4px solid var(--accent);
-      padding: 12px 16px;
-      margin: 0 0 20px;
-      font-size: 14px;
-      color: var(--text);
+<script>
+// ===== ФИШКА: НОВОЕ С ПОСЛЕДНЕГО ВИЗИТА (v2) =====
+(function () {
+  var KEY = 'rakursLastVisit';
+  var now = Date.now();
+  var last = 0;
+  try { last = parseInt(localStorage.getItem(KEY), 10) || 0; } catch (e) {}
+  var since = last > 0 ? last : now - 3600 * 1000; // нет памяти — окно «за последний час»
+
+  var MONTHS = ['января','февраля','марта','апреля','мая','июня',
+                'июля','августа','сентября','октября','ноября','декабря'];
+
+  function parseDate(text) {
+    var m = text.match(/(\d{1,2})\s+([а-яё]+)\s+(\d{4}),?\s+(\d{1,2}):(\d{2})/i);
+    if (!m) return NaN;
+    var mi = MONTHS.indexOf(m[2].toLowerCase());
+    if (mi < 0) return NaN;
+    return new Date(+m[3], mi, +m[1], +m[4], +m[5]).getTime();
+  }
+
+  function plural(n) {
+    var a = Math.abs(n) % 100, b = a % 10;
+    if (a > 10 && a < 20) return 'новостей';
+    if (b > 1 && b < 5) return 'новости';
+    if (b === 1) return 'новость';
+    return 'новостей';
+  }
+
+  var grid = document.getElementById('newsGrid');
+  if (!grid) return;
+
+  var count = 0;
+  var rows = grid.querySelectorAll('.row');
+  for (var i = 0; i < rows.length; i++) {
+    var dEl = rows[i].querySelector('.row-date');
+    if (!dEl) continue;
+    var t = parseDate(dEl.textContent);
+    if (isNaN(t) || t <= since) continue;
+    count++;
+    rows[i].classList.add('is-new');
+    if (!rows[i].querySelector('.new-badge')) {
+      var b = document.createElement('span');
+      b.className = 'new-badge';
+      b.textContent = 'Новое';
+      var media = rows[i].querySelector('.row-media') || rows[i];
+      media.appendChild(b);
     }
-    .visit-banner.visible { display: flex; }
-    .visit-banner b { color: var(--accent); font-family: var(--mono); }
-    .visit-banner button {
-      margin-left: auto;
-      background: var(--accent);
-      color: #fff;
-      border: none;
-      font-weight: 700;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      padding: 9px 14px;
-      cursor: pointer;
-      white-space: nowrap;
-    }
-    .visit-banner button:hover { opacity: .9; }
-    .new-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 2;
-      background: var(--accent);
-      color: #fff;
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      padding: 4px 9px;
-    }
-    .row.is-new .row-media { border-top-color: var(--accent); }
+  }
+
+  if (count > 0) {
+    var bar = document.createElement('div');
+    bar.className = 'missed-bar';
+    bar.innerHTML = '<span class="missed-text">Пока вас не было — ' +
+      count + ' ' + plural(count) + '</span>' +
+      '<button type="button" class="missed-show">Показать</button>';
+    grid.parentNode.insertBefore(bar, grid);
+    bar.querySelector('.missed-show').addEventListener('click', function () {
+      bar.remove();
+      grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  try { localStorage.setItem(KEY, String(now)); } catch (e) {}
+})();
+</script>
 </style>
 
 <section class="banned-section">
