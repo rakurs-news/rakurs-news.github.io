@@ -1,6 +1,17 @@
 const news = [
   {
     cat:'В мире',
+    title:'В Эфиопии атака боевиков унесла десятки жизней',
+    excerpt:'Более 50 погибших: мирные жители и силовики в зоне удара',
+    img:'/img/Rakurs-News_20261108_164721.webp',
+    video:'',
+    date:'8 ноября 2026, 16:50',
+    live: true,
+    author:'Алексей Резаев',
+    link:'news/etiopiya-ataka-boevikov-bolee-50-pogibshih.html'
+  },
+  {
+    cat:'В мире',
     title:'Резкий рост депортаций: Грузия усиливает контроль',
     excerpt:'В 1,5 раза больше россиян выдворили из Грузии в 2026 году',
     img:'/img/Rakurs-News_20261108_145132.webp',
