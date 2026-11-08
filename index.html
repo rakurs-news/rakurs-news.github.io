@@ -481,7 +481,7 @@
       .row-body h3 { font-size: 17px; }
       .feed-title { font-size: 21px; }
     }
-    
+
 /* ===== КУРСЫ ВАЛЮТ ЦБ ===== */
 .rates-bar {
   position: sticky;
@@ -759,6 +759,20 @@
 .row-meta .cat.c-show     { background: #e05a8a !important; color: #fff !important; }
 .row-meta .cat.c-auto     { background: #7f8c99 !important; color: #fff !important; }
 .row-meta .cat.c-health   { background: #8bc34a !important; color: #fff !important; }
+/* ===== ПЛАШКИ РУБРИК НА МЕДИА-КАРТОЧКАХ ЛЕНТЫ ===== */
+.cat-badge.c-ru    { background: #d63a2f !important; color: #fff !important; }
+.cat-badge.c-world { background: #2f86d6 !important; color: #fff !important; }
+.cat-badge.c-econ  { background: #d9a12b !important; color: #111 !important; }
+.cat-badge.c-sport { background: #3aa35c !important; color: #fff !important; }
+.cat-badge.c-cult  { background: #9b59d0 !important; color: #fff !important; }
+.cat-badge.c-army  { background: #8a9444 !important; color: #fff !important; }
+.cat-badge.c-incident { background: #e07b1f !important; color: #fff !important; }
+.cat-badge.c-society  { background: #2aa8a0 !important; color: #fff !important; }
+.cat-badge.c-science  { background: #5a6fe0 !important; color: #fff !important; }
+.cat-badge.c-tech     { background: #29b6d8 !important; color: #fff !important; }
+.cat-badge.c-show     { background: #e05a8a !important; color: #fff !important; }
+.cat-badge.c-auto     { background: #7f8c99 !important; color: #fff !important; }
+.cat-badge.c-health   { background: #8bc34a !important; color: #fff !important; }
 
     .age-badge span {
       font-family: var(--mono);
@@ -964,27 +978,29 @@
   margin-right: 12px;
   vertical-align: middle;
 }
-/* ===== ЕДИНЫЙ РАЗМЕР КАРТОЧЕК: ФОТО И ВИДЕО ===== */
-.row-media {
-  position: relative !important;
-  aspect-ratio: 16 / 9 !important;
-  height: auto !important;
-  overflow: hidden;
+
+/* ===== ВИДЕО В ЛЕНТЕ: ПЕРВЫЙ КАДР ИЗ РОЛИКА ===== */
+.row-media iframe {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  border: 0;
+}
+
+/* ===== ГЕРОЙ: ПЕРВЫЙ КАДР ВИДЕО ===== */
+.hero-media:has(.hero-video) {
+  aspect-ratio: 16 / 9;
+  min-height: 0;
   background: #000;
 }
-.row-media img {
+.hero-video {
   position: absolute;
   inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
 }
-.row-media iframe {
-  position: absolute;
-  inset: 0;
-  width: 100% !important;
-  height: 100% !important;
-  aspect-ratio: auto !important;
+.hero-video iframe {
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 
@@ -1083,7 +1099,7 @@
   </nav>
 
   <main class="main">
-  
+
     <!-- HERO: главная новость дня (блок hero из news-data.js) -->
     <section class="hero" id="hero"></section>
 
@@ -1216,17 +1232,16 @@
       let pool = [];
       let shown = 0;
 
-// Плеер ВК для hero: ссылка vk.com/vk.ru/vkvideo.ru или готовый код iframe
-      function heroVideoBlock(v) {
+// Плеер ВК: ссылка vk.com/vk.ru/vkvideo.ru или готовый код iframe
+      function videoBlock(v) {
         if (!v) return '';
-        v = v.trim();
-        if (/<iframe/i.test(v)) return '<div class="hero-video">' + v + '</div>';
+        v = String(v).trim();
+        if (/<iframe/i.test(v)) return v;
         const m = v.match(/(?:https?:\/\/)?(?:www\.)?(?:vk\.com|vk\.ru|vkvideo\.ru)\/(?:video|clip)(-?\d+)_(\d+)/);
         if (!m) return '';
-        return '<div class="hero-video">'
-          + '<iframe src="https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2"'
+        return '<iframe src="https://vk.com/video_ext.php?oid=' + m[1] + '&id=' + m[2] + '&hd=2"'
           + ' loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture"'
-          + ' allowfullscreen frameborder="0"></iframe></div>';
+          + ' allowfullscreen frameborder="0"></iframe>';
       }
       // ===== HERO =====
       function renderHero() {
@@ -1236,10 +1251,16 @@
           return;
         }
         const hasVideo = !!heroNews.video;
-        const mediaBlock = heroNews.img
-          ? `<img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">`
-          : (hasVideo ? '<div class="hero-video-stub"><span class="play-ico"></span></div>' : '');
-        const videoPlaque = hasVideo && !heroNews.img
+        const heroPlayer = hasVideo ? videoBlock(heroNews.video) : '';
+        let mediaBlock = '';
+        if (heroPlayer) {
+          mediaBlock = '<div class="hero-video">' + heroPlayer + '</div>';
+        } else if (heroNews.img) {
+          mediaBlock = `<img src="${heroNews.img}" alt="${heroNews.title}" loading="eager">`;
+        } else if (hasVideo) {
+          mediaBlock = '<div class="hero-video-stub"><span class="play-ico"></span></div>';
+        }
+        const videoPlaque = hasVideo
           ? '<span class="hero-plaque hero-plaque--video">Видео</span>' : '';
         heroEl.innerHTML = `
           <a class="hero-card" href="${heroNews.link || '#'}">
@@ -1308,36 +1329,26 @@
 
            // ===== СТРОКА ЛЕНТЫ =====
       function rowHTML(n) {
-        const CAT_COLORS = {
-          'В России':'#d63a2f', 'В мире':'#2f86d6', 'Экономика':'#d9a12b',
-          'Спорт':'#3aa35c', 'Культура':'#9b59d0', 'Армия':'#8a9444',
-          'Происшествия':'#e07b1f', 'Общество':'#2aa8a0', 'Наука':'#5a6fe0',
-          'Технологии':'#29b6d8', 'Шоу-бизнес':'#e05a8a', 'Авто':'#7f8c99',
-          'Здоровье':'#8bc34a'
-        };
-        const badgeStyle = ' style="background:' + (CAT_COLORS[n.cat] || '#17191e') + ';color:#fff"';
         const live = n.live
           ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>'
           : '';
+        const badgeCls = CATCLS[n.cat] || '';
         let media = '';
         if (n.img) {
           media = `<div class="row-media">
             <img src="${n.img}" alt="${n.title}" loading="lazy">
-            <span class="cat-badge"${badgeStyle}>${n.cat}</span>
+            <span class="cat-badge ${badgeCls}">${n.cat}</span>
             <div class="row-overlay"><h3>${n.title}</h3></div>
           </div>`;
         } else if (n.video) {
-          const vm = n.video.match(/(?:vk\.com|vk\.ru|vkvideo\.ru)\/(?:video|clip)(-?\d+)_(\d+)/);
-          media = vm
-            ? `<div class="row-media">
-                <iframe src="https://vk.com/video_ext.php?oid=${vm[1]}&id=${vm[2]}&hd=2" loading="lazy" allow="autoplay; encrypted-media; fullscreen; picture-in-picture" allowfullscreen frameborder="0"></iframe>
-                <span class="cat-badge"${badgeStyle}>${n.cat}</span>
-                <div class="row-overlay"><h3>${n.title}</h3></div>
-              </div>`
-            : `<span class="cat-badge cat-badge--text"${badgeStyle}>${n.cat}</span>
-               <h3 class="row-title-plain">${n.title}</h3>`;
+          const player = videoBlock(n.video);
+          media = `<div class="row-media">
+            ${player ? player : '<div class="row-video-stub"><span class="row-play"></span></div>'}
+            <span class="cat-badge ${badgeCls}">${n.cat}</span>
+            <div class="row-overlay"><h3>${n.title}</h3></div>
+          </div>`;
         } else {
-          media = `<span class="cat-badge cat-badge--text"${badgeStyle}>${n.cat}</span>
+          media = `<span class="cat-badge cat-badge--text ${badgeCls}">${n.cat}</span>
             <h3 class="row-title-plain">${n.title}</h3>`;
         }
         return `
