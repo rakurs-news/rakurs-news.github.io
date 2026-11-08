@@ -890,7 +890,21 @@
   aspect-ratio: 16 / 10;
 }
 .row-media img { object-fit: cover; }
-.row-media .row-play { right: 14px; bottom: 14px; }
+.row-media .row-play {
+  right: auto;
+  bottom: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 56px;
+  height: 56px;
+  box-shadow: 0 4px 18px rgba(0,0,0,.45);
+}
+.row-media .row-play::after {
+  left: 24px;
+  top: 19px;
+  border-width: 9px 0 9px 15px;
+}
 .row-overlay {
   position: absolute;
   left: 0; right: 0; bottom: 0;
