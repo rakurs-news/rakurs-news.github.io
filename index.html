@@ -964,6 +964,29 @@
   margin-right: 12px;
   vertical-align: middle;
 }
+/* ===== ЕДИНЫЙ РАЗМЕР КАРТОЧЕК: ФОТО И ВИДЕО ===== */
+.row-media {
+  position: relative !important;
+  aspect-ratio: 16 / 9 !important;
+  height: auto !important;
+  overflow: hidden;
+  background: #000;
+}
+.row-media img {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+.row-media iframe {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: auto !important;
+  border: 0;
+}
 
   </style>
   <!-- Yandex.Metrika counter -->
