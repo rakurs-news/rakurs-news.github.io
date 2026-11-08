@@ -1509,7 +1509,7 @@
   var KEY = 'tgSubClosed';
   try {
     var closed = localStorage.getItem(KEY);
-    if (closed && Date.now() - Number(closed) < 24 * 60 * 60 * 1000) {
+    if (closed && Date.now() - Number(closed) < 60 * 60 * 1000) {
       box.style.display = 'none';
       return;
     }
