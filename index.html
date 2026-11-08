@@ -1409,9 +1409,9 @@
     });
   })();
   </script>
-<!-- ===== ВСПЛЫВАЮЩЕЕ ОКНО: ПОДПИСКА ВК ===== -->
+<!-- ===== ВСПЛЫВАЮЩЕЕ ОКНО: ПОДПИСКА В TELEGRAM ===== -->
 <style>
-  #vkSub {
+  #tgSub {
     position: fixed;
     left: 50%;
     bottom: 20px;
@@ -1429,32 +1429,32 @@
     opacity: 0;
     visibility: hidden;
     transform: translate(-50%, 16px);
-    animation: vkShow .4s ease 5s forwards;
+    animation: tgShow .4s ease 5s forwards;
   }
-  @keyframes vkShow {
+  @keyframes tgShow {
     to { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
   }
-  #vkSub.hide { opacity: 0 !important; visibility: hidden !important; transition: opacity .3s, visibility .3s; }
-  .vkSub-icon {
+  #tgSub.hide { opacity: 0 !important; visibility: hidden !important; transition: opacity .3s, visibility .3s; }
+  .tgSub-icon {
     flex-shrink: 0;
     width: 42px; height: 42px;
     border-radius: 10px;
-    background: #0077FF;
+    background: #d63a2f;
     display: flex; align-items: center; justify-content: center;
   }
-  .vkSub-icon svg { width: 24px; height: 24px; fill: #fff; }
-  .vkSub-text { min-width: 0; }
-  .vkSub-text b {
+  .tgSub-icon svg { width: 24px; height: 24px; fill: #fff; }
+  .tgSub-text { min-width: 0; }
+  .tgSub-text b {
     display: block;
     font-family: 'PT Serif', Georgia, serif;
     font-size: 16px; color: #fff; line-height: 1.25;
   }
-  .vkSub-text span {
+  .tgSub-text span {
     display: block;
     font-size: 13px; color: #8f929c; line-height: 1.35;
     margin-top: 2px;
   }
-  .vkSub-btn {
+  .tgSub-btn {
     flex-shrink: 0;
     margin-left: auto;
     background: #d63a2f;
@@ -1466,8 +1466,8 @@
     text-decoration: none;
     white-space: nowrap;
   }
-  .vkSub-btn:hover { opacity: .85; }
-  .vkSub-close {
+  .tgSub-btn:hover { opacity: .85; }
+  .tgSub-close {
     position: absolute;
     top: 8px; right: 8px;
     width: 28px; height: 28px;
@@ -1479,34 +1479,34 @@
     cursor: pointer;
     border-radius: 50%;
   }
-  .vkSub-close:hover { color: #fff; background: rgba(255,255,255,.08); }
+  .tgSub-close:hover { color: #fff; background: rgba(255,255,255,.08); }
   @media (max-width: 520px) {
-    #vkSub { padding: 14px 40px 14px 12px; gap: 10px; }
-    .vkSub-icon { width: 36px; height: 36px; }
-    .vkSub-icon svg { width: 20px; height: 20px; }
-    .vkSub-btn { padding: 9px 12px; font-size: 13px; }
-    .vkSub-text b { font-size: 14px; }
-    .vkSub-text span { font-size: 12px; }
+    #tgSub { padding: 14px 40px 14px 12px; gap: 10px; }
+    .tgSub-icon { width: 36px; height: 36px; }
+    .tgSub-icon svg { width: 20px; height: 20px; }
+    .tgSub-btn { padding: 9px 12px; font-size: 13px; }
+    .tgSub-text b { font-size: 14px; }
+    .tgSub-text span { font-size: 12px; }
   }
 </style>
 
-<div id="vkSub" role="dialog" aria-label="Подписка во ВКонтакте">
-  <span class="vkSub-icon">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M15.07 2H8.93C3.33 2 2 3.33 2 8.93v6.14C2 20.67 3.33 22 8.93 22h6.14c5.6 0 6.93-1.33 6.93-6.93V8.93C22 3.33 20.67 2 15.07 2m3.08 14.27h-1.46c-.55 0-.72-.44-1.69-1.42-.85-.82-1.22-.92-1.42-.92-.29 0-.37.08-.37.48v1.3c0 .35-.11.56-1.02.56-1.51 0-3.19-.92-4.37-2.63-1.77-2.35-2.25-4.11-2.25-4.47 0-.19.07-.37.44-.37h1.46c.33 0 .46.16.59.53.66 1.9 1.76 3.56 2.22 3.56.17 0 .25-.08.25-.51V10.7c-.06-1.03-.6-1.11-.6-1.47 0-.17.14-.35.35-.35h2.29c.3 0 .41.16.41.52v2.35c0 .37.17.5.27.5.33 0 .61-.13 1.22-.75.85-.92 1.46-2.07 1.62-2.42.09-.19.24-.35.57-.35h1.46c.44 0 .53.23.53.52-.04.63-.68 2.28-2.07 3.83-.17.21-.3.36-.3.55 0 .14.08.26.24.42.5.55 1.5 1.53 1.72 2.07.11.24-.03.48-.4.48"/></svg>
+<div id="tgSub" role="dialog" aria-label="Подписка в Telegram">
+  <span class="tgSub-icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21.9 4.6c.2-1-.7-1.7-1.6-1.4L2.7 10.1c-1 .4-1 1.8.1 2.1l4.4 1.4 1.7 5.3c.3.9 1.4 1.1 2 .4l2.5-2.6 4.5 3.3c.8.6 1.9.2 2.1-.8l1.9-14.6zM8.5 13.1l9.4-5.9c.2-.1.4.2.2.3l-7.6 7-.3 3-1.7-4.4z"/></svg>
   </span>
-  <div class="vkSub-text">
-    <b>Ракурс News во ВКонтакте</b>
-    <span>Главные новости — раньше всех в вашей ленте</span>
+  <div class="tgSub-text">
+    <b>Ракурс News в Telegram</b>
+    <span>Главные новости — раньше всех в вашем телефоне</span>
   </div>
-  <a class="vkSub-btn" href="https://vk.ru/rakurs_news" target="_blank" rel="noopener">Подписаться</a>
-  <button class="vkSub-close" type="button" aria-label="Закрыть">&times;</button>
+  <a class="tgSub-btn" href="https://t.me/rakurs_news_russia" target="_blank" rel="noopener">Подписаться</a>
+  <button class="tgSub-close" type="button" aria-label="Закрыть">&times;</button>
 </div>
 
 <script>
 (function () {
-  var box = document.getElementById('vkSub');
+  var box = document.getElementById('tgSub');
   if (!box) return;
-  var KEY = 'vkSubClosed';
+  var KEY = 'tgSubClosed';
   try {
     var closed = localStorage.getItem(KEY);
     if (closed && Date.now() - Number(closed) < 24 * 60 * 60 * 1000) {
@@ -1518,7 +1518,7 @@
     box.classList.add('hide');
     try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {}
   }
-  box.querySelector('.vkSub-close').addEventListener('click', close);
+  box.querySelector('.tgSub-close').addEventListener('click', close);
 })();
 </script>
 </body>
