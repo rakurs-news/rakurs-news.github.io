@@ -5,7 +5,7 @@ const news = [
     excerpt:'Судно с грузом для ВСУ уничтожено юго‑западнее Одессы',
     img:'/img/Rakurs-News_20261108_171724.webp',
     video:'',
-    date:'8 ноября 2026, 17:19',
+    date:'8 ноября 2026, 17:25',
     author:'Юлия Семененкова',
     link:'news/chernoe-more-porazhen-suhogruz-s-vooruzheniem.html'
   },
