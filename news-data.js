@@ -1,4 +1,15 @@
 const news = [
+{
+    cat:'В мире',
+    title:'Трагедия в Шэньси: подозреваемый найден мёртвым',
+    excerpt:'Поиски длились двое суток: финал шокирующего дела',
+    img:'/img/Rakurs-News_20261109_025346.webp',
+    video:'',
+    date:'9 ноября 2026, 02:56',
+    live: true,
+    author:'Алексей Резаев',
+    link:'news/kitaj-podozrevaemyj-v-ubijstve-najden-mertvym.html'
+  },
   {
     cat:'Общество',
     title:'Засор и запах: простое решение без дорогих средств',
