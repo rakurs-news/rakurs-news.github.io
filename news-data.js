@@ -1,12 +1,12 @@
 const news = [
   {
-    cat:'В России',
+    cat:'Армия',
     title:'Новый дом для защитников страны: Сбер открыл жилой комплекс в Подмосковье',
     excerpt:'334 квартиры для военнослужащих и их семей — включая участников СВО',
     img:'',
-    video:'https://vk.ru/wall-242510096_153',
-    date:'8 ноября 2026, 12:06',
-    author:'Дмитрий Мусиенко',
+    video:'https://vkvideo.ru/video-242510096_456239023?list=290c50d15c04bf7f4a',
+    date:'8 ноября 2026, 12:21',
+    author:'Юлия Семененкова',
     link:'news/podmoskove-zhiloy-kompleks-dlya-voennosluzhaschih.html'
   },
 {
