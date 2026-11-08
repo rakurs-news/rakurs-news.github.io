@@ -1,5 +1,16 @@
 const news = [
 {
+    cat:'Армия',
+    hero: true,
+    title:'‎Колесный молот "Севера": как расчет САУ "Мальва" выжигает позиции противника. ‎',
+    excerpt:'Расчет САУ "Мальва" выжигает позиции противника.',
+    img:'',
+    video:'https://vk.ru/clip-242510096_456239022?c=1',
+    date:'8 ноября 2026, 09:59',
+    author:'Юлия Семененкова',
+    link:'news/kolesnyy-molot-malva-udaril-po-pozitsiyam-vsu.html'
+  },
+{
     cat:'Общество',
     title:'Любовницы остались с долгами: мужчина выманил 16 млн и погиб на СВО',
     excerpt:'История, в которой доверие обернулось долговой ловушкой.',
@@ -26,7 +37,7 @@ const news = [
     img:'/img/Rakurs-News_20261107_120806.webp',
     video:'',
     date:'7 ноября 2026, 12:09',
-    live: true,
+    live: false,
     author:'Елена Соколенко',
     link:'news/lidiya-fedoseeva-shukshina-ushla-iz-zhizni.html'
   },
@@ -72,7 +83,7 @@ const news = [
   },
 {
     cat:'Армия',
-    hero: true,
+    hero: false,
     title:'Российские разведчики взяли в плен военных ВСУ без единого выстрела',
     excerpt:'Под Харьковом разведгруппа взяла в плен украинских военных — без стрельбы, только за счёт тактики и выдержки.',
     img:'/img/Rakurs-News_20261107_094040.webp',
