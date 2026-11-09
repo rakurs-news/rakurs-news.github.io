@@ -1270,45 +1270,6 @@
 <button class="to-top" id="toTop" aria-label="Наверх">&#8593;</button>
   <script src="news-data.js"></script>
   <script>
-(function () {
-  var POLL_MS = 30000; // проверка раз в 60 секунд
-  var knownIds = null;
-
-  function idsOf(arr) {
-    return arr.map(function (n) { return n.id; }).join(',');
-  }
-
-  setInterval(function () {
-    // ?v= со временем ломает кеш браузера — всегда грузим свежий файл
-    fetch('news-data.js?v=' + Date.now(), { cache: 'no-store' })
-      .then(function (r) { return r.text(); })
-      .then(function (code) {
-        var fresh;
-        try {
-          // news-data.js объявляет const news = [...]; внутри функции это локальная переменная
-          fresh = new Function(code + '; return news;')();
-        } catch (e) { return; } // файл скачался битым — тихо ждём следующей проверки
-        if (!fresh || !fresh.length) return;
-        if (knownIds === null) { knownIds = idsOf(fresh); return; }
-        if (idsOf(fresh) === knownIds) return;
-        knownIds = idsOf(fresh);
-        // мягкий вариант: просто показываем плашку с предложением обновить
-        if (!document.getElementById('rn-fresh-bar')) {
-          var bar = document.createElement('div');
-          bar.id = 'rn-fresh-bar';
-          bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:500;' +
-            'background:#d63a2f;color:#fff;font-family:monospace;font-size:13px;' +
-            'text-align:center;padding:12px;cursor:pointer;';
-          bar.textContent = 'Появились новые новости — нажмите, чтобы обновить';
-          bar.onclick = function () { location.reload(); };
-          document.body.appendChild(bar);
-        }
-      })
-      .catch(function () {});
-  }, POLL_MS);
-})();
-</script>
-  <script>
     // ===== ЛОГИКА ГЛАВНОЙ СТРАНИЦЫ =====
     document.addEventListener('DOMContentLoaded', () => {
       const heroEl = document.getElementById('hero');
