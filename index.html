@@ -1030,6 +1030,31 @@
       color: var(--text);
     }
     .missed-bar b { color: var(--accent); font-family: var(--mono); }
+    /* ===== КНОПКА ЕЩЁ НОВОСТИ ===== */
+.load-more-wrap {
+  text-align: center;
+  padding: 30px 0 10px;
+}
+.load-more {
+  display: inline-block;
+  padding: 15px 46px;
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.load-more:hover { background: #b52f26; border-color: #b52f26; }
+.load-more.hidden { display: none; }
+@media (max-width: 640px) {
+  .load-more { padding: 13px 34px; font-size: 12px; width: 100%; }
+}
+
   </style>
   <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
@@ -1145,8 +1170,9 @@
 
     <div class="feed" id="newsGrid"></div>
 
-    <!-- Сигнальный блок для ленивой подгрузки -->
-    <div class="sentinel" id="sentinel">Загрузка...</div>
+    <div class="load-more-wrap">
+      <button class="load-more" id="loadMoreBtn" type="button">Ещё новости</button>
+    </div>
   </main>
 
 <!-- ===== РАЗДЕЛ: ЗАПРЕЩЁННЫЕ ОРГАНИЗАЦИИ ===== -->
@@ -1252,7 +1278,7 @@
       const feedCount = document.getElementById('feedCount');
       const sentinel = document.getElementById('sentinel');
       const tickerTrack = document.getElementById('tickerTrack');
-
+const btnMore = document.getElementById('loadMoreBtn');
       const PAGE_SIZE = 10;
       let currentCat = 'all';
       let pool = [];
@@ -1389,7 +1415,7 @@
       // ===== ПОРЦИЯ НОВОСТЕЙ =====
       function loadMore() {
         if (shown >= pool.length) {
-          sentinel.classList.add('done');
+          btnMore.classList.add('hidden');
           return;
         }
         const chunk = pool.slice(shown, shown + PAGE_SIZE);
@@ -1402,7 +1428,7 @@
         });
         shown += chunk.length;
         feedCount.textContent = shown + ' из ' + pool.length;
-        sentinel.classList.toggle('done', shown >= pool.length);
+        btnMore.classList.toggle('hidden', shown >= pool.length);
       }
 
       // ===== СМЕНА КАТЕГОРИИ =====
@@ -1411,7 +1437,8 @@
         pool = news.filter(n => (cat === 'all' || n.cat === cat) && !n.hero);
         grid.innerHTML = '';
         shown = 0;
-        sentinel.classList.remove('done');
+                btnMore.classList.remove('hidden');
+
         gridTitle.textContent = (cat === 'all') ? 'Лента новостей' : cat;
         loadMore();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -1437,15 +1464,11 @@
       tickClock();
       setInterval(tickClock, 1000);
 
-      // ===== ЛЕНИВАЯ ПОДГРУЗКА =====
-      const io = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) loadMore();
-      }, { rootMargin: '500px 0px' });
-      io.observe(sentinel);
-
       renderHero();
       renderTicker();
       setCat('all');
+            btnMore.addEventListener('click', loadMore);
+
       // Обновляем время в ленте раз в минуту
       setInterval(() => {
         document.querySelectorAll('#newsGrid .row').forEach(row => {
