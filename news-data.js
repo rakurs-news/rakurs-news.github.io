@@ -1,5 +1,16 @@
 const news = [
   {
+    cat:'В мире',
+    title:'Британский эксперт: преимущество России не сломать',
+    excerpt:'15 миллиардов долларов не изменят расклад на фронте',
+    img:'/img/Rakurs-News_20261109_063056.webp',
+    video:'',
+    date:'9 ноября 2026, 06:32',
+    live:true,
+    author:'Алексей Резаев',
+    link:'news/britaniya-o-pomoschi-ukraine-i-preimuschestve-rossii.html'
+  },
+  {
     cat:'Армия',
     title:'Россия запускает крылатые ракеты с вертолетов',
     excerpt:'Новая тактика ударов заставит ПВО работать сложнее',
