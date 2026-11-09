@@ -1,13 +1,13 @@
 const news = [
   {
-    cat:'В России',
+    cat:'В мире',
     title:'ЕС отправит делегацию на переговоры в Абу‑Даби',
     excerpt:'Переговоры между Украиной и Россией пройдут 10–11 ноября в столице ОАЭ — Абу‑Даби.',
     img:'/img/Rakurs-News_20261109_154822.webp',
     video:'',
-    date:'9 ноября 2026, 15:50',
+    date:'9 ноября 2026, 15:52',
     live:true,
-    author:'Дмитрий Мусиенко',
+    author:'Алексей Резаев',
     link:'news/es-napravit-delegaciyu-na-peregovory-v-abu-dabi.html'
   },
   {
