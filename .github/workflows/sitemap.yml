@@ -1,0 +1,39 @@
+name: Update sitemap
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Generate sitemap
+        run: |
+          python3 - <<'PY'
+          import os, datetime
+          today = datetime.date.today().isoformat()
+          base = "https://rakurs-news.github.io/"
+          skip = {"sitemap-gen.html", "404.html", "sitemap.xml"}
+          lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+                   '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+          for root, dirs, files in os.walk("."):
+              dirs[:] = [d for d in dirs if not d.startswith(".")]
+              for f in sorted(files):
+                  rel = os.path.relpath(os.path.join(root, f)).replace("\\", "/")
+                  if rel in skip or not f.endswith(".html"):
+                      continue
+                  loc = base if rel == "index.html" else base + rel
+                  lines.append(f"  <url><loc>{loc}</loc><lastmod>{today}</lastmod></url>")
+          lines.append("</urlset>")
+          open("sitemap.xml", "w").write("\n".join(lines))
+          PY
+      - name: Commit if changed
+        run: |
+          git config user.name "sitemap-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add sitemap.xml
+          git diff --cached --quiet || (git commit -m "auto: update sitemap" && git push)
