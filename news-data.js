@@ -1,4 +1,15 @@
 const news = [
+  {
+    cat:'В мире',
+    title:'Трамп: встреча с Путиным и Си — шанс на ядерную сделку',
+    excerpt:'Саммит АТЭС как площадка для крупного диалога',
+    img:'/img/Rakurs-News_20261109_034251.webp',
+    video:'',
+    date:'9 ноября 2026, 03:45',
+    live:true,
+    author:'Алексей Резаев',
+    link:'news/trump-putin-si-peregovory-po-yadernomu-razoruzheniyu.html'
+  },
 {
     cat:'В мире',
     title:'Трагедия в Шэньси: подозреваемый найден мёртвым',
