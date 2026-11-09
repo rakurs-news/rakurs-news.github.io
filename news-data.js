@@ -1,4 +1,15 @@
 const news = [
+  {
+    cat:'Армия',
+    title:'Россия запускает крылатые ракеты с вертолетов',
+    excerpt:'Новая тактика ударов заставит ПВО работать сложнее',
+    img:'/img/Rakurs-News_20261109_061504.webp',
+    video:'',
+    date:'9 ноября 2026, 06:17',
+    live:true,
+    author:'Юлия Семененкова',
+    link:'news/rossiya-zapuskaet-krylatye-rakety-s-vertoleta.html'
+  },
 {
     cat:'Армия',
     title:'Молитва перед боем: сила духа солдат',
