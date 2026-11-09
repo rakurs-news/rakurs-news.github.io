@@ -1379,9 +1379,18 @@ const btnMore = document.getElementById('loadMoreBtn');
         return { main: p2(d.getHours()) + ':' + p2(d.getMinutes()), sub: d.getDate() + ' ' + SHORT[d.getMonth()] };
       }
 
-           // ===== СТРОКА ЛЕНТЫ =====
+           // ===== АВТОСНЯТИЕ LIVE: бейдж живёт 3 часа с момента публикации =====
+      const LIVE_HOURS = 3;
+      function isLive(n) {
+        if (!n.live) return false;
+        const d = parseDate(n.date);
+        if (!d) return true; // дату разобрать не удалось — показываем как раньше
+        return (Date.now() - d.getTime()) < LIVE_HOURS * 60 * 60 * 1000;
+      }
+
+      // ===== СТРОКА ЛЕНТЫ =====
       function rowHTML(n) {
-        const live = n.live
+        const live = isLive(n)
           ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>'
           : '';
         const badgeCls = CATCLS[n.cat] || '';
@@ -1474,6 +1483,8 @@ const btnMore = document.getElementById('loadMoreBtn');
         document.querySelectorAll('#newsGrid .row').forEach(row => {
           const n = news.find(x => x.link === row.getAttribute('href'));
           if (!n) return;
+          const lb = row.querySelector('.live-badge');
+          if (lb && !isLive(n)) lb.remove();
           const t = timeParts(n.date);
           const timeEl = row.querySelector('.row-time');
           if (timeEl) timeEl.innerHTML = t.main + '<span>' + t.sub + '</span>';
