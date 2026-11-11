@@ -6,7 +6,7 @@ const news = [
     excerpt:'Как ПВО 50-й бригады "Варяг" отражает атаки вражеских беспилотников.',
     img:'',
     video:'https://vkvideo.ru/video-242510096_456239027?list=d1ccddd971e00a1435',
-    date:'11 ноября 2026, 07:25',
+    date:'11 ноября 2026, 07:31',
     author:'Юлия Семененкова',
     link:'news/pvo-50-brigadi-otrajayut-ataki.html'
   },
