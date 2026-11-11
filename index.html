@@ -1268,6 +1268,23 @@
   </footer>
 
 <button class="to-top" id="toTop" aria-label="Наверх">&#8593;</button>
+<style>
+  .rn-urgent {
+    display: inline-block;
+    background: #d63a2f;
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    margin-right: 8px;
+    white-space: nowrap;
+    clip-path: polygon(7px 0, 100% 0, calc(100% - 7px) 100%, 0 100%);
+    vertical-align: middle;
+  }
+</style>
   <script src="news-data.js"></script>
   <script>
     // ===== ЛОГИКА ГЛАВНОЙ СТРАНИЦЫ =====
@@ -1393,6 +1410,7 @@ const btnMore = document.getElementById('loadMoreBtn');
         const live = isLive(n)
           ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span>'
           : '';
+        const urgent = n.urgent ? '<span class="rn-urgent">Срочно</span>' : '';
         const badgeCls = CATCLS[n.cat] || '';
         let media = '';
         if (n.img) {
@@ -1415,12 +1433,11 @@ const btnMore = document.getElementById('loadMoreBtn');
         return `
           <a class="row" href="${n.link}">
             ${media}
-            <span class="row-date">${live}${n.date || ''}</span>
+            <span class="row-date">${urgent}${live}${n.date || ''}</span>
             <p class="row-excerpt">${n.excerpt || ''}</p>
           </a>`;
       }
-
-
+      
       // ===== ПОРЦИЯ НОВОСТЕЙ =====
       function loadMore() {
         if (shown >= pool.length) {
