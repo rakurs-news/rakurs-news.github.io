@@ -1,4 +1,15 @@
-const news = [
+const news = [  {
+    cat:'Армия',
+    title:'ПВО сбила ракеты Rusty Dagger',
+    excerpt:'Минобороны сообщило об уничтожении четырёх американских крылатых ракет AGM-188A, созданных для Украины по программе ВВС США.',
+    img:'/img/Rakurs-News_20261111_081105.webp',
+    video:'',
+    date:'11 ноября 2026, 08:15',
+    live:true,
+    urgent:true,
+    author:'Юлия Семененкова',
+    link:'news/pvo-rf-sbila-rakety-rusty-dagger.html'
+  },
 {
     cat:'Армия',
     hero: true,
